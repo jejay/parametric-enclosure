@@ -95,7 +95,7 @@ def render_overview(img: Path) -> list[Path]:
     keep = g.box(-200, 200, 0.0, 200, -200, 200)
     nums = numbers(items)
     sc, anchors = scene(items, keep=keep)
-    for k in ("mcu", "amp", "charger", "boost", "contacts", "inserts", "stack_screws", "servo_screws", "clamp_screws", "pawl_spring", "pawl_screw", "sleeve", "hinge_pin", "turf_screws", "grass_spot", "grass_blades"):
+    for k in ("mcu", "amp", "charger", "boost", "contacts", "inserts", "stack_screws", "servo_screws", "clamp_screws", "pawl_spring", "pawl_screw", "sleeve", "hinge_pin", "turf_screws"):
         anchors.pop(k, None)
     for k in list(anchors):
         x, y, z = anchors[k]
@@ -107,7 +107,7 @@ def render_overview(img: Path) -> list[Path]:
     anchors["band"] = (-48.0, 0, -1.5)
     anchors["cell"] = (P.CELL_AXIS[0], 0, P.CELL_AXIS[1])
     anchors["spring"] = (P.HINGE_X + 1, 0, P.HINGE_Z)
-    anchors["grass_base"] = (P.SPOT_X + P.TONGUE_W - 4.0, 0, (P.Z_SOLE + P.Z_RAIL) / 2)
+    anchors["grass_base"] = (P.SPOT_X + P.R_TIP - 4.0, 0, (P.Z_SOLE + P.Z_RAIL) / 2)
     anchors["grass_top"] = (50.0, 0, P.Z_TURF - 0.5)
     anchors["reader"] = (B.BLUE_X0 + 30.0, 0, (P.Z_PCB_TOP + P.Z_PCB_BOT) / 2)
     anchors["harness"] = (22.0, 0, -38.0)
@@ -226,11 +226,11 @@ def render_details(img: Path) -> list[Path]:
 
 def render_print_plate(img: Path) -> list[Path]:
     """All printed parts in print orientation, laid out on a virtual bed."""
-    colours = {"bowl": "white", "band": "black", "lid": "red", "bezel": "black", "lens": "clear", "cone": "white", "stage": "stage", "chassis": "chassis", "pawl": "pawl", "cradle": "cradle", "slider": "slider", "sleeve": "sleeve", "spk_clamp": "clamp", "grass_base": "grass_dark", "grass_top": "grass_dark", "grass_blades": "grass", "grass_spot": "grass"}
+    colours = {"bowl": "white", "band": "black", "lid": "red", "bezel": "black", "lens": "clear", "cone": "white", "stage": "stage", "chassis": "chassis", "pawl": "pawl", "cradle": "cradle", "slider": "slider", "sleeve": "sleeve", "spk_clamp": "clamp", "grass_base": "grass", "grass_top": "grass"}
     layout = {
         "bowl": (-110, 60), "lid": (0, 60), "stage": (110, 60), "chassis": (-110, -55), "band": (0, -55), "cradle": (95, -30),
         "spk_clamp": (95, -75), "bezel": (150, -35), "lens": (150, -75), "cone": (150, -105), "pawl": (95, -110), "slider": (120, -110), "sleeve": (60, -110),
-        "grass_base": (-85, -185), "grass_top": (90, -185), "grass_blades": (90, -185), "grass_spot": (90, -185),
+        "grass_base": (-85, -185), "grass_top": (90, -185),
     }
     sc = R.Scene()
     bed = g.box(-175, 180, -240, 120, -1.0, -0.2)

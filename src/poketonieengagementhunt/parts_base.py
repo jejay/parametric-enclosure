@@ -1,15 +1,13 @@
-"""Printed parts of the grass tongue (revision 3).
+"""Printed parts of the grass tongue (revision 4).
 
-grass_base    dark green tray: a tongue in front of the ball whose rear end
-              lies under the ball's belly; it holds the reader board
-grass_top     dark green turf plate that closes the tray; its top is the
-              plain surface on which a Tonie stands
-grass_blades  the tufts of grass, in a brighter green, printed onto the turf
-grass_spot    the marker of the standing spot: a disc in the same brighter
-              green, printed flush into the turf
+grass_base   the tray: a tongue in front of the ball whose rear end lies under
+             the ball's belly.  It holds the reader board, and a rim round its
+             top frames the grass top.
+grass_top    the turf plate with its tufts of grass, one print.  It lies in
+             the frame of the tray; its top is the plain surface on which a
+             Tonie stands.
 
-Turf, blades and spot are one print job; they are kept as three bodies so
-that a multi-colour slicer can give each its filament.
+Both are printed in the same light green.
 
 All parts are returned in assembly coordinates (see geom.py).  The underside
 of the tongue lies in the plane of the ball's flat: ball and tongue stand on
@@ -33,27 +31,81 @@ BLUE_X1 = BLUE_X0 + P.BLUE_L                 # x of its antenna-end edge
 POCKET = (BLUE_X0 - P.BLUE_CL_X, BLUE_X1 + P.BLUE_CL_X, P.BLUE_W / 2 + P.BLUE_CL_Y)   # x0, x1, half width
 HALL_SEAT_Z = P.Z_TRAY_FLOOR                 # the hall switch lies on the floor of the pocket
 RHO_TURF = math.sqrt((P.R + P.CUP_GAP) ** 2 - P.Z_TURF**2)   # where the turf surface meets the ball
-GRASS_EDGE = P.EDGE_CHAMFER + 0.3            # grass keeps this far from the rim of the turf
+GRASS_EDGE = 0.8                             # grass keeps this far from the edge of the turf plate
+PLATE_INSET = P.RIM + P.RIM_GAP              # outline of the turf plate inside the outline of the tongue
+HOOK_SLOPE = P.TURF_HOOK / P.TURF_T          # the walls of the frame lean forwards by this much per mm of depth
+
+# The outline: a straight rear edge, two corners cut off at 45 degrees, two
+# straight sides that run from those corners to the round tip and touch it
+# as tangents, and the tip itself, a circle round the centre of the spot.
+_P1 = (P.X_REAR + P.REAR_CHAMFER, P.TONGUE_W)                      # where the left side begins
+_D = math.hypot(_P1[0] - P.SPOT_X, _P1[1])
+TIP_HALF_DEG = math.degrees(math.atan2(_P1[1], _P1[0] - P.SPOT_X) - math.acos(P.R_TIP / _D))   # tangent point, seen from the spot centre
+_T = (P.SPOT_X + P.R_TIP * math.cos(math.radians(TIP_HALF_DEG)), P.R_TIP * math.sin(math.radians(TIP_HALF_DEG)))
+_L = math.hypot(_T[0] - _P1[0], _T[1] - _P1[1])
+_V = ((_T[0] - _P1[0]) / _L, (_T[1] - _P1[1]) / _L)                # unit direction of the left side, rear to tip
 
 
 # --------------------------------------------------------------------------
 # plan outline and fasteners
 # --------------------------------------------------------------------------
-def plan(z0: float, z1: float) -> cq.Shape:
-    """Prism of the tongue's outline: straight sides, round tip, rear corners cut off at 45 degrees."""
-    w, xs, x0, c = P.TONGUE_W, P.SPOT_X, P.X_REAR, P.REAR_CHAMFER
-    body = g.prism_xy([(x0, -w + c), (x0 + c, -w), (xs, -w), (xs, w), (x0 + c, w), (x0, w - c)], z0, z1)
-    return g.clean(body.fuse(g.cyl_z(w, z0, z1, xs, 0.0)))
+def outline(inset: float = 0.0) -> list[tuple[float, float]]:
+    """Corners of the outline, moved inwards by ``inset``: rear end, cut-off
+    corner and tangent point on the right (-y), then the same three on the
+    left in reverse.  The round tip runs between the two tangent points."""
+    r2 = math.sqrt(2.0)
+    v0 = (P.X_REAR + inset, P.TONGUE_W - P.REAR_CHAMFER - inset * (r2 - 1.0))
+    ax, ay = _P1[0] + inset * _V[1], _P1[1] - inset * _V[0]                    # a point on the side, moved inwards
+    t = (P.REAR_CHAMFER + inset * r2 - ((ax - P.X_REAR) + (P.TONGUE_W - ay))) / (_V[0] - _V[1])
+    v1 = (ax + t * _V[0], ay + t * _V[1])
+    th = math.radians(TIP_HALF_DEG)
+    v2 = (P.SPOT_X + (P.R_TIP - inset) * math.cos(th), (P.R_TIP - inset) * math.sin(th))
+    return [(v0[0], -v0[1]), (v1[0], -v1[1]), (v2[0], -v2[1]), v2, v1, v0]
+
+
+def outline_wire(inset: float, dx: float, z: float) -> cq.Wire:
+    """The outline as a closed wire at height z, moved inwards by ``inset`` and along x by ``dx``."""
+    v = [cq.Vector(x + dx, y, z) for x, y in outline(inset)]
+    tip = cq.Vector(P.SPOT_X + P.R_TIP - inset + dx, 0.0, z)
+    edges = [
+        cq.Edge.makeLine(v[0], v[1]), cq.Edge.makeLine(v[1], v[2]), cq.Edge.makeThreePointArc(v[2], tip, v[3]),
+        cq.Edge.makeLine(v[3], v[4]), cq.Edge.makeLine(v[4], v[5]), cq.Edge.makeLine(v[5], v[0]),
+    ]
+    return cq.Wire.assembleEdges(edges)
+
+
+def plan(z0: float, z1: float, inset: float = 0.0) -> cq.Shape:
+    """Prism of the tongue's outline between two heights."""
+    return cq.Solid.extrudeLinear(outline_wire(inset, 0.0, z0), [], cq.Vector(0.0, 0.0, z1 - z0))
 
 
 def in_plan(x: float, y: float, margin: float = 0.0) -> bool:
     """Inside the tongue's outline, ``margin`` away from its edge."""
-    w = P.TONGUE_W
-    if x >= P.SPOT_X:
-        return math.hypot(x - P.SPOT_X, y) <= w - margin
-    if x < P.X_REAR + margin or abs(y) > w - margin:
+    ay = abs(y)
+    if math.hypot(x - P.SPOT_X, y) <= P.R_TIP - margin:
+        return True
+    if x > _T[0] or x < P.X_REAR + margin:
         return False
-    return ((x - P.X_REAR) + (w - abs(y)) - P.REAR_CHAMFER) / math.sqrt(2.0) >= margin      # the cut-off rear corner
+    if ((x - P.X_REAR) + (P.TONGUE_W - ay) - P.REAR_CHAMFER) / math.sqrt(2.0) < margin:      # the cut-off rear corner
+        return False
+    return -(_V[0] * (ay - _P1[1]) - _V[1] * (x - _P1[0])) >= margin                          # the side
+
+
+def half_width(x: float) -> float:
+    """Half width of the tongue at x (0 outside its length)."""
+    if x < P.X_REAR or x > P.SPOT_X + P.R_TIP:
+        return 0.0
+    if x <= _P1[0]:
+        return P.TONGUE_W - P.REAR_CHAMFER + (x - P.X_REAR)
+    if x <= _T[0]:
+        return _P1[1] + (x - _P1[0]) * _V[1] / _V[0]
+    return math.sqrt(max(P.R_TIP**2 - (x - P.SPOT_X) ** 2, 0.0))
+
+
+def on_plate(x: float, y: float, margin: float = 0.0) -> bool:
+    """On the top face of the turf plate, ``margin`` away from its edge.  The
+    top face is the bottom face moved back by the hook."""
+    return in_plan(x + P.TURF_HOOK, y, PLATE_INSET + margin)
 
 
 def _chamfered(shape: cq.Shape, selector: str) -> cq.Shape:
@@ -70,8 +122,8 @@ def base_screw_xy() -> list[tuple[float, float]]:
 
 
 def turf_screw_xy() -> list[tuple[float, float]]:
-    """The small screws that hold the turf on the tray.  Each one ends in the
-    root of a grass tuft, so nothing shows on top."""
+    """The small screws that hold the grass top in its frame.  Each one ends
+    in the root of a grass tuft, so nothing shows on top."""
     return list(P.TURF_SCREW_XY)
 
 
@@ -85,7 +137,7 @@ def cable_window() -> cq.Shape:
 
 
 # --------------------------------------------------------------------------
-# grass: tufts scattered at random
+# grass: tufts thrown at random into the two corners beside the ball
 # --------------------------------------------------------------------------
 @dataclass(frozen=True)
 class Blade:
@@ -191,20 +243,23 @@ def _fit(b: Blade) -> Blade:
     return _with_height(b, h)
 
 
-def front_angle(x: float, y: float) -> float:
-    """Angle between straight ahead and the direction from the spot centre to a point, deg."""
-    return math.degrees(math.atan2(abs(y), x - P.SPOT_X))
-
-
 def grass_free(x: float, y: float, edge: float, zone: float, ball: float) -> bool:
-    """Grass may be here: on the turf (``edge`` inside its rim, ``ball`` away
-    from the ball), ``zone`` outside the bare ground round the standing spot,
-    and not in the open front."""
-    if math.hypot(x - P.SPOT_X, y) < P.SPOT_CLEAR_R + zone:
+    """Grass may be here: on the turf plate (``edge`` inside its edge, ``ball``
+    away from the ball), ``zone`` outside the bare ground round the standing
+    spot, and behind the line that keeps the sides and the front of a figure open."""
+    if math.hypot(x - P.SPOT_X, y) < P.SPOT_CLEAR_R + zone or x > P.GRASS_X_MAX:
         return False
-    if front_angle(x, y) < P.FRONT_OPEN_DEG + 1.0:
-        return False
-    return in_plan(x, y, edge) and math.hypot(x, y) >= RHO_TURF + ball
+    return on_plate(x, y, edge) and math.hypot(x, y) >= RHO_TURF + ball
+
+
+def lawn_density(x: float, y: float) -> float:
+    """How readily a tuft is accepted at a place, 0..1.  Highest in the two
+    corners between the ball and the sides of the tongue, falling off with the
+    distance from them, and thin in front of the middle of the ball."""
+    cx, cy = P.LAWN_CORNER
+    d = math.hypot(x - cx, abs(y) - cy)
+    thin = min(1.0, max(0.0, (abs(y) - P.LAWN_CENTRE_FREE) / (P.LAWN_CENTRE_BAND - P.LAWN_CENTRE_FREE))) ** 2
+    return math.exp(-0.5 * (d / P.LAWN_SPREAD) ** 2) * thin
 
 
 def _mound_frame(m: Mound, x: float, y: float) -> tuple[float, float]:
@@ -229,37 +284,30 @@ def mound_outline(m: Mound, n: int = 24, grow: float = 0.0) -> list[tuple[float,
 
 
 def _mound_ok(m: Mound, lawn: list[Tuft]) -> bool:
-    """The whole mound stands on free turf and does not run into another mound."""
+    """The whole mound stands on free turf.  Mounds may run into each other,
+    as tufts do in a thicket, but no tuft is rooted on top of another."""
     if not all(grass_free(x, y, GRASS_EDGE, 0.2, 3.0) for x, y in mound_outline(m)):
         return False
-    for other in lawn:
-        o = other.mound
-        if math.hypot(m.x - o.x, m.y - o.y) > m.a + o.a + 1.5:
-            continue
-        if any(_in_mound(o, x, y, 0.8) for x, y in mound_outline(m) + [(m.x, m.y)]):
-            return False
-        if any(_in_mound(m, x, y, 0.8) for x, y in mound_outline(o) + [(o.x, o.y)]):
-            return False
-    return True
+    return not any(_in_mound(t.mound, m.x, m.y, 1.5) or _in_mound(m, t.mound.x, t.mound.y, 1.5) for t in lawn)
 
 
 def _blade_ok(b: Blade, lawn: list[Tuft]) -> bool:
     """Root on free turf; the leaf stays over the tongue, out of the bare
-    ground and the open front, and clear of the leaves of other tufts."""
+    ground round the spot, and clear of the leaves of other tufts."""
     if b.h < 4.5 or blade_ball_gap(b) < P.BLADE_GAP + 0.3:
         return False
     if not all(grass_free(x, y, GRASS_EDGE, 0.2, 2.0) for x, y in _root_points(b)):
         return False
     upper = _samples(b, (0.3, 0.55, 0.8, 1.0))
     for x, y, _ in upper:
-        if not in_plan(x, y) or math.hypot(x - P.SPOT_X, y) < P.SPOT_CLEAR_R + 0.3 or front_angle(x, y) < P.FRONT_OPEN_DEG + 1.0:
+        if not in_plan(x, y) or math.hypot(x - P.SPOT_X, y) < P.SPOT_CLEAR_R + 0.3 or x > P.GRASS_X_MAX + 1.5:
             return False
     for other in lawn:
         if math.hypot(b.x - other.mound.x, b.y - other.mound.y) > 30.0:
             continue
         for ob in other.blades:
             for x, y, _ in _samples(ob, (0.55, 0.8, 1.0)):
-                if any(math.hypot(x - u, y - v) < 2.2 for u, v, _ in upper[3:]):
+                if any(math.hypot(x - u, y - v) < 1.6 for u, v, _ in upper[3:]):
                     return False
     return True
 
@@ -321,10 +369,12 @@ def _grow(rnd: random.Random, x: float, y: float, h: float, n: int, hub: bool, l
 
 @lru_cache(maxsize=None)
 def tufts() -> tuple[Tuft, ...]:
-    """The lawn.  One tuft stands on each turf screw; the others are thrown at
-    random over the rest of the turf, the largest first so that they still
-    find room.  Deterministic: the same seed gives the same lawn, another seed
-    another."""
+    """The lawn.  One tuft stands on each turf screw.  The others are thrown
+    at random, the two corners taking turns.  Where a tuft lands is weighted
+    by lawn_density; its size is drawn afterwards, again and again until one
+    fits the place.  A tall tuft does not stay where the ball's belly would
+    crop it, so the grass is low next to the ball and taller further out.
+    Deterministic: the same seed gives the same lawn, another seed another."""
     rnd = random.Random(P.LAWN_SEED)
     lawn: list[Tuft] = []
     for x, y in turf_screw_xy():
@@ -340,14 +390,20 @@ def tufts() -> tuple[Tuft, ...]:
         if made is None:
             raise ValueError(f"no tuft fits on the turf screw at {x}, {y}")
         lawn.append(made)
-    for h, n in sorted((_draw_size(rnd, False) for _ in range(P.LAWN_TUFTS)), reverse=True):
-        for _ in range(6000):
-            x, y = rnd.uniform(P.X_REAR, P.SPOT_X + P.TONGUE_W), rnd.uniform(-P.TONGUE_W, P.TONGUE_W)
-            if not grass_free(x, y, 3.0, 2.6, 5.4):
+    for i in range(P.LAWN_TUFTS):
+        side = 1.0 if i % 2 == 0 else -1.0
+        for _ in range(600):                           # places
+            x, y = rnd.uniform(P.X_REAR, P.GRASS_X_MAX), side * rnd.uniform(0.0, P.TONGUE_W)
+            if rnd.random() > lawn_density(x, y) or not grass_free(x, y, 3.0, 2.6, 5.4):
                 continue
             if any(math.hypot(x - t.mound.x, y + t.mound.y) < 5.0 for t in lawn):
                 continue                               # no twin of a tuft on the other side
-            made = _grow(rnd, x, y, h, n, False, lawn)
+            made = None
+            for _ in range(60):                        # sizes and directions that might fit this place
+                h, n = _draw_size(rnd, False)
+                made = _grow(rnd, x, y, h, n, False, lawn)
+                if made:
+                    break
             if made:
                 lawn.append(made)
                 break
@@ -383,6 +439,14 @@ def blade_solid(b: Blade) -> cq.Shape:
 # --------------------------------------------------------------------------
 # tray
 # --------------------------------------------------------------------------
+def frame_bed() -> cq.Shape:
+    """The bed of the grass top in the tray, from the rails up through the
+    top.  Its walls lean forwards going down, so the rim at the tip overhangs
+    the plate and holds its front edge down."""
+    top = P.Z_TURF + 1.0
+    return cq.Solid.makeLoft([outline_wire(P.RIM, 0.0, P.Z_RAIL), outline_wire(P.RIM, -HOOK_SLOPE * (top - P.Z_RAIL), top)], True)
+
+
 def _cable_trench() -> cq.Shape:
     """Channel from the reader pocket to the cable window in the bowl, open at the top."""
     x_well = POCKET[0] + P.BLUE_LEDGE
@@ -406,9 +470,10 @@ def _hall_seat() -> cq.Shape:
 @lru_cache(maxsize=None)
 def grass_base() -> cq.Shape:
     zs, zr, zt, zf = P.Z_SOLE, P.Z_RAIL, P.Z_TURF, P.Z_TRAY_FLOOR
-    block = plan(zs, zr)
+    block = _chamfered(_chamfered(plan(zs, zt), "<Z"), ">Z")
     cup = g.sphere(P.R + P.CUP_GAP)
-    body = _chamfered(block, "<Z").cut(cup).cut(g.cyl_z(P.R_CUP_HOLE, zs - 1, zt + 1))
+    body = block.cut(cup).cut(g.cyl_z(P.R_CUP_HOLE, zs - 1, zt + 1))
+    body = body.cut(frame_bed())                           # what is left round the bed is the rim
     # seat pads round the screws carry the joint; everywhere else the cup keeps CUP_GAP
     for x, y in base_screw_xy():
         pad = g.inter(g.inter(g.cyl_z(P.BASE_PAD_R, zs, zr, x, y), cup).cut(g.sphere(P.R)), block)
@@ -418,7 +483,7 @@ def grass_base() -> cq.Shape:
     x0, x1, yh = POCKET
     led, wide = P.BLUE_LEDGE, P.BLUE_LEDGE_ANT
     x_ant = BLUE_X0 + P.BLUE_COMP_X[1] + 1.5              # from here on the board carries no parts
-    body = body.cut(g.box(x0, x1, -yh, yh, P.Z_PCB_BOT, zt + 1))
+    body = body.cut(g.box(x0, x1, -yh, yh, P.Z_PCB_BOT, zr + 0.01))
     body = body.cut(g.box(x0 + led, x_ant + 0.01, -yh + led, yh - led, zf, P.Z_PCB_BOT + 0.01))
     body = body.cut(g.box(x_ant, x1 - wide, -yh + wide, yh - wide, zf, P.Z_PCB_BOT + 0.01))
     body = body.cut(_cable_trench())
@@ -437,52 +502,42 @@ def grass_base() -> cq.Shape:
 
 
 # --------------------------------------------------------------------------
-# turf
+# grass top
 # --------------------------------------------------------------------------
-def spot_disc(z0: float, z1: float) -> cq.Shape:
-    return g.cyl_z(P.SPOT_R, z0, z1, P.SPOT_X, 0.0)
-
-
 @lru_cache(maxsize=None)
-def turf_plate() -> cq.Shape:
-    """The turf without blades and screw holes."""
-    zr, zt = P.Z_RAIL, P.Z_TURF
-    plate = _chamfered(plan(zr, zt), ">Z").cut(g.sphere(P.R + P.CUP_GAP))
+def turf_blank() -> cq.Shape:
+    """The turf plate without grass and screw holes.  Its edge leans like the
+    walls of its bed; the lowest layers stand back a little more, so that a
+    first layer squeezed wide on the print bed still fits."""
+    zr, zt, f = P.Z_RAIL, P.Z_TURF, P.TURF_FOOT
+    plate = cq.Solid.makeLoft(
+        [outline_wire(PLATE_INSET + f, 0.0, zr), outline_wire(PLATE_INSET, -HOOK_SLOPE * f, zr + f), outline_wire(PLATE_INSET, -P.TURF_HOOK, zt)], True
+    )
+    plate = plate.cut(g.sphere(P.R + P.CUP_GAP))
     # underside: flat, except for a shallow relief above the solder joints of the header row
     plate = plate.cut(g.box(POCKET[0], BLUE_X0 + P.BLUE_HDR_X + 3.0, -17.5, 17.5, zr - 1, zr + P.SOLDER_RELIEF))
-    # top: pocket for the flush marker disc
-    plate = plate.cut(spot_disc(zt - P.SPOT_INLAY, zt + 1))
     return g.clean(plate)
 
 
 @lru_cache(maxsize=None)
-def grass_top() -> cq.Shape:
-    """The turf plate with the pilot holes of its screws."""
-    body = turf_plate()
+def turf_plate() -> cq.Shape:
+    """The turf plate alone, with the pilot holes of its screws drilled
+    through.  It stands in for the grass top wherever the tufts do not
+    matter (the tufts are checked separately)."""
+    body = turf_blank()
     for x, y in turf_screw_xy():
         body = body.cut(g.cyl_z(P.M2_PILOT / 2, P.Z_RAIL - 1, P.Z_TURF + 1, x, y))
     return body
 
 
 @lru_cache(maxsize=None)
-def lawn_fused() -> cq.Shape:
-    """Turf, mounds and blades as one solid, as they come off the printer."""
+def grass_top() -> cq.Shape:
+    """Turf plate, mounds and blades as one solid, as it comes off the printer."""
     zr = P.Z_RAIL
-    body = turf_plate().fuse(*[mound_solid(m) for m in mounds()], *[blade_solid(b) for b in blades()])
+    body = turf_blank().fuse(*[mound_solid(m) for m in mounds()], *[blade_solid(b) for b in blades()])
     for x, y in turf_screw_xy():
         body = body.cut(g.cyl_z(P.M2_PILOT / 2, zr - 1, zr + P.TURF_PILOT_DEPTH, x, y))
     return body
-
-
-@lru_cache(maxsize=None)
-def grass_blades() -> cq.Shape:
-    """Everything that stands on the turf surface: the tufts with their mounds."""
-    return lawn_fused().intersect(g.slab(P.Z_TURF, P.Z_TURF + 60.0))
-
-
-@lru_cache(maxsize=None)
-def grass_spot() -> cq.Shape:
-    return spot_disc(P.Z_TURF - P.SPOT_INLAY, P.Z_TURF)
 
 
 # --------------------------------------------------------------------------
@@ -495,9 +550,8 @@ def figure_envelope() -> cq.Shape:
 
 def sole_outline(n: int = 180) -> list[tuple[float, float]]:
     """Points on what stands on the table: the flat of the ball and the sole of the tongue."""
-    w, c = P.TONGUE_W, P.REAR_CHAMFER
     pts = [g.polar(P.R_FLAT, 360.0 * i / n) for i in range(n)]
-    for s in (1, -1):
-        pts += [(P.X_REAR, s * (w - c)), (P.X_REAR + c, s * w)]
-    pts += [(P.SPOT_X + w * math.cos(a), w * math.sin(a)) for a in (math.pi * (i / n - 0.5) for i in range(n + 1))]
+    pts += outline(0.0)
+    th = math.radians(TIP_HALF_DEG)
+    pts += [(P.SPOT_X + P.R_TIP * math.cos(a), P.R_TIP * math.sin(a)) for a in (th * (2.0 * i / n - 1.0) for i in range(n + 1))]
     return pts

@@ -10,7 +10,7 @@ FRONT = ["speaker", "spk_clamp", "clamp_screws", "led", "cone", "lens", "bezel"]
 CORE = ["chassis"] + BOARDS + SERVO + FRONT
 BOWL = ["bowl", "inserts"]
 GRASS_IN = ["reader", "hall", "harness"]
-TURF = ["grass_top", "grass_blades", "grass_spot"]      # one print job
+TURF = ["grass_top"]
 GRASS = ["grass_base"] + GRASS_IN + TURF + ["turf_screws"]
 FOOT = BOWL + GRASS + ["base_screws"]          # everything below the core
 STAGE = ["stage", "pawl", "pawl_screw", "pawl_spring", "cradle", "lock_pin", "slider"]
@@ -47,7 +47,7 @@ STEPS = [
             "Wire the hall switch. Its supply leg goes to the reader's +3.3V pad and its ground leg to GND, each with a short wire; its output leg takes the eleventh wire of the plugs. The twelfth wire stays free (table in `docs/electronics.md`). Insulate each joint with thin heat-shrink tube.",
             "Glue the hall switch flat onto the floor of the pocket between the three small walls under the middle of the antenna, printed face up, legs pointing towards the ball. If the bench test of section 2 found the magnets of your figures elsewhere, glue it there instead; the floor is flat all over. Lay its wires along the floor.",
             "Lay the reader into the pocket, components down, with the antenna at the tip of the tongue and the header end against the two stops at the rear. It rests on the ledge all round. Lead the wires side by side through the channel towards the ball and fix them there with a drop of hot glue. Two more drops at the corners keep the board from rattling.",
-            "Put the grass top on. Turn the tongue over and fasten the six 2.2 x 6 screws from below; their heads sit deep in the holes of the sole. They end inside the roots of grass tufts, so stop as soon as they are snug.",
+            "Fit the grass top into its frame: hold it level, a little behind its place, and push it forwards and down, so that its bevelled front edge slips under the rim at the tip and the plate lies flush in the frame all round. Turn the tongue over and fasten the four 2.2 x 6 screws from below; their heads sit deep in the holes of the sole. They end inside the roots of grass tufts in the two rear corners, so stop as soon as they are snug.",
         ],
         "views": [
             {"file": "step_02a.png", "show": ["grass_base"], "new": GRASS_IN, "lift": {"hall": (0, 0, 9), "reader": (0, 0, 22), "harness": (0, 0, 36)}, "az": -55, "el": 44},
@@ -60,7 +60,7 @@ STEPS = [
         "parts": ["base_screws"],
         "text": [
             "Push the two plugs of the reader harness from outside through the window low on the front of the bowl, one after the other, and pull the wires in after them.",
-            f"Set the bowl onto the hollow rear end of the tongue, with the U-shaped notch for the button above the tongue. The bowl rests on four small pads round the screw holes; everywhere else a gap of {P.CUP_GAP} mm remains. No part of the tongue reaches round the ball.",
+            f"Set the bowl onto the hollow rear end of the tongue, with the U-shaped notch for the button above the tongue. The bowl rests on four small pads round the screw holes; everywhere else a gap of {P.CUP_GAP} mm remains. No part of the tongue reaches round the ball. With the bowl in place the grass top can no longer slide back out of its frame.",
             f"Hold both together, turn them over and fasten the four countersunk M3 x {P.BASE_SCREW_L:.0f} screws into the lower inserts. Tighten gently and in turn.",
             "Stand the device on a flat table. The underside of the tongue lies in the plane of the ball's flat foot, so both stand on the table together and the device must not rock. Printed parts differ by a tenth of a millimetre or two: if it rocks, a strip of adhesive tape on the four pads lowers the tongue and a few strokes of sandpaper on them raise it. Three thin felt dots, one under the flat of the ball and two under the tongue, hide whatever remains.",
             "Look into the gap between grass and ball at the front: no wire may be pinched under the bowl.",
@@ -244,7 +244,7 @@ SMALL_PARTS = [
 ]
 
 TOOLS = [
-    "FDM printer with a 0.4 mm nozzle; PETG in red, white, black, natural (clear), a dark green and a bright green, and any colour for the inner parts",
+    "FDM printer with a 0.4 mm nozzle; PETG in red, white, black, natural (clear) and a light green, and any colour for the inner parts",
     "Soldering iron with a fine tip (also used to set the heat-set inserts)",
     "Hex keys 2 and 2.5 mm, small cross-head screwdriver, side cutters, tweezers",
     "Multimeter; a USB-C cable and charger",
@@ -268,7 +268,7 @@ def manual_markdown(items, nums, printed) -> str:
     a("")
     a("## What you are building")
     a("")
-    a(f"A {P.D:.0f} mm Poké Ball with a tongue of tall grass in front of it. The tongue is a green block screwed under the lower front of the ball: {2 * P.TONGUE_W:.0f} mm wide, {P.BASE_T:.0f} mm high without the blades, and it reaches {P.SPOT_X + P.TONGUE_W - P.R:.0f} mm beyond the ball. Nothing of it lies beside or behind the ball, and its underside lies in the plane of the ball's flat foot, so ball and tongue stand on the table together. A Tonie is stood on the bright green spot of the tongue, in front of the ball. That wakes the ball, which reads the figure's RFID tag and plays that figure's recorded message from its own flash memory. Because the figure stands on the grass, the ball always stays upright.")
+    a(f"A {P.D:.0f} mm Poké Ball with a tongue of tall grass in front of it. The tongue is a block screwed under the lower front of the ball: {2 * P.TONGUE_W:.0f} mm wide at the ball, {2 * P.R_TIP:.0f} mm at its round tip, {P.BASE_T:.0f} mm high without the blades, and it reaches {P.SPOT_X + P.R_TIP - P.R:.0f} mm beyond the ball. Tongue and grass are one light green. Nothing of the tongue lies beside or behind the ball, and its underside lies in the plane of the ball's flat foot, so ball and tongue stand on the table together. A Tonie is stood on the bare round tip of the tongue, in front of the ball. That wakes the ball, which reads the figure's RFID tag and plays that figure's recorded message from its own flash memory. Because the figure stands on the grass, the ball always stays upright.")
     a("")
     a("The ball's black front ring carries the sound slits and its button is a lens lit by an RGB LED. The red half is a spring-loaded lid on a concealed hinge. A servo releases its latch on command from the phone, and the lid jumps open to present the ring, which is locked into its seat by a steel pin.")
     a("")
@@ -333,11 +333,11 @@ def manual_markdown(items, nums, printed) -> str:
     a("")
     a(f"1. **Tonie reading.** Wire the PN5180 board to the XIAO and flash any firmware that performs the SLIX-L privacy unlock (see `research/01` and `research/07`). Lay the board on a wooden table with the components down, on two strips of cardboard about 2 mm thick, as it will lie in the tray. Cover it with a sheet of plastic {P.TURF_T:.1f} mm thick and stand each of the four figures on the middle of the antenna. All four must read. The tag is a small upright rod somewhere inside the figure, perhaps several centimetres up, so find the reserve: raise each figure on books or coasters until it stops reading, and slide it sideways until it stops reading. Note both distances and which privacy password each figure needs.")
     a(f"2. **Metal under the tongue.** Repeat test 1 with a baking tray {TABLE_MM:.0f} mm under the board: that is a metal table under the tongue. The distance is a little more than the 10 mm that the antenna guides ask for [research/08 §8], so the figures should still read. If they do not, lay the ferrite sheet from the list of small parts 5 mm under the board, where the floor of the pocket will be, and repeat on both surfaces.")
-    a(f"3. **The magnets.** The pocket is laid out for the magnets of the classic Tonies, which the Pokémon figures should share because they work on the first Toniebox: cylinders of {P.TONIE_MAGNET_D:.0f} x {P.TONIE_MAGNET_H:.0f} mm, one in the middle of the foot or one in each of two feet [research/09 §7]. Find them with a steel pin or a compass needle. Then fix the hall switch under the middle of the antenna with its printed face {HALL_MM - P.TURF_T:.0f} mm below the plastic sheet (a stack of cardboard does it): that is where it lies in the tongue. It must switch when a figure stands on the sheet, in every rotation of the figure and also with the figure {P.GRASS_GAP:.0f} mm off the middle, and release when the figure is lifted away. If it does not, read \"Wake, if the magnet is not where the switch is\" in `docs/electronics.md` before you go on.")
+    a(f"3. **The magnets.** The pocket is laid out for the magnets of the classic Tonies, which the Pokémon figures should share because they work on the first Toniebox: cylinders of {P.TONIE_MAGNET_D:.0f} x {P.TONIE_MAGNET_H:.0f} mm, one in the middle of the foot or one in each of two feet [research/09 §7]. Find them with a steel pin or a compass needle. Then fix the hall switch under the middle of the antenna with its printed face {HALL_MM - P.TURF_T:.0f} mm below the plastic sheet (a stack of cardboard does it): that is where it lies in the tongue. It must switch when a figure stands on the sheet, in every rotation of the figure, and release when the figure is lifted away. Then slide the figure off the middle and note how far it can stand off before the switch lets go and before the read fails. Nothing marks the place on the tongue, so this distance is the reserve for a figure that is put down by eye; about {P.GRASS_GAP:.0f} mm is what the layout counts on. If the switch does not answer at all, read \"Wake, if the magnet is not where the switch is\" in `docs/electronics.md` before you go on.")
     a("4. **Servo and supply.** Run the servo from the boost converter on the real cell while the amplifier plays. The board must not reset. Measure the stall current.")
     a("5. **Lid spring.** Print the lid, the stage and the band first, hinge them and check that the spring throws the lid open and that it rests on the end stop.")
     a("")
-    a(f"Also measure the delivered parts against the values marked `MEASURE` in `params.py`: outline of the reader board ({P.BLUE_L} x {P.BLUE_W} mm assumed) and position of its antenna, the foot of a figure ({P.TONIE_BASE_D:.0f} mm assumed; spot, grass and tongue follow this one value), height of the XIAO, length of the charger and position of its USB-C socket, and the ring itself.")
+    a(f"Also measure the delivered parts against the values marked `MEASURE` in `params.py`: outline of the reader board ({P.BLUE_L} x {P.BLUE_W} mm assumed) and position of its antenna, the foot of a figure ({P.TONIE_BASE_D:.0f} mm assumed; the round tip of the tongue follows this one value), height of the XIAO, length of the charger and position of its USB-C socket, and the ring itself.")
     a("")
 
     # ---------------------------------------------------------------- print
@@ -353,9 +353,9 @@ def manual_markdown(items, nums, printed) -> str:
     a("- Band, stage: upside down. Their 45° surfaces are designed to print without support in this orientation.")
     a("- Lens: natural (uncoloured) PETG. Print one first and check the glow with the LED; 1.6 mm front thickness is `LENS_T` in `params.py`.")
     a("- Bowl: the four bosses low on its front wall hang from the dome in print orientation. The tree supports that the floor needs anyway carry them.")
-    a("- Grass tongue (tray): dark green, sole on the bed, no supports, 4 perimeters, 40 % infill.")
-    a(f"- Grass top: one job in two greens. Load `grass_top.stl`, `grass_blades.stl` and `grass_spot.stl` together as one object; they share their coordinates. Give the plate the dark green and the blades and the spot the bright green. The spot is {P.SPOT_INLAY:.0f} mm deep, five layers, and ends level with the surface, so the standing surface stays one plain plane. Underside on the bed, no supports, 5 perimeters so that the blades print solid. Slow down above the turf surface and keep a minimum layer time of about 8 s, so that the blunt tips do not melt. With one colour only, load the same three files and print them in one green.")
-    a("- Greens that come close to the games: Bambu PETG HF Green for blades and spot, Prusament PETG Jungle Green or Bambu PETG HF Forest Green for tray and plate [research/10 A.4].")
+    a("- Grass tongue (tray): light green, sole on the bed, no supports, 4 perimeters, 40 % infill. The rim round its top overhangs inwards at the tip by less than 40°; it prints without support.")
+    a(f"- Grass top: the same light green, one file (`grass_top.stl`): underside on the bed, tufts up, no supports, 5 perimeters so that the blades print solid. Slow down above the turf surface and keep a minimum layer time of about 8 s, so that the blunt tips do not melt. Its edge leans like the walls of its frame, and its lowest {P.TURF_FOOT} mm stand back a little for a first layer that is squeezed wide. If it still does not drop into the frame, scrape its bottom edge with a knife.")
+    a("- A green that comes close to the grass of the games: Bambu PETG HF Green [research/10 A.4]. Tray and grass top should come from the same spool.")
     a("- Print pawl, slider, sleeve and cradle first. They are small and show whether your printer's clearances suit: the slider must move in the stage with light friction and the pawl must turn freely on its boss.")
     a("")
 
@@ -397,7 +397,7 @@ def manual_markdown(items, nums, printed) -> str:
     a("2. **Test the latch with the stage on and the lid open.** Command release: the pawl nose must swing clear of the hook slot. Command rest: the pawl must return against its stop pin by its own spring.")
     a("3. **Test the opening.** Close the lid (press until it clicks) and command release. The lid must open fully. Repeat twenty times.")
     a("4. **Test the emergency opening** described below, so that you know the feel of it.")
-    a(f"5. **Test the grass.** Stand each figure on the spot: the ball must wake and read it, also when the foot stands at the edge of the bare ground, {P.GRASS_GAP:.0f} mm off centre. Leave a figure standing: the ball must go back to sleep and stay asleep.")
+    a(f"5. **Test the tongue.** Stand each figure in the middle of the round tip: the ball must wake and read it, also when the figure stands {P.GRASS_GAP:.0f} mm off the middle in any direction. Leave a figure standing: the ball must go back to sleep and stay asleep.")
     a("6. **Register the four Tonies and upload the messages** once the firmware exists.")
     a("")
 
@@ -410,9 +410,9 @@ def manual_markdown(items, nums, printed) -> str:
     a("| --- | --- |")
     a("| ![a Tonie on the grass](img/grass.png) | ![section through the tongue](img/grass_section.png) |")
     a("")
-    a(f"Stand the device on a table or on the ground and stand the Tonie on the bright green spot, so that its foot covers the disc. That wakes the ball. The reader's antenna lies {P.Z_TURF - P.Z_PCB_TOP:.1f} to {ANTENNA_MM:.1f} mm below the surface, centred under the spot; the tag itself is a small rod further up inside the figure.")
+    a(f"Stand the device on a table or on the ground and stand the Tonie on the bare front part of the tongue, in the middle of its round tip: the same strip of ground, about {P.TIP_MARGIN:.0f} mm, then shows round its foot at the front and at both sides. That wakes the ball. No mark shows the place; the tip is drawn round it. The reader's antenna lies {P.Z_TURF - P.Z_PCB_TOP:.1f} to {ANTENNA_MM:.1f} mm below the surface, centred under that place; the tag itself is a small rod further up inside the figure.")
     a("")
-    a(f"Nothing holds the figure. The spot is a plain, level surface without rim, recess or catch. Round a centred figure {P.GRASS_GAP:.0f} mm of bare ground stay free; the grass begins behind that, in tufts of different sizes scattered at random, and leaves the front open. Whoever carries the device has to hold the figure separately, as on any tray. On a shelf the figure simply stands on the spot; the firmware lets the ball sleep while a figure stays there.")
+    a("Nothing holds the figure. It stands on a plain, level surface without recess or catch. The thin line that runs round the tip is the joint between the grass top and the rim of the tray, and both are level. The grass stands only in the two corners beside the ball, in tufts of different sizes thrown at random; the sides and the front of the figure are open. Whoever carries the device has to hold the figure separately, as on any tray. On a shelf the figure simply stands on the tongue; the firmware lets the ball sleep while a figure stays there.")
     a("")
     a("### Charging")
     a("")
@@ -465,7 +465,7 @@ def manual_markdown(items, nums, printed) -> str:
     a("")
     a("1. Undo the four countersunk screws under the rear end of the tongue and lift the ball a few centimetres off it.")
     a("2. Pull the two plug pairs out through the window in the bowl and separate them. The ball is now free.")
-    a("3. Undo the six small screws and lift the grass top off; the reader lies open.")
+    a("3. Undo the four small screws, lift the rear of the grass top a little and draw it backwards out from under the rim at the tip; the reader lies open.")
     a("")
 
     # ------------------------------------------------------------- exploded

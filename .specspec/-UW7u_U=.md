@@ -13,6 +13,6 @@ All parts are PETG and print without supports touching a visible surface: bowl a
 
 Why not one multi-colour print, although the owner has such a printer: an inlaid band means about a hundred colour changes including black into white, with colour bleed exactly at the most visible line. Why PETG: hinge, latch and spring seats stay preloaded for weeks, and PLA creeps and softens at 55 to 60 °C.
 
-This concerns the ball. The grass tongue adds green parts of its own, and its turf is the one print of the device in two colours.
+This concerns the ball. The grass tongue adds two parts of its own, both in one light green.
 
 Origin: agent conclusion from research/06_mechanics_printing_ring.md, section 5.

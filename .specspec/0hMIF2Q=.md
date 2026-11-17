@@ -12,4 +12,6 @@ One day, when everything stands on a shelf, the Tonie can stand on the flat spot
 
 The "error-zone" may be enlarged a bit where that is needed, for example by shrinking the grass. The agent reads this as the bare ground round the spot, within which a figure may stand off centre.
 
-Origin: owner intention, revision two; the allowance for the error-zone is the owner's, revision three.
+The spot carries no mark. The owner takes the risk that this fails, and would then redesign just this part.
+
+Origin: owner intention, revision two; the allowance for the error-zone is the owner's, revision three. The unmarked spot is the owner's decision of revision four: the agent had explained that the coloured disc of revisions two and three was nothing but a mark, and that it disappears when everything is printed in one colour.

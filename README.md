@@ -14,7 +14,7 @@ This repository holds the hardware design: research, a parametric CAD model, a g
 | `docs/electronics.md` | block diagram, power rails, net list, pin map, harness to the grass tongue, behaviour the firmware must respect |
 | `docs/verification.md` | result of every geometry check (watertightness, fit, clearances, motion, grass tongue, physics) |
 | `research/` | ten research notes with sources, including the candidates that were rejected; start with `research/README.md` |
-| `export/stl/` | the 17 printable bodies, already in print orientation; the grass top is three of them, for two colours |
+| `export/stl/` | the 15 printed parts, already in print orientation |
 | `export/step/` | the same parts, the dummy models of all purchased components and the full coloured assembly |
 | `src/poketonieengagementhunt/` | the CAD model as Python (CadQuery); `params.py` holds every dimension |
 | `.specspec/` | the specification graph: owner intentions, design conclusions and the artifacts that realise them |
@@ -46,9 +46,16 @@ Change a value in `src/poketonieengagementhunt/params.py` (for example the ring 
 - The hall switch is laid out for the magnets of the classic Tonies and lies deeper, so that it also catches magnets beside the axis. The bare ground round the spot is 2 mm wider.
 - The antenna lies 11.7 mm above the table instead of 3.2 mm, which eases the risk of a metal table.
 
+**Revision 4.** One colour, and a smaller tongue:
+
+- Tongue and grass are one light green. The grass top, turf plate and tufts together, is one printed part. The bright disc that marked the place of the figure is gone, and nothing marks that place now: the owner's decision, with the risk accepted.
+- The tongue is 72 mm wide at the ball and 66 mm at its round tip instead of 76 mm, and reaches 70 mm beyond the ball instead of 76 mm. Its height is unchanged. The tip is a circle round the place of the figure, so a centred figure shows the same 10.5 mm of ground at the front and at both sides.
+- The grass is thinner and stands in the two corners beside the ball. None stands beside or in front of the figure.
+- The grass top lies in a frame: a rim of the tray holds its tip, and four hidden screws hold its rear half.
+
 ## State of the design
 
-- 90 of 90 geometry checks pass. All 17 printed bodies are valid and watertight; the closed assembly of 42 items has no collisions; the lid has been swept through its 95° travel in 39 positions without contact; latch, ring lock, emergency opening and the assembly sequence are checked the same way.
-- For the grass tongue the checks cover the seat of the ball on four pads, the flush underside, the reader pocket, the hidden cable path, the clearance between a figure and the ball, the plain standing surface, the scatter of the tufts, the hidden ends of the turf screws, and the stance: the centre of gravity stays at least 27 mm inside the edge of the area on which ball and tongue stand.
-- Not provable in CAD, and therefore the first thing to do (building manual, section 2): read all four Pokémon Tonies with the blue PN5180 board under a 1.6 mm sheet, on wood and on metal, and find the magnets in their feet. The tag is a small rod somewhere above the foot. The magnets are assumed to be those of the classic Tonies; `docs/electronics.md` says what to do if they are not.
-- Dimensions of some delivered parts, of the figures and of the ring are still assumptions. They are marked `MEASURE` in `params.py`. The foot of a figure (45 mm, measured on pictures) sets the spot, the bare ground round it and the width of the tongue.
+- 88 of 88 geometry checks pass. All 15 printed parts are valid and watertight; the closed assembly of 40 items has no collisions; the lid has been swept through its 95° travel in 39 positions without contact; latch, ring lock, emergency opening and the assembly sequence are checked the same way.
+- For the grass tongue the checks cover the seat of the ball on four pads, the flush underside, the reader pocket, the frame that holds the grass top, the hidden cable path, the clearance between a figure and the ball, the plain standing surface, where the grass stands and that it is not mirrored, the hidden ends of the turf screws, and the stance: the centre of gravity stays at least 24 mm inside the edge of the area on which ball and tongue stand.
+- Not provable in CAD, and therefore the first thing to do (building manual, section 2): read all four Pokémon Tonies with the blue PN5180 board under a 1.6 mm sheet, on wood and on metal, find the magnets in their feet, and see how far off the middle a figure may stand. The tag is a small rod somewhere above the foot. The magnets are assumed to be those of the classic Tonies; `docs/electronics.md` says what to do if they are not.
+- Dimensions of some delivered parts, of the figures and of the ring are still assumptions. They are marked `MEASURE` in `params.py`. The foot of a figure (45 mm, measured on pictures) sets the round tip of the tongue and the ground that is kept free of grass.

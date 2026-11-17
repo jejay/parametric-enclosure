@@ -35,14 +35,19 @@ class Item:
     note: str = ""
     material: str = ""       # filament for printed parts
     check: bool = True       # take part in the interference checks
+    proxy: Bodies | None = None   # simpler bodies that stand in for the item in those checks
 
     def shape(self) -> cq.Shape:
         if len(self.bodies) == 1:
             return self.bodies[0][0]
         return g.compound([b for b, _ in self.bodies])
 
+    def check_bodies(self) -> Bodies:
+        return self.proxy if self.proxy is not None else self.bodies
+
     def moved(self, dx: float, dy: float, dz: float) -> "Item":
-        return Item(self.key, self.label, self.kind, [(g.move(s, dx, dy, dz), c) for s, c in self.bodies], self.group, self.step, self.explode, self.qty, self.note, self.material, self.check)
+        proxy = None if self.proxy is None else [(g.move(s, dx, dy, dz), c) for s, c in self.proxy]
+        return Item(self.key, self.label, self.kind, [(g.move(s, dx, dy, dz), c) for s, c in self.bodies], self.group, self.step, self.explode, self.qty, self.note, self.material, self.check, proxy)
 
 
 def _place(bodies: Bodies, *ops) -> Bodies:
@@ -90,14 +95,13 @@ def build(
     add(Item("inserts", "Heat-set insert M3 x 5.7", "hardware", ins, step=1, explode=(0, 0, -92), qty=8))
 
     # ----------------------------------------------- step 2: the grass tongue
-    add(Item("grass_base", "Grass tongue (tray)", "printed", _col(B.grass_base(), "grass_dark"), step=2, explode=(0, 0, -218), material="PETG dark green"))
+    add(Item("grass_base", "Grass tongue (tray)", "printed", _col(B.grass_base(), "grass"), step=2, explode=(0, 0, -218), material="PETG light green"))
     add(Item("reader", "PN5180 NFC reader (blue board, 70 x 39 mm)", "purchased", _place(C.pn5180_blue(), ("move", B.BLUE_X0, 0, P.Z_PCB_TOP)), step=2, explode=(0, 0, -188)))
     add(Item("hall", "Hall switch DRV5032FB (TO-92)", "purchased", _place(C.hall_sensor(), ("rot", "y", 180.0), ("move", P.SPOT_X, 0, B.HALL_SEAT_Z + P.HALL_T)), step=2, explode=(0, 0, -203)))
     add(Item("harness", "Reader harness: 6-pin plug-and-socket pair with wires", "purchased", C.harness(), step=2, explode=(0, 0, -168), qty=2))
-    add(Item("grass_top", "Grass top (turf plate)", "printed", _col(B.grass_top(), "grass_dark"), step=2, explode=(0, 0, -142), material="PETG dark green"))
-    # the blades are checked against ball and figure by check_grass_base, not by the generic interference test
-    add(Item("grass_blades", "Grass blades (printed onto the grass top)", "printed", _col(B.grass_blades(), "grass"), step=2, explode=(0, 0, -142), material="PETG bright green", check=False))
-    add(Item("grass_spot", "Standing spot (printed into the grass top)", "printed", _col(B.grass_spot(), "grass"), step=2, explode=(0, 0, -128), material="PETG bright green"))
+    # one print: turf plate and tufts.  In the generic interference test the plate alone stands in for it;
+    # the tufts are checked against ball and figure by check_grass_base
+    add(Item("grass_top", "Grass top (turf plate with its tufts)", "printed", _col(B.grass_top(), "grass"), step=2, explode=(0, 0, -142), material="PETG light green", proxy=_col(B.turf_plate(), "grass")))
     ts: Bodies = []
     for x, y in B.turf_screw_xy():
         ts += _place(C.screw_up(2.2, P.TURF_SCREW_L, P.TURF_SCREW_HEAD_D, P.TURF_SCREW_HEAD_H), ("move", x, y, P.Z_SOLE + P.TURF_SCREW_CB))   # head deep in its counterbore, 2.9 mm of tray under it
@@ -203,16 +207,16 @@ PRINT_ORIENT: dict[str, tuple[str, float] | None] = {
     "bowl": ("x", 180.0), "band": ("x", 180.0), "lid": None, "bezel": ("y", 90.0), "lens": ("y", -90.0),
     "cone": ("y", 90.0), "stage": ("x", 180.0), "chassis": None, "pawl": ("x", 180.0),
     "cradle": None, "slider": ("x", 180.0), "sleeve": ("x", 90.0), "spk_clamp": ("y", 90.0),
-    "grass_base": None, "grass_top": None, "grass_blades": None, "grass_spot": None,
+    "grass_base": None, "grass_top": None,
 }
 # tessellation (linear, angular tolerance) for parts whose default mesh would be needlessly heavy
-MESH: dict[str, tuple[float, float]] = {"grass_blades": (0.015, 0.2)}
+MESH: dict[str, tuple[float, float]] = {"grass_top": (0.015, 0.2)}
 # parts that are printed with another part in the same job share its placement
-PRINT_WITH: dict[str, str] = {"grass_spot": "grass_top", "grass_blades": "grass_top"}
+PRINT_WITH: dict[str, str] = {}
 # parts that consist of several separate bodies on purpose
-MULTI_BODY: set[str] = {"grass_blades"}
+MULTI_BODY: set[str] = set()
 # allowed relative difference between CAD and mesh volume (thin curved parts lose more to facets)
-MESH_VOLUME_TOL: dict[str, float] = {"grass_blades": 0.03}
+MESH_VOLUME_TOL: dict[str, float] = {"grass_top": 0.03}
 
 
 def print_oriented(key: str) -> cq.Shape:
@@ -246,8 +250,6 @@ def printed_parts() -> dict[str, tuple[cq.Shape, str, str]]:
         "slider": (K.slider(), "PETG any colour", "cap on the bed (upside down)"),
         "sleeve": (K.sleeve(), "PETG any colour", "standing on one end"),
         "spk_clamp": (K.spk_clamp(), "PETG any colour", "flat on the bed"),
-        "grass_base": (B.grass_base(), "PETG dark green", "sole on the bed, no supports"),
-        "grass_top": (B.grass_top(), "PETG dark green", "underside on the bed, no supports; one job with the two parts below"),
-        "grass_blades": (B.grass_blades(), "PETG bright green", "stands on the grass top: load the three grass-top files as one object"),
-        "grass_spot": (B.grass_spot(), "PETG bright green", "lies in the grass top, level with its surface: same object"),
+        "grass_base": (B.grass_base(), "PETG light green", "sole on the bed, no supports"),
+        "grass_top": (B.grass_top(), "PETG light green", "underside on the bed, tufts up, no supports"),
     }

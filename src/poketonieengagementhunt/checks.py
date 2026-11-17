@@ -101,7 +101,7 @@ def check_watertight() -> list[Result]:
 def interference(items: list[A.Item], only_groups: tuple[set[str], set[str]] | None = None) -> list[tuple[str, str, float]]:
     """Common volume of every pair of items (bounding boxes pre-filter)."""
     todo = [it for it in items if it.check]
-    shapes = {it.key: it.shape() for it in todo}
+    shapes = {it.key: g.compound([b for b, _ in it.check_bodies()]) if len(it.check_bodies()) > 1 else it.check_bodies()[0][0] for it in todo}
     hits = []
     for i, a in enumerate(todo):
         for b in todo[i + 1 :]:
@@ -112,8 +112,8 @@ def interference(items: list[A.Item], only_groups: tuple[set[str], set[str]] | N
             if not g.bbox_overlap(shapes[a.key], shapes[b.key]):
                 continue
             v = 0.0
-            for sa, _ in a.bodies:
-                for sb, _ in b.bodies:
+            for sa, _ in a.check_bodies():
+                for sb, _ in b.check_bodies():
                     if g.bbox_overlap(sa, sb):
                         v += g.common_volume(sa, sb)
             if v > TOL_VOLUME or math.isnan(v):
@@ -370,7 +370,7 @@ MASS_G = {
     "spring": 0.4, "hinge_pin": 0.5, "lock_pin": 1.3, "stack_screws": 4.4, "inserts": 2.1,
     "harness": 6.0, "turf_screws": 1.6, "base_screws": 2.0,
 }
-BASE_KEYS = ("grass_base", "grass_top", "grass_blades", "grass_spot", "reader", "hall", "harness", "turf_screws", "base_screws")
+BASE_KEYS = ("grass_base", "grass_top", "reader", "hall", "harness", "turf_screws", "base_screws")
 FIGURE_MASS_G = P.TONIE_MASS_G     # a Tonie standing on the spot (research/09)
 
 
@@ -486,7 +486,8 @@ def check_grass_base() -> list[Result]:
     """The grass tongue: joint to the ball, reader pocket, cable path, standing spot."""
     out = []
     it = A.by_key(A.build(with_tonie=True))
-    bowl, tray, turf = it["bowl"].shape(), it["grass_base"].shape(), it["grass_top"].shape()
+    bowl, tray = it["bowl"].shape(), it["grass_base"].shape()
+    turf = B.turf_plate()            # the plate of the grass top; its tufts are measured one by one below
     ball_keys = ("bowl", "band", "lid", "bezel", "lens")
     screws = B.base_screw_xy()
 
@@ -500,7 +501,7 @@ def check_grass_base() -> list[Result]:
     gap_t, gap_b = g.min_distance(tray, table), g.min_distance(bowl, table)
     bb = tray.BoundingBox()
     flush = below < TOL_VOLUME and gap_t < 1e-4 and gap_b < 1e-4
-    out.append(Result("base:tongue is flush with the ball's flat and stays in front of it", flush and bb.xmin >= -0.05 and bb.ymax < P.R, f"the underside of the tongue and the flat of the ball both lie on the table plane (gaps {gap_t:.3f} and {gap_b:.3f} mm) and nothing reaches below it ({below:.2f} mm3, screw heads included); the tongue begins {P.X_REAR:.0f} mm in front of the ball's axis, under its belly, is {2 * P.TONGUE_W:.0f} mm wide and {P.BASE_T:.0f} mm high and reaches {P.SPOT_X + P.TONGUE_W - P.R:.0f} mm beyond the ball: nothing of it lies beside or behind the ball", {"x_rear": P.X_REAR, "reach": P.SPOT_X + P.TONGUE_W - P.R, "width": 2 * P.TONGUE_W, "below": below}))
+    out.append(Result("base:tongue is flush with the ball's flat and stays in front of it", flush and bb.xmin >= -0.05 and bb.ymax < P.R, f"the underside of the tongue and the flat of the ball both lie on the table plane (gaps {gap_t:.3f} and {gap_b:.3f} mm) and nothing reaches below it ({below:.2f} mm3, screw heads included); the tongue begins {P.X_REAR:.0f} mm in front of the ball's axis, under its belly, is {2 * P.TONGUE_W:.0f} mm wide there and {2 * P.R_TIP:.0f} mm at its round tip, {P.BASE_T:.0f} mm high, and reaches {P.SPOT_X + P.R_TIP - P.R:.0f} mm beyond the ball: nothing of it lies beside or behind the ball", {"x_rear": P.X_REAR, "reach": P.SPOT_X + P.R_TIP - P.R, "width": 2 * P.TONGUE_W, "width_tip": 2 * P.R_TIP, "below": below}))
 
     # 2. grass keeps clear of the ball.  Every outer part of the ball lies inside the sphere of
     #    radius R (the front is even flattened), so the distance to that sphere is the safe measure.
@@ -536,21 +537,30 @@ def check_grass_base() -> list[Result]:
     wedge = min(-math.sqrt((P.R + P.CUP_GAP) ** 2 - P.BASE_SCREW_RHO**2) - P.Z_SOLE for _ in screws)
     out.append(Result("base:screws engage the inserts", 3.0 <= grip <= 5.7 and tip <= P.Z_BASE_BOSS + 0.01 and wedge >= 5.0, f"{len(screws)} x M3 x {P.BASE_SCREW_L:.0f} countersunk through {wedge:.1f} mm of tongue: {grip:.1f} mm of thread in the 5.7 mm insert, tip {P.Z_BASE_BOSS - tip:.1f} mm below the top of the boss", {"grip": grip}))
 
-    # 4. reader pocket and turf
+    # 4. reader pocket, grass top and its frame.  The plate goes in along the slope of the frame
+    #    walls: forwards and down.  Lifted straight up it has to collide with the rim at the tip.
     reader, hall = it["reader"].shape(), it["hall"].shape()
+    slope = P.TURF_HOOK / P.TURF_T
     bad = []
     for dz in (0.5, 2.0, 5.0, 12.0):
         for key in ("reader", "hall"):
             vv = g.common_volume(g.move(it[key].shape(), dz=dz), tray)
             if vv > TOL_VOLUME:
                 bad.append((dz, key, vv))
+        out_of_bed = g.move(turf, dx=-slope * dz, dz=dz)
         for fixed in ("grass_base", "reader", "hall"):
-            vv = g.common_volume(g.move(turf, dz=dz), it[fixed].shape())
+            vv = g.common_volume(out_of_bed, it[fixed].shape())
             if vv > TOL_VOLUME:
                 bad.append((dz, "grass_top", fixed, vv))
     d_seat, d_roof = g.min_distance(reader, tray), g.min_distance(reader, turf)
     hold = P.BLUE_LEDGE_ANT - 2 * max(P.BLUE_CL_X, P.BLUE_CL_Y)      # ledge left under a board pushed to one side
-    out.append(Result("base:reader drops into its pocket, turf closes it", not bad and d_seat < 0.02 and 0.0 <= d_roof <= 0.3 and hold >= 1.0, f"board on its ledge ({d_seat:.2f} mm), {d_roof:.2f} mm under the turf; pushed to one side of its {2 * P.BLUE_CL_X + P.BLUE_L:.1f} x {2 * P.BLUE_CL_Y + P.BLUE_W:.1f} mm pocket, the antenna half still rests on {hold:.1f} mm of ledge; reader, hall switch and turf lifted 0.5..12 mm: {len(bad)} collisions", {"collisions": bad}))
+    out.append(Result("base:reader drops into its pocket, grass top closes it", not bad and d_seat < 0.02 and 0.0 <= d_roof <= 0.3 and hold >= 1.0, f"board on its ledge ({d_seat:.2f} mm), {d_roof:.2f} mm under the turf; pushed to one side of its {2 * P.BLUE_CL_X + P.BLUE_L:.1f} x {2 * P.BLUE_CL_Y + P.BLUE_W:.1f} mm pocket, the antenna half still rests on {hold:.1f} mm of ledge; reader and hall switch lifted 0.5..12 mm and the grass top drawn out of its frame along the slope of the frame walls: {len(bad)} collisions", {"collisions": bad}))
+    caught = g.common_volume(g.move(turf, dz=0.4), tray)
+    in_frame = g.common_volume(turf, tray)
+    d_bed = g.min_distance(turf, tray)
+    z_plate, z_rim = turf.BoundingBox().zmax, tray.BoundingBox().zmax
+    wall = P.R_TIP - math.hypot(B.POCKET[1] - P.SPOT_X, B.POCKET[2])
+    out.append(Result("base:the rim of the tray holds the tip of the grass top", caught > 1.0 and in_frame < TOL_VOLUME and d_bed < 0.02 and abs(z_plate - z_rim) < 0.05 and wall >= 3.0, f"the grass top lies in a frame, {P.RIM_GAP} mm clear all round, level with the rim (step {z_plate - z_rim:+.2f} mm); the frame walls lean forwards by {P.TURF_HOOK} mm over the {P.TURF_T} mm of the plate, so the rim at the tip overhangs it: lifted straight up by 0.4 mm the plate runs into the rim ({caught:.1f} mm3). Four screws hold its rear half, and with the ball in place it cannot slide back out. Between the corners of the reader pocket and the outside of the tip {wall:.1f} mm of wall remain", {"caught": caught, "wall": wall}))
     gap_under = P.Z_PCB_BOT - P.Z_TRAY_FLOOR
     d_hall = g.min_distance(hall, reader)
     out.append(Result("base:room under the reader board", gap_under >= P.BLUE_COMP_H + 0.8 and d_hall >= 0.1, f"{gap_under:.1f} mm between tray floor and board for components ({P.BLUE_COMP_H} mm) and wires; the hall switch lies on the floor of the pocket, its face {d_hall:.2f} mm below the board", {"gap": gap_under}))
@@ -585,10 +595,11 @@ def check_grass_base() -> list[Result]:
     r_plain = P.SPOT_CLEAR_R - 0.5
     above = g.cyl_z(r_plain, P.Z_TURF + 0.01, P.Z_TURF + 40.0, P.SPOT_X, 0.0)
     below = g.cyl_z(r_plain, P.Z_TURF - 0.3, P.Z_TURF, P.SPOT_X, 0.0)
-    proud = sum(g.common_volume(above, x) for x in grass) + g.common_volume(above, turf) + g.common_volume(above, it["grass_spot"].shape())
-    filled = (g.common_volume(below, turf) + g.common_volume(below, it["grass_spot"].shape())) / g.volume(below)
-    ahead = [math.degrees(math.atan2(abs(b.y), b.x - P.SPOT_X)) for b in B.blades() if math.hypot(b.x - P.SPOT_X, b.y) < P.TONGUE_W + 3.0]
-    out.append(Result("figure:stands free on a plain flat spot", proud < TOL_VOLUME and filled > 0.999 and d_blade >= P.GRASS_GAP - 1.5 and min(ahead) >= P.FRONT_OPEN_DEG, f"within {r_plain:.1f} mm of the spot centre nothing stands above the surface ({proud:.2f} mm3) and nothing is recessed (surface {100 * filled:.1f} % filled): no rim, no pocket, no lock; nearest grass {d_blade:.1f} mm from a Ø{P.TONIE_BASE_D:.0f} mm foot, so a figure may stand {d_blade - 1.0:.0f} mm off centre before it touches grass; no grass within {min(ahead):.0f}° of straight ahead", {"blade": d_blade, "front_deg": min(ahead)}))
+    proud = sum(g.common_volume(above, x) for x in grass) + g.common_volume(above, turf) + g.common_volume(above, tray)
+    filled = (g.common_volume(below, turf) + g.common_volume(below, tray)) / g.volume(below)
+    x_front = max(max(x for x, _, _ in B._samples(b, (0.0, 0.5, 1.0))) for b in B.blades())
+    seam = P.R_TIP - B.PLATE_INSET - P.TURF_HOOK - P.TONIE_BASE_D / 2        # from the foot of a centred figure to the joint at the tip
+    out.append(Result("figure:stands free on a plain flat spot", proud < TOL_VOLUME and filled > 0.995 and d_blade >= P.GRASS_GAP and x_front <= P.SPOT_X - P.TONIE_BASE_D / 2 + 12.0 and seam >= 5.0, f"within {r_plain:.1f} mm of the place of the figure nothing stands above the surface ({proud:.2f} mm3) and nothing is recessed (surface {100 * filled:.1f} % filled; the rest is the {P.RIM_GAP} mm joint between grass top and rim, {seam:.1f} mm in front of a centred foot): no rim to stand in, no pocket, no lock, and no mark. The round tip is concentric with that place and shows {P.TIP_MARGIN} mm of ground round a centred Ø{P.TONIE_BASE_D:.0f} mm foot. The nearest grass is {d_blade:.1f} mm from that foot and all grass stands behind x = {x_front:.0f} mm, {P.SPOT_X - x_front:.0f} mm behind the centre of the figure: its sides and its front are open", {"blade": d_blade, "x_front": x_front, "seam": seam}))
     # the lawn must not be mirrored: compare the tuft positions with their mirror image
     lawn = B.tufts()
     pos = [(t.mound.x, t.mound.y) for t in lawn]
@@ -597,7 +608,14 @@ def check_grass_base() -> list[Result]:
     heights = [b.h for b in B.blades()]
     left = sum(1 for _, y in pos if y > 0)
     spread = len({int(((t.mound.out_deg - 90.0) % 180.0) // 30.0) for t in lawn})   # how many of six directions occur
-    out.append(Result("grass:tufts are scattered, not mirrored", min(twin) >= 3.0 and max(sizes) >= min(sizes) + 3 and max(heights) >= 2.5 * min(heights) and spread >= 5, f"{len(pos)} tufts ({left} left of the centre line, {len(pos) - left} right) with {min(sizes)} to {max(sizes)} blades each, blades {min(heights):.0f} to {max(heights):.0f} mm high, tufts turned in {spread} of 6 direction classes; no tuft has a twin on the other side: the nearest mirror image of another tuft is {min(twin):.1f} mm away at least and {sum(twin) / len(twin):.1f} mm on average. Places, sizes, directions and leaf shapes come from a random generator with a fixed seed (LAWN_SEED)", {"tufts": len(pos), "twin_min": min(twin), "sizes": sizes}))
+    out.append(Result("grass:tufts are scattered, not mirrored", min(twin) >= 3.0 and max(sizes) >= min(sizes) + 2 and max(heights) >= 2.0 * min(heights) and spread >= 4, f"{len(pos)} tufts with {min(sizes)} to {max(sizes)} blades each, blades {min(heights):.0f} to {max(heights):.0f} mm high, tufts turned in {spread} of 6 direction classes; no tuft has a twin on the other side: the nearest mirror image of another tuft is {min(twin):.1f} mm away at least and {sum(twin) / len(twin):.1f} mm on average. Places, sizes, directions and leaf shapes come from a random generator with a fixed seed (LAWN_SEED)", {"tufts": len(pos), "twin_min": min(twin), "sizes": sizes}))
+    # the lawn is thin and gathered in the two corners between the ball and the sides of the tongue
+    cx, cy = P.LAWN_CORNER
+    roots = [(b.x, b.y) for b in B.blades()]
+    in_corner = sum(1 for x, y in roots if math.hypot(x - cx, abs(y) - cy) <= 2.0 * P.LAWN_SPREAD) / len(roots)
+    middle = sum(1 for x, y in roots if abs(y) < P.LAWN_CENTRE_FREE)
+    y_min = min(abs(y) for _, y in pos)
+    out.append(Result("grass:thin, and gathered in the two corners beside the ball", in_corner >= 0.75 and middle == 0 and min(left, len(pos) - left) >= 3 and len(pos) <= 16, f"{len(pos)} tufts in all, {left} in the left corner and {len(pos) - left} in the right; {100 * in_corner:.0f} % of the {len(roots)} blades are rooted within {2 * P.LAWN_SPREAD:.0f} mm of the two corner points (x = {cx:.0f}, y = ±{cy:.0f} mm), none within {P.LAWN_CENTRE_FREE:.0f} mm of the centre line in front of the ball (the nearest tuft is rooted {y_min:.0f} mm from it), and none beside or in front of the figure", {"in_corner": in_corner, "left": left, "right": len(pos) - left}))
 
     # every turf screw ends in the root of a tuft, with solid plastic round and above its pilot hole
     z_hole = P.Z_RAIL + P.TURF_PILOT_DEPTH
@@ -637,16 +655,16 @@ def check_grass_base() -> list[Result]:
     # The seat is part of a sphere, so its pressure passes through the ball's centre and carries no
     # moment about it: the screws have to.  Upper bound: the front pair alone, in tension.
     force = 20.0
-    x_tip = P.SPOT_X + P.TONGUE_W
+    x_tip = P.SPOT_X + P.R_TIP
     f_screw = force * x_tip / (2 * max(x for x, _ in screws))
     # bending of the tray where the reader pocket begins: two rails beside the pocket and the floor under it
-    wr, hr = P.TONGUE_W - B.POCKET[2], P.Z_RAIL - P.Z_SOLE
+    wr, hr = B.half_width(B.POCKET[0]) - B.POCKET[2], P.Z_RAIL - P.Z_SOLE
     wf, hf = 2 * B.POCKET[2], P.TRAY_FLOOR
     area = 2 * wr * hr + wf * hf
     zc = (2 * wr * hr * hr / 2 + wf * hf * hf / 2) / area
     inertia = 2 * (wr * hr**3 / 12 + wr * hr * (hr / 2 - zc) ** 2) + wf * hf**3 / 12 + wf * hf * (hf / 2 - zc) ** 2
     sigma = force * (x_tip - B.POCKET[0]) * max(zc, hr - zc) / inertia
-    out.append(Result("base:load estimate for a push on the tongue", f_screw < 150.0 and sigma < 10.0, f"{force:.0f} N on the tip with the ball held: at most {f_screw:.0f} N of tension in each front screw (an M3 insert in PETG holds several hundred), about {sigma:.1f} MPa bending stress in the tray where the pocket begins (PETG yields near 45 MPa; revision 2 had 13 MPa); estimate by hand formula, turf not counted", {"screw": f_screw, "stress": sigma}))
+    out.append(Result("base:load estimate for a push on the tongue", f_screw < 150.0 and sigma < 10.0, f"{force:.0f} N on the tip with the ball held: at most {f_screw:.0f} N of tension in each front screw (an M3 insert in PETG holds several hundred), about {sigma:.1f} MPa bending stress in the tray where the pocket begins (PETG yields near 45 MPa; revision 2 had 13 MPa); estimate by hand formula, rim and grass top not counted", {"screw": f_screw, "stress": sigma}))
     return out
 
 

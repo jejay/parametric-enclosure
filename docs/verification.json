@@ -2,16 +2,16 @@
  {
   "name": "watertight:bowl",
   "ok": true,
-  "detail": "solids=1 valid=True watertight=True winding=True V_cad=32128 V_mesh=32055 mm3 tris=18636",
+  "detail": "solids=1 valid=True watertight=True winding=True V_cad=32128 V_mesh=32055 mm3 tris=18628",
   "data": {
-   "volume_mm3": 32127.596689331807,
-   "mass_g_petg": 40.8020477954514,
+   "volume_mm3": 32127.7335877156,
+   "mass_g_petg": 40.802221656398814,
    "bbox": [
     96.90925128165767,
     99.86032772227264,
     43.60837597880065
    ],
-   "triangles": 18636,
+   "triangles": 18628,
    "section": "Watertight printable solids"
   }
  },
@@ -210,84 +210,52 @@
  {
   "name": "watertight:grass_base",
   "ok": true,
-  "detail": "solids=1 valid=True watertight=True winding=True V_cad=77646 V_mesh=77652 mm3 tris=15846",
+  "detail": "solids=1 valid=True watertight=True winding=True V_cad=63973 V_mesh=63982 mm3 tris=14214",
   "data": {
-   "volume_mm3": 77646.16815505578,
-   "mass_g_petg": 98.61063355692085,
+   "volume_mm3": 63972.91949598547,
+   "mass_g_petg": 81.24560775990156,
    "bbox": [
-    116.04833279187187,
-    76.02657224588863,
-    13.460143875840842
+    110.0683412933898,
+    72.00000020000007,
+    15.0683412933898
    ],
-   "triangles": 15846,
+   "triangles": 14214,
    "section": "Watertight printable solids"
   }
  },
  {
   "name": "watertight:grass_top",
   "ok": true,
-  "detail": "solids=1 valid=True watertight=True winding=True V_cad=8412 V_mesh=8413 mm3 tris=4158",
+  "detail": "solids=1 valid=True watertight=True winding=True V_cad=10254 V_mesh=10212 mm3 tris=47046",
   "data": {
-   "volume_mm3": 8411.941038949653,
-   "mass_g_petg": 10.68316511946606,
+   "volume_mm3": 10253.756840145094,
+   "mass_g_petg": 13.02227118698427,
    "bbox": [
-    108.83784198555949,
-    76.02657224588864,
-    1.6334824976122277
+    97.24805072948223,
+    67.68418047173526,
+    16.83598765793143
    ],
-   "triangles": 4158,
-   "section": "Watertight printable solids"
-  }
- },
- {
-  "name": "watertight:grass_blades",
-  "ok": true,
-  "detail": "solids=18 valid=True watertight=True winding=True V_cad=5937 V_mesh=5824 mm3 tris=107804",
-  "data": {
-   "volume_mm3": 5936.554380711604,
-   "mass_g_petg": 7.539424063503737,
-   "bbox": [
-    83.73768564906855,
-    75.02492060684074,
-    18.30460160238838
-   ],
-   "triangles": 107804,
-   "section": "Watertight printable solids"
-  }
- },
- {
-  "name": "watertight:grass_spot",
-  "ok": true,
-  "detail": "solids=1 valid=True watertight=True winding=True V_cad=1963 V_mesh=1963 mm3 tris=500",
-  "data": {
-   "volume_mm3": 1963.4954084936207,
-   "mass_g_petg": 2.4936391687868986,
-   "bbox": [
-    50.01554109995922,
-    50.00000020000004,
-    1.015541099959222
-   ],
-   "triangles": 500,
+   "triangles": 47046,
    "section": "Watertight printable solids"
   }
  },
  {
   "name": "fit:closed assembly",
   "ok": true,
-  "detail": "42 items, 0 collisions, 9 intended overlaps",
+  "detail": "40 items, 0 collisions, 9 intended overlaps",
   "data": {
    "collisions": [],
    "intended": [
     [
      "bowl",
      "inserts",
-     184.80104625476605,
+     184.80104625476602,
      "heat-set inserts melt into \u00d84.0 holes"
     ],
     [
      "inserts",
      "base_screws",
-     38.87720908817365,
+     38.87720908817366,
      "M3 thread in the inserts"
     ],
     [
@@ -299,7 +267,7 @@
     [
      "grass_top",
      "turf_screws",
-     12.063715789784792,
+     8.042477193189866,
      "self-tapping 2.2 in \u00d81.8 pilot"
     ],
     [
@@ -629,18 +597,19 @@
   "detail": "bowl to the 4 pads 0.00 mm (contact), bowl to turf 0.25 mm, overlap 0.00 mm3; elsewhere the tongue keeps 0.25 mm from the ball",
   "data": {
    "pad": 0.0,
-   "turf": 0.2499999999999901,
+   "turf": 0.2499999999074192,
    "section": "Grass tongue and figure"
   }
  },
  {
   "name": "base:tongue is flush with the ball's flat and stays in front of it",
   "ok": true,
-  "detail": "the underside of the tongue and the flat of the ball both lie on the table plane (gaps 0.000 and 0.000 mm) and nothing reaches below it (0.00 mm3, screw heads included); the tongue begins 10 mm in front of the ball's axis, under its belly, is 76 mm wide and 15 mm high and reaches 76 mm beyond the ball: nothing of it lies beside or behind the ball",
+  "detail": "the underside of the tongue and the flat of the ball both lie on the table plane (gaps 0.000 and 0.000 mm) and nothing reaches below it (0.00 mm3, screw heads included); the tongue begins 10 mm in front of the ball's axis, under its belly, is 72 mm wide there and 66 mm at its round tip, 15 mm high, and reaches 70 mm beyond the ball: nothing of it lies beside or behind the ball",
   "data": {
    "x_rear": 10.0,
-   "reach": 76.0,
-   "width": 76.0,
+   "reach": 70.0,
+   "width": 72.0,
+   "width_tip": 66.0,
    "below": 0.0,
    "section": "Grass tongue and figure"
   }
@@ -648,10 +617,10 @@
  {
   "name": "base:grass blades clear the ball",
   "ok": true,
-  "detail": "71 blades in 18 tufts, nearest is 1.10 mm from the ball's sphere (need >= 0.6); no part of the ball stands more than 0.3 mm outside that sphere (0.00 mm3), and the ring round the button, which does stand out by that much, has its nearest blade at 1.36 mm; the tallest blade ends 11 mm below the rim of the bowl",
+  "detail": "37 blades in 11 tufts, nearest is 1.11 mm from the ball's sphere (need >= 0.6); no part of the ball stands more than 0.3 mm outside that sphere (0.00 mm3), and the ring round the button, which does stand out by that much, has its nearest blade at 6.61 mm; the tallest blade ends 13 mm below the rim of the bowl",
   "data": {
-   "distance": 1.1018155839703472,
-   "bezel": 1.3623219461072578,
+   "distance": 1.105171330388686,
+   "bezel": 6.606300962999398,
    "section": "Grass tongue and figure"
   }
  },
@@ -674,11 +643,21 @@
   }
  },
  {
-  "name": "base:reader drops into its pocket, turf closes it",
+  "name": "base:reader drops into its pocket, grass top closes it",
   "ok": true,
-  "detail": "board on its ledge (0.00 mm), 0.10 mm under the turf; pushed to one side of its 70.6 x 39.3 mm pocket, the antenna half still rests on 1.5 mm of ledge; reader, hall switch and turf lifted 0.5..12 mm: 0 collisions",
+  "detail": "board on its ledge (0.00 mm), 0.10 mm under the turf; pushed to one side of its 70.6 x 39.3 mm pocket, the antenna half still rests on 1.5 mm of ledge; reader and hall switch lifted 0.5..12 mm and the grass top drawn out of its frame along the slope of the frame walls: 0 collisions",
   "data": {
    "collisions": [],
+   "section": "Grass tongue and figure"
+  }
+ },
+ {
+  "name": "base:the rim of the tray holds the tip of the grass top",
+  "ok": true,
+  "detail": "the grass top lies in a frame, 0.15 mm clear all round, level with the rim (step -0.01 mm); the frame walls lean forwards by 1.2 mm over the 1.6 mm of the plate, so the rim at the tip overhangs it: lifted straight up by 0.4 mm the plate runs into the rim (6.1 mm3). Four screws hold its rear half, and with the ball in place it cannot slide back out. Between the corners of the reader pocket and the outside of the tip 4.0 mm of wall remain",
+  "data": {
+   "caught": 6.096244817875856,
+   "wall": 4.020481370457514,
    "section": "Grass tongue and figure"
   }
  },
@@ -703,47 +682,41 @@
  {
   "name": "figure:clear of the ball",
   "ok": true,
-  "detail": "dummy figure 18.4 mm, envelope of all four Pok\u00e9mon figures (\u00d852 x 78 mm) 12.4 mm from the ball",
+  "detail": "dummy figure 17.4 mm, envelope of all four Pok\u00e9mon figures (\u00d852 x 78 mm) 11.4 mm from the ball",
   "data": {
-   "figure": 18.390150278350728,
-   "envelope": 12.378728217965019,
+   "figure": 17.400516476170345,
+   "envelope": 11.378728217965019,
    "section": "Grass tongue and figure"
   }
  },
  {
   "name": "figure:stands free on a plain flat spot",
   "ok": true,
-  "detail": "within 30.0 mm of the spot centre nothing stands above the surface (0.00 mm3) and nothing is recessed (surface 100.0 % filled): no rim, no pocket, no lock; nearest grass 8.3 mm from a \u00d845 mm foot, so a figure may stand 7 mm off centre before it touches grass; no grass within 57\u00b0 of straight ahead",
+  "detail": "within 30.0 mm of the place of the figure nothing stands above the surface (0.00 mm3) and nothing is recessed (surface 99.8 % filled; the rest is the 0.15 mm joint between grass top and rim, 7.2 mm in front of a centred foot): no rim to stand in, no pocket, no lock, and no mark. The round tip is concentric with that place and shows 10.5 mm of ground round a centred \u00d845 mm foot. The nearest grass is 8.5 mm from that foot and all grass stands behind x = 67 mm, 20 mm behind the centre of the figure: its sides and its front are open",
   "data": {
-   "blade": 8.261881270503329,
-   "front_deg": 57.04665632291326,
+   "blade": 8.477816612611,
+   "x_front": 66.7213245901053,
+   "seam": 7.150000000000002,
    "section": "Grass tongue and figure"
   }
  },
  {
   "name": "grass:tufts are scattered, not mirrored",
   "ok": true,
-  "detail": "18 tufts (10 left of the centre line, 8 right) with 2 to 6 blades each, blades 5 to 18 mm high, tufts turned in 6 of 6 direction classes; no tuft has a twin on the other side: the nearest mirror image of another tuft is 5.0 mm away at least and 6.5 mm on average. Places, sizes, directions and leaf shapes come from a random generator with a fixed seed (LAWN_SEED)",
+  "detail": "11 tufts with 2 to 5 blades each, blades 5 to 15 mm high, tufts turned in 4 of 6 direction classes; no tuft has a twin on the other side: the nearest mirror image of another tuft is 4.9 mm away at least and 5.8 mm on average. Places, sizes, directions and leaf shapes come from a random generator with a fixed seed (LAWN_SEED)",
   "data": {
-   "tufts": 18,
-   "twin_min": 5.026328868817456,
+   "tufts": 11,
+   "twin_min": 4.949747468305833,
    "sizes": [
-    3,
-    5,
-    3,
-    5,
     4,
-    3,
-    6,
-    3,
-    6,
-    5,
-    5,
-    3,
-    5,
     3,
     4,
     3,
+    3,
+    5,
+    4,
+    4,
+    2,
     3,
     2
    ],
@@ -751,13 +724,22 @@
   }
  },
  {
+  "name": "grass:thin, and gathered in the two corners beside the ball",
+  "ok": true,
+  "detail": "11 tufts in all, 6 in the left corner and 5 in the right; 89 % of the 37 blades are rooted within 22 mm of the two corner points (x = 37, y = \u00b128 mm), none within 8 mm of the centre line in front of the ball (the nearest tuft is rooted 12 mm from it), and none beside or in front of the figure",
+  "data": {
+   "in_corner": 0.8918918918918919,
+   "left": 6,
+   "right": 5,
+   "section": "Grass tongue and figure"
+  }
+ },
+ {
   "name": "grass:turf screws end inside tuft roots",
   "ok": true,
-  "detail": "each of the 6 turf screws stands under the main blade of a tuft and ends 1.5 mm above the turf surface inside its root; the pilot hole reaches 2.4 mm above the surface and has 0.8 mm of solid plastic all round and 1 mm above it (100 % of the probed volume at the worst screw): nothing shows on top. The check runs for whatever lawn the seed gives",
+  "detail": "each of the 4 turf screws stands under the main blade of a tuft and ends 1.5 mm above the turf surface inside its root; the pilot hole reaches 2.4 mm above the surface and has 0.8 mm of solid plastic all round and 1 mm above it (100 % of the probed volume at the worst screw): nothing shows on top. The check runs for whatever lawn the seed gives",
   "data": {
    "solid": [
-    1.0,
-    1.0,
     1.0,
     1.0,
     1.0,
@@ -804,16 +786,16 @@
  {
   "name": "rfid:metal keeps away from the antenna",
   "ok": true,
-  "detail": "distance from the antenna loop: turf_screws 9 mm, base_screws 40 mm, inserts 39 mm, speaker 36 mm, cell 66 mm, servo 57 mm, harness 66 mm (harness = its plugs)",
+  "detail": "distance from the antenna loop: turf_screws 13 mm, base_screws 39 mm, inserts 38 mm, speaker 35 mm, cell 65 mm, servo 56 mm, harness 65 mm (harness = its plugs)",
   "data": {
    "near": {
-    "turf_screws": 8.843167174265583,
-    "base_screws": 40.13453306722901,
-    "inserts": 39.334533067229,
-    "speaker": 36.266270831173145,
-    "cell": 65.95611204413898,
-    "servo": 56.743478920489174,
-    "harness": 65.50122136265857
+    "turf_screws": 13.049442954349946,
+    "base_screws": 39.13453306722901,
+    "inserts": 38.334533067229,
+    "speaker": 35.31631917400227,
+    "cell": 64.99321907146035,
+    "servo": 55.85358001059556,
+    "harness": 64.50124029815241
    },
    "section": "Grass tongue and figure"
   }
@@ -821,10 +803,10 @@
  {
   "name": "base:load estimate for a push on the tongue",
   "ok": true,
-  "detail": "20 N on the tip with the ball held: at most 49 N of tension in each front screw (an M3 insert in PETG holds several hundred), about 1.3 MPa bending stress in the tray where the pocket begins (PETG yields near 45 MPa; revision 2 had 13 MPa); estimate by hand formula, turf not counted",
+  "detail": "20 N on the tip with the ball held: at most 46 N of tension in each front screw (an M3 insert in PETG holds several hundred), about 1.5 MPa bending stress in the tray where the pocket begins (PETG yields near 45 MPa; revision 2 had 13 MPa); estimate by hand formula, rim and grass top not counted",
   "data": {
-   "screw": 48.713599614303,
-   "stress": 1.337901234725647,
+   "screw": 46.393904394574285,
+   "stress": 1.4506812212221636,
    "section": "Grass tongue and figure"
   }
  },
@@ -833,11 +815,11 @@
   "ok": true,
   "detail": "mass 268 g, CoG x=1.4 y=-0.3 z=-3.9 mm (below the ball centre: self-righting)",
   "data": {
-   "mass": 268.2410825213166,
+   "mass": 268.24125638226405,
    "cg": [
-    1.3544009129045476,
-    -0.2749466165113602,
-    -3.903182664222635
+    1.3602632657418805,
+    -0.274946165302656,
+    -3.903201598306043
    ],
    "section": "Physics and function"
   }
@@ -848,34 +830,34 @@
   "detail": "CoG with open lid x=-6.8 y=-0.3; flat radius 17.1 mm -> tipping margin 10.2 mm",
   "data": {
    "cg_open": [
-    -6.813061080612754,
-    -0.27206549582247985,
-    -0.6140809800143366
+    -6.807193434023449,
+    -0.2720650464811781,
+    -0.6141020459336255
    ],
-   "margin": 10.240231006196254,
+   "margin": 10.24609399390609,
    "section": "Physics and function"
   }
  },
  {
   "name": "physics:device stands on the ball's flat and the tongue",
   "ok": true,
-  "detail": "mass 406 g; CoG closed x=23.6, open x=18.3, with a 50 g figure x=30.7 mm; distance of the CoG from the edge of the standing area (flat of the ball and underside of the tongue together): closed 31 mm, lid open 28 mm, closed with a figure on the spot 35 mm",
+  "detail": "mass 381 g; CoG closed x=19.7, open x=14.0, with a 50 g figure x=27.5 mm; distance of the CoG from the edge of the standing area (flat of the ball and underside of the tongue together): closed 28 mm, lid open 25 mm, closed with a figure on the spot 33 mm",
   "data": {
-   "mass": 406.3679444299941,
+   "mass": 381.3091353291499,
    "cg": [
-    23.64478102871828,
-    -0.14815293438982752,
-    -15.854393850780472
+    19.69985989448226,
+    -0.21695256002644586,
+    -14.433832162179668
    ],
    "cg_open": [
-    18.253487555346844,
-    -0.14625112362189438,
-    -13.68327723494536
+    13.954262310774679,
+    -0.21492576638093644,
+    -12.120034472719293
    ],
    "margins": {
-    "closed": 31.192206158477255,
-    "lid open": 27.94365860807475,
-    "closed with a figure on the spot": 35.455634292658495
+    "closed": 28.100351631173268,
+    "lid open": 24.829247935082055,
+    "closed with a figure on the spot": 32.565058789145546
    },
    "section": "Physics and function"
   }
@@ -920,7 +902,7 @@
     99.52981214999922,
     43.50000000000001
    ],
-   "support_area": 3531.1740127795497,
+   "support_area": 3531.472764979563,
    "section": "Printability"
   }
  },
@@ -1095,56 +1077,28 @@
  {
   "name": "print:grass_base",
   "ok": true,
-  "detail": "116 x 76 x 13 mm, PETG dark green; overhang area needing support ~90 mm2; sole on the bed, no supports",
+  "detail": "110 x 72 x 15 mm, PETG light green; overhang area needing support ~60 mm2; sole on the bed, no supports",
   "data": {
    "extents": [
-    115.89374429288486,
-    76.0,
-    13.400000000000006
+    109.9130019897507,
+    72.00000000000003,
+    15.00000000000001
    ],
-   "support_area": 90.3285558387323,
+   "support_area": 60.21903722582151,
    "section": "Printability"
   }
  },
  {
   "name": "print:grass_top",
   "ok": true,
-  "detail": "109 x 76 x 2 mm, PETG dark green; overhang area needing support ~214 mm2; underside on the bed, no supports; one job with the two parts below",
+  "detail": "97 x 68 x 17 mm, PETG light green; overhang area needing support ~222 mm2; underside on the bed, tufts up, no supports",
   "data": {
    "extents": [
-    108.7133699906629,
-    76.0,
-    1.600000000000005
+    97.12025438003555,
+    67.61800308080247,
+    16.648909834561806
    ],
-   "support_area": 213.50000000000006,
-   "section": "Printability"
-  }
- },
- {
-  "name": "print:grass_blades",
-  "ok": true,
-  "detail": "84 x 75 x 18 mm, PETG bright green; overhang area needing support ~15 mm2; stands on the grass top: load the three grass-top files as one object",
-  "data": {
-   "extents": [
-    83.63528427924726,
-    74.91336017434426,
-    17.961238616973308
-   ],
-   "support_area": 15.211253685940374,
-   "section": "Printability"
-  }
- },
- {
-  "name": "print:grass_spot",
-  "ok": true,
-  "detail": "50 x 50 x 1 mm, PETG bright green; overhang area needing support ~0 mm2; lies in the grass top, level with its surface: same object",
-  "data": {
-   "extents": [
-    50.0,
-    49.860189859059005,
-    1.0
-   ],
-   "support_area": 0.0,
+   "support_area": 222.0939793347283,
    "section": "Printability"
   }
  }

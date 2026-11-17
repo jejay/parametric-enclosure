@@ -303,22 +303,23 @@ TONIE_MAGNET_H = 6.0          # position in the Pokémon foot are NOT known (res
 TONIE_MASS_G = 50.0           # 40-50 g
 
 # ==========================================================================
-# 9. Grass tongue (revision 3): a tongue in front of the ball on which a Tonie
+# 9. Grass tongue (revision 4): a tongue in front of the ball on which a Tonie
 #    stands to be read (research/08, 09, 10).  No part of it reaches round
 #    the ball, and its underside lies in the plane of the ball's flat.
+#    Tray and grass top are printed in one light green.
 #
-#   z = Z_TURF        top of the grass = surface a Tonie stands on
-#   turf plate        TURF_T thick, one flat sheet that carries the blades
+#   z = Z_TURF        top of the grass top and of the rim round it = surface a Tonie stands on
+#   turf plate        TURF_T thick, one flat sheet that carries the tufts; it lies in a frame
 #   reader board      plain side up against the turf, component side down, on a ledge
 #   well below it     WELL_DEPTH: wires, and the hall switch lying on its floor
 #   tray floor        solid from there down to the sole
 #   z = Z_SOLE        = Z_FLAT: tongue and ball stand on the table together
 # ==========================================================================
 Z_SOLE = Z_FLAT               # flush: the tongue's underside lies in the plane of the ball's flat
-BASE_T = 15.0                 # height of the tongue without the blades (revision 2: 6.5)
+BASE_T = 15.0                 # height of the tongue without the blades (owner: keep, revision 4)
 Z_TURF = Z_SOLE + BASE_T
-TURF_T = 1.6                  # top plate ("turf"); its underside is flat, so it prints on the bed
-Z_RAIL = Z_TURF - TURF_T      # top of the tray = underside of the turf
+TURF_T = 1.6                  # turf plate; its underside is flat, so it prints on the bed
+Z_RAIL = Z_TURF - TURF_T      # bed of the turf plate in the tray = underside of the plate
 PCB_PLAY = 0.1
 Z_PCB_TOP = Z_RAIL - PCB_PLAY                 # plain side of the reader board
 Z_PCB_BOT = Z_PCB_TOP - BLUE_T                # component side with the antenna copper
@@ -329,24 +330,31 @@ WELL_DEPTH = 5.0              # free depth under the board.  The hall switch lie
 Z_TRAY_FLOOR = Z_PCB_BOT - WELL_DEPTH
 TRAY_FLOOR = Z_TRAY_FLOOR - Z_SOLE            # solid tray under the pocket
 
+# outline: rear end under the ball's belly, two straight sides, a round tip that is concentric with
+# the place of the figure.  The spot is not marked (owner, revision 4); the tip is the cue.
 X_REAR = 10.0                 # the tongue begins this far in front of the ball's axis, under its belly
-REAR_CHAMFER = 12.0           # its rear corners are cut off at 45 degrees, so that the turf ends bluntly beside the ball
-SPOT_X = 88.0                 # centre of the standing spot = centre of the antenna.  Set by the reader
+REAR_CHAMFER = 12.0           # its rear corners are cut off at 45 degrees
+TONGUE_W = 36.0               # half width at the rear corners; from there the sides run straight to the tip
+SPOT_X = 87.0                 # where a figure belongs = centre of the antenna.  Set by the reader
                               # board: its rear edge has to stay in front of the ball's belly
-SPOT_MARGIN = 2.5             # the marker disc shows this far round the foot of a figure
-SPOT_R = TONIE_BASE_D / 2 + SPOT_MARGIN   # flush marker disc in the bright green
-SPOT_INLAY = 1.0              # ... five layers deep, so that the bright green covers the dark (research/10 B2)
-GRASS_GAP = 8.0               # bare ground between the foot of a centred figure and the nearest grass
+TIP_MARGIN = 10.5             # ground that shows round the foot of a centred figure at the tip
+R_TIP = TONIE_BASE_D / 2 + TIP_MARGIN         # radius of the round tip: 33 mm
+GRASS_GAP = 8.0               # least distance between the foot of a centred figure and any grass
 SPOT_CLEAR_R = TONIE_BASE_D / 2 + GRASS_GAP   # no grass inside this radius
-TUFT_STRIP = 7.5              # room for one tuft between the bare ground and the edge of the tongue
-TONGUE_W = SPOT_CLEAR_R + TUFT_STRIP          # half width of the tongue: 38 mm
-FRONT_OPEN_DEG = 45.0         # no grass within this angle of straight ahead: the front is open
+GRASS_X_MAX = SPOT_X - 10.0   # and none in front of this line: the sides and the front of a figure stay open
 EDGE_CHAMFER = 0.5
+
+# the grass top lies in a frame: a rim of the tray round its sides and its tip
+RIM = 2.0                     # width of that rim at the level of the bed
+RIM_GAP = 0.15                # clearance between plate and rim, all round
+TURF_HOOK = 1.2               # the walls of the frame lean forwards by this much over the turf thickness:
+                              # at the tip the rim overhangs the plate and holds its front edge down
+TURF_FOOT = 0.3               # the lowest 0.3 mm of the plate stand back by another 0.3 mm (first layer squeezed wide)
 
 CUP_GAP = 0.25                # gap between ball and tongue everywhere except on the seat pads
 R_CUP_HOLE = math.sqrt((R + CUP_GAP) ** 2 - (Z_SOLE + 1.0) ** 2)   # the rear edge is cut off where it gets thinner than 1 mm
 BASE_SCREW_RHO = 30.5         # four M3 x 16 countersunk screws from below into the bowl, on this radius
-BASE_SCREW_AZ = (32.0, 55.0, -32.0, -55.0)
+BASE_SCREW_AZ = (32.0, 52.0, -32.0, -52.0)
 BASE_SCREW_L = 16.0
 BASE_PAD_R = 4.5              # seat pads round the screws: the only contact with the ball
 CSK_D, CSK_H = 6.0, 1.7       # M3 countersunk head ISO 10642 / DIN 7991 (research/10 C2)
@@ -363,15 +371,17 @@ TURF_SCREW_HEAD_D, TURF_SCREW_HEAD_H = 4.2, 1.8     # pan head self-tapping 2.2 
 TURF_SCREW_L = 6.0
 TURF_SCREW_CB = (Z_RAIL - Z_SOLE) - 2.9             # counterbore in the sole: 2.9 mm of tray stay under the head
 TURF_PILOT_DEPTH = 4.0        # pilot hole from the turf underside, ends inside a blade root
-# six screws hold the turf; each is hidden in the root of a tuft.  Deliberately not mirrored.  The two
-# at the tip stand in the middle of the strip of grass round the bare ground, 60 and 72 degrees off straight ahead.
-_R_TIP = SPOT_CLEAR_R + TUFT_STRIP / 2
-TURF_SCREW_XY = (
-    (35.0, 31.0), (62.0, 33.5), (SPOT_X + _R_TIP * math.cos(math.radians(60.0)), _R_TIP * math.sin(math.radians(60.0))),
-    (41.0, -29.0), (55.0, -31.5), (SPOT_X + _R_TIP * math.cos(math.radians(72.0)), -_R_TIP * math.sin(math.radians(72.0))),
-)
-LAWN_SEED = 20261118          # another seed gives another lawn
-LAWN_TUFTS = 20               # tufts thrown at random, besides the six on the screws (fewer if they do not fit)
+# four screws hold the rear half of the grass top (the rim holds its tip); each is hidden in the
+# root of a tuft in one of the two corners beside the ball.  Deliberately not mirrored.
+TURF_SCREW_XY = ((37.5, 29.0), (52.0, 24.5), (43.0, -25.0), (55.5, -28.0))
+
+# the lawn: thin, and gathered in the two corners between the ball and the sides of the tongue
+LAWN_SEED = 20261119          # another seed gives another lawn
+LAWN_TUFTS = 10               # tufts thrown at random, besides the four on the screws (fewer if they do not fit)
+LAWN_CORNER = (37.0, 28.0)    # where the grass is densest: x, |y|
+LAWN_SPREAD = 11.0            # how far it scatters from there (standard deviation, mm)
+LAWN_CENTRE_BAND = 20.0       # within this distance of the centre line the grass thins out ...
+LAWN_CENTRE_FREE = 8.0        # ... and within this distance no tuft is rooted at all
 BLADE_H = (7.0, 21.0, 13.0)   # height of the main leaf of a tuft: least, most, most frequent
 BLADE_GAP = 0.8               # least distance between a blade and the ball
 BLADE_ROOT_SINK = 0.3         # blades start this far below the turf surface
@@ -401,5 +411,5 @@ def summary() -> dict[str, float]:
         "deck_height": Z_DECK,
         "antenna_to_figure_base": Z_TURF - Z_PCB_BOT,
         "figure_spot_x": SPOT_X,
-        "base_length": SPOT_X + TONGUE_W - X_REAR,
+        "base_length": SPOT_X + R_TIP - X_REAR,
     }
