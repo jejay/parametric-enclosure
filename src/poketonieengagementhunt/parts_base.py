@@ -1,4 +1,4 @@
-"""Printed parts of the grass tongue (revision 4).
+"""Printed parts of the grass tongue (revision 5).
 
 grass_base   the tray: a tongue in front of the ball whose rear end lies under
              the ball's belly.  It holds the reader board, and a rim round its
@@ -36,40 +36,49 @@ PLATE_INSET = P.RIM + P.RIM_GAP              # outline of the turf plate inside 
 HOOK_SLOPE = P.TURF_HOOK / P.TURF_T          # the walls of the frame lean forwards by this much per mm of depth
 
 # The outline: a straight rear edge, two corners cut off at 45 degrees, two
-# straight sides that run from those corners to the round tip and touch it
-# as tangents, and the tip itself, a circle round the centre of the spot.
+# straight sides, and a blunt front end with two rounded corners.  The sides
+# run from the rear corners forwards as tangents of a circle of radius R_SIDE
+# round the place of the figure, so the tongue is 2 x R_SIDE wide beside it.
 _P1 = (P.X_REAR + P.REAR_CHAMFER, P.TONGUE_W)                      # where the left side begins
 _D = math.hypot(_P1[0] - P.SPOT_X, _P1[1])
-TIP_HALF_DEG = math.degrees(math.atan2(_P1[1], _P1[0] - P.SPOT_X) - math.acos(P.R_TIP / _D))   # tangent point, seen from the spot centre
-_T = (P.SPOT_X + P.R_TIP * math.cos(math.radians(TIP_HALF_DEG)), P.R_TIP * math.sin(math.radians(TIP_HALF_DEG)))
+TIP_HALF_DEG = math.degrees(math.atan2(_P1[1], _P1[0] - P.SPOT_X) - math.acos(P.R_SIDE / _D))   # tangent point, seen from the spot centre
+_T = (P.SPOT_X + P.R_SIDE * math.cos(math.radians(TIP_HALF_DEG)), P.R_SIDE * math.sin(math.radians(TIP_HALF_DEG)))
 _L = math.hypot(_T[0] - _P1[0], _T[1] - _P1[1])
-_V = ((_T[0] - _P1[0]) / _L, (_T[1] - _P1[1]) / _L)                # unit direction of the left side, rear to tip
+_V = ((_T[0] - _P1[0]) / _L, (_T[1] - _P1[1]) / _L)                # unit direction of the left side, rear to front
+_N = (-_V[1], _V[0])                                               # its outward normal
+_C = (P.X_TIP - P.TIP_R, _P1[1] + (_V[1] * (P.X_TIP - P.TIP_R - _P1[0]) - P.TIP_R) / _V[0])   # centre of the left front corner
+_MID = math.atan2(_N[1], _N[0]) / 2.0                              # direction of the middle of that corner, seen from its centre
 
 
 # --------------------------------------------------------------------------
 # plan outline and fasteners
 # --------------------------------------------------------------------------
 def outline(inset: float = 0.0) -> list[tuple[float, float]]:
-    """Corners of the outline, moved inwards by ``inset``: rear end, cut-off
-    corner and tangent point on the right (-y), then the same three on the
-    left in reverse.  The round tip runs between the two tangent points."""
+    """Corners of the outline, moved inwards by ``inset``: on the right (-y)
+    the rear end, the cut-off corner, the end of the side and the end of the
+    front edge, then the same four on the left in reverse.  Between the end of
+    a side and the end of the front edge runs a rounded corner."""
     r2 = math.sqrt(2.0)
     v0 = (P.X_REAR + inset, P.TONGUE_W - P.REAR_CHAMFER - inset * (r2 - 1.0))
     ax, ay = _P1[0] + inset * _V[1], _P1[1] - inset * _V[0]                    # a point on the side, moved inwards
     t = (P.REAR_CHAMFER + inset * r2 - ((ax - P.X_REAR) + (P.TONGUE_W - ay))) / (_V[0] - _V[1])
     v1 = (ax + t * _V[0], ay + t * _V[1])
-    th = math.radians(TIP_HALF_DEG)
-    v2 = (P.SPOT_X + (P.R_TIP - inset) * math.cos(th), (P.R_TIP - inset) * math.sin(th))
-    return [(v0[0], -v0[1]), (v1[0], -v1[1]), (v2[0], -v2[1]), v2, v1, v0]
+    r = P.TIP_R - inset
+    v2 = (_C[0] + r * _N[0], _C[1] + r * _N[1])
+    v3 = (P.X_TIP - inset, _C[1])
+    upper = [v0, v1, v2, v3]
+    return [(x, -y) for x, y in upper] + [(x, y) for x, y in reversed(upper)]
 
 
 def outline_wire(inset: float, dx: float, z: float) -> cq.Wire:
     """The outline as a closed wire at height z, moved inwards by ``inset`` and along x by ``dx``."""
     v = [cq.Vector(x + dx, y, z) for x, y in outline(inset)]
-    tip = cq.Vector(P.SPOT_X + P.R_TIP - inset + dx, 0.0, z)
+    r = P.TIP_R - inset
+    mid = [cq.Vector(_C[0] + r * math.cos(_MID) + dx, s * (_C[1] + r * math.sin(_MID)), z) for s in (-1.0, 1.0)]
     edges = [
-        cq.Edge.makeLine(v[0], v[1]), cq.Edge.makeLine(v[1], v[2]), cq.Edge.makeThreePointArc(v[2], tip, v[3]),
-        cq.Edge.makeLine(v[3], v[4]), cq.Edge.makeLine(v[4], v[5]), cq.Edge.makeLine(v[5], v[0]),
+        cq.Edge.makeLine(v[0], v[1]), cq.Edge.makeLine(v[1], v[2]), cq.Edge.makeThreePointArc(v[2], mid[0], v[3]),
+        cq.Edge.makeLine(v[3], v[4]), cq.Edge.makeThreePointArc(v[4], mid[1], v[5]),
+        cq.Edge.makeLine(v[5], v[6]), cq.Edge.makeLine(v[6], v[7]), cq.Edge.makeLine(v[7], v[0]),
     ]
     return cq.Wire.assembleEdges(edges)
 
@@ -82,24 +91,37 @@ def plan(z0: float, z1: float, inset: float = 0.0) -> cq.Shape:
 def in_plan(x: float, y: float, margin: float = 0.0) -> bool:
     """Inside the tongue's outline, ``margin`` away from its edge."""
     ay = abs(y)
-    if math.hypot(x - P.SPOT_X, y) <= P.R_TIP - margin:
-        return True
-    if x > _T[0] or x < P.X_REAR + margin:
+    if x < P.X_REAR + margin or x > P.X_TIP - margin:
         return False
     if ((x - P.X_REAR) + (P.TONGUE_W - ay) - P.REAR_CHAMFER) / math.sqrt(2.0) < margin:      # the cut-off rear corner
         return False
-    return -(_V[0] * (ay - _P1[1]) - _V[1] * (x - _P1[0])) >= margin                          # the side
+    if -(_V[0] * (ay - _P1[1]) - _V[1] * (x - _P1[0])) < margin:                             # the side
+        return False
+    if x > _C[0] and ay > _C[1]:                                                             # the rounded front corner
+        return math.hypot(x - _C[0], ay - _C[1]) <= P.TIP_R - margin
+    return True
+
+
+def edge_distance(x: float, y: float) -> float:
+    """How far inside the outline a point lies (0 on the edge or outside), to a hundredth of a millimetre."""
+    lo, hi = 0.0, 60.0
+    if not in_plan(x, y, 0.0):
+        return 0.0
+    while hi - lo > 0.005:
+        m = (lo + hi) / 2
+        lo, hi = (m, hi) if in_plan(x, y, m) else (lo, m)
+    return lo
 
 
 def half_width(x: float) -> float:
     """Half width of the tongue at x (0 outside its length)."""
-    if x < P.X_REAR or x > P.SPOT_X + P.R_TIP:
+    if x < P.X_REAR or x > P.X_TIP:
         return 0.0
     if x <= _P1[0]:
         return P.TONGUE_W - P.REAR_CHAMFER + (x - P.X_REAR)
-    if x <= _T[0]:
+    if x <= _C[0] + P.TIP_R * _N[0]:
         return _P1[1] + (x - _P1[0]) * _V[1] / _V[0]
-    return math.sqrt(max(P.R_TIP**2 - (x - P.SPOT_X) ** 2, 0.0))
+    return _C[1] + math.sqrt(max(P.TIP_R**2 - (x - _C[0]) ** 2, 0.0))
 
 
 def on_plate(x: float, y: float, margin: float = 0.0) -> bool:
@@ -552,6 +574,7 @@ def sole_outline(n: int = 180) -> list[tuple[float, float]]:
     """Points on what stands on the table: the flat of the ball and the sole of the tongue."""
     pts = [g.polar(P.R_FLAT, 360.0 * i / n) for i in range(n)]
     pts += outline(0.0)
-    th = math.radians(TIP_HALF_DEG)
-    pts += [(P.SPOT_X + P.R_TIP * math.cos(a), P.R_TIP * math.sin(a)) for a in (th * (2.0 * i / n - 1.0) for i in range(n + 1))]
+    top = math.atan2(_N[1], _N[0])
+    for s in (-1.0, 1.0):
+        pts += [(_C[0] + P.TIP_R * math.cos(a), s * (_C[1] + P.TIP_R * math.sin(a))) for a in (top * i / 24 for i in range(25))]
     return pts

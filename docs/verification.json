@@ -210,32 +210,32 @@
  {
   "name": "watertight:grass_base",
   "ok": true,
-  "detail": "solids=1 valid=True watertight=True winding=True V_cad=63973 V_mesh=63982 mm3 tris=14214",
+  "detail": "solids=1 valid=True watertight=True winding=True V_cad=61204 V_mesh=61221 mm3 tris=14234",
   "data": {
-   "volume_mm3": 63972.91949598547,
-   "mass_g_petg": 81.24560775990156,
+   "volume_mm3": 61204.161460154544,
+   "mass_g_petg": 77.72928505439627,
    "bbox": [
-    110.0683412933898,
-    72.00000020000007,
-    15.0683412933898
+    101.56427738325107,
+    72.00000020000004,
+    15.067142842125207
    ],
-   "triangles": 14214,
+   "triangles": 14234,
    "section": "Watertight printable solids"
   }
  },
  {
   "name": "watertight:grass_top",
   "ok": true,
-  "detail": "solids=1 valid=True watertight=True winding=True V_cad=10254 V_mesh=10212 mm3 tris=47046",
+  "detail": "solids=1 valid=True watertight=True winding=True V_cad=9932 V_mesh=9893 mm3 tris=47058",
   "data": {
-   "volume_mm3": 10253.756840145094,
-   "mass_g_petg": 13.02227118698427,
+   "volume_mm3": 9932.215757321443,
+   "mass_g_petg": 12.613914011798233,
    "bbox": [
-    97.24805072948223,
-    67.68418047173526,
+    88.76360312409972,
+    67.68418047173523,
     16.83598765793143
    ],
-   "triangles": 47046,
+   "triangles": 47058,
    "section": "Watertight printable solids"
   }
  },
@@ -267,7 +267,7 @@
     [
      "grass_top",
      "turf_screws",
-     8.042477193189866,
+     8.042477193189864,
      "self-tapping 2.2 in \u00d81.8 pilot"
     ],
     [
@@ -604,12 +604,12 @@
  {
   "name": "base:tongue is flush with the ball's flat and stays in front of it",
   "ok": true,
-  "detail": "the underside of the tongue and the flat of the ball both lie on the table plane (gaps 0.000 and 0.000 mm) and nothing reaches below it (0.00 mm3, screw heads included); the tongue begins 10 mm in front of the ball's axis, under its belly, is 72 mm wide there and 66 mm at its round tip, 15 mm high, and reaches 70 mm beyond the ball: nothing of it lies beside or behind the ball",
+  "detail": "the underside of the tongue and the flat of the ball both lie on the table plane (gaps 0.000 and 0.000 mm) and nothing reaches below it (0.00 mm3, screw heads included); the tongue begins 10 mm in front of the ball's axis, under its belly, is 72 mm wide there and 66 mm beside a figure, 15 mm high, and reaches 61.5 mm beyond the ball: nothing of it lies beside or behind the ball",
   "data": {
    "x_rear": 10.0,
-   "reach": 70.0,
+   "reach": 61.5,
    "width": 72.0,
-   "width_tip": 66.0,
+   "width_figure": 66.0686604996556,
    "below": 0.0,
    "section": "Grass tongue and figure"
   }
@@ -654,10 +654,10 @@
  {
   "name": "base:the rim of the tray holds the tip of the grass top",
   "ok": true,
-  "detail": "the grass top lies in a frame, 0.15 mm clear all round, level with the rim (step -0.01 mm); the frame walls lean forwards by 1.2 mm over the 1.6 mm of the plate, so the rim at the tip overhangs it: lifted straight up by 0.4 mm the plate runs into the rim (6.1 mm3). Four screws hold its rear half, and with the ball in place it cannot slide back out. Between the corners of the reader pocket and the outside of the tip 4.0 mm of wall remain",
+  "detail": "the grass top lies in a frame, 0.15 mm clear all round, level with the rim (step -0.01 mm); the frame walls lean forwards by 1.2 mm over the 1.6 mm of the plate, so the rim at the tip overhangs it: lifted straight up by 0.4 mm the plate runs into the rim (7.7 mm3). Four screws hold its rear half, and with the ball in place it cannot slide back out. In front of the reader pocket and round its front corners at least 3.0 mm of wall remain",
   "data": {
-   "caught": 6.096244817875856,
-   "wall": 4.020481370457514,
+   "caught": 7.691366071410542,
+   "wall": 3.017578125,
    "section": "Grass tongue and figure"
   }
  },
@@ -692,11 +692,14 @@
  {
   "name": "figure:stands free on a plain flat spot",
   "ok": true,
-  "detail": "within 30.0 mm of the place of the figure nothing stands above the surface (0.00 mm3) and nothing is recessed (surface 99.8 % filled; the rest is the 0.15 mm joint between grass top and rim, 7.2 mm in front of a centred foot): no rim to stand in, no pocket, no lock, and no mark. The round tip is concentric with that place and shows 10.5 mm of ground round a centred \u00d845 mm foot. The nearest grass is 8.5 mm from that foot and all grass stands behind x = 67 mm, 20 mm behind the centre of the figure: its sides and its front are open",
+  "detail": "where a figure stands nothing rises above the surface (0.00 mm3 within 30.0 mm of its place) and nothing is recessed: no rim to stand in, no pocket, no lock, and no mark. The foot of a centred \u00d845 mm figure is carried on 99.9 % of its area; the rest is the 0.15 mm joint between grass top and rim, which crosses under its front edge, and the two are level. The foot ends 2.0 mm short of the front edge of the tongue and leaves 10.5 mm of ground on each side: the front end is the cue for putting a figure down. The nearest grass is 8.5 mm from that foot and all grass stands behind x = 67 mm, 20 mm behind the centre of the figure: its sides and its front are open",
   "data": {
    "blade": 8.477816612611,
    "x_front": 66.7213245901053,
-   "seam": 7.150000000000002,
+   "seam": -1.3499999999999999,
+   "front": 2.0,
+   "side": 10.534330249827804,
+   "carried": 0.9986542422974224,
    "section": "Grass tongue and figure"
   }
  },
@@ -803,10 +806,10 @@
  {
   "name": "base:load estimate for a push on the tongue",
   "ok": true,
-  "detail": "20 N on the tip with the ball held: at most 46 N of tension in each front screw (an M3 insert in PETG holds several hundred), about 1.5 MPa bending stress in the tray where the pocket begins (PETG yields near 45 MPa; revision 2 had 13 MPa); estimate by hand formula, rim and grass top not counted",
+  "detail": "20 N on the tip with the ball held: at most 43 N of tension in each front screw (an M3 insert in PETG holds several hundred), about 1.3 MPa bending stress in the tray where the pocket begins (PETG yields near 45 MPa; revision 2 had 13 MPa); estimate by hand formula, rim and grass top not counted",
   "data": {
-   "screw": 46.393904394574285,
-   "stress": 1.4506812212221636,
+   "screw": 43.107669499958604,
+   "stress": 1.3008538775965452,
    "section": "Grass tongue and figure"
   }
  },
@@ -841,23 +844,23 @@
  {
   "name": "physics:device stands on the ball's flat and the tongue",
   "ok": true,
-  "detail": "mass 381 g; CoG closed x=19.7, open x=14.0, with a 50 g figure x=27.5 mm; distance of the CoG from the edge of the standing area (flat of the ball and underside of the tongue together): closed 28 mm, lid open 25 mm, closed with a figure on the spot 33 mm",
+  "detail": "mass 377 g; CoG closed x=18.7, open x=12.9, with a 50 g figure x=26.7 mm; distance of the CoG from the edge of the standing area (flat of the ball and underside of the tongue together): closed 28 mm, lid open 24 mm, closed with a figure on the spot 32 mm",
   "data": {
-   "mass": 381.3091353291499,
+   "mass": 377.3844554484586,
    "cg": [
-    19.69985989448226,
-    -0.21695256002644586,
-    -14.433832162179668
+    18.676127798656925,
+    -0.21920910657837714,
+    -14.17313746340505
    ],
    "cg_open": [
-    13.954262310774679,
-    -0.21492576638093644,
-    -12.120034472719293
+    12.87077780354562,
+    -0.21716123491513806,
+    -11.83527700424468
    ],
    "margins": {
-    "closed": 28.100351631173268,
-    "lid open": 24.829247935082055,
-    "closed with a figure on the spot": 32.565058789145546
+    "closed": 27.51536539694132,
+    "lid open": 24.21024324916679,
+    "closed with a figure on the spot": 32.08950998875425
    },
    "section": "Physics and function"
   }
@@ -1077,24 +1080,24 @@
  {
   "name": "print:grass_base",
   "ok": true,
-  "detail": "110 x 72 x 15 mm, PETG light green; overhang area needing support ~60 mm2; sole on the bed, no supports",
+  "detail": "102 x 72 x 15 mm, PETG light green; overhang area needing support ~60 mm2; sole on the bed, no supports",
   "data": {
    "extents": [
-    109.9130019897507,
+    101.5,
     72.00000000000003,
-    15.00000000000001
+    15.000000000000018
    ],
-   "support_area": 60.21903722582151,
+   "support_area": 60.2190372258215,
    "section": "Printability"
   }
  },
  {
   "name": "print:grass_top",
   "ok": true,
-  "detail": "97 x 68 x 17 mm, PETG light green; overhang area needing support ~222 mm2; underside on the bed, tufts up, no supports",
+  "detail": "89 x 68 x 17 mm, PETG light green; overhang area needing support ~222 mm2; underside on the bed, tufts up, no supports",
   "data": {
    "extents": [
-    97.12025438003555,
+    88.70158433810195,
     67.61800308080247,
     16.648909834561806
    ],

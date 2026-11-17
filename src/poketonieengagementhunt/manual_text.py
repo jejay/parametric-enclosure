@@ -17,6 +17,7 @@ STAGE = ["stage", "pawl", "pawl_screw", "pawl_spring", "cradle", "lock_pin", "sl
 LID = ["lid", "hinge_pin", "sleeve", "spring"]
 
 ANTENNA_MM = P.Z_TURF - P.Z_PCB_BOT            # antenna copper below the standing surface, at most
+FRONT_MM = P.X_TIP - (P.SPOT_X + P.TONIE_BASE_D / 2)   # from the foot of a centred figure to the front edge of the tongue
 HALL_MM = P.Z_TURF - (P.Z_TRAY_FLOOR + P.HALL_T)   # face of the hall switch below the standing surface
 TABLE_MM = P.Z_PCB_BOT - P.Z_SOLE              # antenna copper above the table
 
@@ -268,7 +269,7 @@ def manual_markdown(items, nums, printed) -> str:
     a("")
     a("## What you are building")
     a("")
-    a(f"A {P.D:.0f} mm Poké Ball with a tongue of tall grass in front of it. The tongue is a block screwed under the lower front of the ball: {2 * P.TONGUE_W:.0f} mm wide at the ball, {2 * P.R_TIP:.0f} mm at its round tip, {P.BASE_T:.0f} mm high without the blades, and it reaches {P.SPOT_X + P.R_TIP - P.R:.0f} mm beyond the ball. Tongue and grass are one light green. Nothing of the tongue lies beside or behind the ball, and its underside lies in the plane of the ball's flat foot, so ball and tongue stand on the table together. A Tonie is stood on the bare round tip of the tongue, in front of the ball. That wakes the ball, which reads the figure's RFID tag and plays that figure's recorded message from its own flash memory. Because the figure stands on the grass, the ball always stays upright.")
+    a(f"A {P.D:.0f} mm Poké Ball with a tongue of tall grass in front of it. The tongue is a block screwed under the lower front of the ball: {2 * P.TONGUE_W:.0f} mm wide at the ball, {2 * P.R_SIDE:.0f} mm beside a figure, {P.BASE_T:.0f} mm high without the blades, and it reaches {P.X_TIP - P.R:.1f} mm beyond the ball, just past the reader board inside it. Tongue and grass are one light green. Nothing of the tongue lies beside or behind the ball, and its underside lies in the plane of the ball's flat foot, so ball and tongue stand on the table together. A Tonie is stood at the front end of the tongue, in front of the ball. That wakes the ball, which reads the figure's RFID tag and plays that figure's recorded message from its own flash memory. Because the figure stands on the grass, the ball always stays upright.")
     a("")
     a("The ball's black front ring carries the sound slits and its button is a lens lit by an RGB LED. The red half is a spring-loaded lid on a concealed hinge. A servo releases its latch on command from the phone, and the lid jumps open to present the ring, which is locked into its seat by a steel pin.")
     a("")
@@ -337,7 +338,7 @@ def manual_markdown(items, nums, printed) -> str:
     a("4. **Servo and supply.** Run the servo from the boost converter on the real cell while the amplifier plays. The board must not reset. Measure the stall current.")
     a("5. **Lid spring.** Print the lid, the stage and the band first, hinge them and check that the spring throws the lid open and that it rests on the end stop.")
     a("")
-    a(f"Also measure the delivered parts against the values marked `MEASURE` in `params.py`: outline of the reader board ({P.BLUE_L} x {P.BLUE_W} mm assumed) and position of its antenna, the foot of a figure ({P.TONIE_BASE_D:.0f} mm assumed; the round tip of the tongue follows this one value), height of the XIAO, length of the charger and position of its USB-C socket, and the ring itself.")
+    a(f"Also measure the delivered parts against the values marked `MEASURE` in `params.py`: outline of the reader board ({P.BLUE_L} x {P.BLUE_W} mm assumed; it sets the length of the tongue) and position of its antenna, the foot of a figure ({P.TONIE_BASE_D:.0f} mm assumed; the width of the tongue follows it), height of the XIAO, length of the charger and position of its USB-C socket, and the ring itself.")
     a("")
 
     # ---------------------------------------------------------------- print
@@ -397,7 +398,7 @@ def manual_markdown(items, nums, printed) -> str:
     a("2. **Test the latch with the stage on and the lid open.** Command release: the pawl nose must swing clear of the hook slot. Command rest: the pawl must return against its stop pin by its own spring.")
     a("3. **Test the opening.** Close the lid (press until it clicks) and command release. The lid must open fully. Repeat twenty times.")
     a("4. **Test the emergency opening** described below, so that you know the feel of it.")
-    a(f"5. **Test the tongue.** Stand each figure in the middle of the round tip: the ball must wake and read it, also when the figure stands {P.GRASS_GAP:.0f} mm off the middle in any direction. Leave a figure standing: the ball must go back to sleep and stay asleep.")
+    a(f"5. **Test the tongue.** Stand each figure at the front end, its foot about {FRONT_MM:.0f} mm short of the front edge: the ball must wake and read it, also when the figure stands {P.GRASS_GAP:.0f} mm further back or to one side. Leave a figure standing: the ball must go back to sleep and stay asleep.")
     a("6. **Register the four Tonies and upload the messages** once the firmware exists.")
     a("")
 
@@ -410,9 +411,9 @@ def manual_markdown(items, nums, printed) -> str:
     a("| --- | --- |")
     a("| ![a Tonie on the grass](img/grass.png) | ![section through the tongue](img/grass_section.png) |")
     a("")
-    a(f"Stand the device on a table or on the ground and stand the Tonie on the bare front part of the tongue, in the middle of its round tip: the same strip of ground, about {P.TIP_MARGIN:.0f} mm, then shows round its foot at the front and at both sides. That wakes the ball. No mark shows the place; the tip is drawn round it. The reader's antenna lies {P.Z_TURF - P.Z_PCB_TOP:.1f} to {ANTENNA_MM:.1f} mm below the surface, centred under that place; the tag itself is a small rod further up inside the figure.")
+    a(f"Stand the device on a table or on the ground and stand the Tonie at the front end of the tongue, in the middle between its two sides: its foot then ends about {FRONT_MM:.0f} mm short of the front edge and leaves about {P.SIDE_MARGIN:.0f} mm on each side. That wakes the ball. No mark shows the place; the front end is the cue. The reader's antenna lies {P.Z_TURF - P.Z_PCB_TOP:.1f} to {ANTENNA_MM:.1f} mm below the surface, centred under that place; the tag itself is a small rod further up inside the figure.")
     a("")
-    a("Nothing holds the figure. It stands on a plain, level surface without recess or catch. The thin line that runs round the tip is the joint between the grass top and the rim of the tray, and both are level. The grass stands only in the two corners beside the ball, in tufts of different sizes thrown at random; the sides and the front of the figure are open. Whoever carries the device has to hold the figure separately, as on any tray. On a shelf the figure simply stands on the tongue; the firmware lets the ball sleep while a figure stays there.")
+    a("Nothing holds the figure. It stands on a plain, level surface without recess or catch. The thin line that runs round the front end is the joint between the grass top and the rim of the tray; both are level, and the front edge of the foot stands on the rim. The grass stands only in the two corners beside the ball, in tufts of different sizes thrown at random; the sides and the front of the figure are open. Whoever carries the device has to hold the figure separately, as on any tray. On a shelf the figure simply stands on the tongue; the firmware lets the ball sleep while a figure stays there.")
     a("")
     a("### Charging")
     a("")

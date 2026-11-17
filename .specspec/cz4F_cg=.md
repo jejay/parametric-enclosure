@@ -10,7 +10,7 @@ The reader is the common blue PN5180 board (69.6 x 38.6 mm). It lies in the tong
 
 Why components down: the standing surface stays one plane, and the wires leave on the lower side. Turned over, the copper would be 1.6 mm closer, but the parts on the board would need a step in the surface.
 
-The board sets the length of the tongue. Its header end has to stay in front of the belly of the ball, which bulges over a tongue of 15 mm. The place of the figure therefore lies 87 mm in front of the ball's axis, and each of the four figures on it stays 11 mm clear of the ball.
+The board sets the length of the tongue at both ends. Its header end has to stay in front of the belly of the ball, which bulges over a tongue of 15 mm; the place of the figure therefore lies 87 mm in front of the ball's axis, and each of the four figures on it stays 11 mm clear of the ball. Its antenna end reaches 20.8 mm beyond the centre of the figure, and the tongue stops 3.2 mm in front of its pocket.
 
 The figure is recognised by the UID of its ISO 15693 tag after the SLIX-L privacy unlock (GET RANDOM NUMBER, then SET PASSWORD with the bytes 5B 6E FD 7F).
 

@@ -303,7 +303,7 @@ TONIE_MAGNET_H = 6.0          # position in the Pokémon foot are NOT known (res
 TONIE_MASS_G = 50.0           # 40-50 g
 
 # ==========================================================================
-# 9. Grass tongue (revision 4): a tongue in front of the ball on which a Tonie
+# 9. Grass tongue (revision 5): a tongue in front of the ball on which a Tonie
 #    stands to be read (research/08, 09, 10).  No part of it reaches round
 #    the ball, and its underside lies in the plane of the ball's flat.
 #    Tray and grass top are printed in one light green.
@@ -330,15 +330,20 @@ WELL_DEPTH = 5.0              # free depth under the board.  The hall switch lie
 Z_TRAY_FLOOR = Z_PCB_BOT - WELL_DEPTH
 TRAY_FLOOR = Z_TRAY_FLOOR - Z_SOLE            # solid tray under the pocket
 
-# outline: rear end under the ball's belly, two straight sides, a round tip that is concentric with
-# the place of the figure.  The spot is not marked (owner, revision 4); the tip is the cue.
+# outline: rear end under the ball's belly, two straight sides, a blunt front end just in front of
+# the reader board.  The spot is not marked (owner, revision 4); the front end is the cue.
 X_REAR = 10.0                 # the tongue begins this far in front of the ball's axis, under its belly
 REAR_CHAMFER = 12.0           # its rear corners are cut off at 45 degrees
 TONGUE_W = 36.0               # half width at the rear corners; from there the sides run straight to the tip
 SPOT_X = 87.0                 # where a figure belongs = centre of the antenna.  Set by the reader
                               # board: its rear edge has to stay in front of the ball's belly
-TIP_MARGIN = 10.5             # ground that shows round the foot of a centred figure at the tip
-R_TIP = TONIE_BASE_D / 2 + TIP_MARGIN         # radius of the round tip: 33 mm
+SIDE_MARGIN = 10.5            # ground that shows beside the foot of a centred figure
+R_SIDE = TONIE_BASE_D / 2 + SIDE_MARGIN       # the sides touch a circle of this radius round the figure: 33 mm
+TIP_WALL = 3.2                # tray in front of the reader pocket: 2 mm of rim, the joint, 1 mm of bed for the grass top
+X_TIP = SPOT_X - BLUE_ANT_X + BLUE_L + BLUE_CL_X + TIP_WALL   # front end of the tongue: 111.5 mm.  The reader board
+                              # sets it, not the figure, whose foot ends 2 mm short of it (owner: shorter, revision 5)
+TIP_R = 15.0                  # radius of the two front corners; a larger one leaves less than 3 mm of wall
+                              # round the front corners of the reader pocket
 GRASS_GAP = 8.0               # least distance between the foot of a centred figure and any grass
 SPOT_CLEAR_R = TONIE_BASE_D / 2 + GRASS_GAP   # no grass inside this radius
 GRASS_X_MAX = SPOT_X - 10.0   # and none in front of this line: the sides and the front of a figure stay open
@@ -411,5 +416,5 @@ def summary() -> dict[str, float]:
         "deck_height": Z_DECK,
         "antenna_to_figure_base": Z_TURF - Z_PCB_BOT,
         "figure_spot_x": SPOT_X,
-        "base_length": SPOT_X + R_TIP - X_REAR,
+        "base_length": X_TIP - X_REAR,
     }

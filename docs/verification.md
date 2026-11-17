@@ -23,8 +23,8 @@ It verifies geometry only: a passing report is evidence, not proof, that the pri
 | slider | PASS | solids=1 valid=True watertight=True winding=True V_cad=290 V_mesh=290 mm3 tris=4806 |
 | sleeve | PASS | solids=1 valid=True watertight=True winding=True V_cad=74 V_mesh=74 mm3 tris=1008 |
 | spk_clamp | PASS | solids=1 valid=True watertight=True winding=True V_cad=877 V_mesh=877 mm3 tris=3172 |
-| grass_base | PASS | solids=1 valid=True watertight=True winding=True V_cad=63973 V_mesh=63982 mm3 tris=14214 |
-| grass_top | PASS | solids=1 valid=True watertight=True winding=True V_cad=10254 V_mesh=10212 mm3 tris=47046 |
+| grass_base | PASS | solids=1 valid=True watertight=True winding=True V_cad=61204 V_mesh=61221 mm3 tris=14234 |
+| grass_top | PASS | solids=1 valid=True watertight=True winding=True V_cad=9932 V_mesh=9893 mm3 tris=47058 |
 
 ## Static fit (closed)
 
@@ -94,16 +94,16 @@ It verifies geometry only: a passing report is evidence, not proof, that the pri
 | Check | Result | Detail |
 | --- | --- | --- |
 | ball bears on the seat pads only | PASS | bowl to the 4 pads 0.00 mm (contact), bowl to turf 0.25 mm, overlap 0.00 mm3; elsewhere the tongue keeps 0.25 mm from the ball |
-| tongue is flush with the ball's flat and stays in front of it | PASS | the underside of the tongue and the flat of the ball both lie on the table plane (gaps 0.000 and 0.000 mm) and nothing reaches below it (0.00 mm3, screw heads included); the tongue begins 10 mm in front of the ball's axis, under its belly, is 72 mm wide there and 66 mm at its round tip, 15 mm high, and reaches 70 mm beyond the ball: nothing of it lies beside or behind the ball |
+| tongue is flush with the ball's flat and stays in front of it | PASS | the underside of the tongue and the flat of the ball both lie on the table plane (gaps 0.000 and 0.000 mm) and nothing reaches below it (0.00 mm3, screw heads included); the tongue begins 10 mm in front of the ball's axis, under its belly, is 72 mm wide there and 66 mm beside a figure, 15 mm high, and reaches 61.5 mm beyond the ball: nothing of it lies beside or behind the ball |
 | grass blades clear the ball | PASS | 37 blades in 11 tufts, nearest is 1.11 mm from the ball's sphere (need >= 0.6); no part of the ball stands more than 0.3 mm outside that sphere (0.00 mm3), and the ring round the button, which does stand out by that much, has its nearest blade at 6.61 mm; the tallest blade ends 13 mm below the rim of the bowl |
 | ball lowers onto the tongue | PASS | ball lifted 0.5..30 mm, 0 collisions with tray, turf, turf screws or blades |
 | screws engage the inserts | PASS | 4 x M3 x 16 countersunk through 7.1 mm of tongue: 4.5 mm of thread in the 5.7 mm insert, tip 1.2 mm below the top of the boss |
 | reader drops into its pocket, grass top closes it | PASS | board on its ledge (0.00 mm), 0.10 mm under the turf; pushed to one side of its 70.6 x 39.3 mm pocket, the antenna half still rests on 1.5 mm of ledge; reader and hall switch lifted 0.5..12 mm and the grass top drawn out of its frame along the slope of the frame walls: 0 collisions |
-| the rim of the tray holds the tip of the grass top | PASS | the grass top lies in a frame, 0.15 mm clear all round, level with the rim (step -0.01 mm); the frame walls lean forwards by 1.2 mm over the 1.6 mm of the plate, so the rim at the tip overhangs it: lifted straight up by 0.4 mm the plate runs into the rim (6.1 mm3). Four screws hold its rear half, and with the ball in place it cannot slide back out. Between the corners of the reader pocket and the outside of the tip 4.0 mm of wall remain |
+| the rim of the tray holds the tip of the grass top | PASS | the grass top lies in a frame, 0.15 mm clear all round, level with the rim (step -0.01 mm); the frame walls lean forwards by 1.2 mm over the 1.6 mm of the plate, so the rim at the tip overhangs it: lifted straight up by 0.4 mm the plate runs into the rim (7.7 mm3). Four screws hold its rear half, and with the ball in place it cannot slide back out. In front of the reader pocket and round its front corners at least 3.0 mm of wall remain |
 | room under the reader board | PASS | 5.0 mm between tray floor and board for components (1.3 mm) and wires; the hall switch lies on the floor of the pocket, its face 3.48 mm below the board |
 | plug passes the cable window, window is hidden | PASS | the 10 mm wide window lets a section of 15.5 x 6.5 mm pass (at r = 29.2 mm); the chosen 6-pin pair measures 9.25 x 3.2 mm; the window's upper edge lies 2.7 mm below the turf surface, behind the tongue |
 | clear of the ball | PASS | dummy figure 17.4 mm, envelope of all four Pokémon figures (Ø52 x 78 mm) 11.4 mm from the ball |
-| stands free on a plain flat spot | PASS | within 30.0 mm of the place of the figure nothing stands above the surface (0.00 mm3) and nothing is recessed (surface 99.8 % filled; the rest is the 0.15 mm joint between grass top and rim, 7.2 mm in front of a centred foot): no rim to stand in, no pocket, no lock, and no mark. The round tip is concentric with that place and shows 10.5 mm of ground round a centred Ø45 mm foot. The nearest grass is 8.5 mm from that foot and all grass stands behind x = 67 mm, 20 mm behind the centre of the figure: its sides and its front are open |
+| stands free on a plain flat spot | PASS | where a figure stands nothing rises above the surface (0.00 mm3 within 30.0 mm of its place) and nothing is recessed: no rim to stand in, no pocket, no lock, and no mark. The foot of a centred Ø45 mm figure is carried on 99.9 % of its area; the rest is the 0.15 mm joint between grass top and rim, which crosses under its front edge, and the two are level. The foot ends 2.0 mm short of the front edge of the tongue and leaves 10.5 mm of ground on each side: the front end is the cue for putting a figure down. The nearest grass is 8.5 mm from that foot and all grass stands behind x = 67 mm, 20 mm behind the centre of the figure: its sides and its front are open |
 | tufts are scattered, not mirrored | PASS | 11 tufts with 2 to 5 blades each, blades 5 to 15 mm high, tufts turned in 4 of 6 direction classes; no tuft has a twin on the other side: the nearest mirror image of another tuft is 4.9 mm away at least and 5.8 mm on average. Places, sizes, directions and leaf shapes come from a random generator with a fixed seed (LAWN_SEED) |
 | thin, and gathered in the two corners beside the ball | PASS | 11 tufts in all, 6 in the left corner and 5 in the right; 89 % of the 37 blades are rooted within 22 mm of the two corner points (x = 37, y = ±28 mm), none within 8 mm of the centre line in front of the ball (the nearest tuft is rooted 12 mm from it), and none beside or in front of the figure |
 | turf screws end inside tuft roots | PASS | each of the 4 turf screws stands under the main blade of a tuft and ends 1.5 mm above the turf surface inside its root; the pilot hole reaches 2.4 mm above the surface and has 0.8 mm of solid plastic all round and 1 mm above it (100 % of the probed volume at the worst screw): nothing shows on top. The check runs for whatever lawn the seed gives |
@@ -111,7 +111,7 @@ It verifies geometry only: a passing report is evidence, not proof, that the pri
 | antenna above the table | PASS | antenna copper 11.7 mm above whatever the tongue stands on; 10 mm is the spacing to metal that TI recommends (research/02 section 3.2); revision 2 had 3.2 mm |
 | hall switch below the standing spot | PASS | top of the hall switch 6.8 mm below the standing surface, on the axis of the spot: its element lies 8.3 to 9.3 mm below the pole face of a magnet of a classic Tonie (Ø6 x 6 mm, set 1-2 mm into the foot). An ideal magnet on the axis gives 19 to 24 mT there; by the table of research/09 section 7 a magnet 8 mm off the axis still gives about 6 mT, and two magnets 20 mm apart with like poles down about 6.5 mT. The switch needs 4.8 mT at most. Not covered: two magnets with unlike poles down, which cancel on the axis; the reader's IRQ line is wired as the second way to wake |
 | metal keeps away from the antenna | PASS | distance from the antenna loop: turf_screws 13 mm, base_screws 39 mm, inserts 38 mm, speaker 35 mm, cell 65 mm, servo 56 mm, harness 65 mm (harness = its plugs) |
-| load estimate for a push on the tongue | PASS | 20 N on the tip with the ball held: at most 46 N of tension in each front screw (an M3 insert in PETG holds several hundred), about 1.5 MPa bending stress in the tray where the pocket begins (PETG yields near 45 MPa; revision 2 had 13 MPa); estimate by hand formula, rim and grass top not counted |
+| load estimate for a push on the tongue | PASS | 20 N on the tip with the ball held: at most 43 N of tension in each front screw (an M3 insert in PETG holds several hundred), about 1.3 MPa bending stress in the tray where the pocket begins (PETG yields near 45 MPa; revision 2 had 13 MPa); estimate by hand formula, rim and grass top not counted |
 
 ## Physics and function
 
@@ -119,7 +119,7 @@ It verifies geometry only: a passing report is evidence, not proof, that the pri
 | --- | --- | --- |
 | ball alone, mass and centre of gravity | PASS | mass 268 g, CoG x=1.4 y=-0.3 z=-3.9 mm (below the ball centre: self-righting) |
 | ball alone stands on its flat with the lid open | PASS | CoG with open lid x=-6.8 y=-0.3; flat radius 17.1 mm -> tipping margin 10.2 mm |
-| device stands on the ball's flat and the tongue | PASS | mass 381 g; CoG closed x=19.7, open x=14.0, with a 50 g figure x=27.5 mm; distance of the CoG from the edge of the standing area (flat of the ball and underside of the tongue together): closed 28 mm, lid open 25 mm, closed with a figure on the spot 33 mm |
+| device stands on the ball's flat and the tongue | PASS | mass 377 g; CoG closed x=18.7, open x=12.9, with a 50 g figure x=26.7 mm; distance of the CoG from the edge of the standing area (flat of the ball and underside of the tongue together): closed 28 mm, lid open 24 mm, closed with a figure on the spot 32 mm |
 | spring opens the lid | PASS | lid 35 g, gravity torque 14.7 N mm; spring 33.1 N mm closed (80 % of Mn), 5.8 N mm at 95 deg; net opening torque with a -20 % spring: 11.8 N mm |
 | latch load | PASS | force on the pawl nose with a +20 % spring: 0.32 N at 78 mm from the hinge |
 | slit open area | PASS | 134 mm2 of slits = 16 % of the cone area (855 mm2) |
@@ -141,8 +141,8 @@ It verifies geometry only: a passing report is evidence, not proof, that the pri
 | slider | PASS | 8 x 11 x 10 mm, PETG any colour; overhang area needing support ~75 mm2; cap on the bed (upside down) |
 | sleeve | PASS | 4 x 4 x 6 mm, PETG any colour; overhang area needing support ~0 mm2; standing on one end |
 | spk_clamp | PASS | 42 x 52 x 3 mm, PETG any colour; overhang area needing support ~206 mm2; flat on the bed |
-| grass_base | PASS | 110 x 72 x 15 mm, PETG light green; overhang area needing support ~60 mm2; sole on the bed, no supports |
-| grass_top | PASS | 97 x 68 x 17 mm, PETG light green; overhang area needing support ~222 mm2; underside on the bed, tufts up, no supports |
+| grass_base | PASS | 102 x 72 x 15 mm, PETG light green; overhang area needing support ~60 mm2; sole on the bed, no supports |
+| grass_top | PASS | 89 x 68 x 17 mm, PETG light green; overhang area needing support ~222 mm2; underside on the bed, tufts up, no supports |
 
 ## Intended overlaps (threads and press fits)
 

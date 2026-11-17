@@ -107,7 +107,7 @@ def render_overview(img: Path) -> list[Path]:
     anchors["band"] = (-48.0, 0, -1.5)
     anchors["cell"] = (P.CELL_AXIS[0], 0, P.CELL_AXIS[1])
     anchors["spring"] = (P.HINGE_X + 1, 0, P.HINGE_Z)
-    anchors["grass_base"] = (P.SPOT_X + P.R_TIP - 4.0, 0, (P.Z_SOLE + P.Z_RAIL) / 2)
+    anchors["grass_base"] = (P.X_TIP - 4.0, 0, (P.Z_SOLE + P.Z_RAIL) / 2)
     anchors["grass_top"] = (50.0, 0, P.Z_TURF - 0.5)
     anchors["reader"] = (B.BLUE_X0 + 30.0, 0, (P.Z_PCB_TOP + P.Z_PCB_BOT) / 2)
     anchors["harness"] = (22.0, 0, -38.0)

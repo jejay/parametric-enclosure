@@ -14,4 +14,6 @@ The "error-zone" may be enlarged a bit where that is needed, for example by shri
 
 The spot carries no mark. The owner takes the risk that this fails, and would then redesign just this part.
 
-Origin: owner intention, revision two; the allowance for the error-zone is the owner's, revision three. The unmarked spot is the owner's decision of revision four: the agent had explained that the coloured disc of revisions two and three was nothing but a mark, and that it disappears when everything is printed in one colour.
+It is not a big issue if the Tonie in practice stands only 75 % on the surface.
+
+Origin: owner intention, revision two; the allowance for the error-zone is the owner's, revision three. The unmarked spot is the owner's decision of revision four: the agent had explained that the coloured disc of revisions two and three was nothing but a mark, and that it disappears when everything is printed in one colour. The 75 % are the owner's allowance of revision five, given with the wish for a shorter tongue.

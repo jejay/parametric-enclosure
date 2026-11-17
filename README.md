@@ -53,9 +53,15 @@ Change a value in `src/poketonieengagementhunt/params.py` (for example the ring 
 - The grass is thinner and stands in the two corners beside the ball. None stands beside or in front of the figure.
 - The grass top lies in a frame: a rim of the tray holds its tip, and four hidden screws hold its rear half.
 
+**Revision 5.** The tongue ends just in front of the reader board:
+
+- It reaches 61.5 mm beyond the ball instead of 70 mm. The reader board sets this length: it ends 20.8 mm in front of the centre of a figure, and the tongue needs 3.2 mm of wall in front of its pocket.
+- The front end is blunt, a straight edge between two rounded corners, because the front corners of the board sit right inside it.
+- A centred figure still stands on the tongue with its whole foot; the foot ends 2 mm short of the front edge. Grass, reader and height are unchanged.
+
 ## State of the design
 
 - 88 of 88 geometry checks pass. All 15 printed parts are valid and watertight; the closed assembly of 40 items has no collisions; the lid has been swept through its 95° travel in 39 positions without contact; latch, ring lock, emergency opening and the assembly sequence are checked the same way.
 - For the grass tongue the checks cover the seat of the ball on four pads, the flush underside, the reader pocket, the frame that holds the grass top, the hidden cable path, the clearance between a figure and the ball, the plain standing surface, where the grass stands and that it is not mirrored, the hidden ends of the turf screws, and the stance: the centre of gravity stays at least 24 mm inside the edge of the area on which ball and tongue stand.
 - Not provable in CAD, and therefore the first thing to do (building manual, section 2): read all four Pokémon Tonies with the blue PN5180 board under a 1.6 mm sheet, on wood and on metal, find the magnets in their feet, and see how far off the middle a figure may stand. The tag is a small rod somewhere above the foot. The magnets are assumed to be those of the classic Tonies; `docs/electronics.md` says what to do if they are not.
-- Dimensions of some delivered parts, of the figures and of the ring are still assumptions. They are marked `MEASURE` in `params.py`. The foot of a figure (45 mm, measured on pictures) sets the round tip of the tongue and the ground that is kept free of grass.
+- Dimensions of some delivered parts, of the figures and of the ring are still assumptions. They are marked `MEASURE` in `params.py`. The foot of a figure (45 mm, measured on pictures) sets the width of the tongue beside a figure and the ground that is kept free of grass; the reader board sets the length of the tongue.
