@@ -100,7 +100,7 @@ def build(
     add(Item("grass_spot", "Standing spot (printed into the grass top)", "printed", _col(B.grass_spot(), "grass"), step=2, explode=(0, 0, -128), material="PETG bright green"))
     ts: Bodies = []
     for x, y in B.turf_screw_xy():
-        ts += _place(C.screw_up(2.2, P.TURF_SCREW_L, P.TURF_SCREW_HEAD_D, P.TURF_SCREW_HEAD_H), ("move", x, y, P.Z_SOLE + P.TURF_SCREW_CB))   # head 0.3 below the sole
+        ts += _place(C.screw_up(2.2, P.TURF_SCREW_L, P.TURF_SCREW_HEAD_D, P.TURF_SCREW_HEAD_H), ("move", x, y, P.Z_SOLE + P.TURF_SCREW_CB))   # head deep in its counterbore, 2.9 mm of tray under it
     add(Item("turf_screws", "Screw 2.2 x 6 self-tapping (grass top to tray)", "hardware", ts, step=2, explode=(0, 0, -240), qty=len(B.turf_screw_xy())))
 
     # ----------------------------------- step 3: the tongue goes under the bowl

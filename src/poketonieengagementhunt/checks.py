@@ -599,6 +599,19 @@ def check_grass_base() -> list[Result]:
     spread = len({int(((t.mound.out_deg - 90.0) % 180.0) // 30.0) for t in lawn})   # how many of six directions occur
     out.append(Result("grass:tufts are scattered, not mirrored", min(twin) >= 3.0 and max(sizes) >= min(sizes) + 3 and max(heights) >= 2.5 * min(heights) and spread >= 5, f"{len(pos)} tufts ({left} left of the centre line, {len(pos) - left} right) with {min(sizes)} to {max(sizes)} blades each, blades {min(heights):.0f} to {max(heights):.0f} mm high, tufts turned in {spread} of 6 direction classes; no tuft has a twin on the other side: the nearest mirror image of another tuft is {min(twin):.1f} mm away at least and {sum(twin) / len(twin):.1f} mm on average. Places, sizes, directions and leaf shapes come from a random generator with a fixed seed (LAWN_SEED)", {"tufts": len(pos), "twin_min": min(twin), "sizes": sizes}))
 
+    # every turf screw ends in the root of a tuft, with solid plastic round and above its pilot hole
+    z_hole = P.Z_RAIL + P.TURF_PILOT_DEPTH
+    z_tip = P.Z_SOLE + P.TURF_SCREW_CB + P.TURF_SCREW_L
+    wall, solid, on_hub = 0.8, [], True
+    for (x, y), tuft in zip(B.turf_screw_xy(), lawn):
+        hub = tuft.blades[0]
+        on_hub = on_hub and hub.hub and math.hypot(hub.x - x, hub.y - y) < 1e-6
+        root = g.union(B.mound_solid(tuft.mound), *[B.blade_solid(b) for b in tuft.blades])
+        sleeve = g.cyl_z(P.M2_PILOT / 2 + wall, P.Z_TURF, z_hole, x, y)
+        cap = g.cyl_z(P.M2_PILOT / 2, z_hole, z_hole + 1.0, x, y)
+        solid.append(min(g.common_volume(sleeve, root) / g.volume(sleeve), g.common_volume(cap, root) / g.volume(cap)))
+    out.append(Result("grass:turf screws end inside tuft roots", on_hub and min(solid) > 0.995 and z_tip <= z_hole - 0.5 and z_tip >= P.Z_TURF + 1.0, f"each of the {len(solid)} turf screws stands under the main blade of a tuft and ends {z_tip - P.Z_TURF:.1f} mm above the turf surface inside its root; the pilot hole reaches {z_hole - P.Z_TURF:.1f} mm above the surface and has {wall} mm of solid plastic all round and 1 mm above it ({100 * min(solid):.0f} % of the probed volume at the worst screw): nothing shows on top. The check runs for whatever lawn the seed gives", {"solid": solid}))
+
     # 7. reading geometry
     d_far, d_near = P.Z_TURF - P.Z_PCB_BOT, P.Z_TURF - P.Z_PCB_TOP
     out.append(Result("rfid:antenna to the figure's foot", d_far <= 4.0, f"antenna copper {d_near:.1f} to {d_far:.2f} mm below the standing surface (plain side to component side of the board); revision 1 had 10.6 mm", {"distance": d_far}))

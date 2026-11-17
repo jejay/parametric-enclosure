@@ -329,7 +329,7 @@ def manual_markdown(items, nums, printed) -> str:
     # ------------------------------------------------------------ bench test
     a("## 2. Test on the bench before you print")
     a("")
-    a("Four things decide whether the design works, and none of them can be proven by CAD. Test them with loose parts and the real figures first:")
+    a("Five things decide whether the design works, and none of them can be proven by CAD. Test them with loose parts and the real figures first:")
     a("")
     a(f"1. **Tonie reading.** Wire the PN5180 board to the XIAO and flash any firmware that performs the SLIX-L privacy unlock (see `research/01` and `research/07`). Lay the board on a wooden table with the components down, on two strips of cardboard about 2 mm thick, as it will lie in the tray. Cover it with a sheet of plastic {P.TURF_T:.1f} mm thick and stand each of the four figures on the middle of the antenna. All four must read. The tag is a small upright rod somewhere inside the figure, perhaps several centimetres up, so find the reserve: raise each figure on books or coasters until it stops reading, and slide it sideways until it stops reading. Note both distances and which privacy password each figure needs.")
     a(f"2. **Metal under the tongue.** Repeat test 1 with a baking tray {TABLE_MM:.0f} mm under the board: that is a metal table under the tongue. The distance is a little more than the 10 mm that the antenna guides ask for [research/08 §8], so the figures should still read. If they do not, lay the ferrite sheet from the list of small parts 5 mm under the board, where the floor of the pocket will be, and repeat on both surfaces.")

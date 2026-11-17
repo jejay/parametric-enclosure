@@ -751,6 +751,22 @@
   }
  },
  {
+  "name": "grass:turf screws end inside tuft roots",
+  "ok": true,
+  "detail": "each of the 6 turf screws stands under the main blade of a tuft and ends 1.5 mm above the turf surface inside its root; the pilot hole reaches 2.4 mm above the surface and has 0.8 mm of solid plastic all round and 1 mm above it (100 % of the probed volume at the worst screw): nothing shows on top. The check runs for whatever lawn the seed gives",
+  "data": {
+   "solid": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "section": "Grass tongue and figure"
+  }
+ },
+ {
   "name": "rfid:antenna to the figure's foot",
   "ok": true,
   "detail": "antenna copper 1.7 to 3.30 mm below the standing surface (plain side to component side of the board); revision 1 had 10.6 mm",
