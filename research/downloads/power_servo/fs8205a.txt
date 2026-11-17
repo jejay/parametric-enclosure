@@ -1,0 +1,195 @@
+REV. 1.2 FS8205A-DS-12_EN                     AUG 2009
+
+DatasheetFor RefPerroepnecFrteSieCO'snly
+
+FS8205A
+
+Dual N-Channel Enhancement Mode Power MOSFET
+                                         FS8205A
+
+Fortune Semiconductor Corporation
+
+28F., No.27, Sec. 2, Zhongzheng E. Rd.,
+Danshui Town, Taipei County 251, Taiwan
+Tel.886-2-28094742
+Fax886-2-28094874
+www.ic-fortune.com
+
+          For RefPerroepnecFrteSieCO'snly
+This manual contains new product information. Fortune Semiconductor Corporation reserves the
+rights to modify the product specification without further notice. No liability is assumed by Fortune
+Semiconductor Corporation as a result of the use of this product. No rights under any patent
+accompany the sale of the product
+
+Rev. 1.2                                 2/6
+                                                                     FS8205A
+
+1. Features
+1.1 Low on-resistance
+1.1.1 RDS(ON) = 25 m MAX. (VGS = 4.5V, ID = 4A)
+1.1.2 RDS(ON) = 35 m MAX. (VGS = 2.5V, ID = 3A)
+
+2. Applications
+       Li-ion battery management applications
+
+3. Ordering InformationFor RefPerroepnecFrteSieCO'snly
+
+Product Number Description                            Package Type  Quantity/Reel
+
+FS8205A         TSSOP8 package version                TSSOP-8       3,000
+
+4. Pin Assignment
+
+5. Absolute Maximum Ratings
+
+        Symbol                            Parameter          Rating      Units
+
+VDS             Drain-Source Voltage                  20             V
+VGS             Gate-Source Voltage                   ±12            V
+ID @TA = 25     Continuous Drain Current3             6              A
+ID @TA = 70     Continuous Drain Current3             5              A
+IDM             Pulsed Drain Current1                 25             A
+PD @TA = 25     Total Power Dissipation               1              W
+                Linear Derating Factor                0.008          W/
+TSTG            Storage Temperature Range             -55 to 150     
+TJ              Operating Junction Temperature Range  -55 to 150     
+
+6. Thermal Data
+
+        Symbol                            Parameter           Value       Unit
+
+Rthj-a          Thermal Resistance Junction-ambient3  Max. 125       /W
+
+Rev. 1.2                                                                           3/6
+                                                                                             FS8205A
+
+7. Electrical Characteristics
+
+Electrical Characteristics @Tj = 25 ( unless otherwise specified )
+
+Symbol                  Parameter                    Test Conditions             Min.  Typ.  Max.  Units
+
+Static Characteristics                                                           20    -     -     V
+                                                                                 -     0.1   -     V/
+BVDSS     Drain-Source Breakdown Voltage             VGS = 0V, ID = 250uA        -     21    25    m
+BVDSS/Tj                                                                         -     27    35    m
+RDS(ON)   Breakdown Voltage Temperature Coefficient  Reference to 25, ID=1mA     0.5   -     1.0   V
+                                                                                 -     -     1     uA
+          Static Drain-Source On-Resistance2         VGS = 4.5V, ID = 4A         -     -     25    uA
+                                                                                 -     -     ±10   uA
+                                                     VGS = 2.5V, ID = 3A
+
+VGS(th)   Gate Threshold Voltage                     VDS = VGS, ID = 250uA
+IDSS
+IGSS      Drain-Source Leakage Current (Tj = 25)     VDS =20V, VGS = 0V
+          Drain-Source Leakage Current (Tj = 70)     VDS =20V, VGS = 0V
+                                                     VGS = ±10V
+          Gate-Source Leakage
+          For RefPerroepnecFrteSieCO'snly
+8. Source-Drain Diode
+
+Symbol                     Parameter                        Test Conditions      Min.  Typ.  Max.  Units
+IS                                                VD = VG = 0V, VS = 1.2V        -     -     0.83  A
+VSD       Continuous Source Current (Body Diode)  Tj = 25, IS = 1.25A, VGS = 0V  -     -     1.2   V
+
+          Forward On Voltage2
+
+Notes
+
+1. Pulse width limited by Max. junction temperature.
+2. Pulse width  300us, duty cycle  2%.
+3. Surface mounted on 1 in2 copper pad of FR4 board208/W when mounted on Min. copper
+
+     pad.
+
+Rev. 1.2                                                                                           4/6
+                                                                                                                                                                                     FS8205A
+
+9. Typical Characteristics
+
+                                              On-Region characteristics @ Ta=25Deg                                                     On-Region characteristics @ Ta=125Deg
+
+Id, Drain Current ( A )  25                 Vth For RefPerroepn -NormalizecF edrteSieCO'snly2.0V     Id, Drain Current ( A )  25                                                     2.0V
+                                                                                                                                                                 Threshold Voltage2.5V2.5V
+                         20                                                               3.0V                                20                                                     3.0V
+                                                                                          3.5V                                                                                       3.5V
+                         15                                                               4.0V                                15                                                     4.0V
+                                                                                          4.5V                                                                                       4.5V
+                         10                                                                                                   10
+                          5                   0.5     1       1.5                    2                                         5       0.5     1      1.5                  2
+
+                          0                                                                                                    0
+                             0                                                                                                    0
+
+                         -5                                                                                                   -5
+
+                                              Vds, Drain to Source Voltage ( V )                                                       Vds, Drain to Source Voltage ( V )
+
+                         Fig 1. Typical Output Characteristics                                                                Fig 2. Typical Output Characteristics
+
+                                              On-Resistance Variation with Temperature                                               Gate Threshold Voltage Temperature Coefficient
+                                                               Vgs=4.5V, Ids=4A                                                                         Vgs=Vdg, Ids=250uA
+
+Rds(on) - Normalized                 1.4                                                                                      1.4
+    Drain - Source On-Resistance     1.2                                                                                      1.2
+
+                                       1           0          50                     100  150                                   1           0     50                       100       150
+                                     0.8                                                                                      0.8
+                                     0.6                                                                                      0.6
+                                     0.4                                                                                      0.4
+                                     0.2                                                                                      0.2
+
+                                       0                                                                                        0
+                                         -50                                                                                      -50
+
+                                                      Temperature ( Deg )                                                                      Temperature ( Deg )
+
+                                     Fig 3. Normalized On-Resistance                                                          Fig 4. Gate Threshold Variation with
+                                                                                                                                             Temperature
+
+                                              Forward Characteristic of Rev erse Diode
+
+                         2.5
+
+                                  2
+
+                         1.5
+
+Is (A)                                                                                    Ta=25Deg
+                                                                                          Ta=125Deg
+
+                                  1
+
+                         0.5
+
+                                  0
+
+                                  -0.3        0.2        0.7                    1.2
+
+                                            Vsd, Soucre to Drain Voltage ( V )
+
+Fig 5. Forward Characteristic of Reverse Diode
+
+Rev. 1.2                                                                                                                                                                                   5/6
+                                                          FS8205A
+
+10. Package Information
+
+11. Revision HistoryFor RefPerroepnecFrteSieCO'snly
+
+Version   Date         Page  Description
+
+    1.0    2009/02/10     -  Version 1.0 released
+    1.1    2009/04/28   3~4  Rds25 TYP 25mohm MAX 32mohm
+                             Rds45 TYP 20mohm MAX 25mohm
+1.2       2009/08/04   3~4   ID @TA = 25 6A
+                             ID @TA = 70 5A
+                             ID pulse 300S 25A
+
+                             Rds25 TYP 27mohm MAX 35mohm
+                             Rds45 TYP 21mohm MAX 25mohm
+                             Rds25 ID3A
+                             Rds45 ID4A
+
+Rev. 1.2                                                  6/6
+

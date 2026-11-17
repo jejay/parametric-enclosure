@@ -1,0 +1,484 @@
+# Changelog
+
+## DEV-branch
+
+## Version 3.2 (07.11.2026)
+
+* 07.11.2026: MQTT: `ambient_light` and `sleep` now report their state (`ON`/`OFF`) as announced, `lock_controls` reports `ON`/`OFF` right after connecting instead of `1`/`0`, and ESPuino registers a last will: if it drops off without a clean shutdown (power cut, crash, out of WiFi range), the broker itself publishes `Offline` on `state` after about 90 seconds (keepalive is now 60 s).
+
+* 07.11.2026: Seek preview: pressing and releasing a button that has the seek preview assigned to it no longer seeks when the rotary encoder wasn't turned. A short press on Next with the seek preview on the same button used to jump to the new track and then try to seek it to the old position, which failed and made the LEDs flash red. Holding such a button without turning no longer seeks after the idle delay either. [#476](https://github.com/biologist79/ESPuino/pull/476)
+
+* 01.11.2026: Player: track commands and playback from the file browser are handed to the main loop via queues, and the player flags are no longer bitfields shared between tasks, so quick presses and flags no longer get lost. This also fixes two overflows: "sleep after five tracks" no longer switches itself off from track 59 on, and playlists with more than 511 tracks no longer wrap around to track 0. Pressing "play" in the file browser no longer builds the playlist in the webserver task, which could corrupt memory together with a card applied at the same time and tripped the webserver's watchdog for big folders. [#472](https://github.com/biologist79/ESPuino/pull/472)
+
+* 30.10.2026: LEDs: FastLED is replaced by a small built-in driver for WS2812-type LEDs. Colors, brightness and animations stay the same, but the LED task needs about a fifth of the CPU time it used to: an unchanged picture is no longer sent to the LEDs again (only once a second as a refresh), and sending no longer makes the task wait. As before, the LEDs are driven via SPI with SD-MMC and via RMT with an SD card in SPI mode. Supported chipsets are `WS2812`, `WS2812B`, `WS2813`, `WS2815`, `SK6812` and `NEOPIXEL`; a `settings-override.h` with any other `CHIPSET` no longer builds. [#474](https://github.com/biologist79/ESPuino/pull/474)
+
+* 30.10.2026: Library update: pioarduino platform 55.03.312-1 (Arduino 3.3.12), ESP32-audioI2S 4.0.1 (upstream again instead of the 16-bit fork), ESP32Encoder 5.0.0, ESPAsyncWebServer 3.12.1, arduino-audio-tools 1.2.6. The new platform needs PlatformIO Core 6.2.0 or newer - update it if the build fails. With the new audio library, mono playback no longer corrupts memory, which made the box crash when shutting down ([forum #4902](https://forum.espuino.de/t/ausschalten-klappt-nur-ohne-rfid-tag/4902)). In Bluetooth mode the audio DMA buffer is smaller (12 instead of 32 KB) to leave more internal RAM for Bluetooth. [#473](https://github.com/biologist79/ESPuino/pull/473)
+
+* 24.10.2026: Web: CORS headers are only sent when built with `-DENABLE_CORS_FOR_DEBUG`, so other web pages in the network can no longer use the REST API from the browser.
+
+* 24.10.2026: Web: fix crashes, leaks and hangs in some request handlers (missing query parameters, unterminated WebSocket messages, large or unreadable folders, unchecked allocations).
+
+* 24.10.2026: Passwords are no longer handed out. The log no longer prints the MQTT and FTP passwords, and `/settings`, `/wificonfig` and the settings sent over the websocket only say whether an MQTT, FTP or access-point password is stored (`passwordSet`, `apPasswordSet`). In the web interface these fields stay empty, and leaving one empty keeps the stored password; a switch removes the MQTT or access-point password. A stored MQTT password only stays with the server and user it was entered for: anyone on the network could otherwise point the box at a broker of their own and read the password at the next connect. `/wificonfig` now keeps every field a request leaves out, which also lets the access-point setup page save the hostname - it used to be rejected there. Reported in [#466](https://github.com/biologist79/ESPuino/issues/466).
+
+* 17.10.2026: MQTT and FTP: user, password and MQTT server may now be up to 64 characters instead of 15, 15, 31 and - for FTP - 9 and 14. The old limits only ever existed in the web interface; the firmware stores all of them as strings and never had a buffer to overflow, so a long broker password was silently cut off while typing. The FTP password field was additionally capped at 9 instead of its intended 14 characters by a copy-paste slip. On top of that, no input field drops characters quietly any more: pasting more than fits turns the field red and names the number of characters that were cut off, and a field filled to its limit says so. That applies to every field with a length limit, the ESPuino name (hostname, 32 characters) now among them - a too-long name used to be refused with the browser's unhelpful "please match the requested format". Reported in [#465](https://github.com/biologist79/ESPuino/issues/465).
+
+* 17.10.2026: MediaHub: a hub that didn't answer is no longer left out until the next restart. A hub only learns of a new card through that very request, so a single failed contact used to keep every later card from reaching it for the rest of the session. The price is up to two seconds per unreachable hub before the "card unknown" error. Discussion: [forum #4779](https://forum.espuino.de/t/espuino-mediahub-feature-requests/4779).
+
+* 15.10.2026: MediaHub: a card built from a folder now plays that folder, not whichever one the ESPuino could infer from the file paths. The hub says which folder was picked, so "random subfolder" finally works on a folder that holds nothing but subfolders - picking it used to come back empty, and a folder holding a single subfolder played nothing at all. Update the hub alongside the firmware; without it the ESPuino falls back to the old guess, which is also what happens for selections assembled file by file. Idea and discussion: [forum #4779](https://forum.espuino.de/t/espuino-mediahub-feature-requests/4779).
+
+* 06.10.2026: MediaHub: a changed card no longer re-downloads everything. The ESPuino compares the hub's per-file checksums against the ones from its last sync and fetches only what actually changed - adding one track to a 150 MB audiobook now moves that one track instead of all of it, and a transfer interrupted halfway resumes instead of starting over. "Force refresh" still replaces the card completely, which is what it is for; the hub publishes its force counter in the manifest so the device can tell the two apart, so update the hub along with the firmware. Playback of the old version is stopped before the transfer starts instead of competing with it for the SD card, and the new version plays as soon as the sync is done - the extra tap that used to be needed is gone. Idea and discussion: [forum #4607](https://forum.espuino.de/t/espuino-mediahub/4607).
+
+* 26.09.2026: MediaHub: a card unknown to this ESPuino is now offered to the registered hubs before it's rejected - if one of them already has it assigned, it's adopted and played right away, so a card taught on one device no longer has to be assigned by hand on every other one. Off by default (MediaHub tab). The assignment list also shows what a MediaHub card actually plays now (name, real play mode, sync state, hub by its registered name), and the hidden `/.mediahub` folder can optionally be made visible in the file browser to see what got synced. Idea and discussion: [forum #4779](https://forum.espuino.de/t/espuino-mediahub-feature-requests/4779).
+
+* 26.09.2026: Fix the RFID assignment list staying in the fallback language: the locale files arrive after the page has loaded, and unlike everything carrying `data-i18n`, the list is built from plain text nodes that the re-translation can't reach - so on a fresh load it stayed English while the rest of the page was German. Also hides dot-entries in subfolders of the file browser, which the hidden-file filter always meant to do but only ever managed at the top level (a `.DS_Store` inside a folder was listed).
+
+## Version 3.1 (19.09.2026)
+
+* 18.09.2026: Optionally speak a warning when the battery runs low, instead of only blinking the LEDs - nobody looks at the ring while a story is playing. Playback is interrupted for the announcement and resumes at exactly the position it left off, while title, position and progress stay frozen so neither the web interface nor MQTT sees the interruption. Off by default; set it up under General -> Power, ready-made announcements in German, English and French ship in `announcements/` (#463). Idea and discussion: [forum #4766](https://forum.espuino.de/t/ansage-wenn-akku-fast-leer/4766).
+
+* 18.09.2026: Bluetooth: the tab is now a single mode switch (off / headphones / speaker) with a live connection indicator instead of three separate panels, connect and reconnect handling is more robust, and the volume finally reaches Bluetooth headphones - rotary encoder, buttons and web interface now control the headset (#461), thanks to @joker-mik.
+
+* 15.09.2026: Optionally flash all LEDs green when an RFID tag is accepted - visible confirmation that the card was recognized (off by default, General -> LED); so far only modification cards acknowledged themselves. It is hooked to the accepted tag rather than to the reader detecting one, so a card resting on the antenna in "pause when card is removed" mode cannot make the ring flicker.
+
+* 14.09.2026: Add an optional volume limit for night mode: when night mode is switched on, the volume in effect at that moment becomes a temporary upper limit (plus one step of headroom), lifted again when night mode ends - so a player taken to bed cannot be turned up to full blast with the speaker right at a child's ear. A fixed maximum configured up front was the obvious alternative but a poor one, since audiobooks differ so much in loudness that the limit would have to be set very low and then corrected in the web interface all the time. The ceiling is taken once, on activation, and then frozen (letting it follow the volume down would pin you to whatever level you briefly dialled in during a quiet passage), it is never persisted, and it covers every volume source - rotary encoder, buttons, web interface, MQTT and Bluetooth. Off by default; enable it under General -> Options ("Limit volume in night mode"). Along the way night mode moved from `Led.cpp`, where it lived inside `#ifdef NEOPIXEL_ENABLE` and therefore did not exist at all on builds without LEDs, to `System.cpp`; and a latent bug was fixed where night mode and ambient light shared a single saved-brightness slot, so after switching both off again the brightness stayed at the inner mode's level. Also fixes the LEDs jumping back to full brightness when the settings were saved while night mode was active: reloading the settings overwrote the current brightness with the configured initial one, a special case the ambient light already had and night mode never did. Idea and discussion: [forum #4755](https://forum.espuino.de/t/maximale-lautstaerke-im-nachtmodus/4755).
+
+* 14.09.2026: Fix a reboot loop on boards that run the SD card over SPI (e.g. a Lolin D32 pro built before the switch to SD-MMC). FastLED's clockless-SPI backend, enabled unconditionally since May 2025, claims `SPI2_HOST` via its own private bookkeeping - which on those boards is the very same peripheral `SdCard.cpp` already drives as Arduino's `HSPI`. Arduino's SPI implementation writes the registers directly and never registers with the IDF `spi_master` driver, so nothing fails at startup and both end up driving SPI2 at once; as soon as an SD access overlapped an LED refresh the device panicked (`spi_hal_setup_trans` assert, `led_strip_refresh_wait_done` timeouts) and rebooted, with garbled white/yellow output on the LED ring on the way. The SPI backend is now only used when the SD card runs in SD-MMC mode - which is what all three ready-made firmwares build with, so nothing changes for the Complete or the mini4L, while SPI-SD builds fall back to the RMT driver they used before. Reported and confirmed fixed in [forum #4758](https://forum.espuino.de/t/espuino-nach-update-in-reboot-schleife/4758).
+
+* 14.09.2026: Fix the build failing when `MQTT_ENABLE` is disabled in `settings.h`. The `sleep_timer_state` code added on 27.08.2026 landed in the gap between two `#ifdef MQTT_ENABLE` blocks, so `Mqtt_PublishSleepTimerState()` was compiled unconditionally even though the topic constant it publishes on only exists with MQTT enabled (`'topicSleepTimerState' was not declared in this scope`). Affects self-compiled firmware without MQTT only - nothing was broken at runtime, and the ready-made firmwares all build with MQTT. Reported in [forum #4758](https://forum.espuino.de/t/espuino-nach-update-in-reboot-schleife/4758/5).
+
+* 13.09.2026: Web-UI: clicking a help question mark no longer scrolls the page back to the top. The help icons were anchors with `href="#"`; they are focusable via `tabindex="0"` anyway, which is all the focus-triggered popover needs.
+
+* 13.09.2026: Make both seek step sizes configurable in the web UI (Encoder/buttons tab) instead of only at compile time. The **button** seek step (`jumpOffset`, default 30s) was a compile-time constant in `settings.h` with no runtime override, so changing how far "seek forwards"/"seek backwards" jumps required rebuilding the firmware; it is now stored in NVS and adjustable from 1 to 120 seconds. The **rotary** seek step (`rotSeekStep`, default 10s per detent, used when a turn action is mapped directly to seek instead of the seek preview) already existed in the settings API but had no control in the web interface at all, so it could only be changed with a raw REST call - it now has one too (1 to 60 seconds). Both are read per use, so a change applies immediately without a restart. The compile-time knobs are gone: `jumpOffset` and `JUMP_OFFSET_ROTARY` no longer live in `settings.h` (nor in `settings-override.h.sample`) but as internal defaults `SEEK_STEP_BUTTON_DEFAULT` / `SEEK_STEP_ROTARY_DEFAULT` in `values.h`, so nobody is misled into configuring them at compile time. **Breaking for custom builds**: a `settings-override.h` that still defines `jumpOffset` or `JUMP_OFFSET_ROTARY` has no effect any more - set the values in the web interface instead.
+
+## Version 3.0 (07.09.2026)
+
+* 05.09.2026: Make the battery-voltage correction (`offsetVoltage`) configurable in the web UI (General -> Battery) instead of only via `settings-*.h`. The ADC calibration offset was previously a compile-time constant; it is now stored in NVS and adjustable in hundredth-volt steps, positive or negative. It takes effect immediately on save (`Battery_Init()` re-reads it) and the per-board compile-time value is kept as the default fallback (Complete: -0.04 V). Handbook: [Feinjustierung](https://biologist79.github.io/ESPuino-Docs/hardware/aufbau/#nach-dem-zusammenbau-die-feinjustierung).
+
+* 01.09.2026: Add MediaHub - an optional way to manage RFID-tag assignments **centrally** from a small self-hosted server (a Docker container on your own network) instead of configuring each device on SD/NVS individually. A card assigned to a MediaHub server (playmode 18; the assignment stores `mediahub://<host:port>`) fetches its content and playback mode from that server's manifest when tapped and downloads the referenced files to SD on first use, keeping them in sync afterwards (force-refresh, resync-on-change, SHA-256 verification, an LED download animation and SD-full handling); webradio/webstream assignments are supported too. Servers are registered in the web UI (Files/RFID -> MediaHub). The firmware side lives in `src/MediaHub.cpp`; the hub itself runs separately as [ESPuino-Mediahub](https://github.com/biologist79/ESPuino-Mediahub). Details/discussion: [forum #4607](https://forum.espuino.de/t/espuino-mediahub/4607) (#435).
+
+* 28.08.2026: Fix the "sleep after 5 tracks" (EO5T) RFID modification card - it never actually put the device to sleep (it toggled a `sleepAfter5Tracks` flag that `AudioPlayer_Loop()` never reads, while the real "sleep after N tracks" mechanism keys off `playUntilTrackNumber`, only ever set by the MQTT EO5T command) and it was missing from the modification-card dropdown in the web UI entirely. The card now sets `playUntilTrackNumber` like MQTT does and is selectable in the UI; it reports correctly on the `sleep_timer_state` topic (which detects EO5T via `playUntilTrackNumber`). Also fixes `sleep_timer_state` briefly reporting the full playlist length instead of 0 right before an EOP/EO5T timer sleeps.
+
+* 27.08.2026: MQTT: add a live sleep-timer status topic `sleep_timer_state` publishing JSON (`{"mode":...,"remainingMinutes":...,"remainingTracks":...}`) so a home-automation system can show the remaining time/tracks - `mode` is `OFF`/`MINUTES`/`EOT`/`EOP`/`EO5T`, updated once per minute (minute-timer) and on track changes (`EO5T`/`EOP`). A single JSON topic instead of several scalar topics, published non-retained like the other state topics and re-published on reconnect. The existing `sleep_timer` topic is unchanged (backward compatible). Also fixes two `sleep_timer` bugs along the way: reconnect published the internal millis-timestamp instead of the configured value, and cancelling/rejecting a timer published to the wrong topic (`state` instead of `sleep_timer`). Reimplemented from the idea in #446, thanks to @TMHEINE.
+* 27.08.2026: Fix MQTT topics using an all-zero MAC (`ESPuino-000000000000`) instead of the real one - the `<MAC>` token in the device id is resolved in `Mqtt_Init()` at early boot, before the WiFi driver is up, and `WiFi.macAddress()` returns zeros until then. `Wlan_GetMacAddress()` now reads the MAC straight from eFuse via `esp_read_mac()`, which is always available and yields the same value; the web interface already showed the correct MAC because it reads it later at request time.
+* 16.08.2026: Apply the configured maximum volume (speaker / headphone) immediately after saving instead of only after the next restart - lowering the limit in the web UI now takes effect right away, and a currently-higher volume is clamped down to the new maximum (#454), thanks to @joker-mik.
+* 16.08.2026: Web-UI: fix horizontal overflow on narrow/mobile screens - file-selector and submit buttons now stack on small screens (RFID/NVS import and firmware upload), the audiobook auto-save-interval control moves to its own row, and the RFID-assignment list renders better on mobile (#452), thanks to @joker-mik.
+* 16.08.2026: Web-UI: show SD-card storage usage (used / total / free / percentage with a progress bar, in decimal MB/GB) above the file browser, refreshed when opening the Files/RFID tab and after file operations; includes DE/EN/FR translations (#451), thanks to @joker-mik.
+* 16.08.2026: Web-UI: report settings that block saving instead of failing silently - the general settings form spans several tab-panes, and native validation cannot flag an invalid control on a hidden pane, so Save did nothing and only left a "not focusable" console error. The form is now validated in JS: an error toast names the offending settings and the tab holding the first one is opened so it can be corrected. Hidden sections that don't apply to the device (no LEDs / no battery) are disabled so they no longer block saving either (#449), thanks to @mgoodfellow.
+* 16.08.2026: RfidMfrc522: don't treat a corrupted WUPA reply as a removed card in `pauseIfRfidRemoved` mode - only a clean timeout (empty field) now counts toward removal, while a transmission error (parity/CRC out of the reader's ErrorReg - a card did answer, the frame was just mangled by RF noise) no longer does, with a 1.5s no-clean-answer backstop. After a removal the RF field is now cycled so a card that never actually left returns to IDLE and is seen again by REQA, instead of staying invisible until physically re-applied (#448), thanks to @mgoodfellow.
+* 13.08.2026: Reduce audio-decode CPU load so buttons/rotary stay responsive with heavy codecs (AAC/m4a) - the decode task shares core 1 with `loop()` (which polls the controls), and a CPU-hungry decoder could starve it, making input sporadic and playback stutter (forum #4675). The audio library's per-sample VU-meter computation is now disabled outright (ESPuino never reads it), and its per-sample IIR tone filter is only enabled while the equalizer is actually non-flat (all gains 0 by default), so the common case runs neither. No functional change; the equalizer re-enables the filter automatically as soon as a gain is set.
+
+## Version 2.10 (11.08.2026)
+
+* 11.08.2026: Fix build failing when `NEOPIXEL_ENABLE` is disabled - `LED_BRIGHTNESS_STEP`/`LED_BRIGHTNESS_MIN` were only defined inside the `#ifdef NEOPIXEL_ENABLE` block in Led.h, but Cmd.cpp references them in the always-compiled `CMD_BRIGHTNESS_UP/DOWN` handler (the LED functions it calls are already no-op stubs without NEOPIXEL). Both constants are now defined unconditionally, so a build without Neopixels compiles again (#453), thanks to @z3ky for reporting.
+* 08.08.2026: Enable firmware-update-over-web on the ESP32-S3 devkit - the S3 environment never set a partition table, so it silently fell back to the global `[env]` default (`custom_4mb_noota.csv`): half of the devkit's 8MB flash was unusable and, with a single factory-app and no `otadata`/`ota_0`/`ota_1` partitions, an update over the web interface could never work. The env now uses `custom_8mb_ota.csv` and defines `BOARD_HAS_16MB_FLASH_AND_OTA_SUPPORT`, like the equally-sized `esp32-wrover-devkitc-v4-8mb` board, so "Firmware-Update" no longer answers with "OTA not supported". **Breaking for existing S3 installs**: the partition layout changes, so this build has to be flashed over USB once, and because NVS moves with it the saved settings are reset - back them up via the web interface first.
+* 30.07.2026: Fix folder uploads via the web interface flattening their structure - since the switch to raw per-file uploads (#434) each file was stored under its bare name, dropping any subfolders, so a whole folder got "unpacked" into the target directory. The upload now sends each file's `webkitRelativePath` (its path within the selected folder) so the subfolder structure is preserved again; plain single-file uploads are unaffected. Thanks to Jonas1 for reporting.
+* 23.07.2026: Add a configurable minimum volume ("Minimal") to the volume settings - the volume can no longer be turned below this floor from any source (rotary, buttons, Bluetooth, web), e.g. so a box can never be accidentally muted entirely. The boot volume (initial or remembered-last) is also raised to the floor if it sits below it. Defaults to 0 (unchanged behaviour); must be lower than both maximum volumes. The runtime clamp already existed but was never wired to a setting; based on the idea in #392, thanks to @lukas227.
+* 23.07.2026: Fix "RFID-Karte wurde entfernt" incorrectly triggering a "Playmode kann nicht verändert werden, wenn keine Playlist aktiv ist" error when a card is removed after the playlist has already finished naturally - `pauseIfRfidRemoved`'s card-removed handler in both RfidMfrc522.cpp and RfidPn5180.cpp now only queues the PAUSEPLAY command while a playlist is actually active/paused.
+* 23.07.2026: RfidMfrc522: deterministic WUPA/HALT presence poll for `pauseIfRfidRemoved`, replacing the non-deterministic REQA-based removal detection that caused spurious pause/resume flapping on a perfectly stationary card (and, as a result, NVS write wear from repeated position saves and occasional spurious deep-sleep due to desynced play/pause state). Also fixes reassigning a tag via the web UI having no effect until reboot while `pauseIfRfidRemoved` is active - the reader's last-seen-tag cache is now invalidated on every path that changes what a tag means (assign, mod-card, delete, NVS erase/restore) (#413), thanks to @mgoodfellow.
+* 23.07.2026: PN5180: deterministic re-reads for a resting ISO-14443 card - poll with WUPA instead of REQA and park read cards in HALT so a stationary card answers every poll instead of only from the IDLE state, plus one silent re-init sweep at the debounce boundary to tell a temporarily wedged reader apart from a genuinely removed card before declaring removal. Fixes the same spurious pause/resume flapping and phantom-removal symptoms as the MFRC522 fix above (#444), thanks to @sadilek.
+* 22.07.2026: Fix defensive `strncpy` call for `gPlayProperties.playRfidTag` to reserve space for and explicitly write the NUL-terminator, instead of copying into the full buffer size - not currently exploitable (the source is always a fixed-length RFID tag ID), but matches the pattern fixed for a genuinely unterminated case in #443, thanks to @oberbichler for flagging it.
+* 22.07.2026: Fix timer and port-expander ISRs missing `IRAM_ATTR` on Arduino-ESP32 v3 - if either ISR fired while the flash cache was disabled (e.g. during an NVS/flash write), it would crash; the port-expander ISR was the higher risk since it can fire at any time. Both are now unconditionally kept in IRAM regardless of Arduino-ESP32 version (#442), thanks to @oberbichler.
+* 22.07.2026: Fix missing NUL-termination when copying a track path from NVS - a stored path of ≥255 characters left the buffer unterminated, risking an out-of-bounds read when passed on to the audio player (#443), thanks to @oberbichler.
+* 21.07.2026: Remove compile-time LED/NeoPixel defaults (`NUM_INDICATOR_LEDS`, `NUM_CONTROL_LEDS`, `CONTROL_LEDS_COLORS`, `NUM_LEDS_IDLE_DOTS`, `OFFSET_PAUSE_LEDS`, `PROGRESS_HUE_START`, `PROGRESS_HUE_END`, `ATMO_HUE`, `ATMO_SATURATION`, `DIMMABLE_STATES`, `LED_OFFSET`) - all of these were already fully runtime-configurable via the web interface, the macros only fed the pre-first-save NVS default (now hardcoded, same values as before). `CHIPSET`/`COLOR_ORDER` are unaffected - those are genuine compile-time FastLED template parameters and can't be runtime-configurable. **Breaking for custom builds**: a `settings-override.h` still defining one of the removed macros will silently no longer have any effect - set the value once via the web UI instead.
+* 21.07.2026: Web-UI: give settings sliders live value badges and circular +/- step buttons instead of a bare drag handle, and group related settings across all tabs into rounded cards for a clearer, more compact layout.
+* 20.07.2026: Make the MFRC522 scan interval a web-UI setting ("MFRC522 Scan-Intervall") instead of the compile-time-only `RFID_SCAN_INTERVAL` - default unchanged at 100ms. A restart is required for a change to take effect, same as the other MFRC522/PN5180-specific settings.
+* 20.07.2026: Fix LEDs staying lit forever in deepsleep after `SHUTDOWN_IF_SD_BOOT_FAILS` triggers - the LED task was still running its idle animation when `esp_deep_sleep_start()` was called, and NeoPixels simply hold their last-sent color with no active refresh. Now clears the LEDs before sleeping.
+* 20.07.2026: Remove unused compile-time macro `PLAY_MONO_SPEAKER` - mono/stereo playback has long been a runtime web-UI setting only (nothing in the codebase ever checked this macro), so it was dead documentation.
+* 20.07.2026: Battery: make automatic shutdown on critical voltage a web-UI toggle instead of the compile-time-only `SHUTDOWN_ON_BAT_CRITICAL` - off by default, same as before for anyone who didn't compile with the flag. **Breaking for custom builds**: a `settings-override.h` still defining `SHUTDOWN_ON_BAT_CRITICAL` will silently no longer have any effect - enable "Bei kritischer Spannung automatisch abschalten" in the battery settings instead.
+* 20.07.2026: Remove compile-time toggles `STATIC_IP_ENABLE`, `PLAY_LAST_RFID_AFTER_REBOOT`, `PAUSE_WHEN_RFID_REMOVED`, `DONT_ACCEPT_SAME_RFID_TWICE`, `RESUME_ON_SAME_RFID` and `NEOPIXEL_REVERSE_ROTATION` - these were already fully configurable at runtime via the web interface; the macros only controlled the pre-first-save default (`true` vs `false`) and are now always initialized to `false`. **Breaking for custom builds**: a `settings-override.h` that still defines one of these macros will silently no longer have any effect - enable the corresponding option in the web UI instead. Static IP itself is unaffected, it has been a fully runtime/per-network web-UI setting for a while; the removed macro only fed a one-time migration for pre-multi-network configs.
+
+## Version 2.9 (19.07.2026)
+
+* 19.07.2026: Rotary gestures: add CMD_SEEK_PREVIEW as a second seek variant for "hold button + turn encoder" - turning previews a target position (yellow ring + blue LED cursor) instead of jumping immediately, committing once the encoder is idle for a configurable delay or on release; selectable independently per button/direction alongside the existing immediate-jump seek gesture (#439)
+* 18.07.2026: AudioPlayer: opt-in periodic play-position checkpoint for long audiobook chapters - saves progress every N seconds (NVS "savePosIntv", default off) so a mid-chapter power loss doesn't lose up to an hour of progress (#438), thanks to @mgoodfellow
+* 18.07.2026: AudioPlayer: fix audiobook resume-seek for CBR MP3s without a Xing/Info header - the audio library's seek-on-connect only works when a nominal bitrate is known; the seek is now deferred until the first stable bitrate reading instead (#437), thanks to @mgoodfellow
+* 17.07.2026: "hold button + turn encoder" gestures - holding a configured button while turning the rotary encoder runs that button's assigned action (seek, LED brightness, ...) instead of changing the volume, configurable per button/direction in the web UI (#436), thanks to @mgoodfellow
+* 16.07.2026: Tools tab: keep the saved-RFID-assignments List/Export/Erase buttons always visible instead of hiding them (with dangling separator lines) when there are no assignments yet - grey them out and show the assignment count in each button label instead
+* 16.07.2026: Explorer file upload: send each file as its own raw (application/octet-stream) request instead of bundling the whole batch into one multipart/form-data POST - no MIME boundary parsing on the ESPuino side, ~450 -> ~650 kiB/s measured (#434)
+* 15.07.2026: Wlan/Web/accesspoint: test WiFi credentials live from the setup page - after saving, the box tries them on the station interface while the setup AP stays up, and shows connecting/failed/success right there instead of save -> reboot -> hope (#433), thanks to @mgoodfellow
+* 15.07.2026: Bt: small memory tweaks (#427), thanks to @Joe91
+* 14.07.2026: Wlan/Web/accesspoint: tell the user WHY a WiFi connection attempt failed (wrong password / network not found / rejected / associated but no IP) instead of a silent retry-then-fallback (#432), thanks to @mgoodfellow
+* 14.07.2026: accesspoint: honor browser language and add a language selector, instead of always defaulting to German (#431), thanks to @mgoodfellow
+* 14.07.2026: accesspoint: fix the blank save button caused by a locale key renamed during the settings-tabs restructure (#429), thanks to @mgoodfellow
+* 13.07.2026: CI: also publish bootloader.bin and partitions.bin per board alongside firmware.bin
+* 12.07.2026: Add missing help tooltips across the web UI settings (WiFi, MQTT, FTP, Bluetooth, volume/playlist, LED, sleep/battery) and align tooltip placement next to the field label consistently
+* 12.07.2026: GitHub firmware update list: show 10 builds instead of 5, and show the ESPuino commit's description as a hover tooltip on the commit link
+* 11.07.2026: Fix intermittent false "card removed" events with PN5180: avoid an unnecessary hardware reset on every poll while a tag is being tracked, clear stale IRQ flags before each ISO15693 inventory poll, switch to a PN5180-Library fork with shorter RF-field/transceive timeouts, and make the removal-debounce configurable in the web UI (General -> RFID-Reader) (#428)
+* 11.07.2026: Improve web-upload throughput: disable WiFi power-save and enlarge the TCP receive window during uploads/OTA (~360-400 -> ~430-464 kiB/s measured), restored again afterwards to keep idle power draw low (#416)
+* 11.07.2026: Restructure web UI settings tabs: split "General" into focused sub-tabs (Playback, RFID-Reader, Rotary encoder & buttons, LED, Power), add a new "Updates" tab, consistent row layout and left-aligned buttons across WiFi/MQTT/FTP/Bluetooth/RFID-reader, compact button-assignment tables, scrollable RFID assignments modal, and various smaller UX fixes
+* 10.07.2026: Automatically derive Software-revision from the Git commit date at build time instead of maintaining it by hand in src/revision.h
+* 10.07.2026: Fix connection watchdog false-positive and spurious "action performed successfully" toasts (#426)
+* 10.07.2026: Add firmware update from GitHub: list and install the last 5 builds from biologist79/ESPuino-Firmware directly in the web UI, with OTA progress shown on the LED ring
+* 10.07.2026: Self-host management webinterface locally (no more CDN dependency) & make AP SSID/password/timeout configurable via the web UI (#417)
+
+## Version 2.8 (10.07.2026)
+
+* 10.07.2026: Fix stack buffer overflow in RfidPn5180_WakeupCheck() when formatting the card UID for NVS lookup (#421)
+* 10.07.2026: Fix intermittent boot-hang with PN5180-LPCD enabled by deferring RFID-task start until after peripheral init (#420)
+* 09.07.2026: Remove unmaintained MAX17055 fuel-gauge support (MEASURE_BATTERY_MAX17055). Voltage-based battery measurement (MEASURE_BATTERY_VOLTAGE) is unaffected. (#419)
+* 08.07.2026: Fix DONT_ACCEPT_SAME_RFID_TWICE / PLAY_LAST_RFID_AFTER_REBOOT in combination with WiFi not yet available
+* 25.06.2026: update some libaries and platform (#411), thanks to @Joe91
+* 19.06.2026: Feature: ResumeOnSameRFID (#398), thanks to @joker-mik
+* 07.06.2026: Memory and stability improvements and more (#407), thanks to @Joe91
+* 25.05.2026: Fix broken BT, FTP, support special chars in filesystem (#405), thanks to @Joe91
+
+## Version 2.7 (12.05.2026)
+
+* 08.05.2026: Type to rfid (PN5180, RC522-spi, RC522-i2c is now being autodetected at start (#403), thanks to @Joe91
+* 05.05.2026: Add missing mqtt topics in preview of webinterface
+* 19.04.2026: improvement to the i18n files (#399)
+* 28.03.2026: Bug fix: Suppression of sound artifacts on the speaker during Bluetooth playback (#397)
+* 28.03.2026: feature: Atmolight (#393)
+
+## Version 2.6 (28.02.2026)
+
+* 08.01.2026: More flexible MQTT-handling and new MQTT naming scheme (#373)
+
+## Version 2.5 (01.01.2026)
+
+* 01.01.2026: Add bluetooth source connection handling and flushing (#384)
+* 01.01.2026: Refactor button handling logic (#387)
+* 01.01.2026: Refactor shutdown button logic for clarity (#385)
+* 01.01.2026: Simplify channel to bit mapping in Port_ChannelToBit (#386)
+* 09.12.2025: Web UI: Allow escape from Bluetooth mode
+* 07.12.2025: WiFi / Bluetooth coexistence
+* 30.11.2025: Allocate playlist, tasklist in PSRAM if available
+* 30.11.2025: Web UI: Show SD card icon and volume label
+* 30.11.2025: BT-Source: Allocate ringbuffer in PSRAM to save heap, use lazy initialization
+* 26.11.2025: Web UI: Add missing WiFi & BT commands in button command selects
+* 24.11.2025: Audio Library Update: Switch to callbacks, restore cover images (#383), thanks to @sfields !
+* 24.11.2025: Bugfix crash in BT-Sink mode
+* 31.10.2025: Audio_Loop necessary after task removal
+* 26.10.2025: Make LFP-voltages default
+
+## Version 2.4.4 (24.10.2025)
+
+* 24.10.2025: Fix: Remove of error indication while track change
+* 23.10.2025: New feature: recursive playlists (#381)
+* 23.10.2025: Cleanup log messages
+* 22.10.2025: Switch to long commit IDs
+* 17.10.2025: Regression fix: remove volume-queue from IRreceiver.cpp
+
+## Version 2.4.3 (09.10.2025)
+
+* 08.10.2025: Bump to ESP-IDF 5.5.1
+* 08.10.2025: Use importlib instead of setuptools
+* 28.09.2025: Update PN5180 lib
+* 27.09.2025: Enable firmware builds with BT
+
+## Version 2.4.2 (18.09.2025)
+
+* 16.09.2025: Fix broken Bluetooth headset mode (BT-Source)
+* 15.09.2025: Fix "Abspielposition beim Ausschalten merken"
+
+## Version 2.4.1 (14.09.2025)
+
+* 11.09.2025: Update audio-lib and Fast-LED (#375), thanks to @Joe91
+* 27.08.2025: support of virtual RFID-Cards in Webserver (#376), thanks to @Joe91
+
+## Version 2.4 (24.08.2025)
+
+* 16.08.2025: Measuring of battery voltage: analogRead() -> analogReadMilliVolts()
+* 15.08.2025: Reduce voltage-stepping in webinterface from 0.1 V to 0.05 V
+* 13.08.2025: Enforce usage of port-expander for some HALs
+* 13.08.2025: No more Audio-Task (#374), thanks to @Joe91 !
+* 12.06.2025: Fix compilation error with NEOPIXEL_REVERSE_ROTATION (#369), thanks to @SZenglein !
+* 12.06.2025: Clear ping- and trackProgress intervals when websocket reconnects (#368), thanks to @SZenglein !
+* 10.05.2025: MQTT: switch from pubsubclient to IDF-MQTT (#363), thanks to @Joe91
+* 05.05.2025: Switch DEV-branch to Arduino 3.2.0 (ESP-IDF 5.4.1)
+* 30.04.2025: Fix loosing Websocket Ping/Pong connection, thanks to @Joe91 !
+* 24.04.2025: Make PAUSE_WHEN_RFID_REMOVED & DONT_ACCEPT_SAME_RFID_TWICE configurable at runtime (#362)
+* 18.04.2025: Make MQTT compatible with Arduino 3, thanks to @Joe91 !
+* 22.03.2025: Make PLAY_LAST_RFID_AFTER_REBOOT configurable at runtime
+* 17.03.2025: Refactor select fields for buttons & modifications, thanks to @trainbird !
+* 08.03.2025: Bluetooth: Support avrc (buttons), thanks to @sfields !
+* 03.02.2025: ESPAsyncWebServer moved to new location: <https://github.com/ESP32Async/ESPAsyncWebServer>
+* 03.02.2025: PlatformIO package 6.10.0 (Arduino 2.0.17, ESP-IDF 4.4.7)
+* 28.01.2025: Make led, rotary & button settings configurable at runtime #358
+* 27.12.2024: Fix audio dropouts in BT-Source mode
+* 27.12.2024: ArduinoJson 7 (#357)
+* 18.12.2024: Use saved SSID as LAST_SSID, when no successfull connection was possible #355, thanks to @nona00 !
+* 18.12.2024: Check if #POWER defined, thanks to @QDaniel !
+* 18.12.2024: Prepare for Arduino 3.1.0
+* 16.12.2024: Add verbose log to indicate, that the restart is on purpose (#356), thanks to @thebino !
+* 16.12.2024: LPCD: Only wake up if card is present in NVS (#352), thanks to @fox34 !
+* 25.11.2024: Moving some settings to the Web UI (#350), thanks to @trainbird !
+* 17.11.2024: Simplify 'SdCard_ParseM3UPlaylist' and fix parsing, thanks to @h4kun4m4t4t4 !
+* 29.10.2024: Update Audio lib
+* 29.10.2024: Enable CONFIG_ESP32_REV_MIN_3 to save some IRAM
+* 22.10.2024: Cleaning up `management.html` (#348), thanks to @trainbird !
+* 22.10.2024: Update Arduino-IRremote to support the ESP 3.0 core
+* 29.09.2024: Removal of support for non-PSRAM HALs (Lolin32, LolinD32, DevkitC) and ESP32-A1S
+* 29.09.2024: Prepare for Arduino 3.0.5
+* 27.09.2024: PlatformIO package 6.9.0
+
+## Version 2.3 (23.09.2024)
+
+* 19.09.2024: Document the virtual cards in the UI #333, thanks to @caco3 !
+* 18.09.2024: Re-designed tools page (#337), thanks to @caco3 !
+* 16.09.2024: Fix sleep after playlist not toggling nightmode #336, thanks to @dneukirchen !
+* 12.09.2024: PlatformIO package 6.8.1 (Arduino 2.0.17, ESP-IDF 4.4.7)
+* 12.09.2024: Change default settings to match "ESPuino-mini 4Layer" board
+* 11.09.2024: Fix string's expected length for rfid-cmnd via mqtt
+* 11.09.2024: Ignore mqtt messages with length zero
+* 10.09.2024: Porting to new web server library completed
+* 09.06.2024: Consume about 50% less CPU time in Audio library
+* 09.06.2024: Replace 3rd party library toastr (#331), thanks to @trainbird !
+* 09.06.2024: Modernized webserver & optimized JSON delivery (#332)
+* 20.05.2024: PlatformIO package 6.7.0 (Arduino 2.0.16, ESP-IDF 4.4.7)
+* 20.05.2024: Disable bluetooth support for A1S (IRAM too small)
+* 09.05.2024: Upgrade to Bootstrap v5.0 + Web-UI Enhancements (#328), thanks to @caco3 !
+* 23.04.2024: Enhance UI minification (#323), thanks to @caco3 !
+* 22.04.2024: Added virtual RFID-Cards (#319), thanks to @caco3 !
+* 18.04.2024: Correct calculation of newFilePos for SEEK_POS_PERCENT, thanks to @sfields!
+* 18.04.2024: Correct calculation of gPlayProperties.currentRelPos, thanks to @sfields!
+* 18.04.2024: Get title from-VORBISCOMMENT and ID3, thanks to @sfields!
+* 18.04.2024: Correct log for SSID name, thanks to @sfields!
+* 18.04.2024: Add button to expand/shrink file list (#317), thanks to @caco3 !
+* 18.04.2024: Fix remote UI debugging (#316), thanks to @caco3 !
+* 14.04.2024: Embed swagger UI #314, thanks to @caco3 !
+* 07.04.2024: Equalizer settings to WebUI #313, thanks to @trainbird !
+* 28.03.2024: Audio lib, fix a memory leak with flac files
+* 28.03.2024: Fix some warnings with upcoming Arduino 3 (ESP-IDF v5.1)
+* 16.03.2024: Reduce memory usage by measurement of JSON payload length
+* 15.03.2024: MQTT receive: Bug fix and avoid payload copy (#309), thanks to @eikel
+* 15.03.2024: Add coverimage support for ogg, vorbis, opus (and some flac), thanks to @sfields !
+* 19.02.2024: Add coverimage support for M4A files in Web-UI
+* 18.02.2024: Add coverimage support for flac files in Web-UI, thanks to @sfields !
+* 15.02.2024: Rework playlist generation (#275), thanks to @laszloh !
+* 15.02.2024: Update sorting strings (#306), thanks to @freddy36 !
+* 15.02.2024: Set title and navbar heading to hostname (#305), thanks to @freddy36 !
+* 15.02.2024: Include mac address in info (#304), thanks to @freddy36 !
+* 12.02.2024: Use natural sort (#296), thanks to @freddy36 !
+* 09.02.2024: Remove explorerCreateParentDirectories (#301), thanks to @freddy36 !
+* 08.02.2024: Remove convertFilenameToAscii (#298), Playlist fixes (#299), thanks to @freddy36 !
+* 08.02.2024: Apple touch icon
+* 07.02.2024: Fix dangling pointer in explorerHandleFileStorageTask (#297), thanks to @freddy36 !
+* 07.02.2024: Reduce WiFi memory consumption (#295), thanks to @laszloh !
+* 05.02.2024: Increase JSON buffer for /debug endpoint
+* 02.02.2024: Improve progress calculation/indication, thanks to @freddy36 !
+* 01.02.2024: Use NVS interator when reading RFID keys, save 4KB RAM , thanks to @laszloh !
+* 01.02.2024: Use dynamically allocated buffer for file upload, save 32KB RAM , thanks to @laszloh !
+* 30.01.2024: Add French Language (#292), thanks to @damda58 !
+* 30.01.2024: Fix some audio dropouts with high-quality OPUS files
+* 30.01.2024: Keep original mtime for gzip compressed files, avoiding uneccesary Web.o rebuilds (#293), thanks to @freddy36 !
+* 23.01.2024: Updated documentation on LPCD setting, thanks to @derpicknicker1 !
+* 21.01.2024: Build (tag 2.2) is broken when NEOPIXEL_ENABLE is not set #289, thanks to @RolinBert !
+* 21.01.2024: PN5180: Save about 500 Bytes of RAM
+
+## Version 2.2 (17.01.2024)
+
+* 14.01.2024: Modify CMD_DIMM_LEDS_NIGHTMODE to toggle night light mode (#287), thanks to @laszloh !
+* 11.01.2024: More free heap on boards with PSRAM (CONFIG_SPIRAM_MALLOC_ALWAYSINTERNAL)
+* 10.01.2024: LPCD for ISO-15693 cards
+* 05.01.2024: REST-API specification, thanks to @pauel !
+* 02.01.2024: Partly revert: Fix webstream playlist abort when track fails (#285), thanks to @sfields !
+* 02.01.2024: Show critical voltage slider only if SHUTDOWN_ON_BAT_CRITICAL defined
+* 29.12.2023: Show station logo in Web-UI (if available)
+* 29.12.2023: /rfid endpoint: List all assigned nvs entries (#280)
+* 29.12.2023: Enhanced capabilities for task runtime debugging
+* 28.12.2023: Bugfix 1: DONT_ACCEPT_SAME_RFID_TWICE_ENABLE and web frontend, thanks to @sfields !
+* 28.12.2023: Add configuration for critical (shutoff) voltage in Web-UI, thanks to @SZenglein !
+* 28.12.2023: New official PlatformIO package 6.5.0 (Arduino 2.0.14, ESP-IDF 4.4.6)
+* 28.12.2023: Improve port expander handling (#283), thanks to @r-schmidt !
+* 23.12.2023: Update audio library, avoid waiting in i2s_channel_write() to have more time in other tasks #636
+* 22.12.2023: Web-UI: Preselection of root folder after load to avoid nasty warning when uploading files
+* 17.12.2023: Update audio library, fixes click-noise seeking in file
+* 13.12.2023: Immediately go to sleep if battery is critical (#274), thanks to @SZenglein !
+* 12.12.2023: Long press behaviour, execute cmd directly after longpress-time (#279), thanks to @Joe91 !
+* 12.12.2023: Fix false-positive error (Audio playback timeout)
+* 10.12.2023: Distribute vTaskDelay() in main loop to avoid rare audio dropouts
+* 10.12.2023: Fix wrong states on PE output pins (and SD-card failure on restart) #278, thanks to @36b6fp6s !
+* 09.12.2023: Fix webstream playlist abort when track fails (#276), thanks to @laszloh !
+* 07.12.2023: Show RC522 firmware version at startup, same as PN5180
+* 04.12.2023: fix stuttering sound with some WAV & MP3 files, thanks to @wolle !
+* 04.12.2023: change trackprogress communication from websocket to http to improve stability
+* 04.12.2023: Remove some convertAsciiToUtf8() #272
+* 30.11.2023: Fix a nullptr access after trying to replay an invalid filename (#271), thanks to Olaf!
+* 29.11.2023: Updated audio library to play more MP3s, faster track change & delivery of the cover image
+* 25.11.2023: Save some cpu time in audio task by only updating the playtime statistics every 250ms
+* 22.11.2023: Web-UI: Search for files feature #268
+* 21.11.2023: New command CMD_TOGGLE_MODE to switch Normal => BT-Sink => BT-Source
+* 21.11.2023: Bugfix: Some commands e.g. Play/Pause did not work in BT-Source mode
+* 21.11.2023: Faster pairing animation in BT-Source mode to better distinguish between the two BT modes
+* 19.11.2023: Give audiotask a higher task priority, fixes crackling sound
+* 19.11.2023: bugfix_same_rfid_twice init #262, see Github comments
+* 17.11.2023: Show track progress, current playtime & duration in web-ui (#267)
+* 16.11.2023: Fix delay with getLocalTime()
+* 14.11.2023: Multi Wlan improvements (#266), thanks to @laszloh !
+* 13.11.2023: Update third party libraries
+* 08.11.2023: Fix HTML syntax errors, found with static code analysis tool "HtmlHint"
+* 08.11.2023: Better logging for boards without PSRAM, fewer logs when compiling with NO_SDCARD
+* 07.11.2023: Set timezone after startup, thanks to @Joe91 !
+
+## Version 2.1 (07.11.2023)
+
+* 04.11.2023: LPCD: wakeup check for ISO-14443 cards also with IRQ connected to port-expander
+* 04.11.2023: Bugfix for showing wrong loglevel
+* 03.11.2023: Web-ui: Fix overlapping info/log after pressing refresh button
+* 01.11.2023: Fix folder upload with special chars & playtime formatting
+* 31.10.2023: Code Formatting via clang-format #264, thanks to @laszloh & @fschrempf !!
+* 27.10.2023: PlatformIO package 6.4.0, Arduino version stays at 2.0.11
+* 26.10.2023: LPCD, RFID_IRQ on port-expander: fix compiler warning
+* 26.10.2023: portTICK_RATE_MS is deprecated, use portTICK_PERIOD_MS instead (<https://github.com/espressif/esp-idf/issues/51>)
+* 26.10.2023: Cppcheck: Fix some warnings/hints
+* 22.10.2023: Bugfix PortExpander: beginTransmission()/endTransmission() must be balanced
+* 21.10.2023: Enhanced logging: Show Loglevel
+* 14.10.2023: New define NO_SDCARD, enable to start without any SD card, e.g. for a webplayer only.
+* 05.10.2023: Enable "Arduino as component" by default
+* 02.10.2023: Optimize Arduino as component (Disable BLE, BT-HFP & SPI ethernet)
+* 25.09.2023: Handle unicode characters in NVS backup, write UTF-8 BOM in backup.txt
+* 23.09.2023: Fix some log messages, update FTP & A2DP libraries
+* 22.09.2023: Bugfix_same_rfid_twice init (#262) - Thanks to @Joe91 !!
+* 06.09.2023: Arduino as component #261 - Thanks to @Joe91 !!
+* 01.09.2023: Regression: start an initial WiFi scan on startup, fix redirect to captive portal
+* 31.08.2023: Show nvs rfid assignments in web-ui & allow to delete single tags
+* 31.08.2023: invoke "/rfid" endpoint (#260)
+* 22.08.2023: Unify endpoints for accesspoint.html/management.html (#258)
+* 15.08.2023: Web-ui: Change /restart endpoint to POST, refresh button for info & log modal
+* 12.08.2023: Web-ui improvements
+* 08.08.2023: check & avoid excessive "PING" calls from web-ui
+* 08.08.2023: Configurable volumecurve #256, thanks to @Niko & @Wolle
+* 08.08.2023: Refactor "/info" endpoint to make frontend/backend more independant #257
+* 07.08.2023: LOG message for starting mDNS service
+* 04.08.2023: Support for .oga audio files (Ogg Vorbis Audio container)
+* 04.08.2023: Web-UI: Replace the template processor (#253)
+* 02.08.2023: Bugfix M3U-playlist + PREVIOUSTRACK, thanks to @Niko!
+* 31.07.2023: Restart system: avoid peripheral power down while restarting
+* 31.07.2023: increase stacksize for audio-task (audio-streams with SSL)
+* 22.07.2023: New command CMD_TELL_CURRENT_TIME for announcing the current time
+* 21.07.2023: Show overall playtime total in web-ui
+* 21.07.2023: Refactor shutdown procedure, add new command CMD_RESTARTSYSTEM
+* 20.07.2023: Allow to configure the timezone in settings.h
+* 19.07.2023: Show received timestamp of NTP request in log
+* 11.07.2023: Fix regression, SD-card was not working in SPI mode
+* 09.07.2023: New ftp server by peterus #254. Thanks to @Joe91 for contribution !!
+* 08.07.2023: Allow to compile without SD-card (webplayer only)
+* 04.07.2023: fix volume jumping at startup when initVolume <> factory default (3u)
+* 29.06.2023: Update PN5180 library to fix compilation with DCORE_DEBUG_LEVEL=5
+* 25.06.2023: Some spelling corrections, thanks to @SciLor !
+* 23.06.2023: CMD_TELL_IP_ADDRESS: IP as text (replace thousand separator with word "point")
+* 23.06.2023: web-upload improvement (#249). Thanks to @Joe91 !!
+* 23.06.2023: Refactor web: Move dependant html-code from web.cpp to management.html (#250)
+* 20.06.2023: PlatformIO package 6.3.2
+* 20.06.2023: Move ScanWiFiOnStart to global WiFi configuration (#248)
+* 18.06.2023: Stricter hostname validation (#246). Thanks to @SZenglein !!
+* 18.06.2023: Some Web-UI improvements (#247)
+* 17.06.2023: CMD_TOGGLE_WIFI_STATUS: Escape from BT-mode, WiFi cannot coexist with BT and can cause a crash
+* 13.06.2023: Bluetooth configuration tab in web-interface (#244)
+* 13.06.2023: Introduce new playmode "RANDOM_SUBDIRECTORY_OF_DIRECTORY_ALL_TRACKS_OF_DIR_RANDOM"
+* 07.06.2023: Use bssid to connect to best WIFI and added option to always perform a WIFI-scan #241
+* 06.06.2023: List available WiFi's in accesspoint view
+* 06.06.2023: Remove support for Arduino 1.0.6 & playlist cache
+* 05.06.2023: FastLED 3.6.0, PlatformIO package 6.3.1
+* 01.06.2023: Improve neopixel display in Bluetooth speaker mode (BT-Sink) (#239)
+* 01.06.2023: Reduce floating the log with redundant RSSI-messages: Log RSSI value only if it has changed by > 3 dBm
+* 31.05.2023: Wifi: Log BSSID in scan and connection success, Wifi fixes (#240)
+* 26.05.2023: Fix compiler warnings if MQTT_ENABLE is not defined
+* 26.05.2023: Error in log: `[E][Preferences.cpp:96]` remove(): nvs_erase_key fail
+* 23.05.2023: Migration from single-wifi setup: Initialize "use_static_ip"
+* 22.05.2023: DEV branch has stricter compiler rules, fix some of (mostly harmless) warnings
+* 22.05.2023: BTSource: fix Stack canary watchpoint triggered (BtAppT)
+* 19.05.2023: Show Arduino version at startup & in web-info
+* 19.05.2023: Add support for saving multiple wifi networks (#221)
+* 09.05.2023: Bluetooth.cpp: Fix logging crash in sink mode (#238)
+* 06.05.2023: README.md: Improve formatting, style, language and content
+* 03.05.2023: Add support for control LEDs to be connected at the end of the NeoPixel Ring (#198)
+* 27.04.2023: Remove usage of pgmspace.h header
+* 27.04.2023: Move message formatting into LogMessages
+* 26.04.2023: Configure button with active HIGH
+* 20.04.2023: Speedup playlist generation & file listing by factor > 20
+* 14.04.2023: Removing HAL for ESPmuse (stale development)
+* 12.04.2023: Restrict value ranges to guard array access
+* 11.04.2023: Merge pull request #226 from fschrempf/bugfix_rfid_assign
+* 08.04.2023: Enforcing uniform codestyle
+* 08.04.2023: Allow to escape from bluetooth mode with an unknown card, switch back to normal mode
+* 03.04.2023: Merge pull request #223 from laszloh/bugfix/snprintf_warning, fix for snprintf trunctation warnings
+* 03.04.2023: Add missing translations
+* 31.03.2023: build.yml: Trigger workflow for all branches
+* 27.03.2023: Merge pull request #219 from laszloh/feature/modern_cpp
+* 25.03.2023: Transition to c++17
+* 24.03.2023: Lost feature „PLAY_LAST_RFID_AFTER_REBOOT“
+* 23.03.2023: Change volume animation to triggered mode
+* 22.03.2023: Merge pull request #215 from fschrempf/execute-commands
+* 22.03.2023: Change rotary encoder to delta mode
+* 22.03.2023: Fix errorous indicator in case no audio is playing
+* 22.03.2023: Fix for stuck LED-Shutdown animation
+* 21.03.2023: Pause some tasks for speedup & smoother HTTP upload
+* 21.03.2023: Feature: command-execution on control-site of webserver
+* 21.03.2023: Merge pull request #210 from fschrempf/led_rework_cleaned_frieder
+* 21.03.2023: Set default environment to arduino2 on dev-branch
+* 18.03.2023: Bugfix: Corrupted files after HTTP-upload
+* 18.03.2023: Major rework of LED animation task
+* 13.03.2023: Fix for playing files via Web-UI for Arduino >=2.0.5
+* 13.03.2023: Fix captive portal, Add fallback text AP setup
+* 10.03.2023: Merge pull request #204 from laszloh/bugfix/heap_handling
+* 10.03.2023: Always free playlist memory when SdCard_ReturnPlaylist is called
+* 10.03.2023: Fix heap corruption due to insufficent memory allocation
+* 10.03.2023: Harmonize return value of SdCard_ReturnPlaylist
+* 10.03.2023: Correct the name of the "sort" function to randomize
+* 10.03.2023: Create DEV(eloper) branch
+
+## Version 1
+
+* 22.04.2021: Introduced refactoring-branch
+* xx.05.2021: Fixing/stabilizing code
+* 08.06.2021: Added global support for PA/HP-enable
+* 15.06.2021: Added interrupt-handling to PCA9555
+* 22.06.2021: Changed ESP32's partition-layout in order to provider bigger NVS-storage
+* 30.06.2021: Added directive `CACHED_PLAYLIST_ENABLE` for faster playlist-generation
+* 08.07.2021: Added support to monitor WiFi's RSSI
+* 09.07.2021: Making branch `refactoring` the the master
+* 09.07.2021: Making master the new branch `old` (not maintained any longer!)
+* 13.07.2021: Adding OTA-support via webGUI
+* 23.07.2021: Adding new playmode: from local .m3u-file (files or webstreams)
+* 30.09.2021: Added feature `PAUSE_WHEN_RFID_REMOVED` for RC522 after having it already for PN5180 (thanks @elmar-ops for contribution)
+* 27.10.2021: Added feature `SAVE_PLAYPOS_BEFORE_SHUTDOWN`. When enabled last playposition for audiobook is saved when shutdown is initiated. Without having this feature enabled, it's necessary to press pause first, in order to do this manually.
+* 28.10.2021: Added feature `SAVE_PLAYPOS_WHEN_RFID_CHANGE`. When enabled last playposition for audiobook is saved when new RFID-tag is applied. Without having this feature enabled, it's necessary to press pause first, in order to do this manually.
+* 13.11.2021: Command `CMD_TELL_IP_ADDRESS` can now be assigned to buttons in order to get information about the currently used IP-address via speech.
+* 29.01.2022: Directive `INVERT_POWER` can now be used it invert power-GPIO. And port-expander can now be used for power.
+* 28.02.2022: Directive `MEASURE_BATTERY_MAX17055` added. Provides support for [MAX17055](https://www.maximintegrated.com/en/products/power/battery-management/MAX17055.html).
+* 31.08.2022: Directive `DONT_ACCEPT_SAME_RFID_TWICE` added. Blocks unwanted reapplies of the same rfid-tag (in case it's not a modification-card or rfid-tag is unknown in NVS).
+* 02.10.2022: ESPuino is now able to stream audio to external BT-devices. This is currently in testing. Big thanks to @tueddy for providing this feature!
+* 18.10.2022: New playmode: pick random subdirectory of a given directory and play it's content alphabetic ordered
+* 08.01.2023: New feature: `PAUSE_ON_MIN_VOLUME`. Playback is paused automatically if volume reaches minVolume (usually 0).
+
+## Old (monolithic main.cpp)
+
+* 11.07.2020: Added support for reversed Neopixel addressing.
+* 09.10.2020: mqttUser / mqttPassword can now be configured via webgui.
+* 16.10.2020: Added English as supported lanuage.
+* 01.11.2020: Added directive `SD_NOT_MANDATORY_ENABLE`: for debugging puposes SD can be bypassed at boot.
+* 17.11.2020: Introduced a distinct volume for headphone for optional headphone-PCB.
+* 20.11.2020: Added directive `MEASURE_BATTERY_VOLTAGE`: monitoring battery's voltage is now supported.
+* 25.11.2020: WiFi can now be enabled/disabled instantly by pressing two buttons.
+* 28.11.2020: Battery's voltage can now be visualized by Neopixel by short-press of rotary encoder's button.
+* 28.11.2020: Added directive `PLAY_LAST_RFID_AFTER_REBOOT`: ESPuino will recall the last RFID played after reboot.
+* 05.12.2020: Added filebrowser to webgui (thanks @mariolukas for contribution!)
+* 05.12.2020: Moved all user-relevant settings to src/settings.h
+* 06.12.2020: Added PCB for Wemos Lolin32
+* 08.12.2020: Reworked MQTT-timeout-Management
+* 09.12.2020: mDNS-feature added. If ESPuino's name is "ESPuino", you can use `ESPuino.local` instead it's of IP-address.
+* 11.12.2020: Revised GUI-design (thanks @mariolukas for contribution!) + (untested) PCB added for Wemos Lolin D32 + gerberfiles for headphone-PCB
+* 18.12.2020: Added SD-MMC 1 Bit-mode (`SD_MMC_1BIT_MODE`). This mode needs one GPIO less and provides almost doubled speed (compared to SPI) for FTP-transfers (thanks @tueddy for contribution!)
+* 18.12.2020: Added support for RFID-reader PN5180 (`RFID_READER_TYPE_PN5180`). PN5180 has better RFID-range/sensitivity and can read ISO-15693 / iCode SLIX2-tags aka 'Tonies' (thanks @tueddy for contribution!)
+* 20.12.2020: Due to memory-issues with webstreams, FTP needs to be activated by pressing pause+next-button now
+* 23.12.2020: User-config is now split into general part (settings.h) and develboard-specific part (e.g. settings-lolin32.h)
+* 13.01.2021: Added fileexlorer to webgui (thanks @grch87 for contribution!). Now files and directories can be renamed, uploaded and deleted via webgui.
+* 17.01.2021: Added directive `STATIC_IP_ENABLE`: (optional) static IPv4-configuration
+* 18.01.2021: Added directive `PN5180_ENABLE_LPCD`: awake from deepsleep with PN5180 is now possible (but needs another GPIO)
+* 25.01.2021: Added directive `USE_LAST_VOLUME_AFTER_REBOOT`: Remembers volume used at last shutdown after reboot. This overwrites initial volume from GUI.
+* 28.01.2021: Removed cached RFID-filebrowser and replaced by realtime-browser
+* 01.02.2021: Introducing PCB: Lolin32 with SD_MMC + PN5180
+* 06.02.2021: German umlauts now supported. When uploading via FTP make sure to change charset to CP437.
+* 09.02.2021: Added support for bluetooth-sink (a2dp). Thanks @grch87 & @elmar-ops for providing this feature!
+* 25.02.2021: Added support for dynamic button-layout. Rotary-encoder is now optional and up to five buttons can be used.
+* 25.02.2021: Actions can be freely assigned to buttons (multi-button, single-button (short), single-button (long))
+* 25.02.2021: Added support for webcontrol: basic control (volume, play/pause, next, previous, first, last track) can now be controlled via webgui.
+* 25.02.2021: Added support for .m4a and .wav-files.
+* 26.02.2021: Shutdown via webgui is now available.
+* 05.03.2021: Added support for remote control via infrared. Make sure to enable `IR_CONTROL_ENABLE` to use this feature and don't forget to assign corresponding rc-commands of *your* remote control to actions.
+* 19.03.2021: Added support for port-expander PCA9555. Can be used for everything, that is "button-like": buttons, headphone-detect, PN5180.IRQ.
+* 28.03.2021: Added support for fileseek. With commands `CMD_SEEK_FORWARDS` and `CMD_SEEK_BACKWARDS` it's possible to jump a number of seconds defined in `jumpOffset`.
+* 30.03.2021: Added support for stereo/mono via `PLAY_MONO_SPEAKER`. If active, mono is used while headphones remain stereo (if `HEADPHONE_ADJUST_ENABLE` is active).
+* no more updates will follow!

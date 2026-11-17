@@ -1,0 +1,103 @@
+Lithium Ion Rechargeable Battery
+         Technical Information
+
+   Revision 0.1
+20 th Jan. 2015
+
+Model Number US18650VTC6
+Cell Type  Cylindrical
+Cell Name  US18650VTC6
+
+          Sony Energy Devices Corporation
+Device Solutions Business Group / Sony
+
+                                             Corporation
+1. General          : US18650VTC6                                 2. Performance      3130mAh      discharge
+                    : US18650VTC6                                                     11.3Wh       2.0V cut off at 23
+1.1 Name and Code   : TBD                                           Nominal Capacity
+1.1.1 Model Number                                                  at 0.2C
+1.1.2 Cell Name
+1.1.3 Sony Code                                                   Rated Capacity      3000mAh      discharge
+                                                                  at 0.2C             10.8Wh       2.0V cut off at 23
+1.2 Cell Shape and Weight                                         Capacity at 1C      3007mAh      discharge
+                                                                                      10.8Wh       2.5V cut off at 23
+1.2.1 Cell Shape    : Cylindrical                                 Capacity at 10A     2940mAh      discharge
+                                                                                      10.5Wh       2.5V cut off at 23
+1.2.2 Size (with plastic tube) : Diameter                         Nominal Voltage     3.6V
+18.50mm max Length 65.20mm max
+
+1.2.3 Weight : 46.5g Average
+
+1.3 Safety Regulation                                             Internal Impedance               measured by
+                                       Sony will acquire UL1642.                                   AC1kHz
+
+                                                                  Cycle Performance   60% Min.     7.5,15A discharge
+                                                                                      of Initial
+                                                                                      capacity at
+                                                                                      500 cycles
+
+                                                                  * Standard Charge Condition
+
+                                                                  Charge Method       : constant current constant voltage
+
+                                                                  Charge Up Voltage : 4.2 ± 0.05V
+                                                                  Charge Current : 3.0A
+                                                                  Charge Time         : 2.5h
+                                                                  Ambient Temperature: 23oC
+Charge Characteristics (US18650VTC6)
+                                 Charge voltage
+
+                       Charge capacity
+
+                       Charge Current
+
+                                            Test Condition
+                                            Charge: 23deg.C,4.2V,3.0A(CC/CV),2.5h
+  Discharge Load Characteristics (US18650VTC6)
+
+Test Condition
+Charge: 23deg.C,4.2V,3.0A(CC/CV),2.5h cut
+Discharge: 0.6A,3.0A,10A,20A,2.5V or 90deg.C cutoff
+Discharge Load Characteristics (US18650VTC6)
+
+                           Test Condition
+                           Charge : 23deg.C, 4.2V, 2.5A(CC/CV), 2.5h cut
+                           Discharge : 23deg.C, 0.5A, 2.5A, 10A, 20A, ,2.0V or 90deg.C cut off
+
+                                                                                              Voltage
+
+0.6A 3.0A 10A 20A
+
+                   Temperature
+Temperature Dependence of Discharge Capacity (US18650VTC6)
+
+                                Test Condition
+                                Charge : 23deg.C, 4.2V, 2.5A(CC/CV), 2.5h cut
+                                Discharge : -20 60deg.C,10A,2.5V cutoff
+Temperature Dependence of Discharge Curves (US18650VTC6)
+
+-20deg.C -15deg.C -10deg.C  0deg.C             23deg.C  45deg.C  60deg.C
+
+Test Condition
+Charge : 23deg.C, 4.2V, 2.5A(CC/CV), 2.5h cut
+Discharge : -20 60deg.C,10A,2.0V cutoff
+Cycle Life Performance (US18650VTC6)
+                   7.5A discharge
+
+Test Condition
+Charge : 23deg.C, 4.15V, 4A(CC/CV), 250mA cut
+Discharge : 23deg.C, 7.5A, 2.5V cut off,R 30deg.Ctcut
+Cycle Life Performance (US18650VTC6)
+                    15A discharge
+
+Test Condition
+Charge : 23deg.C, 4.15V, 4A(CC/CV), 250mA cut
+Discharge : 23deg.C, 15A, 90deg.C cutoff or 2.5Vcutoff ,R 55deg.Ctcut
+Dimension with Plastic Tube: US18650VTC6
+
+       65.0  +0.
+             2-
+             0.2
+
+(0.2)
+

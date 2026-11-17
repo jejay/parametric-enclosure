@@ -1,0 +1,221 @@
+When implementing HID over Bluetooth, the accessory should:
+  Support Bluetooth HID Profile 1.1.
+  Support Sniff Mode for Low Power Consumption (page 331).
+
+The accessory should:
+  Use the following parameters in SDP for sniff subrating:
+
+       HIDSSRHostMaxLatency - 450 ms (720 slots)
+       HIDSSRHostMinTimeout - 45 ms (72 slots)
+  Use a typical report packet of 22 bytes or less. This is small enough to fit into a DH1 packet with
+    L2CAP and HID header.
+
+                                  2026-10-30 | Copyright © 2026 Apple Inc. All Rights Reserved.
+
+                                                               342
+57. Bluetooth Low Energy (BLE)
+
+Accessories integrating Bluetooth Low Energy (BLE) technology shall support the Bluetooth 4.0
+Specification or later.
+
+57.1 Role
+
+The accessory should implement either the Peripheral role or the Broadcaster role as defined in the
+Bluetooth 4.0 Specification ­ Volume 3, Part C, Section 2.2.2.3 and Section 2.2.2.1.
+
+57.2 Advertising Channels
+
+The accessory should advertise on all three advertising channels (37, 38, and 39) at each advertising
+event. See the Bluetooth 4.0 Specification ­ Volume 6, Part B, Section 4.4.2.1.
+
+57.3 Advertising PDU
+
+The accessory should use one of the following advertising PDUs:
+  ADV_IND
+  ADV_NOCONN_IND
+  ADV_SCAN_IND
+ADV_DIRECT_IND should not be used. See the Bluetooth 4.0 Specification ­ Volume 6, Part B, Section
+2.3.1.
+
+57.4 Advertising Data
+
+The advertising data sent by the accessory should contain at least the following information as described
+in the Bluetooth Core Specification Supplement ­ Part A:
+  Flags.
+  TX Power Level.
+  Local Name.
+
+                                                2026-10-30 | Copyright © 2026 Apple Inc. All Rights Reserved.
+
+                                                                343
+57. Bluetooth Low Energy (BLE)
+57.5 Advertising Interval
+
+  Services.
+The Local Name should match the accessory's markings and packaging and not contain a colon ':' or
+semi-colon ';'.
+The accessory may put the Local Name and the TX Power Level data in the SCAN_RSP PDU if, for
+example, it needs to reduce power consumption or not all of the advertising data fit into the advertising
+PDU. Depending on its state, the device may not always perform active scanning.
+The primary services should always be advertised in the advertising PDU. Secondary services should
+not be advertised. Services not significant to the primary use case of the accessory may be omitted if
+space is limited in the Advertising PDU.
+The advertising data and the scan response data in the SCAN_RSP PDU should comply with the
+formatting guidelines in the Bluetooth 4.0 Specification ­ Volume 3, Part C, Section 18: each starts
+with a length field, followed by AD Type and AD Data.
+
+57.5 Advertising Interval
+
+The accessory should first use the recommended advertising interval of 20 ms for at least 30 seconds.
+If it is not discovered within the initial 30 seconds, Apple recommends using one of the following longer
+intervals to increase chances of discovery by the device:
+  152.5 ms
+  211.25 ms
+  318.75 ms
+  417.5 ms
+  546.25 ms
+  760 ms
+  852.5 ms
+  1022.5 ms
+  1285 ms
+
+     Note:
+     Longer advertising intervals usually result in longer discovery and connect times, but may
+     lower accessory power consumption.
+
+                                                2026-10-30 | Copyright © 2026 Apple Inc. All Rights Reserved.
+
+                                                                344
+57. Bluetooth Low Energy (BLE)
+57.6 Connection Parameters
+
+57.6 Connection Parameters
+
+If both the Central and Peripheral support the Connection Parameters Request procedure, then either
+shall use the procedure. The device will not read or use the parameters in the Peripheral Preferred
+Connection Parameters characteristic. See Bluetooth 5.3 Specification ­ Volume 6, Part B, Section
+5.1.1 Connection Update.
+
+Connection parameter requests may be rejected if they do not meet these guidelines.
+
+General connection parameter request guidelines:
+  Peripheral Latency  30 connection intervals.
+  Supervision Timeout from 6 seconds to 18 seconds.
+  Interval Min  15 ms.
+  Interval Min  2 seconds.
+  Interval Min is a multiple of 15 ms.
+  One of the following:
+
+       Interval Max at least 15 ms greater than Interval Min.
+       Interval Max and Interval Min are both 15 ms.
+  Interval Max * (Peripheral Latency + 1) of 6 seconds or less.
+  Supervision Timeout greater than Interval Max * (Peripheral Latency + 1) * 3.
+
+If Bluetooth Low Energy HID is one of the connected services of an accessory, a connection interval
+down to 11.25 ms may be accepted by some devices.
+
+     Note:
+     When Interval Max and Interval Min are both 15 ms, some devices (such as Apple Watch) will
+     offer a 30 ms interval to better balance power and performance constraints.
+
+Apple Watch connection parameter request guidelines:
+  Interval Min  30 ms.
+  Interval Min is a multiple of 30 ms.
+  One of the following:
+
+       Interval Max at least 30 ms greater than Interval Min.
+       Interval Max and Interval Min are both 30 ms.
+
+57.7 Data Packet Length Extension
+
+Data Packet Length Extension increases the maximum data length from 27 bytes to 251 bytes. Using
+larger per-packet data lengths improves radio efficiency, greatly increasing application data rates and
+boosting battery life. See Bluetooth 5.0 Specification ­ Volume 6, Part B, Section 4.6.6.
+
+                                                2026-10-30 | Copyright © 2026 Apple Inc. All Rights Reserved.
+
+                                                                345
+57. Bluetooth Low Energy (BLE)
+57.8 Privacy
+
+Figure    Data Packet Length Extension
+57-1
+
+Preamble Access Address LL Header          BT 4.0 PDU        MIC  CRC
+(1 Byte)  (4 Bytes)             (2 Bytes)       Data         (4 Bytes) (3 Bytes)
+
+                                           (0-27 Bytes)
+
+Preamble Access Address LL Header          BT 4.2 EDL PDU         MIC             CRC
+(1 Byte)  (4 Bytes)             (2 Bytes)           Data          (4 Bytes) (3 Bytes)
+
+                                              (0-251 Bytes)
+
+Accessories should support Data Packet Length Extension for best performance with devices.
+
+Devices and Mac computers operating as the Central will negotiate optimal data packet lengths based
+on various factors, such as connection event length, system topology, and protocol.
+
+57.8 Privacy
+
+The accessory should be able to resolve a Resolvable Private Address in all situations. Due to privacy
+concerns, the device will use a Random Device Address as defined in the Bluetooth 4.0 Specification
+­ Volume 3, Part C, Section 10.8.
+
+57.9 Permissions
+
+The accessory should not require special permissions, such as pairing, authentication, or encryption,
+to discover services and characteristics. It may require special permissions only for access to a
+characteristic value or a descriptor value. See the Bluetooth 4.0 Specification ­ Volume 3, Part G,
+Section 8.1, fifth paragraph.
+
+57.10 Pairing
+
+The accessory should not request pairing until an ATT request is rejected using the Insufficient
+Authentication error code. See the Bluetooth 4.0 Specification ­ Volume 3, Part F, Section 4.
+
+If, for security reasons, the accessory requires a bonded relationship with the Central, the Peripheral
+should reject the ATT request using the Insufficient Authentication error code, as appropriate. As a
+result, the device may proceed with the necessary security procedures.
+
+                                                2026-10-30 | Copyright © 2026 Apple Inc. All Rights Reserved.
+
+                                                                346
+57. Bluetooth Low Energy (BLE)
+57.11 MTU Size
+
+Similarly, if the device acts as a Central and a GATT server, it may reject an ATT request using the
+Insufficient Authentication error code. The accessory should initiate the security procedure for pairing
+in response.
+Pairing may require user authorization depending on the device. Once an accessory is paired with a
+device, the accessory shall retain the distributed keys of both central and peripheral for future use. If
+the pairing is no longer required, the accessory shall delete both sets of keys.
+
+57.11 MTU Size
+
+An accessory supporting packet length extension shall perform the packet length update procedure
+before performing the Exchange MTU Request handshake, see Data Packet Length Extension (page
+345).
+Devices will support and request an MTU size larger than the default during the Exchange MTU Request
+handshake. See the Bluetooth 4.0 Specification ­ Volume 3, Part F, Section 3.2.8.
+When operating as ATT client, the device will request the optimal MTU size based on factors such as
+the Bluetooth topology, connection event length, maximum data length, and protocol (GATT or
+connection-oriented L2CAP).
+An accessory operating as ATT server should select an MTU equal to or greater than the device's MTU
+request.
+
+57.12 Services
+
+57.12.1 Generic Access Profile Service
+
+The accessory should implement the Device Name characteristic per the Bluetooth 4.0 Specification
+­ Volume 3, Part C, Section 12.1. The Device Name characteristic should be writeable.
+
+57.12.2 Generic Attribute Profile Service
+
+The accessory shall implement the Service Changed characteristic only if the accessory has the ability
+to change its services during its lifetime.
+The device may use the Service Changed characteristic to determine if it can rely on previously read
+(cached) information from the accessory. See the Bluetooth 4.0 Specification ­ Volume 3, Part G,
+Section 7.1.
+

@@ -1,0 +1,136 @@
+Introduction to Low Power Mode in Bluetooth® Low Energy Scenarios - ESP32-S3 - — ESP-IDF Programming Guide v6.1.1 documentation
+ESP-IDF Programming Guide
+[Logo]
+Choose target...
+Choose version...
+Get Started
+API Reference
+Hardware Reference
+API Guides
+Application Startup Flow
+Bluetooth® Architecture
+Bluetooth® Low Energy
+ESP-BLE-MESH
+Bootloader
+Build System
+Build System v2
+RF Coexistence
+C Support
+C++ Support
+Code Quality
+Core Dump
+Current Consumption Measurement of Modules
+Deep-sleep Wake Stubs
+Device Firmware Upgrade via USB
+Error Handling
+ESP-WIFI-MESH
+Support for External RAM
+Fatal Errors
+File System Considerations
+SPI Flash and External SPI RAM Configuration
+Hardware Abstraction
+High Priority Interrupts
+JTAG Debugging
+Project Configuration
+Linker Script Generation
+Low Power Modes
+Overview
+Introduction to Low Power Mode for Systemic Power Management
+Introduction to Low Power Mode in Wi-Fi Scenarios
+Introduction to Low Power Mode in Bluetooth® Low Energy Scenarios
+lwIP
+Memory Types
+OpenThread
+Partition Tables
+Performance
+Reproducible Builds
+RF Calibration
+Standard I/O and Console Output
+Thread Local Storage
+Tools
+Tracing
+Unit Testing in ESP32-S3
+Running ESP-IDF Applications on Host
+USB OTG Console
+USB Serial/JTAG Controller Console
+Wi-Fi Driver
+Wi-Fi Security
+Wi-Fi Expansion
+PHY
+Security Guides
+Migration Guides
+Libraries and Frameworks
+Contributions Guide
+ESP-IDF Versions
+Resources
+Copyrights and Licenses
+About
+Switch Between Languages
+ESP-IDF Programming Guide
+API Guides
+Bluetooth® Low Energy
+Introduction to Low Power Mode in Bluetooth® Low Energy Scenarios
+Edit on GitHub
+Introduction to Low Power Mode in Bluetooth® Low Energy Scenarios
+[中文]
+This section introduces clock source selection in low power modes for Bluetooth Low Energy (Bluetooth LE), along with common related issues.
+Clock Source Selection in Low Power Mode
+According to the Bluetooth specification, the sleep clock accuracy must be within 500 PPM. Make sure the clock source selected for Bluetooth LE low power mode meets this requirement. Otherwise, Bluetooth LE may not perform normally and can cause a series of problems, such as ACL connection establishment failure or ACL connection timeout.
+Selecting Main XTAL
+To select the main XTAL as the Bluetooth LE internal clock source, configure the following option:
+CONFIG_BT_CTRL_LOW_POWER_CLOCK = Main crystal (CONFIG_BT_CTRL_LPCLK_SEL_MAIN_XTAL)
+When this is selected, the main XTAL remains powered on during light-sleep, resulting in higher current consumption. Please refer to Power Save README for the typical current consumption in light-sleep using XTAL versus a 32 kHz external crystal.
+Selecting 32 kHz External Crystal
+To use a 32 kHz external crystal as the Bluetooth LE internal clock source, configure the following options:
+Configuration Path 1:
+CONFIG_BT_CTRL_LOW_POWER_CLOCK = External 32 kHz crystal/oscillator (CONFIG_BT_CTRL_LPCLK_SEL_EXT_32K_XTAL)
+Configuration Path 2:
+CONFIG_RTC_CLK_SRC = External 32 kHz crystal (CONFIG_RTC_CLK_SRC_EXT_CRYS)
+Note: Even if 32 kHz is selected in menuconfig, the system will fall back to the main XTAL if the external crystal is not detected during Bluetooth LE initialization. This may lead to unexpected current consumption in light-sleep mode.
+Selecting 136 kHz RC Oscillator
+To use a 136 kHz internal RC oscillator as the Bluetooth LE internal clock source, configure the following option:
+Configuration Path 1:
+CONFIG_BT_CTRL_LOW_POWER_CLOCK = Internal 136kHz RC oscillator (CONFIG_BT_CTRL_LPCLK_SEL_RTC_SLOW)
+Generally, the 136 kHz RC oscillator cannot meet the accuracy requirement of Bluetooth LE. It is only suitable for scenarios with low clock accuracy requirements, such as legacy advertising (ADV) or scanning. It does not support connections in central or peripheral roles.
+Configuration Path 2:
+CONFIG_RTC_CLK_SRC = Internal 136 kHz RC oscillator (CONFIG_RTC_CLK_SRC_INT_RC)
+How to Check the Current Clock Source Used by Bluetooth LE
+You can check the current Bluetooth LE clock source from the initialization logs:
+Bluetooth LE Initialization Logs and Clock Sources
+Log Message
+|
+Clock Source
+|
+Using main XTAL as clock source
+|
+Main XTAL
+|
+Using 136 kHz RC as clock source
+|
+Internal 136 kHz RC oscillator
+|
+Using external 32.768 kHz crystal as clock source
+|
+External 32 kHz crystal
+|
+Using external 32.768 kHz oscillator at 32K_XP pin as clock source
+|
+External 32 kHz oscillator at 32K_XP pin
+|
+FAQ
+1. Bluetooth LE ACL Connection Fails or Disconnects in Low Power Mode
+As explained in the clock source selection section above, when ACL connections fail to establish or unexpectedly disconnect in low power mode, first verify whether the current clock source meets Bluetooth LE accuracy requirements.
+2. Measured light-sleep Current Higher Than Expected
+As described in the clock source selection section above, if the main XTAL is used as the clock source, it remains powered on during light-sleep, resulting in higher current consumption than other clock sources. The average current may vary depending on the specific application, Bluetooth LE configuration, and the duration spent in light-sleep. Some applications may have higher average current because Bluetooth LE is active for a larger proportion of the time transmitting and receiving.
+3. Unable to Enter light-sleep Mode
+If Auto light-sleep is enabled but the device fails to enter light-sleep, it's usually due to insufficient IDLE time, which prevents the automatic entry conditions from being met. This can be caused by excessive logging or Bluetooth LE configurations that reduce IDLE time, such as continuous scanning.
+Was this page helpful?
+Thank you! We received your feedback.
+If you have any comments, fill in Espressif Documentation Feedback Form.
+We value your feedback.
+Let us know how we can improve this page by filling in Espressif Documentation Feedback Form.
+Previous
+Next
+© Copyright 2016 - 2026, Espressif Systems (Shanghai) Co., Ltd.
+Built with Sphinx using a theme based on Read the Docs Sphinx Theme.
+Download HTML

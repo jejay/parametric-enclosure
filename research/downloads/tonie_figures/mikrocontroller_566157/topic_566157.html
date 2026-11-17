@@ -1,0 +1,2434 @@
+<!DOCTYPE html>
+<html lang="de" dir="ltr">
+<head>
+  <title>
+      Tonie-Box Chip defekt - reparieren möglich? - Mikrocontroller.net
+  </title>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+	<link rel="preload" href="/assets/source-sans-3-latin-400-normal-65a60efebc5dea9c72a07c2064230a91ac5c4720b1e2068b8bf944bbb49157b7.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+	<link rel="stylesheet" href="/assets/screen-9cb74eefaccd5a3540abc8e9c8cbcc9b7878f6bb4c44fc3506f69489ff6b2c9a.css" media="all" />
+    <link rel="stylesheet" href="/assets/print-dddfec7d2cc702bbb4faa343d6939fa611e15db6356735864336844dbf87c15d.css" media="print" />
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="canonical" href="https://www.mikrocontroller.net/topic/566157" />
+
+	<meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="4xQOh3TjrWO6kHPsvg2EH0oOJaS3kJHEY_33cB_D4OKgvWtwYOKepCjPVzoT3o2WgoW-y5n9mpOxAWZ6Ew6OEg" />
+
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Mikrocontroller und Digitale Elektronik","item":"https://www.mikrocontroller.net/forum/mikrocontroller-elektronik"},{"@type":"ListItem","position":2,"name":"Tonie-Box Chip defekt - reparieren möglich?"}]}</script>
+
+<!-- OpenGraph & JSON-LD metadata -->
+<meta property="og:site_name" content="Mikrocontroller.net">
+<meta property="og:title" content="Tonie-Box Chip defekt - reparieren möglich?">
+
+
+
+<style>
+
+</style>
+
+<script>
+  var user = {"name":null,"role":null,"posts_per_page":200};
+
+  var topic_read_times = {};
+  var post_reactions = {"7633977":{"count":1,"names":[],"more":1,"names_hidden":false,"helped":false},"7634331":{"count":3,"names":[],"more":3,"names_hidden":false,"helped":false},"7860228":{"count":1,"names":[],"more":1,"names_hidden":false,"helped":false},"7860388":{"count":3,"names":[],"more":3,"names_hidden":false,"helped":false},"7634343":{"count":1,"names":[],"more":1,"names_hidden":false,"helped":false}};
+  var my_reactions = [];
+  var reacting_as_op = false;
+  var reaction_texts = {"from":"Danke von","and":"und","more_one":"einem anderen","more":"{n} anderen","earlier":"Früher als lesenswert bewertet: {n}","count":"Danke von {n}"};
+</script>
+
+
+
+  <link rel="alternate" type="application/atom+xml" title="Mikrocontroller.net Newsfeed" href="/newsfeed" />
+
+  <!-- Forum Feeds -->
+  <link rel="alternate" type="application/atom+xml" title="Neue Beiträge in allen Foren" href="/feed/global" />
+   <link rel="alternate" type="application/atom+xml" title="Neue Beiträge im Forum &quot;Mikrocontroller und Digitale Elektronik&quot;" href="/feed/forum/1" /> 
+   <link rel="alternate" type="application/atom+xml" title="Neue Beiträge im Thread &quot;Tonie-Box Chip defekt - reparieren möglich?&quot;" href="/feed/topic/566157" /> 
+  
+  <!-- / Forum Feeds -->
+
+    <meta name="robots" content="NOODP" />
+
+  <link rel="search" type="application/opensearchdescription+xml" title="Mikrocontroller.net" href="/searchplugin.xml" />
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+<script src="/assets/application-3534c6a5882a1de3e334bacab367682be3856a244426ce1e4be3717eca26df2a.js"></script>
+
+  <script>
+jQuery(document).ready(function() {
+  setTimeout(function() {
+    if ($('#sdfj391').is(':visible') && !$('#adliste').is(':visible')) {
+      if (parseInt(localStorage.getItem('adblock-notice-counter') || 0) > 5 && parseInt(localStorage.getItem('adblock-notice-counter') || 0) <= 14) {
+        $('#content').before('<div class="card">Lieber AdBlock-Nutzer, wir mögen störende, blinkende Flash-Anzeigen genauso wenig wie du. Deshalb zeigt Mikrocontroller.net ausschließlich nicht animierte Text- und Bildanzeigen an. Vielleicht möchtest du AdBlock für diese Seite deaktivieren? (Diese Meldung verschwindet automatisch nach ein paar Seitenaufrufen.)</div>');
+      }
+      if (typeof localStorage != 'undefined') {
+        localStorage.setItem('adblock-notice-counter', 1 + parseInt(localStorage.getItem('adblock-notice-counter') || 0));
+      }
+    }
+  }, 100);
+});
+  </script>
+
+
+<script async='async' src='https://securepubads.g.doubleclick.net/tag/js/gpt.js'></script>
+<script>
+    var googletag = googletag || {};
+    googletag.cmd = googletag.cmd || [];
+    googletag.cmd.push(function () {
+        var mappingRightSidebar = googletag.sizeMapping().addSize([0, 0], [300, 250]).addSize([800, 600], [[300, 600], [300, 250], [160, 600]]).build();
+        var mappingLeftSidebar = googletag.sizeMapping().addSize([1250, 600], [[160, 600]]).build();
+        googletag.pubads().setForceSafeFrame(true);
+        googletag.pubads().setSafeFrameConfig({
+            allowOverlayExpansion: false,
+            allowPushExpansion: false,
+            sandbox: true
+        });
+        googletag.pubads().setPrivacySettings({
+            restrictDataProcessing: true,
+            nonPersonalizedAds: true
+        });
+        googletag.pubads().setTargeting("pagetype", "topic");
+        googletag.pubads().setTargeting("section", "forum-1");
+        googletag.pubads().setTargeting("forum_id", "1");
+        googletag.pubads().setTargeting("mikro-categories", ["embedded","digital-ics","passives","test-and-measurement","wireless-rf"]);
+        googletag.defineSlot('/62616433/Mikrocontroller_Right_Sidebar_1', [[160, 600], [300, 600], [300, 250]], 'div-gpt-ad-1549487225707-0').defineSizeMapping(mappingRightSidebar).addService(googletag.pubads());
+        googletag.defineSlot('/62616433/Mikrocontroller_Left_Sidebar_1', [160, 600], 'div-gpt-ad-1549567092597-0').defineSizeMapping(mappingLeftSidebar).addService(googletag.pubads());
+        googletag.pubads().enableSingleRequest();
+        googletag.pubads().collapseEmptyDivs();
+        googletag.enableServices();
+    });
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SQJVSC8FV3"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+
+
+var gaProperty = 'G-SQJVSC8FV3';
+
+gtag('set', 'ads_data_redaction', true);
+
+gtag('js', new Date());
+gtag('set', {
+  'forum_id': '1',
+  'user_type': 'Guest'
+});
+gtag('config', gaProperty, {
+  'anonymize_ip': true,
+  'allow_ad_personalization_signals': false,
+  'allow_google_signals': false
+});
+</script>
+
+
+
+<meta name="google-translate-customization" content="5ced0b84f202ea5b-ae0c3756d2b00e02-g6a9f31b5bb528ccf-17">
+
+</head>
+
+<body class="">
+    <header>
+  <div class="topbar">
+
+    <a class="topbar-logo" href="/">
+        <img src="/images/logo.svg" alt="Mikrocontroller.net" class="logo" />
+    </a>
+
+      <nav id="topbar-nav" class="topbar-nav" aria-label="Hauptbereiche">
+          <a href="/"
+             >Neuigkeiten</a>
+          <a href="/articles/Hauptseite"
+             >Artikel</a>
+          <a href="/forum"
+             aria-current="true">Forum</a>
+      </nav>
+
+    <div class="topbar-spacer"></div>
+
+    <a class="topbar-search-link" href="/search" aria-label="Suchen">
+      <svg class="ui-icon ui-icon-search" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7" cy="7" r="3.75"/><path d="M9.75 9.75 13 13"/></svg>
+    </a>
+
+    <form action="/search" class="topbar-search" role="search">
+      <input name="query" type="search" placeholder="Suchen" aria-label="Suchen" />
+      <button type="submit" class="topbar-search-go" aria-label="Suchen">
+        <svg class="ui-icon ui-icon-search" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7" cy="7" r="3.75"/><path d="M9.75 9.75 13 13"/></svg>
+      </button>
+    </form>
+
+      <a class="topbar-login" href="/user/login">Login</a>
+  </div>
+</header>
+
+<div id="outer-container">
+
+  <table id="twocolumns">
+  <tr>
+  <td id="sidebar-left" class="sidebar">
+
+<!-- begin nav -->
+<div class="nav-container">
+  <ul class="nav-icons">
+    <li>
+      <ul>
+        <li>
+            <a href="/forum/all"><i class='icons mikro-all'></i>Alle Beiträge</a>
+        </li>
+        <li>
+            <a href="/forum/mikrocontroller-elektronik"><i class='icons mikro-mikrocontroller-elektronik'></i>µC &amp; Elektronik</a>
+        </li>
+        <li>
+            <a href="/forum/analogtechnik"><i class='icons mikro-analogtechnik'></i>Analogtechnik</a>
+        </li>
+        <li>
+            <a href="/forum/hf"><i class='icons mikro-hf'></i>HF, Funk &amp; Felder</a>
+        </li>
+        <li>
+            <a href="/forum/platinen"><i class='icons mikro-platinen'></i>Platinen</a>
+        </li>
+        <li>
+            <a href="/forum/mechanik"><i class='icons mikro-mechanik'></i>Mechanik &amp; Werkzeug</a>
+        </li>
+        <li>
+            <a href="/forum/fahrzeugelektronik"><i class='icons mikro-fahrzeugelektronik'></i>Fahrzeugelektronik</a>
+        </li>
+        <li>
+            <a href="/forum/hausbus"><i class='icons mikro-hausbus'></i>Haus &amp; Smart Home</a>
+        </li>
+        <li>
+            <a href="/forum/fpga-vhdl-cpld"><i class='icons mikro-fpga-vhdl-cpld'></i>FPGA, VHDL &amp; Co.</a>
+        </li>
+        <li>
+            <a href="/forum/dsp"><i class='icons mikro-dsp'></i>DSP</a>
+        </li>
+        <li>
+            <a href="/forum/ki"><i class='icons mikro-ki'></i>Entwickeln mit KI</a>
+        </li>
+        <li>
+            <a href="/forum/pc-programmierung"><i class='icons mikro-pc-programmierung'></i>Softwareentwicklung</a>
+        </li>
+        <li>
+            <a href="/forum/pc-hardware-software"><i class='icons mikro-pc-hardware-software'></i>PC Hard- &amp; Software</a>
+        </li>
+        <li>
+            <a href="/forum/codesammlung"><i class='icons mikro-codesammlung'></i>Projekte &amp; Code</a>
+        </li>
+        <li>
+            <a href="/forum/markt"><i class='icons mikro-markt'></i>Markt</a>
+        </li>
+        <li>
+            <a href="/forum/ausbildung-studium-beruf"><i class='icons mikro-ausbildung-studium-beruf'></i>Ausbildung &amp; Beruf</a>
+        </li>
+        <li>
+            <a href="/forum/offtopic"><i class='icons mikro-offtopic'></i>Offtopic</a>
+        </li>
+        <li>
+            <a href="/forum/website"><i class='icons mikro-website'></i>Webseite</a>
+        </li>
+       </ul>
+    </li>
+    <li>
+      <ul class="nav-extra">
+        <li>
+            <a href="/attachment/gallery"><span class="icons"><svg class="ui-icon ui-icon-gallery" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="12" height="10" rx="1.25"/><path d="M2.4 10.6 5.5 7.9l2.6 2.2 2.3-2 3.2 2.8"/><circle cx="10.4" cy="6.1" r="1.05" fill="currentColor" stroke="none"/></svg></span>Bildergalerie</a>
+        </li>
+      </ul>
+    </li>
+<!--    <li><b><a href="/buecher/">Buchtipps</a></b></li>-->
+<!--    <li><b><a href="http://shop.mikrocontroller.net/">Shop</a></b></li>-->
+<!--    <li><b><a href="/articles/Linksammlung">Linksammlung</a></b></li>-->
+  </ul>
+</div>
+<!-- end nav -->
+
+
+<div id="adliste" class="adtxt adunit bannerad"></div>
+<div id="sdfj391"></div>
+
+  <hr />
+  <div class="ad-slot-label">Anzeige</div>
+  <div id="first-adframe" class="adframe sticky" style="padding: 0;margin:0; text-align: center; ">
+    <!-- /62616433/Mikrocontroller_Left_Sidebar_1 -->
+    <div id='div-gpt-ad-1549567092597-0' style='height:600px; width:160px;'>
+    <script>
+    googletag.cmd.push(function() { googletag.display('div-gpt-ad-1549567092597-0'); });
+    </script>
+    </div>
+  </div>
+  <div style="padding-top: 10px;"></div>
+  </td>
+  <td id="main">
+
+<div id="container">
+    <!-- contentDetection start -->
+    <!-- google_ad_section_start -->
+    <nav class="crumb" aria-label="Navigationspfad">
+    
+      <a href="/forum/mikrocontroller-elektronik">Mikrocontroller und Digitale Elektronik</a>
+    <span class="crumb-separator" aria-hidden="true">&rsaquo;</span>
+      <span aria-current="page">Thread</span>
+</nav>
+
+			<h1 id="pageName">Tonie-Box Chip defekt - reparieren möglich?</h1>
+
+
+
+
+  <div id="content">
+    <div class="forum">
+  <div class="topic  " id="topic" data-id="566157" data-user-id="77485" itemscope="itemscope" itemtype="https://schema.org/DiscussionForumPosting">
+    <link itemprop="url" href="https://www.mikrocontroller.net/topic/566157">
+<meta itemprop="headline" content="Tonie-Box Chip defekt - reparieren möglich?">
+<link itemprop="isPartOf" href="https://www.mikrocontroller.net/forum/mikrocontroller-elektronik">
+<meta itemprop="commentCount" content="26">
+
+
+
+    
+
+    
+
+
+    <script>
+    have_newpost_anchor = false;
+    topic_last_read_at = getLastReadAt(566157);
+    </script>
+      <script>
+      if (!have_newpost_anchor && (!topic_last_read_at || topic_last_read_at < 1711656713000)) {
+        document.write('<a name="new" id="new"></a>');
+        have_newpost_anchor = true;
+      }
+      </script>
+
+      
+<article id="7633971" class="post root-post  post-userid-77485 post-id-7633971" data-attributionline="Dom F. schrieb im Beitrag #7633971:"
+ data-created-at="1711656713000" data-updated-at="1711656816000" data-user-id="77485" data-guest-name=""
+>
+
+  <div class="post-head">
+    <span class="avatar" style="background: #d9822b" aria-hidden="true">DF</span>
+
+      <a class="post-author" itemprop="author" itemscope="itemscope" itemtype="https://schema.org/Person" href="/user/show/domkick"><span itemprop="name">Dom F.</span><link itemprop="url" href="/user/show/domkick"></a>
+      <a class="post-account" href="/user/show/domkick">(domkick)</a>
+
+    <span class="post-badge" title="Thread-Ersteller">OP</span>
+
+
+
+    
+
+    <span class="post-time created"><time class="datetime" datetime="2024-03-28T21:11:53+01:00" itemprop="datePublished">28.03.2024 21:11</time></span>
+    
+    <a class="post-anchor" aria-label="Link zu diesem Beitrag" href="#7633971">#7633971</a>
+  </div>
+
+
+  
+
+
+  <div class="text" itemprop="text">
+      <p>Guten Abend</p>
+<p>Ich möchte für mein Kind einen Zaubertonie basteln (sollte jemand nicht wissen, was ein Zaubertonie ist, so möchte ich euch gar nicht mit Details quälen, da für das Problem unerheblich). Dafür habe ich einen Kreativ-Tonie gekauft und den Chip entnommen.
+Naja - eine Mischung aus Ungeduld, Unwissenheit und Gewalt meinersetis hat wohl den Chip ruiniert. Der Draht rund um den RFID(?)-Chip ist gerissen.</p>
+<p>Jetzt ists so - ich hab mittlerweile 2 Chips geschrottet und das zweite erwachsenen Familienmitglied hat freundlich angedeutet, dass es "nun vorbei ist mit der Tonie-Bastelei". :)
+Ich brauche also ein kleines Erfolgserlebnis um fortzusetzen.</p>
+<p>Ist es möglich den Chip zu reparieren? Einfach Draht rum und zusammenlöten? Oder stell ich mir das zu einfach vor, weil es um die genaue Drahtlänge, die Windungszahl, Windungsabstand, ähnliches geht?</p>
+<p>Anbei ein Bild des Chips - der Draht wurde von mir mit Klebeband fixiert.</p>
+<p>Danke für freundliche Hilfe und liebe Grüße.</p>
+
+</div>
+      <div class="attachments">
+      Angehängte Dateien:<br/>
+
+
+        <ul class="attachments-images">
+          <li>
+            <a class="highslide"
+              onclick="return hs.expand(this,{src:'/attachment/629499/IMG_20240328_205652.jpg'})"
+              href="/attachment/629499/IMG_20240328_205652.jpg"
+              style="border: none;"><img src="/attachment/preview/629499.jpg" alt="Handgewickelte Spule auf schwarzem Kern" width="108" height="90" loading="eager" /></a>
+            <a href="/attachment/629499/IMG_20240328_205652.jpg">IMG_20240328_205652.jpg</a>
+            (150 KB)
+          </li>
+        </ul>
+    </div>
+
+    
+
+
+
+  <div class="foot unselectable">
+    <span class="menuitem postmenuitem-reply_without_quote"><a href="#postform" rel="nofollow">Antwort</a></span> <span class="menuitem postmenuitem-insert_quoting"><a href="?reply_to=7633971#postform" onclick="return !forumInsertQuoting(7633971)" title="Zitiert den markierten Text – oder den ganzen Beitrag, wenn nichts markiert ist" rel="nofollow">Zitieren</a></span> <span class="menuitem postmenuitem-edit"><a href="?edit=7633971#postform" rel="nofollow">Bearbeiten</a></span> <span class="menuitem postmenuitem-move"><a rel="nofollow" href="/topic/move/566157">Thread verschieben</a></span> <span class="menuitem postmenuitem-lock"><a rel="nofollow" href="/topic/lock/566157?token=0cmjO96eQ7voY06UuYNSxPo-IlbqffKRarDMnCtm__OSYMbMyp9wfHo8akIUUFtNMrW5OcQQ-ca4TF2WJ6uRAw">Thread sperren</a></span> <span class="menuitem postmenuitem-slow_mode"><a rel="nofollow" href="/topic/slow_mode/566157">Langsamer Modus</a></span> <span class="menuitem postmenuitem-lock_for_guests"><a rel="nofollow" href="/topic/lock_for_guests/566157?token=0cmjO96eQ7voY06UuYNSxPo-IlbqffKRarDMnCtm__OSYMbMyp9wfHo8akIUUFtNMrW5OcQQ-ca4TF2WJ6uRAw">Anmeldepflicht aktivieren</a></span> <span class="menuitem postmenuitem-set_sticky_true"><a rel="nofollow" href="/topic/set_sticky_true/566157?token=0cmjO96eQ7voY06UuYNSxPo-IlbqffKRarDMnCtm__OSYMbMyp9wfHo8akIUUFtNMrW5OcQQ-ca4TF2WJ6uRAw">Anpinnen</a></span> <span class="menuitem postmenuitem-delete"><a data-confirm="[dummy_value]" data-prompt="{&quot;message&quot;:&quot;Begründung für die Löschung (oder abbrechen um nicht zu löschen):&quot;,&quot;param&quot;:&quot;reason&quot;,&quot;default&quot;:&quot; &quot;}" data-remote="true" rel="nofollow" href="/topic/delete_post/7633971?token=0cmjO96eQ7voY06UuYNSxPo-IlbqffKRarDMnCtm__OSYMbMyp9wfHo8akIUUFtNMrW5OcQQ-ca4TF2WJ6uRAw">Thread löschen</a></span> <span class="menuitem postmenuitem-merge"><a rel="nofollow" href="/topic/merge?source=566157&amp;token=0cmjO96eQ7voY06UuYNSxPo-IlbqffKRarDMnCtm__OSYMbMyp9wfHo8akIUUFtNMrW5OcQQ-ca4TF2WJ6uRAw">Thread mit anderem zusammenführen</a></span> <span class="menuitem postmenuitem-report"><a href="#" data-report-post-id="7633971" data-is-root="true" rel="nofollow">Melden</a></span>
+
+    <span class="post-reactions noprint" data-post-id="7633971">
+      <span class="reaction-helped" title="Der Thread-Ersteller hat markiert, dass ihm dieser Beitrag geholfen hat." hidden>Hilfreich laut OP</span>
+      <span class="reaction-pill">
+        <a class="reaction-toggle" rel="nofollow" aria-pressed="false" data-label-thanks="Danke" data-label-helped="Hat geholfen" data-remote="true" data-method="post" href="/topic/vote_post/7633971?rating=1"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-label">Danke</span></a>
+        <span class="reaction-summary" hidden>
+          <button type="button" class="reaction-count" aria-expanded="false"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-number"></span></button>
+          <span class="reaction-names" role="tooltip"></span>
+        </span>
+      </span>
+    </span>
+  </div>
+
+</article>
+
+
+      
+
+
+      <script>
+      if (!have_newpost_anchor && (!topic_last_read_at || topic_last_read_at < 1711657126000)) {
+        document.write('<a name="new" id="new"></a>');
+        have_newpost_anchor = true;
+      }
+      </script>
+
+      
+<article id="7633977" class="post   post-userid-103853 post-id-7633977" data-attributionline="Hobby B. schrieb im Beitrag #7633977:"
+ data-created-at="1711657126000" data-updated-at="1711657254000" data-user-id="103853" data-guest-name="" itemprop="comment" itemscope="itemscope" itemtype="https://schema.org/Comment"
+>
+
+  <div class="post-head">
+    <span class="avatar" style="background: #9a5a7d" aria-hidden="true">HB</span>
+
+      <a class="post-author" itemprop="author" itemscope="itemscope" itemtype="https://schema.org/Person" href="/user/show/bastler2022"><span itemprop="name">Hobby B.</span><link itemprop="url" href="/user/show/bastler2022"></a>
+      <a class="post-account" href="/user/show/bastler2022">(bastler2022)</a>
+
+    
+
+
+
+    
+
+    <span class="post-time created"><time class="datetime" datetime="2024-03-28T21:18:46+01:00" itemprop="datePublished">28.03.2024 21:18</time></span>
+    
+    <a class="post-anchor" aria-label="Link zu diesem Beitrag" itemprop="url" href="#7633977">#7633977</a>
+  </div>
+
+
+  
+
+
+  <div class="text" itemprop="text">
+      <blockquote>
+<p>Ist es möglich den Chip zu reparieren?</p>
+</blockquote>
+<p>Wenn Schrott dann kannst das vergessen.</p>
+<p>Wenn sich ein Kind einen Tonie wünscht, den es eigentlich gar nicht gibt, kannst du ihn mit etwas Arbeit und Kreativität selbst erschaffen. Ein gewisses Risiko ist dabei zwar vorhanden – aber Übung macht den Meister, vor allem beim Basteln.</p>
+
+</div>
+
+    
+
+
+
+  <div class="foot unselectable">
+    <span class="menuitem postmenuitem-reply_without_quote"><a href="#postform" rel="nofollow">Antwort</a></span> <span class="menuitem postmenuitem-insert_quoting"><a href="?reply_to=7633977#postform" onclick="return !forumInsertQuoting(7633977)" title="Zitiert den markierten Text – oder den ganzen Beitrag, wenn nichts markiert ist" rel="nofollow">Zitieren</a></span> <span class="menuitem postmenuitem-edit"><a href="?edit=7633977#postform" rel="nofollow">Bearbeiten</a></span> <span class="menuitem postmenuitem-delete"><a data-confirm="[dummy_value]" data-prompt="{&quot;message&quot;:&quot;Begründung für die Löschung (oder abbrechen um nicht zu löschen):&quot;,&quot;param&quot;:&quot;reason&quot;,&quot;default&quot;:&quot; &quot;}" data-remote="true" rel="nofollow" href="/topic/delete_post/7633977?token=Hh0GpfVUfjQcayChY6vQ7PBx6lcwJXjVJ_fInyx2z71dtGNS4VVN8440BHfOeNllOPpxOB5Ic4L1C1mVILuhTQ">Löschen</a></span> <span class="menuitem postmenuitem-report"><a href="#" data-report-post-id="7633977" data-is-root="false" rel="nofollow">Melden</a></span>
+
+    <span class="post-reactions noprint" data-post-id="7633977">
+      <span class="reaction-helped" title="Der Thread-Ersteller hat markiert, dass ihm dieser Beitrag geholfen hat." hidden>Hilfreich laut OP</span>
+      <span class="reaction-pill">
+        <a class="reaction-toggle" rel="nofollow" aria-pressed="false" data-label-thanks="Danke" data-label-helped="Hat geholfen" data-remote="true" data-method="post" href="/topic/vote_post/7633977?rating=1"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-label">Danke</span></a>
+        <span class="reaction-summary" hidden>
+          <button type="button" class="reaction-count" aria-expanded="false"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-number"></span></button>
+          <span class="reaction-names" role="tooltip"></span>
+        </span>
+      </span>
+    </span>
+  </div>
+
+</article>
+
+
+      
+
+
+      <script>
+      if (!have_newpost_anchor && (!topic_last_read_at || topic_last_read_at < 1711659572000)) {
+        document.write('<a name="new" id="new"></a>');
+        have_newpost_anchor = true;
+      }
+      </script>
+
+      
+<article id="7634016" class="post   post-userid-28766 post-id-7634016" data-attributionline="Gustl B. schrieb im Beitrag #7634016:"
+ data-created-at="1711659572000" data-updated-at="1711659572000" data-user-id="28766" data-guest-name="" itemprop="comment" itemscope="itemscope" itemtype="https://schema.org/Comment"
+>
+
+  <div class="post-head">
+    <span class="avatar" style="background: #5a7d9a" aria-hidden="true">GB</span>
+
+      <a class="post-author" itemprop="author" itemscope="itemscope" itemtype="https://schema.org/Person" href="/user/show/-gb-"><span itemprop="name">Gustl B.</span><link itemprop="url" href="/user/show/-gb-"></a>
+      <a class="post-account" href="/user/show/-gb-">(-gb-)</a>
+
+    
+
+
+
+    
+
+    <span class="post-time created"><time class="datetime" datetime="2024-03-28T21:59:32+01:00" itemprop="datePublished">28.03.2024 21:59</time></span>
+    
+    <a class="post-anchor" aria-label="Link zu diesem Beitrag" itemprop="url" href="#7634016">#7634016</a>
+  </div>
+
+
+  
+
+
+  <div class="text" itemprop="text">
+      <p class="attribution-line"><a class="link-to-post" data-post-id="7633971" href="/topic/goto_post/7633971">Dom F. schrieb:</a></p>
+<blockquote>
+<p>Ist es möglich den Chip zu reparieren? Einfach Draht rum und
+zusammenlöten? Oder stell ich mir das zu einfach vor, weil es um die
+genaue Drahtlänge, die Windungszahl, Windungsabstand, ähnliches geht?</p>
+</blockquote>
+<p>Nun, du könntest es zumindest probieren. Möglichst so aufwicken wie das wohl mal war und die Enden zusammenlöten ohne andere Wicklungen mit zu verlöten.</p>
+
+</div>
+
+    
+
+
+
+  <div class="foot unselectable">
+    <span class="menuitem postmenuitem-reply_without_quote"><a href="#postform" rel="nofollow">Antwort</a></span> <span class="menuitem postmenuitem-insert_quoting"><a href="?reply_to=7634016#postform" onclick="return !forumInsertQuoting(7634016)" title="Zitiert den markierten Text – oder den ganzen Beitrag, wenn nichts markiert ist" rel="nofollow">Zitieren</a></span> <span class="menuitem postmenuitem-edit"><a href="?edit=7634016#postform" rel="nofollow">Bearbeiten</a></span> <span class="menuitem postmenuitem-delete"><a data-confirm="[dummy_value]" data-prompt="{&quot;message&quot;:&quot;Begründung für die Löschung (oder abbrechen um nicht zu löschen):&quot;,&quot;param&quot;:&quot;reason&quot;,&quot;default&quot;:&quot; &quot;}" data-remote="true" rel="nofollow" href="/topic/delete_post/7634016?token=nPrKKsoLXPXMqsYf5U5I4zSVdDYLoOMNQUP3KC4v0orfU6_d3gpvMl714slInUFq_B7vWSXN6FqTv2YiIuK8eg">Löschen</a></span> <span class="menuitem postmenuitem-report"><a href="#" data-report-post-id="7634016" data-is-root="false" rel="nofollow">Melden</a></span>
+
+    <span class="post-reactions noprint" data-post-id="7634016">
+      <span class="reaction-helped" title="Der Thread-Ersteller hat markiert, dass ihm dieser Beitrag geholfen hat." hidden>Hilfreich laut OP</span>
+      <span class="reaction-pill">
+        <a class="reaction-toggle" rel="nofollow" aria-pressed="false" data-label-thanks="Danke" data-label-helped="Hat geholfen" data-remote="true" data-method="post" href="/topic/vote_post/7634016?rating=1"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-label">Danke</span></a>
+        <span class="reaction-summary" hidden>
+          <button type="button" class="reaction-count" aria-expanded="false"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-number"></span></button>
+          <span class="reaction-names" role="tooltip"></span>
+        </span>
+      </span>
+    </span>
+  </div>
+
+</article>
+
+
+      
+
+
+      <script>
+      if (!have_newpost_anchor && (!topic_last_read_at || topic_last_read_at < 1711669728000)) {
+        document.write('<a name="new" id="new"></a>');
+        have_newpost_anchor = true;
+      }
+      </script>
+
+      
+<article id="7634080" class="post   post-userid-26559 post-id-7634080" data-attributionline="Chris K. schrieb im Beitrag #7634080:"
+ data-created-at="1711669728000" data-updated-at="1711669728000" data-user-id="26559" data-guest-name="" itemprop="comment" itemscope="itemscope" itemtype="https://schema.org/Comment"
+>
+
+  <div class="post-head">
+    <span class="avatar" style="background: #6b6f9a" aria-hidden="true">CK</span>
+
+      <a class="post-author" itemprop="author" itemscope="itemscope" itemtype="https://schema.org/Person" href="/user/show/kathe"><span itemprop="name">Chris K.</span><link itemprop="url" href="/user/show/kathe"></a>
+      <a class="post-account" href="/user/show/kathe">(kathe)</a>
+
+    
+
+
+
+    
+
+    <span class="post-time created"><time class="datetime" datetime="2024-03-29T00:48:48+01:00" itemprop="datePublished">29.03.2024 00:48</time></span>
+    
+    <a class="post-anchor" aria-label="Link zu diesem Beitrag" itemprop="url" href="#7634080">#7634080</a>
+  </div>
+
+
+  
+
+
+  <div class="text" itemprop="text">
+      <p class="attribution-line"><a class="link-to-post" data-post-id="7633971" href="/topic/goto_post/7633971">Dom F. schrieb:</a></p>
+<blockquote>
+<p>Draht rund um den RFID(?)-Chip ist
+gerissen.</p>
+</blockquote>
+<p>Drähte lassen sich flicken, aber ich sehe hier nur einen Ferritkern mit Spule und keinen RFID Chip.
+Der Ferrit mit Spule ist nur die "RFID Antenne" aber der Chip dahinter ist noch nicht sichtbar.</p>
+
+</div>
+
+    
+
+
+
+  <div class="foot unselectable">
+    <span class="menuitem postmenuitem-reply_without_quote"><a href="#postform" rel="nofollow">Antwort</a></span> <span class="menuitem postmenuitem-insert_quoting"><a href="?reply_to=7634080#postform" onclick="return !forumInsertQuoting(7634080)" title="Zitiert den markierten Text – oder den ganzen Beitrag, wenn nichts markiert ist" rel="nofollow">Zitieren</a></span> <span class="menuitem postmenuitem-edit"><a href="?edit=7634080#postform" rel="nofollow">Bearbeiten</a></span> <span class="menuitem postmenuitem-delete"><a data-confirm="[dummy_value]" data-prompt="{&quot;message&quot;:&quot;Begründung für die Löschung (oder abbrechen um nicht zu löschen):&quot;,&quot;param&quot;:&quot;reason&quot;,&quot;default&quot;:&quot; &quot;}" data-remote="true" rel="nofollow" href="/topic/delete_post/7634080?token=O6VJe_118BeDAfgc42nR2AcrmFYlXjkq-EQ1okwkX9F4DCyM6XTD0BFe3MpOuthRz6ADOQszMn0quKSoQOkxIQ">Löschen</a></span> <span class="menuitem postmenuitem-report"><a href="#" data-report-post-id="7634080" data-is-root="false" rel="nofollow">Melden</a></span>
+
+    <span class="post-reactions noprint" data-post-id="7634080">
+      <span class="reaction-helped" title="Der Thread-Ersteller hat markiert, dass ihm dieser Beitrag geholfen hat." hidden>Hilfreich laut OP</span>
+      <span class="reaction-pill">
+        <a class="reaction-toggle" rel="nofollow" aria-pressed="false" data-label-thanks="Danke" data-label-helped="Hat geholfen" data-remote="true" data-method="post" href="/topic/vote_post/7634080?rating=1"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-label">Danke</span></a>
+        <span class="reaction-summary" hidden>
+          <button type="button" class="reaction-count" aria-expanded="false"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-number"></span></button>
+          <span class="reaction-names" role="tooltip"></span>
+        </span>
+      </span>
+    </span>
+  </div>
+
+</article>
+
+
+      
+
+
+      <script>
+      if (!have_newpost_anchor && (!topic_last_read_at || topic_last_read_at < 1711680878000)) {
+        document.write('<a name="new" id="new"></a>');
+        have_newpost_anchor = true;
+      }
+      </script>
+
+      
+<article id="7634096" class="post   post-userid-5422 post-id-7634096" data-attributionline="Frank L. schrieb im Beitrag #7634096:"
+ data-created-at="1711680878000" data-updated-at="1711680878000" data-user-id="5422" data-guest-name="" itemprop="comment" itemscope="itemscope" itemtype="https://schema.org/Comment"
+>
+
+  <div class="post-head">
+    <span class="avatar" style="background: #7a9a5a" aria-hidden="true">FL</span>
+
+      <a class="post-author" itemprop="author" itemscope="itemscope" itemtype="https://schema.org/Person" href="/user/show/hermastersvoice"><span itemprop="name">Frank L.</span><link itemprop="url" href="/user/show/hermastersvoice"></a>
+      <a class="post-account" href="/user/show/hermastersvoice">(hermastersvoice)</a>
+
+    
+
+
+
+    
+
+    <span class="post-time created"><time class="datetime" datetime="2024-03-29T03:54:38+01:00" itemprop="datePublished">29.03.2024 03:54</time></span>
+    
+    <a class="post-anchor" aria-label="Link zu diesem Beitrag" itemprop="url" href="#7634096">#7634096</a>
+  </div>
+
+
+  
+
+
+  <div class="text" itemprop="text">
+      <p><a href="https://www.youtube.com/watch?v=DNufX-tss5M" class="postedlink" rel="nofollow">https://www.youtube.com/watch?v=DNufX-tss5M</a></p>
+
+</div>
+
+    
+
+
+
+  <div class="foot unselectable">
+    <span class="menuitem postmenuitem-reply_without_quote"><a href="#postform" rel="nofollow">Antwort</a></span> <span class="menuitem postmenuitem-insert_quoting"><a href="?reply_to=7634096#postform" onclick="return !forumInsertQuoting(7634096)" title="Zitiert den markierten Text – oder den ganzen Beitrag, wenn nichts markiert ist" rel="nofollow">Zitieren</a></span> <span class="menuitem postmenuitem-edit"><a href="?edit=7634096#postform" rel="nofollow">Bearbeiten</a></span> <span class="menuitem postmenuitem-delete"><a data-confirm="[dummy_value]" data-prompt="{&quot;message&quot;:&quot;Begründung für die Löschung (oder abbrechen um nicht zu löschen):&quot;,&quot;param&quot;:&quot;reason&quot;,&quot;default&quot;:&quot; &quot;}" data-remote="true" rel="nofollow" href="/topic/delete_post/7634096?token=x00JWJwPari5N1JcGTsB52Bg-83ot8aQKpicECkPSUeE5GyviA5Zfytodoq06AhuqOtgosbazcf4ZA0aJcIntw">Löschen</a></span> <span class="menuitem postmenuitem-report"><a href="#" data-report-post-id="7634096" data-is-root="false" rel="nofollow">Melden</a></span>
+
+    <span class="post-reactions noprint" data-post-id="7634096">
+      <span class="reaction-helped" title="Der Thread-Ersteller hat markiert, dass ihm dieser Beitrag geholfen hat." hidden>Hilfreich laut OP</span>
+      <span class="reaction-pill">
+        <a class="reaction-toggle" rel="nofollow" aria-pressed="false" data-label-thanks="Danke" data-label-helped="Hat geholfen" data-remote="true" data-method="post" href="/topic/vote_post/7634096?rating=1"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-label">Danke</span></a>
+        <span class="reaction-summary" hidden>
+          <button type="button" class="reaction-count" aria-expanded="false"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-number"></span></button>
+          <span class="reaction-names" role="tooltip"></span>
+        </span>
+      </span>
+    </span>
+  </div>
+
+</article>
+
+
+      
+
+
+      <script>
+      if (!have_newpost_anchor && (!topic_last_read_at || topic_last_read_at < 1711691406000)) {
+        document.write('<a name="new" id="new"></a>');
+        have_newpost_anchor = true;
+      }
+      </script>
+
+      
+<article id="7634104" class="post   post-userid-20954 post-id-7634104" data-attributionline="Rainer W. schrieb im Beitrag #7634104:"
+ data-created-at="1711691406000" data-updated-at="1711691406000" data-user-id="20954" data-guest-name="" itemprop="comment" itemscope="itemscope" itemtype="https://schema.org/Comment"
+>
+
+  <div class="post-head">
+    <span class="avatar" style="background: #6b6f9a" aria-hidden="true">RW</span>
+
+      <a class="post-author" itemprop="author" itemscope="itemscope" itemtype="https://schema.org/Person" href="/user/show/rawi"><span itemprop="name">Rainer W.</span><link itemprop="url" href="/user/show/rawi"></a>
+      <a class="post-account" href="/user/show/rawi">(rawi)</a>
+
+    
+
+
+
+    
+
+    <span class="post-time created"><time class="datetime" datetime="2024-03-29T06:50:06+01:00" itemprop="datePublished">29.03.2024 06:50</time></span>
+    
+    <a class="post-anchor" aria-label="Link zu diesem Beitrag" itemprop="url" href="#7634104">#7634104</a>
+  </div>
+
+
+  
+
+
+  <div class="text" itemprop="text">
+      <p class="attribution-line"><a class="link-to-post" data-post-id="7633971" href="/topic/goto_post/7633971">Dom F. schrieb:</a></p>
+<blockquote>
+<p>Naja - eine Mischung aus Ungeduld, Unwissenheit und Gewalt meinersetis
+hat wohl den Chip ruiniert. Der Draht rund um den RFID(?)-Chip ist
+gerissen.
+Jetzt ists so - ich hab mittlerweile 2 Chips geschrottet</p>
+</blockquote>
+<p>Auf deinem Photo sieht es so aus, als ob dort ein Kupferlackdraht gerissen ist. Von einem Chip ist da nichts zu sehen.
+Den Draht zusammen zu löten geht nicht?
+(Ende 1/2mm verzinnen, Kaptonband drunter lege und verlöten)</p>
+
+</div>
+
+    
+
+
+
+  <div class="foot unselectable">
+    <span class="menuitem postmenuitem-reply_without_quote"><a href="#postform" rel="nofollow">Antwort</a></span> <span class="menuitem postmenuitem-insert_quoting"><a href="?reply_to=7634104#postform" onclick="return !forumInsertQuoting(7634104)" title="Zitiert den markierten Text – oder den ganzen Beitrag, wenn nichts markiert ist" rel="nofollow">Zitieren</a></span> <span class="menuitem postmenuitem-edit"><a href="?edit=7634104#postform" rel="nofollow">Bearbeiten</a></span> <span class="menuitem postmenuitem-delete"><a data-confirm="[dummy_value]" data-prompt="{&quot;message&quot;:&quot;Begründung für die Löschung (oder abbrechen um nicht zu löschen):&quot;,&quot;param&quot;:&quot;reason&quot;,&quot;default&quot;:&quot; &quot;}" data-remote="true" rel="nofollow" href="/topic/delete_post/7634104?token=Njilv57pE2IECkv-EVf0_I88kAGf4wTM1rSFnxkxk-91kcBIiuggpZZVbyi8hP11R7cLbrGOD5sESBSVFfz9Hw">Löschen</a></span> <span class="menuitem postmenuitem-report"><a href="#" data-report-post-id="7634104" data-is-root="false" rel="nofollow">Melden</a></span>
+
+    <span class="post-reactions noprint" data-post-id="7634104">
+      <span class="reaction-helped" title="Der Thread-Ersteller hat markiert, dass ihm dieser Beitrag geholfen hat." hidden>Hilfreich laut OP</span>
+      <span class="reaction-pill">
+        <a class="reaction-toggle" rel="nofollow" aria-pressed="false" data-label-thanks="Danke" data-label-helped="Hat geholfen" data-remote="true" data-method="post" href="/topic/vote_post/7634104?rating=1"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-label">Danke</span></a>
+        <span class="reaction-summary" hidden>
+          <button type="button" class="reaction-count" aria-expanded="false"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-number"></span></button>
+          <span class="reaction-names" role="tooltip"></span>
+        </span>
+      </span>
+    </span>
+  </div>
+
+</article>
+
+
+      
+
+
+      <script>
+      if (!have_newpost_anchor && (!topic_last_read_at || topic_last_read_at < 1711712040000)) {
+        document.write('<a name="new" id="new"></a>');
+        have_newpost_anchor = true;
+      }
+      </script>
+
+      
+<article id="7634323" class="post   post-userid-106413 post-id-7634323" data-attributionline="Alexander schrieb im Beitrag #7634323:"
+ data-created-at="1711712040000" data-updated-at="1711712040000" data-user-id="106413" data-guest-name="" itemprop="comment" itemscope="itemscope" itemtype="https://schema.org/Comment"
+>
+
+  <div class="post-head">
+    <span class="avatar" style="background: #9a5a7d" aria-hidden="true">A</span>
+
+      <a class="post-author" itemprop="author" itemscope="itemscope" itemtype="https://schema.org/Person" href="/user/show/alecxs"><span itemprop="name">Alexander</span><link itemprop="url" href="/user/show/alecxs"></a>
+      <a class="post-account" href="/user/show/alecxs">(alecxs)</a>
+
+    
+
+
+
+    
+
+    <span class="post-time created"><time class="datetime" datetime="2024-03-29T12:34:00+01:00" itemprop="datePublished">29.03.2024 12:34</time></span>
+    
+    <a class="post-anchor" aria-label="Link zu diesem Beitrag" itemprop="url" href="#7634323">#7634323</a>
+  </div>
+
+
+  
+
+
+  <div class="text" itemprop="text">
+      <p>In den Figuren ist kein Chip sondern ein ISO15693 NXP icode Slix-L RFID tag, die kann man kaufen</p>
+
+</div>
+
+    
+
+
+
+  <div class="foot unselectable">
+    <span class="menuitem postmenuitem-reply_without_quote"><a href="#postform" rel="nofollow">Antwort</a></span> <span class="menuitem postmenuitem-insert_quoting"><a href="?reply_to=7634323#postform" onclick="return !forumInsertQuoting(7634323)" title="Zitiert den markierten Text – oder den ganzen Beitrag, wenn nichts markiert ist" rel="nofollow">Zitieren</a></span> <span class="menuitem postmenuitem-edit"><a href="?edit=7634323#postform" rel="nofollow">Bearbeiten</a></span> <span class="menuitem postmenuitem-delete"><a data-confirm="[dummy_value]" data-prompt="{&quot;message&quot;:&quot;Begründung für die Löschung (oder abbrechen um nicht zu löschen):&quot;,&quot;param&quot;:&quot;reason&quot;,&quot;default&quot;:&quot; &quot;}" data-remote="true" rel="nofollow" href="/topic/delete_post/7634323?token=HwbJQ0yKDTgrsPjn27-KGRLekTifRK71yJD6mutxn3Bcr6y0WIs-_7nv3DF2bIOQ2lUKV7EppaIabGuQ57zxgA">Löschen</a></span> <span class="menuitem postmenuitem-report"><a href="#" data-report-post-id="7634323" data-is-root="false" rel="nofollow">Melden</a></span>
+
+    <span class="post-reactions noprint" data-post-id="7634323">
+      <span class="reaction-helped" title="Der Thread-Ersteller hat markiert, dass ihm dieser Beitrag geholfen hat." hidden>Hilfreich laut OP</span>
+      <span class="reaction-pill">
+        <a class="reaction-toggle" rel="nofollow" aria-pressed="false" data-label-thanks="Danke" data-label-helped="Hat geholfen" data-remote="true" data-method="post" href="/topic/vote_post/7634323?rating=1"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-label">Danke</span></a>
+        <span class="reaction-summary" hidden>
+          <button type="button" class="reaction-count" aria-expanded="false"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-number"></span></button>
+          <span class="reaction-names" role="tooltip"></span>
+        </span>
+      </span>
+    </span>
+  </div>
+
+</article>
+
+
+      
+
+
+      <script>
+      if (!have_newpost_anchor && (!topic_last_read_at || topic_last_read_at < 1711712777000)) {
+        document.write('<a name="new" id="new"></a>');
+        have_newpost_anchor = true;
+      }
+      </script>
+
+      
+<article id="7634331" class="post   post-userid-90808 post-id-7634331" data-attributionline="Dieter S. schrieb im Beitrag #7634331:"
+ data-created-at="1711712777000" data-updated-at="1711712777000" data-user-id="90808" data-guest-name="" itemprop="comment" itemscope="itemscope" itemtype="https://schema.org/Comment"
+>
+
+  <div class="post-head">
+    <span class="avatar" style="background: #9a5a7d" aria-hidden="true">DS</span>
+
+      <a class="post-author" itemprop="author" itemscope="itemscope" itemtype="https://schema.org/Person" href="/user/show/ds1"><span itemprop="name">Dieter S.</span><link itemprop="url" href="/user/show/ds1"></a>
+      <a class="post-account" href="/user/show/ds1">(ds1)</a>
+
+    
+
+
+
+    
+
+    <span class="post-time created"><time class="datetime" datetime="2024-03-29T12:46:17+01:00" itemprop="datePublished">29.03.2024 12:46</time></span>
+    
+    <a class="post-anchor" aria-label="Link zu diesem Beitrag" itemprop="url" href="#7634331">#7634331</a>
+  </div>
+
+
+  
+
+
+  <div class="text" itemprop="text">
+      <p>Der Chip/NFC Tag ist an dieser Spule/Antenne angeschlossen.</p>
+<p>Details zu den Figuren mit Bildern gibt es z.B. hier:</p>
+<p><a href="https://gt-blog.de/inside-tonie-figurine/" class="postedlink" rel="nofollow">https://gt-blog.de/inside-tonie-figurine/</a></p>
+<p>Der Vortrag vom 37C3 ist ebenfalls sehr informativ:</p>
+<p><a href="https://media.ccc.de/v/37c3-11993-toniebox_reverse_engineering" class="postedlink" rel="nofollow">https://media.ccc.de/v/37c3-11993-toniebox_reverse_engineering</a></p>
+
+</div>
+
+    
+
+
+
+  <div class="foot unselectable">
+    <span class="menuitem postmenuitem-reply_without_quote"><a href="#postform" rel="nofollow">Antwort</a></span> <span class="menuitem postmenuitem-insert_quoting"><a href="?reply_to=7634331#postform" onclick="return !forumInsertQuoting(7634331)" title="Zitiert den markierten Text – oder den ganzen Beitrag, wenn nichts markiert ist" rel="nofollow">Zitieren</a></span> <span class="menuitem postmenuitem-edit"><a href="?edit=7634331#postform" rel="nofollow">Bearbeiten</a></span> <span class="menuitem postmenuitem-delete"><a data-confirm="[dummy_value]" data-prompt="{&quot;message&quot;:&quot;Begründung für die Löschung (oder abbrechen um nicht zu löschen):&quot;,&quot;param&quot;:&quot;reason&quot;,&quot;default&quot;:&quot; &quot;}" data-remote="true" rel="nofollow" href="/topic/delete_post/7634331?token=1xfZfYwdzPTEyXkelrcaMkQN9TAZL_MoLudkQ3AtYluUvryKmBz_M1aWXcg7ZBO7jIZuXzdC-H_8G_VJfOAMqw">Löschen</a></span> <span class="menuitem postmenuitem-report"><a href="#" data-report-post-id="7634331" data-is-root="false" rel="nofollow">Melden</a></span>
+
+    <span class="post-reactions noprint" data-post-id="7634331">
+      <span class="reaction-helped" title="Der Thread-Ersteller hat markiert, dass ihm dieser Beitrag geholfen hat." hidden>Hilfreich laut OP</span>
+      <span class="reaction-pill">
+        <a class="reaction-toggle" rel="nofollow" aria-pressed="false" data-label-thanks="Danke" data-label-helped="Hat geholfen" data-remote="true" data-method="post" href="/topic/vote_post/7634331?rating=1"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-label">Danke</span></a>
+        <span class="reaction-summary" hidden>
+          <button type="button" class="reaction-count" aria-expanded="false"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-number"></span></button>
+          <span class="reaction-names" role="tooltip"></span>
+        </span>
+      </span>
+    </span>
+  </div>
+
+</article>
+
+
+      
+
+
+      <script>
+      if (!have_newpost_anchor && (!topic_last_read_at || topic_last_read_at < 1711712833000)) {
+        document.write('<a name="new" id="new"></a>');
+        have_newpost_anchor = true;
+      }
+      </script>
+
+      
+<article id="7634332" class="post   post-userid-91468 post-id-7634332" data-attributionline="Hmmm schrieb im Beitrag #7634332:"
+ data-created-at="1711712833000" data-updated-at="1711712833000" data-user-id="91468" data-guest-name="" itemprop="comment" itemscope="itemscope" itemtype="https://schema.org/Comment"
+>
+
+  <div class="post-head">
+    <span class="avatar" style="background: #9a5a7d" aria-hidden="true">H</span>
+
+      <a class="post-author" itemprop="author" itemscope="itemscope" itemtype="https://schema.org/Person" href="/user/show/hmmm"><span itemprop="name">Hmmm</span><link itemprop="url" href="/user/show/hmmm"></a>
+      <a class="post-account" href="/user/show/hmmm">(hmmm)</a>
+
+    
+
+
+
+    
+
+    <span class="post-time created"><time class="datetime" datetime="2024-03-29T12:47:13+01:00" itemprop="datePublished">29.03.2024 12:47</time></span>
+    
+    <a class="post-anchor" aria-label="Link zu diesem Beitrag" itemprop="url" href="#7634332">#7634332</a>
+  </div>
+
+
+  
+
+
+  <div class="text" itemprop="text">
+      <p class="attribution-line"><a class="link-to-post" data-post-id="7634323" href="/topic/goto_post/7634323">Alexander schrieb:</a></p>
+<blockquote>
+<p>In den Figuren ist kein Chip sondern ein ISO15693 NXP icode Slix-L RFID
+tag</p>
+</blockquote>
+<p>Und woraus besteht so ein Tag? Nicht aus schwarzer Magie, sondern aus einem IC aka Chip und einer Spule, der Kondensator des Schwingkreises ist in ersterem integriert.</p>
+<p>Wenn nur die Spule gerissen ist, sollte man die durchaus flicken können.</p>
+
+</div>
+
+    
+
+
+
+  <div class="foot unselectable">
+    <span class="menuitem postmenuitem-reply_without_quote"><a href="#postform" rel="nofollow">Antwort</a></span> <span class="menuitem postmenuitem-insert_quoting"><a href="?reply_to=7634332#postform" onclick="return !forumInsertQuoting(7634332)" title="Zitiert den markierten Text – oder den ganzen Beitrag, wenn nichts markiert ist" rel="nofollow">Zitieren</a></span> <span class="menuitem postmenuitem-edit"><a href="?edit=7634332#postform" rel="nofollow">Bearbeiten</a></span> <span class="menuitem postmenuitem-delete"><a data-confirm="[dummy_value]" data-prompt="{&quot;message&quot;:&quot;Begründung für die Löschung (oder abbrechen um nicht zu löschen):&quot;,&quot;param&quot;:&quot;reason&quot;,&quot;default&quot;:&quot; &quot;}" data-remote="true" rel="nofollow" href="/topic/delete_post/7634332?token=zoB5pfaEBy-gC3Wi6SdoTYOQNAof_pwyKpLM_Xi9RqWNKRxS4oU06DJUUXRE9GHESxuvZTGTl2X4bl33dHAoVQ">Löschen</a></span> <span class="menuitem postmenuitem-report"><a href="#" data-report-post-id="7634332" data-is-root="false" rel="nofollow">Melden</a></span>
+
+    <span class="post-reactions noprint" data-post-id="7634332">
+      <span class="reaction-helped" title="Der Thread-Ersteller hat markiert, dass ihm dieser Beitrag geholfen hat." hidden>Hilfreich laut OP</span>
+      <span class="reaction-pill">
+        <a class="reaction-toggle" rel="nofollow" aria-pressed="false" data-label-thanks="Danke" data-label-helped="Hat geholfen" data-remote="true" data-method="post" href="/topic/vote_post/7634332?rating=1"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-label">Danke</span></a>
+        <span class="reaction-summary" hidden>
+          <button type="button" class="reaction-count" aria-expanded="false"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-number"></span></button>
+          <span class="reaction-names" role="tooltip"></span>
+        </span>
+      </span>
+    </span>
+  </div>
+
+</article>
+
+
+      
+
+
+      <script>
+      if (!have_newpost_anchor && (!topic_last_read_at || topic_last_read_at < 1711713382000)) {
+        document.write('<a name="new" id="new"></a>');
+        have_newpost_anchor = true;
+      }
+      </script>
+
+      
+<article id="7634338" class="post   post-userid-77485 post-id-7634338" data-attributionline="Dom F. schrieb im Beitrag #7634338:"
+ data-created-at="1711713382000" data-updated-at="1711713382000" data-user-id="77485" data-guest-name="" itemprop="comment" itemscope="itemscope" itemtype="https://schema.org/Comment"
+>
+
+  <div class="post-head">
+    <span class="avatar" style="background: #d9822b" aria-hidden="true">DF</span>
+
+      <a class="post-author" itemprop="author" itemscope="itemscope" itemtype="https://schema.org/Person" href="/user/show/domkick"><span itemprop="name">Dom F.</span><link itemprop="url" href="/user/show/domkick"></a>
+      <a class="post-account" href="/user/show/domkick">(domkick)</a>
+
+    <span class="post-badge" title="Thread-Ersteller">OP</span>
+
+
+
+    
+
+    <span class="post-time created"><time class="datetime" datetime="2024-03-29T12:56:22+01:00" itemprop="datePublished">29.03.2024 12:56</time></span>
+    
+    <a class="post-anchor" aria-label="Link zu diesem Beitrag" itemprop="url" href="#7634338">#7634338</a>
+  </div>
+
+
+  
+
+
+  <div class="text" itemprop="text">
+      <p>Danke für die vielen Antworten - das sind natürlich jede Menge neue Informationen.
+Das Video vom 37C3 finde ich sehr interessant, hilft mir im aktuellen Fall aber leider nicht weiter. Danke für den Verweis - angesehen hab ichs gestern sogar noch.</p>
+<p>Ich hab den Draht heut mal geflickt, jedoch hat sich nichts verändert.
+Wenn das nur die Antenne ist (wieder was neues für mich :) ), kann es sein, dass ich zu ungenau wickle oder der Draht mittlerweile zu kurz ist (gut 2 cm sind abgerissen).
+Wie groß ist denn die Toleranz bei solch einer Antenne? Ist die Wicklung im großzügigen Bereich?</p>
+<p>Danke für eure Hilfe!</p>
+
+</div>
+
+    
+
+
+
+  <div class="foot unselectable">
+    <span class="menuitem postmenuitem-reply_without_quote"><a href="#postform" rel="nofollow">Antwort</a></span> <span class="menuitem postmenuitem-insert_quoting"><a href="?reply_to=7634338#postform" onclick="return !forumInsertQuoting(7634338)" title="Zitiert den markierten Text – oder den ganzen Beitrag, wenn nichts markiert ist" rel="nofollow">Zitieren</a></span> <span class="menuitem postmenuitem-edit"><a href="?edit=7634338#postform" rel="nofollow">Bearbeiten</a></span> <span class="menuitem postmenuitem-delete"><a data-confirm="[dummy_value]" data-prompt="{&quot;message&quot;:&quot;Begründung für die Löschung (oder abbrechen um nicht zu löschen):&quot;,&quot;param&quot;:&quot;reason&quot;,&quot;default&quot;:&quot; &quot;}" data-remote="true" rel="nofollow" href="/topic/delete_post/7634338?token=yPuPGoHzQK1DaUPh68ghfBQjPKx-xc4bg_5iozKDmVSLUurtlfJzatE2ZzdGGyj13Kinw1CoxUxRAvOpPk73pA">Löschen</a></span> <span class="menuitem postmenuitem-report"><a href="#" data-report-post-id="7634338" data-is-root="false" rel="nofollow">Melden</a></span>
+
+    <span class="post-reactions noprint" data-post-id="7634338">
+      <span class="reaction-helped" title="Der Thread-Ersteller hat markiert, dass ihm dieser Beitrag geholfen hat." hidden>Hilfreich laut OP</span>
+      <span class="reaction-pill">
+        <a class="reaction-toggle" rel="nofollow" aria-pressed="false" data-label-thanks="Danke" data-label-helped="Hat geholfen" data-remote="true" data-method="post" href="/topic/vote_post/7634338?rating=1"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-label">Danke</span></a>
+        <span class="reaction-summary" hidden>
+          <button type="button" class="reaction-count" aria-expanded="false"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-number"></span></button>
+          <span class="reaction-names" role="tooltip"></span>
+        </span>
+      </span>
+    </span>
+  </div>
+
+</article>
+
+
+      
+
+
+      <script>
+      if (!have_newpost_anchor && (!topic_last_read_at || topic_last_read_at < 1711714180000)) {
+        document.write('<a name="new" id="new"></a>');
+        have_newpost_anchor = true;
+      }
+      </script>
+
+      
+<article id="7634343" class="post   post-userid-90808 post-id-7634343" data-attributionline="Dieter S. schrieb im Beitrag #7634343:"
+ data-created-at="1711714180000" data-updated-at="1711714180000" data-user-id="90808" data-guest-name="" itemprop="comment" itemscope="itemscope" itemtype="https://schema.org/Comment"
+>
+
+  <div class="post-head">
+    <span class="avatar" style="background: #9a5a7d" aria-hidden="true">DS</span>
+
+      <a class="post-author" itemprop="author" itemscope="itemscope" itemtype="https://schema.org/Person" href="/user/show/ds1"><span itemprop="name">Dieter S.</span><link itemprop="url" href="/user/show/ds1"></a>
+      <a class="post-account" href="/user/show/ds1">(ds1)</a>
+
+    
+
+
+
+    
+
+    <span class="post-time created"><time class="datetime" datetime="2024-03-29T13:09:40+01:00" itemprop="datePublished">29.03.2024 13:09</time></span>
+    
+    <a class="post-anchor" aria-label="Link zu diesem Beitrag" itemprop="url" href="#7634343">#7634343</a>
+  </div>
+
+
+  
+
+
+  <div class="text" itemprop="text">
+      <p>Ist denn bei Deiner Antenne der Chip/NFC Tag noch dran? Auf dem Bild von Dir kann man das nicht erkennen, im Anhang ist das Bild vom Link weiter oben, da sieht man den Chip/NFC Tag.</p>
+
+</div>
+      <div class="attachments">
+      Angehängte Dateien:<br/>
+
+
+        <ul class="attachments-images">
+          <li>
+            <a class="highslide"
+              onclick="return hs.expand(this,{src:'/attachment/629551/tonie_rfid.jpg'})"
+              href="/attachment/629551/tonie_rfid.jpg"
+              style="border: none;"><img src="/attachment/preview/629551.jpg" alt="Gewickelte Spule oder Transformatorbauteil" width="86" height="90" loading="lazy" /></a>
+            <a href="/attachment/629551/tonie_rfid.jpg">tonie_rfid.jpg</a>
+            (14 KB)
+          </li>
+        </ul>
+    </div>
+
+    
+
+
+
+  <div class="foot unselectable">
+    <span class="menuitem postmenuitem-reply_without_quote"><a href="#postform" rel="nofollow">Antwort</a></span> <span class="menuitem postmenuitem-insert_quoting"><a href="?reply_to=7634343#postform" onclick="return !forumInsertQuoting(7634343)" title="Zitiert den markierten Text – oder den ganzen Beitrag, wenn nichts markiert ist" rel="nofollow">Zitieren</a></span> <span class="menuitem postmenuitem-edit"><a href="?edit=7634343#postform" rel="nofollow">Bearbeiten</a></span> <span class="menuitem postmenuitem-delete"><a data-confirm="[dummy_value]" data-prompt="{&quot;message&quot;:&quot;Begründung für die Löschung (oder abbrechen um nicht zu löschen):&quot;,&quot;param&quot;:&quot;reason&quot;,&quot;default&quot;:&quot; &quot;}" data-remote="true" rel="nofollow" href="/topic/delete_post/7634343?token=s67vIuxqXvEDZNXo6gFfxUIN2l3-pRwKg2cJ4p1rcdvwB4rV-GttNpE78T5H0lZMioZBMtDIF11Rm5jokaYfKw">Löschen</a></span> <span class="menuitem postmenuitem-report"><a href="#" data-report-post-id="7634343" data-is-root="false" rel="nofollow">Melden</a></span>
+
+    <span class="post-reactions noprint" data-post-id="7634343">
+      <span class="reaction-helped" title="Der Thread-Ersteller hat markiert, dass ihm dieser Beitrag geholfen hat." hidden>Hilfreich laut OP</span>
+      <span class="reaction-pill">
+        <a class="reaction-toggle" rel="nofollow" aria-pressed="false" data-label-thanks="Danke" data-label-helped="Hat geholfen" data-remote="true" data-method="post" href="/topic/vote_post/7634343?rating=1"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-label">Danke</span></a>
+        <span class="reaction-summary" hidden>
+          <button type="button" class="reaction-count" aria-expanded="false"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-number"></span></button>
+          <span class="reaction-names" role="tooltip"></span>
+        </span>
+      </span>
+    </span>
+  </div>
+
+</article>
+
+
+      
+
+
+      <script>
+      if (!have_newpost_anchor && (!topic_last_read_at || topic_last_read_at < 1711714701000)) {
+        document.write('<a name="new" id="new"></a>');
+        have_newpost_anchor = true;
+      }
+      </script>
+
+      
+<article id="7634353" class="post   post-userid-106413 post-id-7634353" data-attributionline="Alexander schrieb im Beitrag #7634353:"
+ data-created-at="1711714701000" data-updated-at="1711714701000" data-user-id="106413" data-guest-name="" itemprop="comment" itemscope="itemscope" itemtype="https://schema.org/Comment"
+>
+
+  <div class="post-head">
+    <span class="avatar" style="background: #9a5a7d" aria-hidden="true">A</span>
+
+      <a class="post-author" itemprop="author" itemscope="itemscope" itemtype="https://schema.org/Person" href="/user/show/alecxs"><span itemprop="name">Alexander</span><link itemprop="url" href="/user/show/alecxs"></a>
+      <a class="post-account" href="/user/show/alecxs">(alecxs)</a>
+
+    
+
+
+
+    
+
+    <span class="post-time created"><time class="datetime" datetime="2024-03-29T13:18:21+01:00" itemprop="datePublished">29.03.2024 13:18</time></span>
+    
+    <a class="post-anchor" aria-label="Link zu diesem Beitrag" itemprop="url" href="#7634353">#7634353</a>
+  </div>
+
+
+  
+
+
+  <div class="text" itemprop="text">
+      <p>Es gibt jemanden der betreibt den Zerstörungswahn gewerblich...</p>
+<p><a href="https://www.kleinanzeigen.de/s-anzeige/2557629013-23-6647" class="postedlink" rel="nofollow">https://www.kleinanzeigen.de/s-anzeige/2557629013-23-6647</a></p>
+
+</div>
+
+    
+
+
+
+  <div class="foot unselectable">
+    <span class="menuitem postmenuitem-reply_without_quote"><a href="#postform" rel="nofollow">Antwort</a></span> <span class="menuitem postmenuitem-insert_quoting"><a href="?reply_to=7634353#postform" onclick="return !forumInsertQuoting(7634353)" title="Zitiert den markierten Text – oder den ganzen Beitrag, wenn nichts markiert ist" rel="nofollow">Zitieren</a></span> <span class="menuitem postmenuitem-edit"><a href="?edit=7634353#postform" rel="nofollow">Bearbeiten</a></span> <span class="menuitem postmenuitem-delete"><a data-confirm="[dummy_value]" data-prompt="{&quot;message&quot;:&quot;Begründung für die Löschung (oder abbrechen um nicht zu löschen):&quot;,&quot;param&quot;:&quot;reason&quot;,&quot;default&quot;:&quot; &quot;}" data-remote="true" rel="nofollow" href="/topic/delete_post/7634353?token=x1Wg9tHvzzQ79too_C00YSkujqiqEdb4aDB-9U-b-x-E_MUBxe7886mp_v5R_j3o4aUVx4R83a-6zO__Q1aV7w">Löschen</a></span> <span class="menuitem postmenuitem-report"><a href="#" data-report-post-id="7634353" data-is-root="false" rel="nofollow">Melden</a></span>
+
+    <span class="post-reactions noprint" data-post-id="7634353">
+      <span class="reaction-helped" title="Der Thread-Ersteller hat markiert, dass ihm dieser Beitrag geholfen hat." hidden>Hilfreich laut OP</span>
+      <span class="reaction-pill">
+        <a class="reaction-toggle" rel="nofollow" aria-pressed="false" data-label-thanks="Danke" data-label-helped="Hat geholfen" data-remote="true" data-method="post" href="/topic/vote_post/7634353?rating=1"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-label">Danke</span></a>
+        <span class="reaction-summary" hidden>
+          <button type="button" class="reaction-count" aria-expanded="false"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-number"></span></button>
+          <span class="reaction-names" role="tooltip"></span>
+        </span>
+      </span>
+    </span>
+  </div>
+
+</article>
+
+
+      
+
+
+      <script>
+      if (!have_newpost_anchor && (!topic_last_read_at || topic_last_read_at < 1712062749000)) {
+        document.write('<a name="new" id="new"></a>');
+        have_newpost_anchor = true;
+      }
+      </script>
+
+      
+<article id="7637225" class="post   post-userid-77485 post-id-7637225" data-attributionline="Dom F. schrieb im Beitrag #7637225:"
+ data-created-at="1712062749000" data-updated-at="1712062749000" data-user-id="77485" data-guest-name="" itemprop="comment" itemscope="itemscope" itemtype="https://schema.org/Comment"
+>
+
+  <div class="post-head">
+    <span class="avatar" style="background: #d9822b" aria-hidden="true">DF</span>
+
+      <a class="post-author" itemprop="author" itemscope="itemscope" itemtype="https://schema.org/Person" href="/user/show/domkick"><span itemprop="name">Dom F.</span><link itemprop="url" href="/user/show/domkick"></a>
+      <a class="post-account" href="/user/show/domkick">(domkick)</a>
+
+    <span class="post-badge" title="Thread-Ersteller">OP</span>
+
+
+
+    
+
+    <span class="post-time created"><time class="datetime" datetime="2024-04-02T14:59:09+02:00" itemprop="datePublished">02.04.2024 14:59</time></span>
+    
+    <a class="post-anchor" aria-label="Link zu diesem Beitrag" itemprop="url" href="#7637225">#7637225</a>
+  </div>
+
+
+  
+
+
+  <div class="text" itemprop="text">
+      <p class="attribution-line"><a class="link-to-post" data-post-id="7634343" href="/topic/goto_post/7634343">Dieter S. schrieb:</a></p>
+<blockquote>
+<p>Ist denn bei Deiner Antenne der Chip/NFC Tag noch dran? Auf dem Bild von
+Dir kann man das nicht erkennen, im Anhang ist das Bild vom Link weiter
+oben, da sieht man den Chip/NFC Tag.</p>
+</blockquote>
+<p>Ohh. Scheint wirklich so, dass auf meinem der Chip nicht mehr da ist. Hab ich wohl gekappt.</p>
+<p>Scheint wohl nichts an einem dritten Versuch vorbeizuführen.</p>
+<p>Danke für eure Hilfe! :)</p>
+
+</div>
+
+    
+
+
+
+  <div class="foot unselectable">
+    <span class="menuitem postmenuitem-reply_without_quote"><a href="#postform" rel="nofollow">Antwort</a></span> <span class="menuitem postmenuitem-insert_quoting"><a href="?reply_to=7637225#postform" onclick="return !forumInsertQuoting(7637225)" title="Zitiert den markierten Text – oder den ganzen Beitrag, wenn nichts markiert ist" rel="nofollow">Zitieren</a></span> <span class="menuitem postmenuitem-edit"><a href="?edit=7637225#postform" rel="nofollow">Bearbeiten</a></span> <span class="menuitem postmenuitem-delete"><a data-confirm="[dummy_value]" data-prompt="{&quot;message&quot;:&quot;Begründung für die Löschung (oder abbrechen um nicht zu löschen):&quot;,&quot;param&quot;:&quot;reason&quot;,&quot;default&quot;:&quot; &quot;}" data-remote="true" rel="nofollow" href="/topic/delete_post/7637225?token=hY7j4Ym-YTh_4l7pu5il4o-1gDkpTMP3NL6Hgm0qg2XGJ4YWnb9S_-29ej8WS6xrRz4bVgchyKDmQhaIYeftlQ">Löschen</a></span> <span class="menuitem postmenuitem-report"><a href="#" data-report-post-id="7637225" data-is-root="false" rel="nofollow">Melden</a></span>
+
+    <span class="post-reactions noprint" data-post-id="7637225">
+      <span class="reaction-helped" title="Der Thread-Ersteller hat markiert, dass ihm dieser Beitrag geholfen hat." hidden>Hilfreich laut OP</span>
+      <span class="reaction-pill">
+        <a class="reaction-toggle" rel="nofollow" aria-pressed="false" data-label-thanks="Danke" data-label-helped="Hat geholfen" data-remote="true" data-method="post" href="/topic/vote_post/7637225?rating=1"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-label">Danke</span></a>
+        <span class="reaction-summary" hidden>
+          <button type="button" class="reaction-count" aria-expanded="false"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-number"></span></button>
+          <span class="reaction-names" role="tooltip"></span>
+        </span>
+      </span>
+    </span>
+  </div>
+
+</article>
+
+
+      
+
+
+      <script>
+      if (!have_newpost_anchor && (!topic_last_read_at || topic_last_read_at < 1713121082000)) {
+        document.write('<a name="new" id="new"></a>');
+        have_newpost_anchor = true;
+      }
+      </script>
+
+      
+<article id="7645228" class="post   post-userid-73280 post-id-7645228" data-attributionline="Giancarlo D. schrieb im Beitrag #7645228:"
+ data-created-at="1713121082000" data-updated-at="1713121082000" data-user-id="73280" data-guest-name="" itemprop="comment" itemscope="itemscope" itemtype="https://schema.org/Comment"
+>
+
+  <div class="post-head">
+    <span class="avatar" style="background: #d9822b" aria-hidden="true">GD</span>
+
+      <a class="post-author" itemprop="author" itemscope="itemscope" itemtype="https://schema.org/Person" href="/user/show/giancarlo"><span itemprop="name">Giancarlo D.</span><link itemprop="url" href="/user/show/giancarlo"></a>
+      <a class="post-account" href="/user/show/giancarlo">(giancarlo)</a>
+
+    
+
+
+
+    
+
+    <span class="post-time created"><time class="datetime" datetime="2024-04-14T20:58:02+02:00" itemprop="datePublished">14.04.2024 20:58</time></span>
+    
+    <a class="post-anchor" aria-label="Link zu diesem Beitrag" itemprop="url" href="#7645228">#7645228</a>
+  </div>
+
+
+  
+
+
+  <div class="text" itemprop="text">
+      <p>Das ist einer der neuen Chips, die gehen beim ausbauen fast immer kaputt, wenn du noch alte
+Chips benötigst kannste dich gerne melden</p>
+
+</div>
+
+    
+
+
+
+  <div class="foot unselectable">
+    <span class="menuitem postmenuitem-reply_without_quote"><a href="#postform" rel="nofollow">Antwort</a></span> <span class="menuitem postmenuitem-insert_quoting"><a href="?reply_to=7645228#postform" onclick="return !forumInsertQuoting(7645228)" title="Zitiert den markierten Text – oder den ganzen Beitrag, wenn nichts markiert ist" rel="nofollow">Zitieren</a></span> <span class="menuitem postmenuitem-edit"><a href="?edit=7645228#postform" rel="nofollow">Bearbeiten</a></span> <span class="menuitem postmenuitem-delete"><a data-confirm="[dummy_value]" data-prompt="{&quot;message&quot;:&quot;Begründung für die Löschung (oder abbrechen um nicht zu löschen):&quot;,&quot;param&quot;:&quot;reason&quot;,&quot;default&quot;:&quot; &quot;}" data-remote="true" rel="nofollow" href="/topic/delete_post/7645228?token=nDOu-ANLOnwPf_bN_FyN_WTXna0TCeSWRZsmVSmaD97fmssPF0oJu50g0htRj4R0rFwGwj1k78GXZ7dfJVdhLg">Löschen</a></span> <span class="menuitem postmenuitem-report"><a href="#" data-report-post-id="7645228" data-is-root="false" rel="nofollow">Melden</a></span>
+
+    <span class="post-reactions noprint" data-post-id="7645228">
+      <span class="reaction-helped" title="Der Thread-Ersteller hat markiert, dass ihm dieser Beitrag geholfen hat." hidden>Hilfreich laut OP</span>
+      <span class="reaction-pill">
+        <a class="reaction-toggle" rel="nofollow" aria-pressed="false" data-label-thanks="Danke" data-label-helped="Hat geholfen" data-remote="true" data-method="post" href="/topic/vote_post/7645228?rating=1"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-label">Danke</span></a>
+        <span class="reaction-summary" hidden>
+          <button type="button" class="reaction-count" aria-expanded="false"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-number"></span></button>
+          <span class="reaction-names" role="tooltip"></span>
+        </span>
+      </span>
+    </span>
+  </div>
+
+</article>
+
+
+      
+
+
+      <script>
+      if (!have_newpost_anchor && (!topic_last_read_at || topic_last_read_at < 1713137022000)) {
+        document.write('<a name="new" id="new"></a>');
+        have_newpost_anchor = true;
+      }
+      </script>
+
+      
+<article id="7645306" class="post   post-userid-1303 post-id-7645306" data-attributionline="Spess53 .. schrieb im Beitrag #7645306:"
+ data-created-at="1713137022000" data-updated-at="1713137022000" data-user-id="1303" data-guest-name="" itemprop="comment" itemscope="itemscope" itemtype="https://schema.org/Comment"
+>
+
+  <div class="post-head">
+    <span class="avatar" style="background: #9a5a7d" aria-hidden="true">S.</span>
+
+      <a class="post-author" itemprop="author" itemscope="itemscope" itemtype="https://schema.org/Person" href="/user/show/hardygroeger"><span itemprop="name">Spess53 ..</span><link itemprop="url" href="/user/show/hardygroeger"></a>
+      <a class="post-account" href="/user/show/hardygroeger">(hardygroeger)</a>
+
+    
+
+
+
+    
+
+    <span class="post-time created"><time class="datetime" datetime="2024-04-15T01:23:42+02:00" itemprop="datePublished">15.04.2024 01:23</time></span>
+    
+    <a class="post-anchor" aria-label="Link zu diesem Beitrag" itemprop="url" href="#7645306">#7645306</a>
+  </div>
+
+
+  
+
+
+  <div class="text" itemprop="text">
+      <p>Hi</p>
+<blockquote>
+<p>wenn du noch alte Chips benötigst kannste dich gerne melden</p>
+</blockquote>
+<p>Wozu? Aus eigener Erfahrung mit meinen Kindern und Enkeln hält das Interesse der kindlichen Benutzer nicht sehr lange an. Ist mehr etwas für kindlich veranlagte Väter.</p>
+<p>MfG Spess</p>
+
+</div>
+
+    
+
+
+
+  <div class="foot unselectable">
+    <span class="menuitem postmenuitem-reply_without_quote"><a href="#postform" rel="nofollow">Antwort</a></span> <span class="menuitem postmenuitem-insert_quoting"><a href="?reply_to=7645306#postform" onclick="return !forumInsertQuoting(7645306)" title="Zitiert den markierten Text – oder den ganzen Beitrag, wenn nichts markiert ist" rel="nofollow">Zitieren</a></span> <span class="menuitem postmenuitem-edit"><a href="?edit=7645306#postform" rel="nofollow">Bearbeiten</a></span> <span class="menuitem postmenuitem-delete"><a data-confirm="[dummy_value]" data-prompt="{&quot;message&quot;:&quot;Begründung für die Löschung (oder abbrechen um nicht zu löschen):&quot;,&quot;param&quot;:&quot;reason&quot;,&quot;default&quot;:&quot; &quot;}" data-remote="true" rel="nofollow" href="/topic/delete_post/7645306?token=1LCIitvC_gjUvbP24OlWn_h2seg9g8rM92J2lQs-iOGXGe19z8PNz0bilyBNOl8WMP0qhxPuwZslnuefB_PmEQ">Löschen</a></span> <span class="menuitem postmenuitem-report"><a href="#" data-report-post-id="7645306" data-is-root="false" rel="nofollow">Melden</a></span>
+
+    <span class="post-reactions noprint" data-post-id="7645306">
+      <span class="reaction-helped" title="Der Thread-Ersteller hat markiert, dass ihm dieser Beitrag geholfen hat." hidden>Hilfreich laut OP</span>
+      <span class="reaction-pill">
+        <a class="reaction-toggle" rel="nofollow" aria-pressed="false" data-label-thanks="Danke" data-label-helped="Hat geholfen" data-remote="true" data-method="post" href="/topic/vote_post/7645306?rating=1"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-label">Danke</span></a>
+        <span class="reaction-summary" hidden>
+          <button type="button" class="reaction-count" aria-expanded="false"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-number"></span></button>
+          <span class="reaction-names" role="tooltip"></span>
+        </span>
+      </span>
+    </span>
+  </div>
+
+</article>
+
+
+      
+
+
+      <script>
+      if (!have_newpost_anchor && (!topic_last_read_at || topic_last_read_at < 1743534179000)) {
+        document.write('<a name="new" id="new"></a>');
+        have_newpost_anchor = true;
+      }
+      </script>
+
+      
+<article id="7854833" class="post   post-userid-122009 post-id-7854833" data-attributionline="Florian D. schrieb im Beitrag #7854833:"
+ data-created-at="1743534179000" data-updated-at="1743534179000" data-user-id="122009" data-guest-name="" itemprop="comment" itemscope="itemscope" itemtype="https://schema.org/Comment"
+>
+
+  <div class="post-head">
+    <span class="avatar" style="background: #6b6f9a" aria-hidden="true">FD</span>
+
+      <a class="post-author" itemprop="author" itemscope="itemscope" itemtype="https://schema.org/Person" href="/user/show/lazydee"><span itemprop="name">Florian D.</span><link itemprop="url" href="/user/show/lazydee"></a>
+      <a class="post-account" href="/user/show/lazydee">(lazydee)</a>
+
+    
+
+
+      <span class="post-credential company">(Firma: Immerwährend Tattoo)</span>
+
+    
+
+    <span class="post-time created"><time class="datetime" datetime="2025-04-01T21:02:59+02:00" itemprop="datePublished">01.04.2025 21:02</time></span>
+    
+    <a class="post-anchor" aria-label="Link zu diesem Beitrag" itemprop="url" href="#7854833">#7854833</a>
+  </div>
+
+
+  
+
+
+  <div class="text" itemprop="text">
+      <p>Ich hab auch zwei Chips ausgebaut und bin mir zumindest bei den linken sicher nichts beschädigt zu haben aber sie funktionieren nicht und ich verstehe nicht wieso hat wer eine idee</p>
+
+</div>
+      <div class="attachments">
+      Angehängte Dateien:<br/>
+
+
+        <ul class="attachments-images">
+          <li>
+            <a class="highslide"
+              onclick="return hs.expand(this,{src:'/attachment/665469/PXL_20250401_185805462.jpg'})"
+              href="/attachment/665469/PXL_20250401_185805462.jpg"
+              style="border: none;"><img src="/attachment/preview/665469.jpg" alt="Zwei beschädigte elektrische Kabel mit freiliegenden Drähten" width="51" height="90" loading="lazy" /></a>
+            <a href="/attachment/665469/PXL_20250401_185805462.jpg">PXL_20250401_185805462.jpg</a>
+            (230 KB)
+          </li>
+        </ul>
+    </div>
+
+
+
+  <div class="foot unselectable">
+    <span class="menuitem postmenuitem-reply_without_quote"><a href="#postform" rel="nofollow">Antwort</a></span> <span class="menuitem postmenuitem-insert_quoting"><a href="?reply_to=7854833#postform" onclick="return !forumInsertQuoting(7854833)" title="Zitiert den markierten Text – oder den ganzen Beitrag, wenn nichts markiert ist" rel="nofollow">Zitieren</a></span> <span class="menuitem postmenuitem-edit"><a href="?edit=7854833#postform" rel="nofollow">Bearbeiten</a></span> <span class="menuitem postmenuitem-delete"><a data-confirm="[dummy_value]" data-prompt="{&quot;message&quot;:&quot;Begründung für die Löschung (oder abbrechen um nicht zu löschen):&quot;,&quot;param&quot;:&quot;reason&quot;,&quot;default&quot;:&quot; &quot;}" data-remote="true" rel="nofollow" href="/topic/delete_post/7854833?token=4OKJxCuT4A1b-VSPZ069K0xBfM9omxnhtGT4Pg1rB1WjS-wzP5LTysmmcFnKnbSihMrnoEb2ErZmmGk0AaZppQ">Löschen</a></span> <span class="menuitem postmenuitem-report"><a href="#" data-report-post-id="7854833" data-is-root="false" rel="nofollow">Melden</a></span>
+
+    <span class="post-reactions noprint" data-post-id="7854833">
+      <span class="reaction-helped" title="Der Thread-Ersteller hat markiert, dass ihm dieser Beitrag geholfen hat." hidden>Hilfreich laut OP</span>
+      <span class="reaction-pill">
+        <a class="reaction-toggle" rel="nofollow" aria-pressed="false" data-label-thanks="Danke" data-label-helped="Hat geholfen" data-remote="true" data-method="post" href="/topic/vote_post/7854833?rating=1"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-label">Danke</span></a>
+        <span class="reaction-summary" hidden>
+          <button type="button" class="reaction-count" aria-expanded="false"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-number"></span></button>
+          <span class="reaction-names" role="tooltip"></span>
+        </span>
+      </span>
+    </span>
+  </div>
+
+</article>
+
+
+      
+
+
+      <script>
+      if (!have_newpost_anchor && (!topic_last_read_at || topic_last_read_at < 1743536466000)) {
+        document.write('<a name="new" id="new"></a>');
+        have_newpost_anchor = true;
+      }
+      </script>
+
+      
+<article id="7854861" class="post   post-userid-32813 post-id-7854861" data-attributionline="Lutz B. schrieb im Beitrag #7854861:"
+ data-created-at="1743536466000" data-updated-at="1743536626000" data-user-id="32813" data-guest-name="" itemprop="comment" itemscope="itemscope" itemtype="https://schema.org/Comment"
+>
+
+  <div class="post-head">
+    <span class="avatar" style="background: #9a5a7d" aria-hidden="true">LB</span>
+
+      <a class="post-author" itemprop="author" itemscope="itemscope" itemtype="https://schema.org/Person" href="/user/show/lutzbroszio"><span itemprop="name">Lutz B.</span><link itemprop="url" href="/user/show/lutzbroszio"></a>
+      <a class="post-account" href="/user/show/lutzbroszio">(lutzbroszio)</a>
+
+    
+
+
+
+    
+
+    <span class="post-time created"><time class="datetime" datetime="2025-04-01T21:41:06+02:00" itemprop="datePublished">01.04.2025 21:41</time></span>
+    
+    <a class="post-anchor" aria-label="Link zu diesem Beitrag" itemprop="url" href="#7854861">#7854861</a>
+  </div>
+
+
+  
+
+
+  <div class="text" itemprop="text">
+      <p class="attribution-line"><a class="link-to-post" data-post-id="7854833" href="/topic/goto_post/7854833">Florian D. schrieb:</a></p>
+<blockquote>
+<p>und ich verstehe nicht wieso hat wer eine idee</p>
+</blockquote>
+<p>Die Tags brauchen einen Abstand von dem Leser. Also wenn du es einfach so auf die Toniebox gelegt hast nochmal versuchen und etwas unterlegen.</p>
+<p>Edith: und auch verschiedene Ausrichtungen probieren.</p>
+
+</div>
+
+    
+
+
+
+  <div class="foot unselectable">
+    <span class="menuitem postmenuitem-reply_without_quote"><a href="#postform" rel="nofollow">Antwort</a></span> <span class="menuitem postmenuitem-insert_quoting"><a href="?reply_to=7854861#postform" onclick="return !forumInsertQuoting(7854861)" title="Zitiert den markierten Text – oder den ganzen Beitrag, wenn nichts markiert ist" rel="nofollow">Zitieren</a></span> <span class="menuitem postmenuitem-edit"><a href="?edit=7854861#postform" rel="nofollow">Bearbeiten</a></span> <span class="menuitem postmenuitem-delete"><a data-confirm="[dummy_value]" data-prompt="{&quot;message&quot;:&quot;Begründung für die Löschung (oder abbrechen um nicht zu löschen):&quot;,&quot;param&quot;:&quot;reason&quot;,&quot;default&quot;:&quot; &quot;}" data-remote="true" rel="nofollow" href="/topic/delete_post/7854861?token=Waa3mid5MNM-bklleZQnY3k9C8FB4691d4F3wekPyjUaD9JtM3gDFKwxbbPURy7qsbaQrm-OpCKlfebL5cKkxQ">Löschen</a></span> <span class="menuitem postmenuitem-report"><a href="#" data-report-post-id="7854861" data-is-root="false" rel="nofollow">Melden</a></span>
+
+    <span class="post-reactions noprint" data-post-id="7854861">
+      <span class="reaction-helped" title="Der Thread-Ersteller hat markiert, dass ihm dieser Beitrag geholfen hat." hidden>Hilfreich laut OP</span>
+      <span class="reaction-pill">
+        <a class="reaction-toggle" rel="nofollow" aria-pressed="false" data-label-thanks="Danke" data-label-helped="Hat geholfen" data-remote="true" data-method="post" href="/topic/vote_post/7854861?rating=1"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-label">Danke</span></a>
+        <span class="reaction-summary" hidden>
+          <button type="button" class="reaction-count" aria-expanded="false"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-number"></span></button>
+          <span class="reaction-names" role="tooltip"></span>
+        </span>
+      </span>
+    </span>
+  </div>
+
+</article>
+
+
+      
+
+
+      <script>
+      if (!have_newpost_anchor && (!topic_last_read_at || topic_last_read_at < 1743599112000)) {
+        document.write('<a name="new" id="new"></a>');
+        have_newpost_anchor = true;
+      }
+      </script>
+
+      
+<article id="7855205" class="post   post-userid-122009 post-id-7855205" data-attributionline="Florian D. schrieb im Beitrag #7855205:"
+ data-created-at="1743599112000" data-updated-at="1743599112000" data-user-id="122009" data-guest-name="" itemprop="comment" itemscope="itemscope" itemtype="https://schema.org/Comment"
+>
+
+  <div class="post-head">
+    <span class="avatar" style="background: #6b6f9a" aria-hidden="true">FD</span>
+
+      <a class="post-author" itemprop="author" itemscope="itemscope" itemtype="https://schema.org/Person" href="/user/show/lazydee"><span itemprop="name">Florian D.</span><link itemprop="url" href="/user/show/lazydee"></a>
+      <a class="post-account" href="/user/show/lazydee">(lazydee)</a>
+
+    
+
+
+      <span class="post-credential company">(Firma: Immerwährend Tattoo)</span>
+
+    
+
+    <span class="post-time created"><time class="datetime" datetime="2025-04-02T15:05:12+02:00" itemprop="datePublished">02.04.2025 15:05</time></span>
+    
+    <a class="post-anchor" aria-label="Link zu diesem Beitrag" itemprop="url" href="#7855205">#7855205</a>
+  </div>
+
+
+  
+
+
+  <div class="text" itemprop="text">
+      <p>Ja das ist mir bekannt daher hab ich die etwa auf tonie Kopfhöhe behalten. Ich bin jetzt sogar soweit gegangen, dass ich noch einen Tonie geholt habe und diesen nur aufgeschnitten. Habe ohne überhaupt an den Chip zu kommen und auch dieser funktioniert nicht mehr. Siehe Bild</p>
+
+</div>
+      <div class="attachments">
+      Angehängte Dateien:<br/>
+
+
+        <ul class="attachments-images">
+          <li>
+            <a class="highslide"
+              onclick="return hs.expand(this,{src:'/attachment/665530/PXL_20250402_130145301.jpg'})"
+              href="/attachment/665530/PXL_20250402_130145301.jpg"
+              style="border: none;"><img src="/attachment/preview/665530.jpg" alt="Figur mit gestreiftem Shirt und Stab" width="51" height="90" loading="lazy" /></a>
+            <a href="/attachment/665530/PXL_20250402_130145301.jpg">PXL_20250402_130145301.jpg</a>
+            (210 KB)
+          </li>
+        </ul>
+    </div>
+
+    
+
+
+
+  <div class="foot unselectable">
+    <span class="menuitem postmenuitem-reply_without_quote"><a href="#postform" rel="nofollow">Antwort</a></span> <span class="menuitem postmenuitem-insert_quoting"><a href="?reply_to=7855205#postform" onclick="return !forumInsertQuoting(7855205)" title="Zitiert den markierten Text – oder den ganzen Beitrag, wenn nichts markiert ist" rel="nofollow">Zitieren</a></span> <span class="menuitem postmenuitem-edit"><a href="?edit=7855205#postform" rel="nofollow">Bearbeiten</a></span> <span class="menuitem postmenuitem-delete"><a data-confirm="[dummy_value]" data-prompt="{&quot;message&quot;:&quot;Begründung für die Löschung (oder abbrechen um nicht zu löschen):&quot;,&quot;param&quot;:&quot;reason&quot;,&quot;default&quot;:&quot; &quot;}" data-remote="true" rel="nofollow" href="/topic/delete_post/7855205?token=Ee12w5qdqlG0FjdtIOhxDTe-xz3oqwal-NMDnjqA8_5SRBM0jpyZliZJE7uNO3iE_zVcUsbGDfIqL5KUNk2dDg">Löschen</a></span> <span class="menuitem postmenuitem-report"><a href="#" data-report-post-id="7855205" data-is-root="false" rel="nofollow">Melden</a></span>
+
+    <span class="post-reactions noprint" data-post-id="7855205">
+      <span class="reaction-helped" title="Der Thread-Ersteller hat markiert, dass ihm dieser Beitrag geholfen hat." hidden>Hilfreich laut OP</span>
+      <span class="reaction-pill">
+        <a class="reaction-toggle" rel="nofollow" aria-pressed="false" data-label-thanks="Danke" data-label-helped="Hat geholfen" data-remote="true" data-method="post" href="/topic/vote_post/7855205?rating=1"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-label">Danke</span></a>
+        <span class="reaction-summary" hidden>
+          <button type="button" class="reaction-count" aria-expanded="false"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-number"></span></button>
+          <span class="reaction-names" role="tooltip"></span>
+        </span>
+      </span>
+    </span>
+  </div>
+
+</article>
+
+
+      
+
+
+      <script>
+      if (!have_newpost_anchor && (!topic_last_read_at || topic_last_read_at < 1743599338000)) {
+        document.write('<a name="new" id="new"></a>');
+        have_newpost_anchor = true;
+      }
+      </script>
+
+      
+<article id="7855207" class="post   post-userid-122009 post-id-7855207" data-attributionline="Florian D. schrieb im Beitrag #7855207:"
+ data-created-at="1743599338000" data-updated-at="1743599338000" data-user-id="122009" data-guest-name="" itemprop="comment" itemscope="itemscope" itemtype="https://schema.org/Comment"
+>
+
+  <div class="post-head">
+    <span class="avatar" style="background: #6b6f9a" aria-hidden="true">FD</span>
+
+      <a class="post-author" itemprop="author" itemscope="itemscope" itemtype="https://schema.org/Person" href="/user/show/lazydee"><span itemprop="name">Florian D.</span><link itemprop="url" href="/user/show/lazydee"></a>
+      <a class="post-account" href="/user/show/lazydee">(lazydee)</a>
+
+    
+
+
+      <span class="post-credential company">(Firma: Immerwährend Tattoo)</span>
+
+    
+
+    <span class="post-time created"><time class="datetime" datetime="2025-04-02T15:08:58+02:00" itemprop="datePublished">02.04.2025 15:08</time></span>
+    
+    <a class="post-anchor" aria-label="Link zu diesem Beitrag" itemprop="url" href="#7855207">#7855207</a>
+  </div>
+
+
+  
+
+
+  <div class="text" itemprop="text">
+      <p>Ich muss Korrigieren nach 5 Minuten hat er plötzlich angefangen was abzuspielen. Hab mich voll erschrocken. Also scheint der doch zu gehen</p>
+
+</div>
+
+    
+
+
+
+  <div class="foot unselectable">
+    <span class="menuitem postmenuitem-reply_without_quote"><a href="#postform" rel="nofollow">Antwort</a></span> <span class="menuitem postmenuitem-insert_quoting"><a href="?reply_to=7855207#postform" onclick="return !forumInsertQuoting(7855207)" title="Zitiert den markierten Text – oder den ganzen Beitrag, wenn nichts markiert ist" rel="nofollow">Zitieren</a></span> <span class="menuitem postmenuitem-edit"><a href="?edit=7855207#postform" rel="nofollow">Bearbeiten</a></span> <span class="menuitem postmenuitem-delete"><a data-confirm="[dummy_value]" data-prompt="{&quot;message&quot;:&quot;Begründung für die Löschung (oder abbrechen um nicht zu löschen):&quot;,&quot;param&quot;:&quot;reason&quot;,&quot;default&quot;:&quot; &quot;}" data-remote="true" rel="nofollow" href="/topic/delete_post/7855207?token=G_7DMUcZS6sz4QAFf8-taBotusy72q5XbxHYf5opZkpYV6bGUxh4bKG-JNPSHKTh0qYho5W3pQC97Ul1luQIug">Löschen</a></span> <span class="menuitem postmenuitem-report"><a href="#" data-report-post-id="7855207" data-is-root="false" rel="nofollow">Melden</a></span>
+
+    <span class="post-reactions noprint" data-post-id="7855207">
+      <span class="reaction-helped" title="Der Thread-Ersteller hat markiert, dass ihm dieser Beitrag geholfen hat." hidden>Hilfreich laut OP</span>
+      <span class="reaction-pill">
+        <a class="reaction-toggle" rel="nofollow" aria-pressed="false" data-label-thanks="Danke" data-label-helped="Hat geholfen" data-remote="true" data-method="post" href="/topic/vote_post/7855207?rating=1"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-label">Danke</span></a>
+        <span class="reaction-summary" hidden>
+          <button type="button" class="reaction-count" aria-expanded="false"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-number"></span></button>
+          <span class="reaction-names" role="tooltip"></span>
+        </span>
+      </span>
+    </span>
+  </div>
+
+</article>
+
+
+      
+
+
+      <script>
+      if (!have_newpost_anchor && (!topic_last_read_at || topic_last_read_at < 1743599573000)) {
+        document.write('<a name="new" id="new"></a>');
+        have_newpost_anchor = true;
+      }
+      </script>
+
+      
+<article id="7855212" class="post   post-userid-122009 post-id-7855212" data-attributionline="Florian D. schrieb im Beitrag #7855212:"
+ data-created-at="1743599573000" data-updated-at="1743599573000" data-user-id="122009" data-guest-name="" itemprop="comment" itemscope="itemscope" itemtype="https://schema.org/Comment"
+>
+
+  <div class="post-head">
+    <span class="avatar" style="background: #6b6f9a" aria-hidden="true">FD</span>
+
+      <a class="post-author" itemprop="author" itemscope="itemscope" itemtype="https://schema.org/Person" href="/user/show/lazydee"><span itemprop="name">Florian D.</span><link itemprop="url" href="/user/show/lazydee"></a>
+      <a class="post-account" href="/user/show/lazydee">(lazydee)</a>
+
+    
+
+
+      <span class="post-credential company">(Firma: Immerwährend Tattoo)</span>
+
+    
+
+    <span class="post-time created"><time class="datetime" datetime="2025-04-02T15:12:53+02:00" itemprop="datePublished">02.04.2025 15:12</time></span>
+    
+    <a class="post-anchor" aria-label="Link zu diesem Beitrag" itemprop="url" href="#7855212">#7855212</a>
+  </div>
+
+
+  
+
+
+  <div class="text" itemprop="text">
+      <p>PPS okay, jetzt habe ich den Kopf abgeschnitten und es funktioniert wieder nicht. Wenn ich den Kopf auf die Figur Stelle und leicht drücke, funktioniert, wenn ich den Kopf aber auf dieselbe Höhe, nur halte ohne die Figur darunter funktioniert's nicht, warum?</p>
+
+</div>
+      <div class="attachments">
+      Angehängte Dateien:<br/>
+
+
+        <ul class="attachments-images">
+          <li>
+            <a class="highslide"
+              onclick="return hs.expand(this,{src:'/attachment/665532/PXL_20250402_131159973.jpg'})"
+              href="/attachment/665532/PXL_20250402_131159973.jpg"
+              style="border: none;"><img src="/attachment/preview/665532.jpg" alt="Hand hält kleine Spielfigur" width="51" height="90" loading="lazy" /></a>
+            <a href="/attachment/665532/PXL_20250402_131159973.jpg">PXL_20250402_131159973.jpg</a>
+            (240 KB)
+          </li>
+        </ul>
+    </div>
+
+    
+
+
+
+  <div class="foot unselectable">
+    <span class="menuitem postmenuitem-reply_without_quote"><a href="#postform" rel="nofollow">Antwort</a></span> <span class="menuitem postmenuitem-insert_quoting"><a href="?reply_to=7855212#postform" onclick="return !forumInsertQuoting(7855212)" title="Zitiert den markierten Text – oder den ganzen Beitrag, wenn nichts markiert ist" rel="nofollow">Zitieren</a></span> <span class="menuitem postmenuitem-edit"><a href="?edit=7855212#postform" rel="nofollow">Bearbeiten</a></span> <span class="menuitem postmenuitem-delete"><a data-confirm="[dummy_value]" data-prompt="{&quot;message&quot;:&quot;Begründung für die Löschung (oder abbrechen um nicht zu löschen):&quot;,&quot;param&quot;:&quot;reason&quot;,&quot;default&quot;:&quot; &quot;}" data-remote="true" rel="nofollow" href="/topic/delete_post/7855212?token=itUI4qmkXlwhsIEnJ_KiDFmYBNVeG-8Sk5naS1qhwb7JfG0VvaVtm7PvpfGKIauFkROfunB25EVBZUtBVmyvTg">Löschen</a></span> <span class="menuitem postmenuitem-report"><a href="#" data-report-post-id="7855212" data-is-root="false" rel="nofollow">Melden</a></span>
+
+    <span class="post-reactions noprint" data-post-id="7855212">
+      <span class="reaction-helped" title="Der Thread-Ersteller hat markiert, dass ihm dieser Beitrag geholfen hat." hidden>Hilfreich laut OP</span>
+      <span class="reaction-pill">
+        <a class="reaction-toggle" rel="nofollow" aria-pressed="false" data-label-thanks="Danke" data-label-helped="Hat geholfen" data-remote="true" data-method="post" href="/topic/vote_post/7855212?rating=1"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-label">Danke</span></a>
+        <span class="reaction-summary" hidden>
+          <button type="button" class="reaction-count" aria-expanded="false"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-number"></span></button>
+          <span class="reaction-names" role="tooltip"></span>
+        </span>
+      </span>
+    </span>
+  </div>
+
+</article>
+
+
+      
+
+
+      <script>
+      if (!have_newpost_anchor && (!topic_last_read_at || topic_last_read_at < 1743599669000)) {
+        document.write('<a name="new" id="new"></a>');
+        have_newpost_anchor = true;
+      }
+      </script>
+
+      
+<article id="7855213" class="post   post-userid-91468 post-id-7855213" data-attributionline="Hmmm schrieb im Beitrag #7855213:"
+ data-created-at="1743599669000" data-updated-at="1743599669000" data-user-id="91468" data-guest-name="" itemprop="comment" itemscope="itemscope" itemtype="https://schema.org/Comment"
+>
+
+  <div class="post-head">
+    <span class="avatar" style="background: #9a5a7d" aria-hidden="true">H</span>
+
+      <a class="post-author" itemprop="author" itemscope="itemscope" itemtype="https://schema.org/Person" href="/user/show/hmmm"><span itemprop="name">Hmmm</span><link itemprop="url" href="/user/show/hmmm"></a>
+      <a class="post-account" href="/user/show/hmmm">(hmmm)</a>
+
+    
+
+
+
+    
+
+    <span class="post-time created"><time class="datetime" datetime="2025-04-02T15:14:29+02:00" itemprop="datePublished">02.04.2025 15:14</time></span>
+    
+    <a class="post-anchor" aria-label="Link zu diesem Beitrag" itemprop="url" href="#7855213">#7855213</a>
+  </div>
+
+
+  
+
+
+  <div class="text" itemprop="text">
+      <p class="attribution-line"><a class="link-to-post" data-post-id="7855207" href="/topic/goto_post/7855207">Florian D. schrieb:</a></p>
+<blockquote>
+<p>Ich muss Korrigieren nach 5 Minuten hat er plötzlich angefangen was
+abzuspielen.</p>
+</blockquote>
+<p>Denk daran, dass die Inhalte nicht auf dem Transponder liegen, sondern von der Box bei der ersten Nutzung aus dem Netz geholt werden.</p>
+
+</div>
+
+    
+
+
+
+  <div class="foot unselectable">
+    <span class="menuitem postmenuitem-reply_without_quote"><a href="#postform" rel="nofollow">Antwort</a></span> <span class="menuitem postmenuitem-insert_quoting"><a href="?reply_to=7855213#postform" onclick="return !forumInsertQuoting(7855213)" title="Zitiert den markierten Text – oder den ganzen Beitrag, wenn nichts markiert ist" rel="nofollow">Zitieren</a></span> <span class="menuitem postmenuitem-edit"><a href="?edit=7855213#postform" rel="nofollow">Bearbeiten</a></span> <span class="menuitem postmenuitem-delete"><a data-confirm="[dummy_value]" data-prompt="{&quot;message&quot;:&quot;Begründung für die Löschung (oder abbrechen um nicht zu löschen):&quot;,&quot;param&quot;:&quot;reason&quot;,&quot;default&quot;:&quot; &quot;}" data-remote="true" rel="nofollow" href="/topic/delete_post/7855213?token=02DYW5HQyG1H-xZYDnfLNVzVeqo4YCDfr_j_zQiQLP2Qyb2shdH7qtWkMo6jpMK8lF7hxRYNK4h9BG7HBF1CDQ">Löschen</a></span> <span class="menuitem postmenuitem-report"><a href="#" data-report-post-id="7855213" data-is-root="false" rel="nofollow">Melden</a></span>
+
+    <span class="post-reactions noprint" data-post-id="7855213">
+      <span class="reaction-helped" title="Der Thread-Ersteller hat markiert, dass ihm dieser Beitrag geholfen hat." hidden>Hilfreich laut OP</span>
+      <span class="reaction-pill">
+        <a class="reaction-toggle" rel="nofollow" aria-pressed="false" data-label-thanks="Danke" data-label-helped="Hat geholfen" data-remote="true" data-method="post" href="/topic/vote_post/7855213?rating=1"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-label">Danke</span></a>
+        <span class="reaction-summary" hidden>
+          <button type="button" class="reaction-count" aria-expanded="false"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-number"></span></button>
+          <span class="reaction-names" role="tooltip"></span>
+        </span>
+      </span>
+    </span>
+  </div>
+
+</article>
+
+
+      
+
+
+      <script>
+      if (!have_newpost_anchor && (!topic_last_read_at || topic_last_read_at < 1743603016000)) {
+        document.write('<a name="new" id="new"></a>');
+        have_newpost_anchor = true;
+      }
+      </script>
+
+      
+<article id="7855252" class="post   post-userid-36400 post-id-7855252" data-attributionline="Volker B. schrieb im Beitrag #7855252:"
+ data-created-at="1743603016000" data-updated-at="1743603016000" data-user-id="36400" data-guest-name="" itemprop="comment" itemscope="itemscope" itemtype="https://schema.org/Comment"
+>
+
+  <div class="post-head">
+    <span class="avatar" style="background: #d9822b" aria-hidden="true">VB</span>
+
+      <a class="post-author" itemprop="author" itemscope="itemscope" itemtype="https://schema.org/Person" href="/user/show/vobs"><span itemprop="name">Volker B.</span><link itemprop="url" href="/user/show/vobs"></a>
+      <a class="post-account" href="/user/show/vobs">(vobs)</a>
+
+    
+
+
+      <span class="post-credential company">(Firma: L-E-A)</span>
+
+    
+
+    <span class="post-time created"><time class="datetime" datetime="2025-04-02T16:10:16+02:00" itemprop="datePublished">02.04.2025 16:10</time></span>
+    
+    <a class="post-anchor" aria-label="Link zu diesem Beitrag" itemprop="url" href="#7855252">#7855252</a>
+  </div>
+
+
+  
+
+
+  <div class="text" itemprop="text">
+      <p class="attribution-line"><a class="link-to-post" data-post-id="7855212" href="/topic/goto_post/7855212">Florian D. schrieb:</a></p>
+<blockquote>
+<p>Wenn ich den Kopf auf die Figur Stelle und leicht drücke,
+funktioniert, wenn ich den Kopf aber auf dieselbe Höhe, nur halte ohne
+die Figur darunter funktioniert's nicht, warum?</p>
+</blockquote>
+<p>Teste mal mit einem Magnet, ob sich etwas ferromagnetisches in dem Rumpf der Figur befindet.</p>
+<p>Grüßle,
+Volker</p>
+
+</div>
+
+    
+
+
+
+  <div class="foot unselectable">
+    <span class="menuitem postmenuitem-reply_without_quote"><a href="#postform" rel="nofollow">Antwort</a></span> <span class="menuitem postmenuitem-insert_quoting"><a href="?reply_to=7855252#postform" onclick="return !forumInsertQuoting(7855252)" title="Zitiert den markierten Text – oder den ganzen Beitrag, wenn nichts markiert ist" rel="nofollow">Zitieren</a></span> <span class="menuitem postmenuitem-edit"><a href="?edit=7855252#postform" rel="nofollow">Bearbeiten</a></span> <span class="menuitem postmenuitem-delete"><a data-confirm="[dummy_value]" data-prompt="{&quot;message&quot;:&quot;Begründung für die Löschung (oder abbrechen um nicht zu löschen):&quot;,&quot;param&quot;:&quot;reason&quot;,&quot;default&quot;:&quot; &quot;}" data-remote="true" rel="nofollow" href="/topic/delete_post/7855252?token=6hMi9ItYvkG21DJPw_NWj_19HW6V2KO2cZiGZmU-qLWpukcDn1mNhiSLFpluIF8GNfaGAbu1qOGjZBdsafPGRQ">Löschen</a></span> <span class="menuitem postmenuitem-report"><a href="#" data-report-post-id="7855252" data-is-root="false" rel="nofollow">Melden</a></span>
+
+    <span class="post-reactions noprint" data-post-id="7855252">
+      <span class="reaction-helped" title="Der Thread-Ersteller hat markiert, dass ihm dieser Beitrag geholfen hat." hidden>Hilfreich laut OP</span>
+      <span class="reaction-pill">
+        <a class="reaction-toggle" rel="nofollow" aria-pressed="false" data-label-thanks="Danke" data-label-helped="Hat geholfen" data-remote="true" data-method="post" href="/topic/vote_post/7855252?rating=1"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-label">Danke</span></a>
+        <span class="reaction-summary" hidden>
+          <button type="button" class="reaction-count" aria-expanded="false"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-number"></span></button>
+          <span class="reaction-names" role="tooltip"></span>
+        </span>
+      </span>
+    </span>
+  </div>
+
+</article>
+
+
+      
+
+
+      <script>
+      if (!have_newpost_anchor && (!topic_last_read_at || topic_last_read_at < 1743614511000)) {
+        document.write('<a name="new" id="new"></a>');
+        have_newpost_anchor = true;
+      }
+      </script>
+
+      
+<article id="7855331" class="post   post-userid-21571 post-id-7855331" data-attributionline="Roland E. schrieb im Beitrag #7855331:"
+ data-created-at="1743614511000" data-updated-at="1743614511000" data-user-id="21571" data-guest-name="" itemprop="comment" itemscope="itemscope" itemtype="https://schema.org/Comment"
+>
+
+  <div class="post-head">
+    <span class="avatar" style="background: #5a7d9a" aria-hidden="true">RE</span>
+
+      <a class="post-author" itemprop="author" itemscope="itemscope" itemtype="https://schema.org/Person" href="/user/show/roland0815"><span itemprop="name">Roland E.</span><link itemprop="url" href="/user/show/roland0815"></a>
+      <a class="post-account" href="/user/show/roland0815">(roland0815)</a>
+
+    
+
+
+
+    
+
+    <span class="post-time created"><time class="datetime" datetime="2025-04-02T19:21:51+02:00" itemprop="datePublished">02.04.2025 19:21</time></span>
+    
+    <a class="post-anchor" aria-label="Link zu diesem Beitrag" itemprop="url" href="#7855331">#7855331</a>
+  </div>
+
+
+  
+
+
+  <div class="text" itemprop="text">
+      <p class="attribution-line"><a class="link-to-post" data-post-id="7855252" href="/topic/goto_post/7855252">Volker B. schrieb:</a></p>
+<blockquote>
+<p class="attribution-line"><a class="link-to-post" data-post-id="7855212" href="/topic/goto_post/7855212">Florian D. schrieb:</a></p>
+<blockquote>
+<p>Wenn ich den Kopf auf die Figur Stelle und leicht drücke,
+funktioniert, wenn ich den Kopf aber auf dieselbe Höhe, nur halte ohne
+die Figur darunter funktioniert's nicht, warum?</p>
+</blockquote>
+<p>Teste mal mit einem Magnet, ob sich etwas ferromagnetisches in dem Rumpf
+der Figur befindet.</p>
+</blockquote>
+<p>Im Fuß der Figuren ist ein Magnet oder Eisenstück.</p>
+<p>Das schwarze Teil ist nur ein RFID-Tag mit einer UUID. An Hand dieser zieht die Box dann die Inhalte "aus der Cloud".</p>
+<p>Das er manchmal geht und manchmal nicht könnte an einer Unterbrechung der Antenne liegen, die bei mechanischer Belastung geschlossen wird. Vulgo: Wackelkontakt.</p>
+
+</div>
+
+    
+
+
+
+  <div class="foot unselectable">
+    <span class="menuitem postmenuitem-reply_without_quote"><a href="#postform" rel="nofollow">Antwort</a></span> <span class="menuitem postmenuitem-insert_quoting"><a href="?reply_to=7855331#postform" onclick="return !forumInsertQuoting(7855331)" title="Zitiert den markierten Text – oder den ganzen Beitrag, wenn nichts markiert ist" rel="nofollow">Zitieren</a></span> <span class="menuitem postmenuitem-edit"><a href="?edit=7855331#postform" rel="nofollow">Bearbeiten</a></span> <span class="menuitem postmenuitem-delete"><a data-confirm="[dummy_value]" data-prompt="{&quot;message&quot;:&quot;Begründung für die Löschung (oder abbrechen um nicht zu löschen):&quot;,&quot;param&quot;:&quot;reason&quot;,&quot;default&quot;:&quot; &quot;}" data-remote="true" rel="nofollow" href="/topic/delete_post/7855331?token=OwUNztKMqt6sINwNNl4w2CASAiRYVsW46xYTjU96eEF4rGg5xo2ZGT5_-NubjTlR6JmZS3Y7zu856oKHQ7cWsQ">Löschen</a></span> <span class="menuitem postmenuitem-report"><a href="#" data-report-post-id="7855331" data-is-root="false" rel="nofollow">Melden</a></span>
+
+    <span class="post-reactions noprint" data-post-id="7855331">
+      <span class="reaction-helped" title="Der Thread-Ersteller hat markiert, dass ihm dieser Beitrag geholfen hat." hidden>Hilfreich laut OP</span>
+      <span class="reaction-pill">
+        <a class="reaction-toggle" rel="nofollow" aria-pressed="false" data-label-thanks="Danke" data-label-helped="Hat geholfen" data-remote="true" data-method="post" href="/topic/vote_post/7855331?rating=1"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-label">Danke</span></a>
+        <span class="reaction-summary" hidden>
+          <button type="button" class="reaction-count" aria-expanded="false"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-number"></span></button>
+          <span class="reaction-names" role="tooltip"></span>
+        </span>
+      </span>
+    </span>
+  </div>
+
+</article>
+
+
+      
+
+
+      <script>
+      if (!have_newpost_anchor && (!topic_last_read_at || topic_last_read_at < 1743702721000)) {
+        document.write('<a name="new" id="new"></a>');
+        have_newpost_anchor = true;
+      }
+      </script>
+
+      
+<article id="7855941" class="post   post-userid-36400 post-id-7855941" data-attributionline="Volker B. schrieb im Beitrag #7855941:"
+ data-created-at="1743702721000" data-updated-at="1743702721000" data-user-id="36400" data-guest-name="" itemprop="comment" itemscope="itemscope" itemtype="https://schema.org/Comment"
+>
+
+  <div class="post-head">
+    <span class="avatar" style="background: #d9822b" aria-hidden="true">VB</span>
+
+      <a class="post-author" itemprop="author" itemscope="itemscope" itemtype="https://schema.org/Person" href="/user/show/vobs"><span itemprop="name">Volker B.</span><link itemprop="url" href="/user/show/vobs"></a>
+      <a class="post-account" href="/user/show/vobs">(vobs)</a>
+
+    
+
+
+      <span class="post-credential company">(Firma: L-E-A)</span>
+
+    
+
+    <span class="post-time created"><time class="datetime" datetime="2025-04-03T19:52:01+02:00" itemprop="datePublished">03.04.2025 19:52</time></span>
+    
+    <a class="post-anchor" aria-label="Link zu diesem Beitrag" itemprop="url" href="#7855941">#7855941</a>
+  </div>
+
+
+  
+
+
+  <div class="text" itemprop="text">
+      <p class="attribution-line"><a class="link-to-post" data-post-id="7855331" href="/topic/goto_post/7855331">Roland E. schrieb:</a></p>
+<blockquote>
+<p>Im Fuß der Figuren ist ein Magnet oder Eisenstück.</p>
+</blockquote>
+<p>Ein Magnet solle sich mit einem eisenhaltigen Testobjekt, wie einer Münze oder einer Büroklammer detektieren lassen.</p>
+<p>Der Magnet könnte in der Box einen Reedkontakt schließen oder durch einen (Hall-)Sensor detektiert werden.</p>
+<p>Grüße,
+Volker</p>
+
+</div>
+
+    
+
+
+
+  <div class="foot unselectable">
+    <span class="menuitem postmenuitem-reply_without_quote"><a href="#postform" rel="nofollow">Antwort</a></span> <span class="menuitem postmenuitem-insert_quoting"><a href="?reply_to=7855941#postform" onclick="return !forumInsertQuoting(7855941)" title="Zitiert den markierten Text – oder den ganzen Beitrag, wenn nichts markiert ist" rel="nofollow">Zitieren</a></span> <span class="menuitem postmenuitem-edit"><a href="?edit=7855941#postform" rel="nofollow">Bearbeiten</a></span> <span class="menuitem postmenuitem-delete"><a data-confirm="[dummy_value]" data-prompt="{&quot;message&quot;:&quot;Begründung für die Löschung (oder abbrechen um nicht zu löschen):&quot;,&quot;param&quot;:&quot;reason&quot;,&quot;default&quot;:&quot; &quot;}" data-remote="true" rel="nofollow" href="/topic/delete_post/7855941?token=HsMQO-1Jmz4t-sp5MuWvWtvGemUvtzCSm6W9l0SnuhNdanXM-Uio-b-l7q-fNqbTE03hCgHaO8VJWSydSGrU4w">Löschen</a></span> <span class="menuitem postmenuitem-report"><a href="#" data-report-post-id="7855941" data-is-root="false" rel="nofollow">Melden</a></span>
+
+    <span class="post-reactions noprint" data-post-id="7855941">
+      <span class="reaction-helped" title="Der Thread-Ersteller hat markiert, dass ihm dieser Beitrag geholfen hat." hidden>Hilfreich laut OP</span>
+      <span class="reaction-pill">
+        <a class="reaction-toggle" rel="nofollow" aria-pressed="false" data-label-thanks="Danke" data-label-helped="Hat geholfen" data-remote="true" data-method="post" href="/topic/vote_post/7855941?rating=1"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-label">Danke</span></a>
+        <span class="reaction-summary" hidden>
+          <button type="button" class="reaction-count" aria-expanded="false"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-number"></span></button>
+          <span class="reaction-names" role="tooltip"></span>
+        </span>
+      </span>
+    </span>
+  </div>
+
+</article>
+
+
+      
+
+
+      <script>
+      if (!have_newpost_anchor && (!topic_last_read_at || topic_last_read_at < 1743705188000)) {
+        document.write('<a name="new" id="new"></a>');
+        have_newpost_anchor = true;
+      }
+      </script>
+
+      
+<article id="7855954" class="post   post-userid-111085 post-id-7855954" data-attributionline="Lord Magnet schrieb im Beitrag #7855954:"
+ data-created-at="1743705188000" data-updated-at="1743705188000" data-user-id="111085" data-guest-name="" itemprop="comment" itemscope="itemscope" itemtype="https://schema.org/Comment"
+>
+
+  <div class="post-head">
+    <span class="avatar" style="background: #d9822b" aria-hidden="true">LM</span>
+
+      <a class="post-author" itemprop="author" itemscope="itemscope" itemtype="https://schema.org/Person" href="/user/show/lord_magnet"><span itemprop="name">Lord Magnet</span><link itemprop="url" href="/user/show/lord_magnet"></a>
+      <a class="post-account" href="/user/show/lord_magnet">(lord_magnet)</a>
+
+    
+
+
+
+    
+
+    <span class="post-time created"><time class="datetime" datetime="2025-04-03T20:33:08+02:00" itemprop="datePublished">03.04.2025 20:33</time></span>
+    
+    <a class="post-anchor" aria-label="Link zu diesem Beitrag" itemprop="url" href="#7855954">#7855954</a>
+  </div>
+
+
+  
+
+
+  <div class="text" itemprop="text">
+      <p class="attribution-line"><a class="link-to-post" data-post-id="7855212" href="/topic/goto_post/7855212">Florian D. schrieb:</a></p>
+<blockquote>
+<p>wenn ich den Kopf aber auf dieselbe Höhe, nur halte ohne die Figur
+darunter funktioniert's nicht, warum?</p>
+</blockquote>
+<p>Keine Ahnung, ich habe keine solche Figur.</p>
+
+</div>
+
+    
+
+
+
+  <div class="foot unselectable">
+    <span class="menuitem postmenuitem-reply_without_quote"><a href="#postform" rel="nofollow">Antwort</a></span> <span class="menuitem postmenuitem-insert_quoting"><a href="?reply_to=7855954#postform" onclick="return !forumInsertQuoting(7855954)" title="Zitiert den markierten Text – oder den ganzen Beitrag, wenn nichts markiert ist" rel="nofollow">Zitieren</a></span> <span class="menuitem postmenuitem-edit"><a href="?edit=7855954#postform" rel="nofollow">Bearbeiten</a></span> <span class="menuitem postmenuitem-delete"><a data-confirm="[dummy_value]" data-prompt="{&quot;message&quot;:&quot;Begründung für die Löschung (oder abbrechen um nicht zu löschen):&quot;,&quot;param&quot;:&quot;reason&quot;,&quot;default&quot;:&quot; &quot;}" data-remote="true" rel="nofollow" href="/topic/delete_post/7855954?token=yJg_H_gzMBHPXhlkbpEkaJoMFEQFibF2k6h0vMpD3YmLMVro7DID1l0BPbLDQi3hUoePKyvkuiFBVOW2xo6zeQ">Löschen</a></span> <span class="menuitem postmenuitem-report"><a href="#" data-report-post-id="7855954" data-is-root="false" rel="nofollow">Melden</a></span>
+
+    <span class="post-reactions noprint" data-post-id="7855954">
+      <span class="reaction-helped" title="Der Thread-Ersteller hat markiert, dass ihm dieser Beitrag geholfen hat." hidden>Hilfreich laut OP</span>
+      <span class="reaction-pill">
+        <a class="reaction-toggle" rel="nofollow" aria-pressed="false" data-label-thanks="Danke" data-label-helped="Hat geholfen" data-remote="true" data-method="post" href="/topic/vote_post/7855954?rating=1"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-label">Danke</span></a>
+        <span class="reaction-summary" hidden>
+          <button type="button" class="reaction-count" aria-expanded="false"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-number"></span></button>
+          <span class="reaction-names" role="tooltip"></span>
+        </span>
+      </span>
+    </span>
+  </div>
+
+</article>
+
+
+      
+
+
+      <script>
+      if (!have_newpost_anchor && (!topic_last_read_at || topic_last_read_at < 1744376521000)) {
+        document.write('<a name="new" id="new"></a>');
+        have_newpost_anchor = true;
+      }
+      </script>
+
+      
+<article id="7860228" class="post   post-userid-5628 post-id-7860228" data-attributionline="Kay I. schrieb im Beitrag #7860228:"
+ data-created-at="1744376521000" data-updated-at="1744377088000" data-user-id="5628" data-guest-name="" itemprop="comment" itemscope="itemscope" itemtype="https://schema.org/Comment"
+>
+
+  <div class="post-head">
+    <span class="avatar" style="background: #9a5a7d" aria-hidden="true">KI</span>
+
+      <a class="post-author" itemprop="author" itemscope="itemscope" itemtype="https://schema.org/Person" href="/user/show/imperator"><span itemprop="name">Kay I.</span><link itemprop="url" href="/user/show/imperator"></a>
+      <a class="post-account" href="/user/show/imperator">(imperator)</a>
+
+    
+
+
+
+    
+
+    <span class="post-time created"><time class="datetime" datetime="2025-04-11T15:02:01+02:00" itemprop="datePublished">11.04.2025 15:02</time></span>
+    
+    <a class="post-anchor" aria-label="Link zu diesem Beitrag" itemprop="url" href="#7860228">#7860228</a>
+  </div>
+
+
+  
+
+
+  <div class="text" itemprop="text">
+      <p class="attribution-line"><a class="link-to-post" data-post-id="7855941" href="/topic/goto_post/7855941">Volker B. schrieb:</a></p>
+<blockquote>
+<p>Der Magnet könnte in der Box einen Reedkontakt schließen oder durch
+einen (Hall-)Sensor detektiert werden.</p>
+</blockquote>
+<p>Hier sind Bilder einer Toniebox-Platine:
+<a href="https://github.com/toniebox-reverse-engineering/toniebox-pcb" class="postedlink" rel="nofollow">https://github.com/toniebox-reverse-engineering/toniebox-pcb</a>
+Da kann ich keinen Reedkontakt erkennen</p>
+<p>aber hier ist beschrieben, dass ein Magnet nötig ist, wenn man eigene Tonies bauen will:
+<a href="https://gt-blog.de/toniebox-hacking-how-to-get-started" class="postedlink" rel="nofollow">https://gt-blog.de/toniebox-hacking-how-to-get-started</a>
+Im Link werden Coin-Magnets und passende Cases verwendet.</p>
+
+</div>
+
+    
+
+
+
+  <div class="foot unselectable">
+    <span class="menuitem postmenuitem-reply_without_quote"><a href="#postform" rel="nofollow">Antwort</a></span> <span class="menuitem postmenuitem-insert_quoting"><a href="?reply_to=7860228#postform" onclick="return !forumInsertQuoting(7860228)" title="Zitiert den markierten Text – oder den ganzen Beitrag, wenn nichts markiert ist" rel="nofollow">Zitieren</a></span> <span class="menuitem postmenuitem-edit"><a href="?edit=7860228#postform" rel="nofollow">Bearbeiten</a></span> <span class="menuitem postmenuitem-delete"><a data-confirm="[dummy_value]" data-prompt="{&quot;message&quot;:&quot;Begründung für die Löschung (oder abbrechen um nicht zu löschen):&quot;,&quot;param&quot;:&quot;reason&quot;,&quot;default&quot;:&quot; &quot;}" data-remote="true" rel="nofollow" href="/topic/delete_post/7860228?token=h7-Dc7H3jG1nmiAt83H8AJBT1gXFyCt8wg9VzUdcNdbEFuaEpfa_qvXFBPteovWJWNhNauulICsQ88THS5FbJg">Löschen</a></span> <span class="menuitem postmenuitem-report"><a href="#" data-report-post-id="7860228" data-is-root="false" rel="nofollow">Melden</a></span>
+
+    <span class="post-reactions noprint" data-post-id="7860228">
+      <span class="reaction-helped" title="Der Thread-Ersteller hat markiert, dass ihm dieser Beitrag geholfen hat." hidden>Hilfreich laut OP</span>
+      <span class="reaction-pill">
+        <a class="reaction-toggle" rel="nofollow" aria-pressed="false" data-label-thanks="Danke" data-label-helped="Hat geholfen" data-remote="true" data-method="post" href="/topic/vote_post/7860228?rating=1"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-label">Danke</span></a>
+        <span class="reaction-summary" hidden>
+          <button type="button" class="reaction-count" aria-expanded="false"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-number"></span></button>
+          <span class="reaction-names" role="tooltip"></span>
+        </span>
+      </span>
+    </span>
+  </div>
+
+</article>
+
+
+      
+
+
+      <script>
+      if (!have_newpost_anchor && (!topic_last_read_at || topic_last_read_at < 1744396727000)) {
+        document.write('<a name="new" id="new"></a>');
+        have_newpost_anchor = true;
+      }
+      </script>
+
+      
+<article id="7860388" class="post   post-userid-77485 post-id-7860388" data-attributionline="Dom F. schrieb im Beitrag #7860388:"
+ data-created-at="1744396727000" data-updated-at="1744396727000" data-user-id="77485" data-guest-name="" itemprop="comment" itemscope="itemscope" itemtype="https://schema.org/Comment"
+>
+
+  <div class="post-head">
+    <span class="avatar" style="background: #d9822b" aria-hidden="true">DF</span>
+
+      <a class="post-author" itemprop="author" itemscope="itemscope" itemtype="https://schema.org/Person" href="/user/show/domkick"><span itemprop="name">Dom F.</span><link itemprop="url" href="/user/show/domkick"></a>
+      <a class="post-account" href="/user/show/domkick">(domkick)</a>
+
+    <span class="post-badge" title="Thread-Ersteller">OP</span>
+
+
+
+    
+
+    <span class="post-time created"><time class="datetime" datetime="2025-04-11T20:38:47+02:00" itemprop="datePublished">11.04.2025 20:38</time></span>
+    
+    <a class="post-anchor" aria-label="Link zu diesem Beitrag" itemprop="url" href="#7860388">#7860388</a>
+  </div>
+
+
+  
+
+
+  <div class="text" itemprop="text">
+      <p>Hallo</p>
+<p>Mittlerweile kann ich in der Sache zu der Lösung auch ein klein wenig beitragen.</p>
+<p>Ich hab nach dem ersten ruinierten Chip (siehe Eröffnungsbeitrag) noch eine zweite Figur gekauft und den Chip ebenso nicht heile rausbekommen.
+Meine Frau hat mir das Projekt dann gestrichen.</p>
+<p>Nachdem einige Zeit ins Land gezogen ist (Hausfrieden gewahrt) hab ich mich nochmals an der Toniebox versucht, diesmal aus einer anderen Richtung.</p>
+<p>Angestoßen vom Team RevoxX gibt es mittlerweile eine große Community, die sich mit der Toniebox bzw der Cloudlösung teddycloud beschäftigt.</p>
+<p><a href="https://github.com/toniebox-reverse-engineering" class="postedlink" rel="nofollow">https://github.com/toniebox-reverse-engineering</a></p>
+<p><a href="https://www.youtube.com/watch?v=DNufX-tss5M" class="postedlink" rel="nofollow">https://www.youtube.com/watch?v=DNufX-tss5M</a></p>
+<p>Was die teddycloud kann zeigt sehr gut dieses Video:</p>
+<p><a href="https://www.youtube.com/watch?v=JpMRyshgy9o&amp;t=78s" class="postedlink" rel="nofollow">https://www.youtube.com/watch?v=JpMRyshgy9o&amp;t=78s</a></p>
+<p>Zur Toniefigur selbst ist glaub ich schon alles geschrieben.
+Es sind keine Inhalte auf der Figur gespeichert, sondern ausschließlich die ID, mit der die Toniebox Inhalte aus der Cloud auf die verbaute SD-Karte zieht.
+Der Magnet in der Figur dient nur dazu um die Figur auf der Box zu halten (kein Reed-Kontakt oder ähnliches verbaut). Es funktionieren somit auch (passende) Chips ohne Magnete.
+Der Chip muss einige Millimeter Abstand zur Box haben (min. 2 - 3mm). Chip direkt auf die Box legen funktioniert nicht.</p>
+<p>Abschließend kann ich sagen: besser ich hätte mir die 2 geschrotteten Kreativtonies gespart und wäre gleich auf die teddycloud Lösung gestoßen.
+Das Einrichten der teddycloud ist selbst für ungeübte Nutzer wie mich keine Hexerei. Das Flashen der Toniebox ist mit etwas Geschick (je nach Chipvariante) auch unkompliziert möglich und macht nach Erfolg große Freude.
+Die Community rund um das Team RevoxX ist sehr groß und sehr hilfsbereit. Egal ob im Forum oder im Telegram Channel zur teddycloud. Lösungen und Hilfestellungen kommen meist innerhalb von Minuten.</p>
+<p>Wer das Thema Toniebox, Zaubertonie angehen möchte, dem empfehle ich klar sich für teddycloud zu entscheiden, anstatt RFID Chips aus Kreativtonies zu schnipseln...</p>
+
+</div>
+
+
+
+  <div class="foot unselectable">
+    <span class="menuitem postmenuitem-reply_without_quote"><a href="#postform" rel="nofollow">Antwort</a></span> <span class="menuitem postmenuitem-insert_quoting"><a href="?reply_to=7860388#postform" onclick="return !forumInsertQuoting(7860388)" title="Zitiert den markierten Text – oder den ganzen Beitrag, wenn nichts markiert ist" rel="nofollow">Zitieren</a></span> <span class="menuitem postmenuitem-edit"><a href="?edit=7860388#postform" rel="nofollow">Bearbeiten</a></span> <span class="menuitem postmenuitem-delete"><a data-confirm="[dummy_value]" data-prompt="{&quot;message&quot;:&quot;Begründung für die Löschung (oder abbrechen um nicht zu löschen):&quot;,&quot;param&quot;:&quot;reason&quot;,&quot;default&quot;:&quot; &quot;}" data-remote="true" rel="nofollow" href="/topic/delete_post/7860388?token=SieLsE_4TV1DJJC2yqCENbJt_hLPij0UkNL12s6MCwgJju5HW_l-mtF7tGBnc428euZlfeHnNkNCLmTQwkFl-A">Löschen</a></span> <span class="menuitem postmenuitem-report"><a href="#" data-report-post-id="7860388" data-is-root="false" rel="nofollow">Melden</a></span>
+
+    <span class="post-reactions noprint" data-post-id="7860388">
+      <span class="reaction-helped" title="Der Thread-Ersteller hat markiert, dass ihm dieser Beitrag geholfen hat." hidden>Hilfreich laut OP</span>
+      <span class="reaction-pill">
+        <a class="reaction-toggle" rel="nofollow" aria-pressed="false" data-label-thanks="Danke" data-label-helped="Hat geholfen" data-remote="true" data-method="post" href="/topic/vote_post/7860388?rating=1"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-label">Danke</span></a>
+        <span class="reaction-summary" hidden>
+          <button type="button" class="reaction-count" aria-expanded="false"><svg class="ui-icon ui-icon-thanks" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="7" width="2.5" height="7" rx=".5"/><path d="M4.25 7.5 7 2.75c1 0 1.75.75 1.5 1.75L8 6.75h4.25a1.25 1.25 0 0 1 1.22 1.52l-1.1 4.75A1.25 1.25 0 0 1 11.15 14H4.25"/></svg><span class="reaction-number"></span></button>
+          <span class="reaction-names" role="tooltip"></span>
+        </span>
+      </span>
+    </span>
+  </div>
+
+</article>
+
+
+      
+
+
+
+    
+
+    <nav class="topic-end-nav noprint" aria-label="Thread-Navigation">
+      <a href="#top"><span aria-hidden="true">&uarr;</span> Nach oben</a>
+        <a href="/forum/mikrocontroller-elektronik"><span aria-hidden="true">&larr;</span> Zurück zu Mikrocontroller und Digitale Elektronik</a>
+    </nav>
+
+    <div class="topic-subscription noprint">
+      <a href="/topic/subscribe/566157"><svg class="ui-icon ui-icon-watch" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.75 8S4.15 3.75 8 3.75 14.25 8 14.25 8 11.85 12.25 8 12.25 1.75 8 1.75 8Z"/><circle cx="8" cy="8" r="1.9"/></svg> Thread beobachten</a>
+
+
+    </div>
+    
+        <a id="postform"></a>
+
+<h3 class="postform-heading">Antwort schreiben</h3>
+
+
+
+<div class="noprint">
+
+  <div class="notice postform-fork">
+    <p class="postform-fork-lead">
+      <strong>Eine eigene Frage?</strong>
+      Dieser Thread ist über 2 Jahre alt.
+      Stell sie in einem eigenen Thread – dort lesen mehr Leute mit, und sie wird öfter und schneller beantwortet.
+    </p>
+    <p class="postform-fork-action">
+      <a class="button" href="/topic/new?forum_id=1&amp;related=566157">Neuen Thread starten</a>
+    </p>
+    <p class="postform-fork-reply">Eine Lösung, Ergänzung oder Rückmeldung zu diesem Thread? Dann antworte hier.</p>
+  </div>
+
+<div class="postform card">
+
+
+
+
+  <form id="postform-form" enctype="multipart/form-data" action="/topic/566157#postform-form" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="ZWvuK6O9vCyzRW1jwPbVNY4NT90vMPj2jWaSntQ_0o0dIAFZ40-llKoBqc02xvprdUd1nFTIGIuF6yrG9k00BQ" autocomplete="off" />
+
+    <input type="hidden" name="dummy" value="ie-workaround" />
+    <input type="text" name="title" value="" style="display: none" />
+      <input type="hidden" name="page" value="1" />
+
+    <input autocomplete="off" type="hidden" name="post[id]" id="post_id" />
+    <input autocomplete="off" type="hidden" value="7633971" name="post[parent_id]" id="post_parent_id" />
+    <input autocomplete="off" type="hidden" value="566157" name="post[topic_id]" id="post_topic_id" />
+
+    <p class="notice" id="postform-draft" role="status" hidden>
+      <span class="postform-draft-restored" hidden>Nicht abgeschickter Entwurf wiederhergestellt.</span>
+      <span class="postform-draft-available" hidden>Für diesen Beitrag liegt ein nicht abgeschickter Entwurf vor.</span>
+      <button type="button" class="button-quiet postform-draft-restore" hidden>Wiederherstellen</button>
+      <button type="button" class="button-quiet postform-draft-discard">Verwerfen</button>
+    </p>
+
+
+
+    <div id="similar_topics" class="card similar" style="display: none;">
+      <p class="similar-loading">Ähnliche Beiträge werden gesucht...</p>
+    </div>
+
+    <div class="postform-field">
+      <label for="form_post_text">Text <span class="postform-required">*</span></label>
+      <textarea id="form_post_text" rows="18" wrap="soft" minlength="2" required="required" name="post[text]">
+</textarea>
+      
+      <details class="postform-help">
+  <summary>Formatierung</summary>
+  <ul>
+    <li><code>[c]C-Code[/c]</code></li>
+      <li><code>[code]Code in anderen Sprachen, ASCII-Zeichnungen[/code]</code></li>
+      <li><code>[math]Formel in LaTeX-Syntax[/math]</code></li>
+      <li><code>[[Titel]]</code> &ndash; Link zu einem <a href="/articles/Spezial:Allpages" target="_blank">Artikel</a></li>
+      <li>Verweis auf einen anderen Beitrag: Rechtsklick auf dessen Beitrags-ID (<code>#8078628</code>), &bdquo;Adresse kopieren&ldquo;, in den Text einf&uuml;gen</li>
+  </ul>
+  <p><a href="/articles/Formatierung_im_Forum" target="_blank">Mehr zur Formatierung</a></p>
+</details>
+
+    </div>
+
+
+    <div class="postform-field">
+      <label for="form_post_new_attachments">Anhänge</label>
+      <input id="form_post_new_attachments" multiple="multiple" type="file" name="post[new_attachments][]" />
+
+      <p class="postform-hint">
+        Längeren Sourcecode als Anhang, nicht in den Text.
+        JPG nur für Fotos und Scans; Zeichnungen und Screenshots als PNG oder GIF.
+        Siehe <a href="/articles/Bildformate" target="_blank">Bildformate</a>.
+      </p>
+
+      <ul class="postform-attachments" id="postform-attachments"
+          data-removed-label="Entfernt"
+          data-name-tail="7">
+        
+      </ul>
+
+      <template id="postform-attachment-template">
+        <li class="postform-attachment">
+
+  <span class="postform-attachment-thumb">
+      <span class="postform-attachment-kind"></span>
+  </span>
+
+  <span class="postform-attachment-name" title=""><span
+    class="postform-attachment-stem"></span><span
+    class="postform-attachment-tail"></span></span>
+
+  <span class="postform-attachment-size"></span>
+
+  <button type="button" class="postform-attachment-remove"
+          title="Entfernen"
+          aria-label="Entfernen">×</button>
+</li>
+
+      </template>
+
+      <p class="postform-attachment-status" role="status" aria-live="polite"></p>
+    </div>
+
+      <div class="postform-guest">
+        <div class="postform-guest-head">
+          <p class="section-label">Dein Name und deine E-Mail-Adresse</p>
+          <p class="postform-hint">Schon registriert?
+            <a href="/user/login">Anmelden</a></p>
+        </div>
+
+        <div class="postform-field">
+          <label for="form_guest_firstname">Vorname <span class="postform-required">*</span></label>
+          <input type="text" name="guest[firstname]" id="form_guest_firstname" maxlength="20" required="required" autocomplete="given-name" />
+          
+        </div>
+
+        <div class="postform-field">
+          <label for="form_guest_email">E-Mail-Adresse <span class="postform-required">*</span></label>
+          <input type="email" name="guest[email]" id="form_guest_email" maxlength="100" required="required" autocomplete="email" />
+          
+          <p class="postform-hint">Wird nicht angezeigt. Wir schicken dir einen Link; sobald du damit bestätigst, erscheint dein Beitrag.</p>
+        </div>
+
+      </div>
+
+        <label class="postform-check">
+          <input name="post[new_subscribed_by_author]" type="hidden" value="0" autocomplete="off" /><input type="checkbox" value="1" checked="checked" name="post[new_subscribed_by_author]" id="post_new_subscribed_by_author" /> Thread beobachten
+        </label>
+
+
+
+
+    <p class="postform-terms">Mit dem Abschicken legst du einen kostenlosen Account an und erkennst die <a href="/user/conditions">Nutzungsbedingungen</a> und die <a href="/articles/Datenschutzerkl%C3%A4rung">Datenschutzerklärung</a> an.</p>
+
+    <div class="postform-actions">
+      <input type="submit" name="preview" value="Vorschau" class="button-quiet" />
+        <input type="submit" name="save" value="Beitrag veröffentlichen" />
+    </div>
+
+</form>
+</div>
+
+<div style="float: left; margin-left: 30px;">
+<script>document.write(decodeURIComponent(''));document.write(decodeURIComponent('%3Cdiv+class%3D%22ad%22+style%3D%22min-width%3A+1px%3B%22id%3D%22div-gpt-ad-luebzajd%22%3E%3C%2Fdiv%3E'));googletag.cmd.push(function() {if ($("#div-gpt-ad-luebzajd").is(":hidden")) return;slot = googletag.defineSlot('/62616433/Mikrocontroller_Beside_Form', [160, 600], 'div-gpt-ad-luebzajd');slot.addService(googletag.pubads());slot.set('adsense_channel_ids', '4674252417+3856911612+1675723313');
+slot.set('adsense_border_color', '0066cc');
+slot.set('adsense_background_color', 'c3d9ff');
+slot.set('adsense_link_color', '0000ff');
+slot.set('adsense_url_color', '0000ff');
+slot.set('adsense_text_color', '000000');
+googletag.enableServices();googletag.display('div-gpt-ad-luebzajd');
+});</script>
+</div>
+
+<br style="clear: both" />
+</div>
+
+
+
+
+  </div>
+</div>
+
+  </div>
+    <!-- google_ad_section_end -->
+    <!-- contentDetection end -->
+
+
+</div>
+
+  </td>
+<td id="sidebar-right">
+<div id="right-ad-div" style="padding: 0;" class="sticky">
+    <div class="ad-slot-label">Anzeige</div>
+
+    <!-- /62616433/Mikrocontroller_Right_Sidebar_1 -->
+    <div id='div-gpt-ad-1549487225707-0' style="text-align:center;">
+    <script>
+    googletag.cmd.push(function() { googletag.display('div-gpt-ad-1549487225707-0'); });
+    </script>
+    </div>
+</div>
+</td>
+  </tr>
+  </table>
+
+    <div id="bottom">
+  <div id="impress">
+    <a href="/contact">Kontakt/Impressum</a> – <a href="/articles/Datenschutzerklärung">Datenschutzerklärung</a> – <a href="/user/conditions">Nutzungsbedingungen</a> – <a href="https://eetech.com/media/#mikrocontroller-net">Werbung auf Mikrocontroller.net</a>
+  </div>
+ <a href="/util/rb"><!-- nothing --></a>
+</div>
+
+</div> <!-- outer-container -->
+
+
+<script>
+$( document ).ready(function() {
+    if ($(window).width() < 768 && Math.random() < 0.2) {
+        $("#div-gpt-ad-1549487225707-0").prependTo("#content");
+    }
+});
+</script>
+
+
+</body>
+</html>

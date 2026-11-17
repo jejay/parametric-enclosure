@@ -1,0 +1,293 @@
+{
+ "rows": [
+  {
+   "id": "F01",
+   "label": "Sugimori official artwork",
+   "group": "official 2D art",
+   "band": 0.0578,
+   "ring": 0.321,
+   "disc": 0.2145,
+   "button": 0.1396,
+   "grade": "A",
+   "note": "hand-drawn 3/4 view; outlines removed; disc = mean of sphere-model fit (0.208) and free ellipse (0.221)"
+  },
+  {
+   "id": "F08",
+   "label": "Vector art, official clip-art style",
+   "group": "official-style 2D art",
+   "band": 0.1231,
+   "ring": 0.3457,
+   "disc": 0.2379,
+   "button": 0.1679,
+   "grade": "A",
+   "note": "flat vector with CMYK-style swatches; provenance not verified; outline centre lines"
+  },
+  {
+   "id": "F11",
+   "label": "TV anime EP001 frame",
+   "group": "official 2D art",
+   "band": 0.0761,
+   "ring": 0.3411,
+   "disc": 0.1834,
+   "button": 0.1166,
+   "grade": "B",
+   "note": "160 px, blurry; +/-1 px = 6-8 % on small features"
+  },
+  {
+   "id": "F04c",
+   "label": "TWC die-cast replica, F04 (camera at 7.2 R removed)",
+   "group": "official replica",
+   "band": 0.0691,
+   "ring": 0.3285,
+   "disc": 0.2219,
+   "button": 0.1442,
+   "grade": "-",
+   "note": "component of the TWC mean"
+  },
+  {
+   "id": "F05c",
+   "label": "TWC die-cast replica, F05 (camera at 6.7 R removed)",
+   "group": "official replica",
+   "band": 0.063,
+   "ring": 0.3286,
+   "disc": 0.2193,
+   "button": 0.1431,
+   "grade": "-",
+   "note": "component of the TWC mean"
+  },
+  {
+   "id": "S01c",
+   "label": "TWC die-cast replica, S01 (camera at 10.7 R removed)",
+   "group": "official replica",
+   "band": 0.0665,
+   "ring": 0.3455,
+   "disc": 0.227,
+   "button": null,
+   "grade": "-",
+   "note": "component of the TWC mean"
+  },
+  {
+   "id": "TWC",
+   "label": "The Wand Company die-cast replica 75 mm (mean of F04, F05, S01)",
+   "group": "official replica",
+   "band": 0.0662,
+   "ring": 0.3342,
+   "disc": 0.2227,
+   "button": 0.1437,
+   "grade": "A",
+   "note": "perspective removed; three independent photos"
+  },
+  {
+   "id": "F06",
+   "label": "The Wand Company MINI replica 40 mm (render, camera at 5.2 R removed)",
+   "group": "official replica",
+   "band": 0.0715,
+   "ring": 0.3521,
+   "disc": 0.2335,
+   "button": 0.1505,
+   "grade": "A",
+   "note": "single CG render with strong perspective; correction is -15 % on the ring"
+  },
+  {
+   "id": "F02",
+   "label": "Pokemon GO item sprite",
+   "group": "official 3D render (apparent)",
+   "band": 0.0561,
+   "ring": 0.3594,
+   "disc": 0.2565,
+   "button": 0.1327,
+   "grade": "C",
+   "note": "186 px; apparent (perspective unknown, not removed)"
+  },
+  {
+   "id": "F03",
+   "label": "Let's Go in-game model (screenshot)",
+   "group": "official 3D render (apparent)",
+   "band": 0.1006,
+   "ring": 0.3541,
+   "disc": null,
+   "button": null,
+   "grade": "C",
+   "note": "212 px JPEG; button glowing; apparent"
+  },
+  {
+   "id": "F12",
+   "label": "Smash Bros. Wii U trophy render",
+   "group": "official 3D render (apparent)",
+   "band": 0.0606,
+   "ring": 0.3929,
+   "disc": 0.2901,
+   "button": null,
+   "grade": "C",
+   "note": "236 px; low-poly; apparent"
+  },
+  {
+   "id": "F09",
+   "label": "Fan 3D model (Sketchfab, JMGameDev) - apparent",
+   "group": "fan (apparent)",
+   "band": 0.1082,
+   "ring": 0.3666,
+   "disc": 0.2659,
+   "button": 0.1407,
+   "grade": "C",
+   "note": "strong perspective, not removed"
+  },
+  {
+   "id": "F09c",
+   "label": "Fan 3D model (Sketchfab, JMGameDev) - camera at 3.4 R removed",
+   "group": "fan",
+   "band": 0.0841,
+   "ring": 0.2783,
+   "disc": 0.2018,
+   "button": 0.1043,
+   "grade": "C",
+   "note": "camera distance fit is biased low by the deeply recessed band -> treat as lower bound"
+  },
+  {
+   "id": "F10",
+   "label": "Fan 3D print (Printables, Gonz Heredia) - apparent",
+   "group": "fan (apparent)",
+   "band": 0.1101,
+   "ring": 0.3671,
+   "disc": 0.2691,
+   "button": null,
+   "grade": "C",
+   "note": "strong perspective, not removed"
+  },
+  {
+   "id": "F10c",
+   "label": "Fan 3D print (Printables, Gonz Heredia) - camera at 2.9 R removed",
+   "group": "fan",
+   "band": 0.0812,
+   "ring": 0.2614,
+   "disc": 0.1916,
+   "button": null,
+   "grade": "C",
+   "note": "camera distance fit is biased low by the deeply recessed band -> treat as lower bound"
+  },
+  {
+   "id": "F07",
+   "label": "Fan vector (Commons 'Poke Ball.svg', used on Wikipedia)",
+   "group": "fan",
+   "band": 0.1107,
+   "ring": 0.2891,
+   "disc": 0.234,
+   "button": 0.1409,
+   "grade": "A",
+   "note": "exact vector numbers; the black ring is only a thick stroke"
+  },
+  {
+   "id": "F13",
+   "label": "Fan icon (Commons 'Poke Ball icon.svg')",
+   "group": "fan",
+   "band": 0.0734,
+   "ring": 0.3561,
+   "disc": 0.2097,
+   "button": null,
+   "grade": "B",
+   "note": "stylised icon with uniform thick strokes"
+  }
+ ],
+ "stats": {
+  "geometry-grade (2D art + perspective-corrected replicas + exact vectors): F01 F08 F11 TWC F06 F07 F13": {
+   "band": {
+    "n": 7,
+    "mean": 0.0827,
+    "median": 0.0734,
+    "min": 0.0578,
+    "max": 0.1231
+   },
+   "ring": {
+    "n": 7,
+    "mean": 0.3342,
+    "median": 0.3411,
+    "min": 0.2891,
+    "max": 0.3561
+   },
+   "disc": {
+    "n": 7,
+    "mean": 0.2194,
+    "median": 0.2227,
+    "min": 0.1834,
+    "max": 0.2379
+   },
+   "button": {
+    "n": 6,
+    "mean": 0.1432,
+    "median": 0.1423,
+    "min": 0.1166,
+    "max": 0.1679
+   }
+  },
+  "official only, geometry-grade: F01 F08 F11 TWC F06": {
+   "band": {
+    "n": 5,
+    "mean": 0.0789,
+    "median": 0.0715,
+    "min": 0.0578,
+    "max": 0.1231
+   },
+   "ring": {
+    "n": 5,
+    "mean": 0.3388,
+    "median": 0.3411,
+    "min": 0.321,
+    "max": 0.3521
+   },
+   "disc": {
+    "n": 5,
+    "mean": 0.2184,
+    "median": 0.2227,
+    "min": 0.1834,
+    "max": 0.2379
+   },
+   "button": {
+    "n": 5,
+    "mean": 0.1437,
+    "median": 0.1437,
+    "min": 0.1166,
+    "max": 0.1679
+   }
+  },
+  "all independent sources (apparent values where perspective unknown): + F02 F03 F12 F09 F10": {
+   "band": {
+    "n": 12,
+    "mean": 0.0845,
+    "median": 0.0748,
+    "min": 0.0561,
+    "max": 0.1231
+   },
+   "ring": {
+    "n": 12,
+    "mean": 0.3483,
+    "median": 0.3531,
+    "min": 0.2891,
+    "max": 0.3929
+   },
+   "disc": {
+    "n": 11,
+    "mean": 0.2379,
+    "median": 0.234,
+    "min": 0.1834,
+    "max": 0.2901
+   },
+   "button": {
+    "n": 8,
+    "mean": 0.1416,
+    "median": 0.1408,
+    "min": 0.1166,
+    "max": 0.1679
+   }
+  }
+ },
+ "recommended": {
+  "band": 0.07,
+  "ring": 0.34,
+  "disc": 0.225,
+  "button": 0.14,
+  "band_recess": 0.012,
+  "button_above_collar": 0.023,
+  "ring_width": 0.0575,
+  "collar_plane_below_apex": 0.0298
+ }
+}

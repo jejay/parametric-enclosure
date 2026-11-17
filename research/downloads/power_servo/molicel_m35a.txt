@@ -1,0 +1,63 @@
+                                 ®®®RRRR                                                          PRODUCT DATA SHEET
+
+LITHIUM-ION RECHARGEABLE BATTERY                                                    MODEL INR-18650-M35A
+
+ CELL CHARACTERISTICS                                                                     Charge Characteristics
+
+Capacity                         Typical      3500 mAh                                    Discharge Rate Characteristics at 23 °C
+                                 Minimum      12.5 Wh
+                                              3350 mAh                                    Discharge Temperature Characteristics
+Cell Voltage                     Nominal      11.9 Wh
+                                 Charge       3.6 V
+Continuous                       Discharge    4.2 V
+Charge Current                   Standard     2.5 V
+Charge Time                      Maximum      1.7 A
+Continuous                       Standard     1.7 A
+Discharge Current                             2.5 hr
+Ambient                          Maximum
+Temperature                                   10 A
+                                 Charge
+Energy Density                   Discharge    0°C to 60°C
+                                 Volumetric   -40°C to 60°C
+                                 Gravimetric  700 Wh/l
+                                              250 Wh/kg
+
+ PHYSICAL CHARACTERISTICS
+
+                                 Shape        Cylindrical
+                                 Can          Steel
+                                 Diameter     18.6 mm (Max)
+                                 Height       65.2 mm (Max)
+                                 Weight       48 g (Max)
+
+                                                                                     Cycle Characteristics
+
+                                                                                           120.0
+
+                                                                                                  100.0
+
+                                                                                    Capacity (%)  80.0
+
+                                                                                                         -4 A
+
+The information contained herein is for reference only and does not                               60.0   -6 A
+imply a performance guarantee or a product warranty. Specifications
+and characteristics are subject to change without prior notice.                                          -8 A
+
+For application specific information, please contact E-One Moli Energy                            40.0
+Sales and Applications or the nearest MOLICEL® recognized agent.
+                                                                                                  20.0
+
+                                                                                                  0.0    100   200     300                       400
+                                                                                                      0
+
+                                                                                                               Cycles
+
+ Taiwan Facility                               Canada Facility                                            Headquarters
+    10 Dali 2nd Rd., Shan-Hwa,                    20 000 Stewart Crescent                                    10F, 113, Sec.2, Zhung Shan N Rd.,
+    Tainan City, Taiwan, R.O.C.                   Maple Ridge, BC, Canada, V2X 9E7                           Taipei, Taiwan, R.O.C.
+    Tel: 886-6-505-0666                           Tel: 1-604-466-6654                                        Tel: 886-2-2567-3500
+    Fax: 886-6-505-0777                           Fax: 1-604-466-6600                                        Fax: 886-2-2567-6500
+    mailto:service@molicel.com                    mailto:molicel@molicel.com
+    http://www.molicel.com                        http://www.molicel.com
+

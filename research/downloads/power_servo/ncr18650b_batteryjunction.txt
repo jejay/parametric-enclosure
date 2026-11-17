@@ -1,0 +1,38 @@
+                                                                                                                                                                   Lithium Ion
+
+                                                                                                                                                         NCR18650B
+
+                                                                           Features & Benefits          Specifications                                                                    Dimensions
+
+                                                                         · High energy density          Rated capacity(1)                    Min. 3200mAh                                    Max. 18.5 mm     6.6 mm
+                                                                         · Long stable power and        Capacity(2)                                                               *With tube (+)
+                                                                                                                                             Min. 3250mAh
+                                                                           long run time                                                     Typ. 3350mAh                                         (­)
+                                                                         · Ideal for notebook PCs,                                                                                          For Reference Only
+                                                                                                        Nominal voltage 3.6V
+                                                                           boosters, portable devices,
+                                                                           etc.                         Charging                             CC-CV, Std. 1625mA, 4.20V, 4.0 hrs
+
+                                                                         * At temperatures below 10°C,  Weight (max.)                        48.5 g                                                           Max. 65.3 mm
+                                                                           charge at a 0.25C rate.
+                                                                                                        Temperature                          Charge*:        0 to +45°C
+                                                                                                                                             Discharge:    -20 to +60°C
+                                                                                                                                             Storage:      -20 to +50°C
+
+                                                                                                        Energy density(3)                    Volumetric:   676 Wh/l
+                                                                                                                                             Gravimetric:  243 Wh/kg
+
+                                                                                                        (1) At 20°C (2) At 25°C (3) Energy density based on bare cell dimensions
+
+                                                                         Charge Characteristics                                                            Cycle Life Characteristics
+
+                                                                         Charge: CC-CV 0.5C (max) 4.20V, 65mA cut-off at 25°C                              Charge: CC-CV 0.5C (max) 4.20V, 65mA cut-off at 25°C
+                                                                                                                                                           Discharge: CC 1C, 2.50V cut-off at 25°C
+
+VERSION 13.11 R1 | Copyright© 2012 Energy Company. All Rights Reserved.  Discharge Characteristics (by temperature)                                        Discharge Characteristics (by rate of discharge)
+
+                                                                                       Charge: CC-CV 0.5C (max) 4.20V, 65mA cut-off at 25°C                                Charge: CC-CV 0.5C (max) 4.20V, 65mA cut-off at 25°C
+                                                                                       Discharge: CC 1C, 2.50V cut-off at each temperature                                 Discharge: CC, 2.50V cut-off at 25°C
+
+                                                                         The data in this document is for descriptive purposes only and is not intended to make or imply any guarantee or warranty.
+

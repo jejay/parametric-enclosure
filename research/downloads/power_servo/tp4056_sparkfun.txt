@@ -1,0 +1,195 @@
+              
+             NanJing Top Power ASIC Corp.
+
+TP4056 1A Standalone Linear Li-lon Battery Charger with Thermal
+                               Regulation in SOP-8
+
+DESCRIPTION
+
+The TP4056 is a complete constant-current/constant-voltage linear charger for single cell
+
+lithium-ion batteries. Its SOP package and low external component count make the TP4056
+
+ideally suited for portable applications. Furthermore, the TP4056 can work within USB and wall
+
+adapter.
+
+No blocking diode is required due to the internal PMOSFET architecture and have prevent to
+
+negative Charge Current Circuit. Thermal feedback regulates the charge current to limit the die
+
+temperature during high power operation or high ambient temperature. The charge voltage is
+
+fixed at 4.2V, and the charge current can be programmed externally with a single resistor. The
+
+TP4056 automatically terminates the charge cycle when the charge current drops to 1/10th the
+
+programmed value after the final float voltage is reached.
+
+TP4056 Other features include current monitor, under voltage lockout, automatic recharge and
+
+two status pin to indicate charge termination and the presence of an input voltage.
+
+FEATURES                                              ABSOLUTE MAXIMUM RATINGS
+
+· Programmable Charge Current Up to                ·Input Supply Voltage(VCC)-0.3V8V
+
+   1000mA                                          ·TEMP-0.3V10V
+·No MOSFET, Sense Resistor or Blocking
+                                                   ·CE-0.3V10V
+   Diode Required                                  ·BAT Short-Circuit DurationContinuous
+· Complete Linear Charger in SOP-8                 ·BAT Pin Current1200mA
+                                                   ·PROG Pin Current1200uA
+   Package for Single Cell Lithium-Ion             ·Maximum Junction Temperature145
+                                                   ·Operating Ambient Temperature Range-40
+   Batteries
+·Constant-Current/Constant-Voltage                    85
+·Charges Single Cell Li-Ion Batteries Directly     ·Lead Temp.(Soldering, 10sec)260
+
+    from USB Port
+· Preset 4.2V Charge Voltage with 1.5%
+
+   Accuracy                                        APPLICATIONS
+·Automatic Recharge
+·two Charge Status Output Pins                     ·Cellular Telephones, PDAs, GPS
+·C/10 Charge Termination                           ·Charging Docks and Cradles
+·2.9V Trickle Charge Threshold (TP4056)            ·Digital Still Cameras, Portable Devices
+·Soft-Start Limits Inrush Current                  ·USB Bus-Powered Chargers,Chargers
+·Available Radiator in 8-Lead SOP Package,
+                                                   Complete Charge Cycle (1000mAh
+   the Radiator need connect GND or                Battery)
+
+   impending
+
+PACKAGE/ORDER INFORMATION
+
+photo        SOP8
+             ORDER PART NUMBER
+
+                 TP4056-42-SOP8-PP
+
+             PART MARKING TP4056
+
+                                                1
+                                    
+                                   NanJing Top Power ASIC Corp.
+
+TEMP(Pin 1) :Temperature Sense Input Connecting TEMP pin to NTC thermistor's output in
+
+Lithium ion battery pack. If TEMP pin's voltage is below 45% or above 80% of supply voltage VIN
+for more than 0.15S, this means that battery's temperature is too high or too low, charging is
+
+suspended. The temperature sense function can be disabled by grounding the TEMP pin.
+
+PROG(Pin 2): Constant Charge Current Setting and Charge Current Monitor Pin charge
+
+current is set by connecting a resistor RISET from this pin to GND. When in precharge mode, the
+ISET pin's voltage is regulated to 0.2V. When in constant charge current mode, the ISET pin's
+
+voltage is regulated to 2V.In all modes during charging, the voltage on ISET pin can be used to
+
+measure the charge current as follows:  I BAT  = VPROG  × 1200  (VPROG=1V)
+GND(Pin3): Ground Terminal                       RPROG
+
+Vcc(Pin 4): Positive Input Supply Voltage VIN is the power supply to the internal circuit. When
+
+VIN drops to within 30mv of the BAT pin voltage, TP4056 enters low power sleep mode, dropping
+BAT pin's current to less than 2uA.
+
+BAT(Pin5): Battery Connection Pin. Connect the positive terminal of the battery to BAT pin. BAT
+
+pin draws less than 2uA current in chip disable mode or in sleep mode. BAT pin provides charge
+
+current to the battery and provides regulation voltage of 4.2V.
+
+        (Pin6): Open Drain Charge Status Output When the battery Charge Termination, the
+
+        pin is pulled low by an internal switch, otherwise       pin is in high impedance state.
+
+      (Pin7): Open Drain Charge Status Output When the battery is being charged, the
+
+pin is pulled low by an internal switch, otherwise          pin is in high impedance state.
+
+CE(Pin8): Chip Enable Input. A high input will put the device in the normal operating mode.
+
+Pulling the CE pin to low level will put the YP4056 into disable mode. The CE pin can be driven by
+
+TTL or CMOS logic level.
+
+ELECTRICAL CHARACTERISTICS
+
+The  denotes specifications which apply over the full operating temperature range, otherwise
+
+specifications are at TA=25VCC =5Vunless otherwise noted.
+
+SYMBOL PARAMETER                   CONDITIONS                                                    UNI
+                                                                   MIN TYP MAX TS
+
+VCC     Input Supply Voltage                                      4.0       5    8.0 V
+
+        Input Supply Current       Charge Mode, RPROG = 1.2k                150 500 A
+
+                                   StandbyMode(Charge                       55   100 A
+
+ICC                                Terminated)                              55   100 A
+
+                                   Shutdown Mode (RPROG Not
+
+                                   Connected,VCC < VBAT, or VCC
+
+                                   < VUV)
+
+VFLOAL  Regulated Output (Float)   0TA85IBAT=40mA                  4.137 4.2 4.263 V
+        Voltage
+
+        BAT Pin Current            RPROG = 2.4k, Current          450 500 550 mA
+
+                                   Mode
+
+IBAT    Text condition:VBAT=4.0V RPROG = 1.2k, Current            950 1000 1050 mA
+                                              Mode
+
+                                   Standby Mode, VBAT = 4.2V     0          2.5 6 A
+
+ITRIKL  Trickle Charge Current     VBAT<VTRIKL, RPROG=1.2K        120 130 140 mA
+VTRIKL  Trickle Charge Threshold   RPROG=1.2K, VBAT Rising            2.8 2.9 3.0 V
+VTRHYS  Voltage
+        Trickle Charge Hysteresis  RPROG=1.2K                      60       80   100 mV
+TLIM    Voltage
+        Junction Temperature in                                             145              
+        Constant Temperature
+        Mode
+
+                                                    2
+                                  
+                                 NanJing Top Power ASIC Corp.
+
+indicator light state                            Rprog Current Setting
+
+                     Red LED     Greed LED                     RPROG  IBAT
+
+Charge state                                                   (k) (mA)
+
+                                                               10     130
+
+       charging        bright    extinguish                    5      250
+Charge Termination   extinguish    bright
+                                                               4      300
+     Vin too low;
+   Temperature of                                              3      400
+ battery too low or
+                                                               2      580
+       too high;
+      no battery     extinguish extinguish                     1.66 690
+ BAT PIN Connect
+ 10u Capacitance;                                              1.5    780
+      No battery
+                                                               1.33 900
+
+                       Greed LED brightRed                     1.2 1000
+                       LED Coruscate T=1-4 S
+
+TYPICAL APPLICATIONS
+
+                                              3
+

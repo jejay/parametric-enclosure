@@ -1,0 +1,1392 @@
+Chipsmall Limited consists of a professional team with an average of over 10 year of expertise in the distribution
+of electronic components. Based in Hongkong, we have already established firm and mutual-benefit business
+relationships with customers from,Europe,America and south Asia,supplying obsolete and hard-to-find components
+to meet their specific needs.
+With the principle of "Quality Parts,Customers Priority,Honest Operation,and Considerate Service",our business
+mainly focus on the distribution of electronic components. Line cards we deal with include
+Microchip,ALPS,ROHM,Xilinx,Pulse,ON,Everlight and Freescale. Main products comprise
+IC,Modules,Potentiometer,IC Socket,Relay,Connector.Our parts cover such applications as commercial,industrial,
+and automotives areas.
+We are looking forward to setting up business relationship with you and hope to provide you with the best service
+and solution. Let us make a better world for our industry!
+
+                                      Contact us
+
+                                                 Tel: +86-755-8981 8866 Fax: +86-755-8427 6832
+                                        Email & Skype: info@chipsmall.com Web: www.chipsmall.com
+                 Address: A1208, Overseas Decoration Building, #122 Zhenhua RD., Futian, Shenzhen, China
+
+                                           
+PN5180A0xx/C3
+
+High-performance multi-protocol full NFC frontend,
+
+supporting all NFC Forum modes
+
+Rev. 3.4 -- 7 May 2018          Product data sheet
+
+436534                          COMPANY PUBLIC
+
+1 Introduction
+
+                              This document describes the functionality and electrical specification of the high-power
+                              NFC IC PN5180A0HN/C3, PN5180A0ET/C3, firmware versions equal or higher than
+                              FW3.A.
+
+                              The package description of the PN5180A0ET/C3 is described in an addendum to this
+                              document.
+
+                              Additional documents supporting a design-in of the PN5180 are available from NXP, this
+                              additional design-in information is not part of this document.
+NXP Semiconductors                                                                              PN5180A0xx/C3
+
+                    High-performance multi-protocol full NFC frontend, supporting all NFC Forum modes
+
+2 General description
+
+                              PN5180, the best full NFC frontend on the market.
+
+                              As a highly integrated high performance full NFC Forum-compliant frontend IC for
+                              contactless communication at 13.56 MHz, this frontend IC utilizes an outstanding
+                              modulation and demodulation concept completely integrated for different kinds of
+                              contactless communication methods and protocols.
+
+                              The PN5180 ensures maximum interoperability for next generation of NFC enabled
+                              mobile phones. The PN5180 is optimized for point of sales terminal applications and
+                              implements a high-power NFC frontend functionality which allows to achieve EMV
+                              compliance on RF level without additional external active components.
+
+                              The PN5180 frontend IC supports the following RF operating modes:
+
+                              · Reader/Writer mode supporting ISO/IEC 14443 type A up to 848 kBit/s
+                              · Reader/Writer communication mode for MIFARE Classic contactless IC
+                              · Reader/Writer mode supporting ISO/IEC 14443 type B up to 848 kBit/s
+                              · Reader/Writer mode supporting JIS X 6319-4 (comparable with FeliCa scheme)
+                              · Supports reading of all NFC tag types (type 1, type 2, type 3, type 4A and type 4B)
+                              · Reader/Writer mode supporting ISO/IEC 15693
+                              · Reader/Writer mode supporting ISO/IEC 18000-3 Mode 3
+                              · ISO/IEC 18092 (NFC-IP1)
+                              · ISO/IEC 21481 (NFC-IP-2)
+                              · ISO/IEC 14443 type A Card emulation up to 848 kBit/s
+
+                              One host interface based on SPI is implemented:
+
+                              · SPI interface with data rates up to 7 Mbit/s with MOSI, MISO, NSS and SCK signals
+                              · Interrupt request line to inform host controller on events
+                              · EEPROM configurable pull-up resistor on SPI MISO line
+                              · Busy line to indicate to host availability of data for reading
+
+                              The PN5180 supports highly innovative and unique features which do not require any
+                              host controller interaction. These unique features include Dynamic Power Control
+                              (DPC), Adaptive Waveform Control (AWC), Adaptive Receiver Control (ARC), and fully
+                              automatic EMD error handling. The independency of real-time host controller interactions
+                              makes this product the best choice for systems which operate a preemptive multi-tasking
+                              OS like Linux or Android.
+
+                              As new power-saving feature the PN5180 allows using a general-purpose output to
+                              control an external LDO or DC/DC during Low-Power Card Detection. One general-
+                              purpose output is used to wake-up an LDO or DC/DC from power-saving mode before
+                              the RF field for an LPCD polling cycle is switched on.
+
+                              The PN5180 supports an external silicon system-power-on switch by using the energy
+                              of the RF field generated by an NFC phone to switch on the system, like it is generated
+                              during the NFC polling loop. This unique and new Zero-Power-Wake-up feature allows
+                              designing systems with a power consumption close to zero during standby.
+
+PN5180A0xx_C3       All information provided in this document is subject to legal disclaimers.  © NXP B.V. 2018. All rights reserved.
+
+Product data sheet               Rev. 3.4 -- 7 May 2018                                                               2 / 157
+COMPANY PUBLIC                              436534
+NXP Semiconductors                                                                              PN5180A0xx/C3
+
+                    High-performance multi-protocol full NFC frontend, supporting all NFC Forum modes
+
+3 Features and benefits
+
+                              · Transmitter current up to 250 mA
+                              · Dynamic Power Control (DPC) for optimized RF performance, even under detuned
+
+                                antenna conditions
+                              · Adaptive Waveform Control (AWC) automatically adjusts the transmitter modulation for
+
+                                RF compliancy
+                              · Adaptive Receiver Control (ARC) automatically adjusts the receiver parameters for
+
+                                always reliable communication
+                              · Includes NXP ISO/IEC14443-A and Innovatron ISO/IEC14443-B intellectual property
+
+                                licensing rights
+                              · Full compliancy with all standards relevant to NFC, contactless operation and EMVCo
+                              · Active load modulation supports smaller antenna in Card Emulation Mode
+                              · Automatic EMD handling performed without host interaction relaxes the timing
+
+                                requirements on the Host Controller
+                              · Low-power card detection (LPCD) minimizes current consumption during polling
+                              · Automatic support of system LDO or system DC/DC power-down mode during LPCD
+                              · Zero-Power-Wake-up
+                              · Small, industry-standard packages
+                              · NFC Cockpit: PC-based support tool for fast configuration of register settings
+                              · Development kit with 32-bit NXP LPC1769 MCU and antenna
+                              · NFC Reader Library with source code ready for EMVCo L1 and NFC Forum
+
+                                compliance
+
+PN5180A0xx_C3       All information provided in this document is subject to legal disclaimers.  © NXP B.V. 2018. All rights reserved.
+
+Product data sheet               Rev. 3.4 -- 7 May 2018                                                               3 / 157
+COMPANY PUBLIC                              436534
+NXP Semiconductors                                                                              PN5180A0xx/C3
+
+                    High-performance multi-protocol full NFC frontend, supporting all NFC Forum modes
+
+4 Applications
+
+                              · Payment
+                              · Physical-access
+                              · eGov
+                              · Industrial
+
+PN5180A0xx_C3       All information provided in this document is subject to legal disclaimers.  © NXP B.V. 2018. All rights reserved.
+
+Product data sheet               Rev. 3.4 -- 7 May 2018                                                               4 / 157
+COMPANY PUBLIC                              436534
+NXP Semiconductors                                                                                                 PN5180A0xx/C3
+
+                    High-performance multi-protocol full NFC frontend, supporting all NFC Forum modes
+
+5 Quick reference data
+
+Table 1.Quick reference data           Conditions                  Min                                             Typ  Max   Unit
+Symbol Parameter
+VDD(VBAT) supply voltage on pin VBAT   -                           2.7                                             3.3  5.5   V
+VDD(PVDD) supply voltage on pin PVDD
+                                       1.8 V supply                1.65                                            1.8  1.95  V
+
+                                       3.3 V supply                2.7                                             3.3  3.6   V
+
+VDD(TVDD) supply voltage on pin TVDD   -                           2.7                                             5.0  5.5   V
+
+Ipd        power-down current          VDD(TVDD) = VDD(PVDD)       -                                               10   -     A
+                                       =VDD(VDD) 3.0 V; hard
+Istb       standby current             power-down; pin RESET_N     -                                               15   -     A
+IDD(TVDD)  supply current on pin TVDD  set LOW, Tamb = 25 °C
+                                       Tamb = 25 °C                -                                               180  250   mA
+                                       -
+                                                                   -                                               -    300   mA
+                                       limiting value
+Tamb       ambient temperature                                     -30                                             +25  +85   °C
+                                       in still air with exposed
+Tstg       storage temperature         pins soldered on a 4 layer  -55                                             +25  +150 °C
+                                       JEDEC PCB
+
+                                       no supply voltage applied
+
+PN5180A0xx_C3                          All information provided in this document is subject to legal disclaimers.       © NXP B.V. 2018. All rights reserved.
+
+Product data sheet                                  Rev. 3.4 -- 7 May 2018                                                                    5 / 157
+COMPANY PUBLIC                                                 436534
+NXP Semiconductors                                                                              PN5180A0xx/C3
+
+                    High-performance multi-protocol full NFC frontend, supporting all NFC Forum modes
+
+6 Firmware Versions
+
+                              Firmware versions covered by this datasheet:
+
+                    Version 3.A (obsolete):
+
+                    Supports EMVCo2.6 and more ARC Parameters
+
+                    · By Default the EEPROM LPCD_REFERENCE_VALUE is set to 8
+                    · By Default the EEPROM LPCD Selection is set to AUTO CALIBRATION.
+
+                      Bit Field [1:0] 00 - Auto Calibration 01 - Self Calibration 10 & 11 - RFU.
+                    · ARC Parameters supported: MIN_LEVELP, MINLEVEL, RX_HPCF and RX_GAIN
+
+                    Version 3.C:
+
+                    Supports EMVCo2.6 and replaces the version 3.A.
+
+                    · This version allows to update Firmware versions with lower version numbers after
+                      installing this firmware 3.C
+
+                    Version 4.0:
+
+                    Supports EMVCo2.6. This version is available on the hardware PN5180A0HN/C3 and
+                    PN5180A0ET/C3
+
+                    · This is the firmware version available on the product PN5180A0HN/C3 (HVQFN
+                      package) and PN5180A0ET/C3 (BGA pacakge). This version is functionally compliant
+                      to the FW3.A
+
+                    · This Firmware does not allow to install any lower firmware version than 4.x, e.g.
+                      installation of FW 3.x is not possible once this firmware is installed.
+
+PN5180A0xx_C3       All information provided in this document is subject to legal disclaimers.  © NXP B.V. 2018. All rights reserved.
+
+Product data sheet               Rev. 3.4 -- 7 May 2018                                                               6 / 157
+COMPANY PUBLIC                              436534
+NXP Semiconductors                                                                                        PN5180A0xx/C3
+
+                    High-performance multi-protocol full NFC frontend, supporting all NFC Forum modes
+
+7 Ordering information
+
+Table 2.Ordering information
+
+Type number         Package
+
+                    Name      Description                                                                 Version
+                                                                                                          SOT618-1
+PN5180A0HN/C3E      HVQFN40   Firmware version 4.0. Plastic thermal enhanced very thin quad
+                              flat package; no leads;                                                     SOT618-1
+PN5180A0HN/C3Y      HVQFN40   40 terminals + 1 central ground; body 6 x 6 x 1.0 mm; delivered
+                              in one tray, bakable, MSL=3. Minimum order quantity = 490 pcs               SOT1336-1
+PN5180A0ET/C3QL     TFBGA64                                                                               SOT1336-1
+PN5180A0ET/C3J      TFBGA64   Firmware version 4.0. Plastic thermal enhanced very thin quad
+                              flat package; no leads;
+                              40 terminals + 1 central ground; body 6 x 6 x 1.0 mm; delivered
+                              on reel 13", MSL = 3. Minimum order quantity = 4000 pcs
+
+                              Firmware version 4.0. Plastic thin fine-pitch ball grid array
+                              package; 64 balls, delivered in one tray, MSL = 1. Minimum
+                              order quantity = 490 pcs
+
+                              Firmware version 4.0. Plastic thin fine-pitch ball grid array
+                              package; 64 balls, delivered on reel 13", MSL = 1. Minimum
+                              order quantity = 4000 pcs
+
+                    The PN5180 is not available with other pre-installed firmware versions than listed above.
+
+PN5180A0xx_C3                 All information provided in this document is subject to legal disclaimers.  © NXP B.V. 2018. All rights reserved.
+
+Product data sheet                         Rev. 3.4 -- 7 May 2018                                                               7 / 157
+COMPANY PUBLIC                                        436534
+NXP Semiconductors                                                                                  PN5180A0xx/C3
+
+                    High-performance multi-protocol full NFC frontend, supporting all NFC Forum modes
+
+8 Marking
+
+                    Table 3.Marking code HVQFN40                                                    Marking code
+                    Type number
+                    PN5180A0HN This product is released for sale                                    "PN5180A"
+                    (volume production).
+                    Line A:                                                                         6 characters: Diffusion Batch ID; example:
+                    Line B1:                                                                        "HHR275"
+
+                    Line B2:                                                                        Assembly sequence ID; example: ".1 04"
+                    Line C: Release for sale products do not show
+                    any X or Y, instead position 8 is left blank                                    8 characters: diffusion and assembly location,
+                                                                                                    date code, product version (indicated by mask
+                                                                                                    version), product life cycle status. This line
+                                                                                                    includes the following elements at 8 positions:
+                                                                                                    1. Diffusion center code
+                                                                                                    2. Assembly center code
+                                                                                                    3. RHF-2006 indicator
+                                                                                                    4. Year code (Y) 1)
+                                                                                                    5. Week code (W) 2)
+                                                                                                    6. Week code (W) 2)
+                                                                                                    7. Mask layout version
+                                                                                                    8. (Product life cycle status release for sale):
+                                                                                                    blank
+                                                                                                    example: "NSD620C "
+
+                    Note that the Firmware of the product PN5180 can be updated. Due to the update
+                    capability, the marking of the package does not allow identifying the installed version of
+                    the actual programmed firmware. The firmware version can be retrieved from address
+                    0x12 in EEPROM.
+
+                    8.1 Package marking drawing
+
+                                                                             Terminal 1 index area
+
+                                                                                                    A :7
+                                                                                                    B1 : 6
+                                                                                                    B2 : 6
+                                                                                                    C:8
+
+                                                                                                0   5
+                                                                                                      aaa-007965
+                    Figure 1. Marking PN5180 in HVQFN40
+
+                    The Marking of the TFBGA version can be found in the data sheet addendum which is
+                    available through the NXP DocStore.
+
+PN5180A0xx_C3       All information provided in this document is subject to legal disclaimers.                    © NXP B.V. 2018. All rights reserved.
+
+Product data sheet               Rev. 3.4 -- 7 May 2018                                                                                 8 / 157
+COMPANY PUBLIC                              436534
+NXP Semiconductors                                                                              PN5180A0xx/C3
+
+                    High-performance multi-protocol full NFC frontend, supporting all NFC Forum modes
+
+9 Block diagram
+
+                                                                            CLK1 CLK2           AUX1 AUX2
+
+                         PVDD                                                  SYSTEM              DEBUG     VDD
+                                                                                CLOCK           INTERFACE    VSS
+                         VBAT
+                                                                              VOLTAGE                1.8 V   DVDD
+                          MOSI                                              REGULATOR
+                          MISO   HOST INTERFACE                                                 TRANSMITTER  AVDD
+                                                                                DIGITAL            RECEIVER
+                           SCK                                              PROCESSING                       TX1
+                           NSS                                                                               TX2
+                         BUSY                                                  ANALOG                        TVSS
+                            IRQ                                             PROCESSING
+                    RESET_N                                                                                  RXP
+                           GPO                                                                               VMID
+                                                                                                             RXN
+
+                                                                 PVSS DVSS  AVSS                             aaa-023610
+
+                    Figure 2. PN5180 Block diagram
+
+PN5180A0xx_C3       All information provided in this document is subject to legal disclaimers.               © NXP B.V. 2018. All rights reserved.
+
+Product data sheet               Rev. 3.4 -- 7 May 2018                                                                            9 / 157
+COMPANY PUBLIC                              436534
+NXP Semiconductors                                                                                                  PN5180A0xx/C3
+
+                    High-performance multi-protocol full NFC frontend, supporting all NFC Forum modes
+
+10 Pinning information
+
+                                     terminal 1      40 AUX1
+                                     index area           39 IRQ
+                                                               38 GPO1
+                                              NSS 1                 37 CLK2
+                             AUX2/DWL_REQ 2                              36 CLK1
+                                                                               35 n.c.
+                                            MOSI 3                                  34 n.c.
+                                            PVSS 4                                       33 n.c.
+                                            MISO 5                                            32 n.c.
+                                            PVDD 6                                                 31 n.c.
+
+                                              SCK 7               PN5180                                            30 DVDD
+                                            BUSY 8                                                                  29 VDD
+                                                              central heatsink                                      28 AVDD
+                                              VSS 9           connect to GND                                        27 VSS
+                                      RESET_N 10                                                                    26 VBAT
+                                                                                                                    25 VDHF
+                                                                                                                    24 ANT2
+                                                                                                                    23 ANT1
+                                                                                                                    22 TVDD
+                                                                                                                    21 TX1
+
+                                                     n.c. 11                                                        aaa-024663
+                                                          VBAT 12
+                                                               VBAT 13
+
+                                                                    n.c. 14
+                                                                         RXN 15
+                                                                               RXP 16
+                                                                                    VMID 17
+                                                                                         TX2 18
+                                                                                              TVSS 19
+                                                                                                   n.c. 20
+
+                                                                                              Transparent top view
+
+                    Figure 3. Pin configuration for HVQFN40 (SOT618-1)
+
+10.1 Pin description
+
+                    Table 4.Pin description HVQFN40
+
+                    Symbol   Pin Type Description
+
+                    NSS      1       I               SPI NSS
+
+                    AUX2 /   2       I/O             Analog test bus or Download request
+
+                    DWL_REQ
+
+                    MOSI     3       I               SPI MOSI
+
+                    PVSS     4       supply Pad ground
+
+                    MISO     5       O               SPI MISO
+
+                    PVDD     6       supply Pad supply voltage
+
+                    SCK      7       I               SPI Clock
+
+                    BUSY     8       O               Busy signal
+
+                    VSS      9       supply Ground
+
+                    RESET_N  10      I               RESET, Low active
+
+                    n.c.     11      -               leave unconnected, do not ground
+
+                    VBAT     12      supply Supply Connection, all VBAT mandatory to be connected
+
+                    VBAT     13      supply Supply Connection, all VBAT mandatory to be connected
+
+                    nc / LDO_OUT 14  O               leave unconnected, do not ground / use as 3.3V LDO output
+
+                    RXN      15      I               Receiver Input
+
+                    RXP      16      I               Receiver Input
+
+                    VMID     17      supply Stabilizing capacitor connection output
+
+PN5180A0xx_C3                All information provided in this document is subject to legal disclaimers.                      © NXP B.V. 2018. All rights reserved.
+
+Product data sheet                        Rev. 3.4 -- 7 May 2018                                                                                 10 / 157
+COMPANY PUBLIC                                       436534
+NXP Semiconductors                                                                                      PN5180A0xx/C3
+
+                    High-performance multi-protocol full NFC frontend, supporting all NFC Forum modes
+
+                    Symbol  Pin Type Description
+                    TX2
+                    TVSS    18  O  Antenna driver output 2
+                    n.c.
+                    TX1     19  supply Antenna driver ground
+                    TVDD
+                    ANT1    20  -  leave unconnected, do not ground
+
+                    ANT2    21  O  Antenna driver output 1
+
+                    VDHF    22  supply Antenna driver supply
+                    VBAT
+                    VSS     23  I  Antenna connection 1 for load modulation in card emulation
+                    AVDD           mode (only in case of PLM)
+                    VDD
+                    DVDD    24  I  Antenna connection 2 for load modulation in card emulation
+                    n.c.           mode (only in case of PLM)
+                    n.c.
+                    n.c.    25  supply Stabilizing capacitor connection output
+                    n.c.
+                    n.c.    26  supply Supply Connection, all VBAT mandatory to be connected
+                    CLK1
+                            27  supply Ground
+                    CLK2
+                    GPO1    28  supply Analog VDD supply voltage input (1.8 V), connected to VDD
+                    IRQ
+                    AUX1    29  supply VDD output (1.8 V)
+
+                            30  supply Digital supply voltage input (1.8 V), connected to VDD
+
+                            31  -  leave unconnected, do not ground
+
+                            32  -  leave unconnected, do not ground
+
+                            33  -  leave unconnected, do not ground
+
+                            34  -  leave unconnected, do not ground
+
+                            35  -  leave unconnected, do not ground
+
+                            36  I  Clock input for crystal. This pin is also used as input for an
+                                   external generated accurate clock (8 MHz, 12 MHz, 16 MHz,
+                                   24 MHz, other clock frequencies not supported)
+
+                            37  O  Clock output (amplifier inverted signal output) for crystal
+
+                            38  O  (double function pin) GPO1, Digital output 1
+
+                            39  O  Interrupt request output, active level configurable
+
+                            40  O  Analog/Digital Test signal
+
+                    The central heatsink of the HVQFN40 package shall be connected to GND.
+
+                    The pinning of the TFBGA version can be found in the data sheet addendum which is
+                    available through the NXP DocStore.
+
+PN5180A0xx_C3               All information provided in this document is subject to legal disclaimers.  © NXP B.V. 2018. All rights reserved.
+
+Product data sheet                       Rev. 3.4 -- 7 May 2018                                                             11 / 157
+COMPANY PUBLIC                                      436534
+NXP Semiconductors                                                                              PN5180A0xx/C3
+
+                    High-performance multi-protocol full NFC frontend, supporting all NFC Forum modes
+
+11 Functional description
+
+11.1 Introduction
+
+          The PN5180 is a High-Power NFC frontend. It implements the RF functionality like an
+          antenna driving and receiver circuitry and all the low-level functionality to realize an
+          NFC Forum-compliant reader. The PN5180 connects to a host microcontroller with
+          a SPI interface for configuration, NFC data exchange and high-level NFC protocol
+          implementation.
+
+          The PN5180 allows different supply voltages for NFC drivers, internal supply and host
+          interface providing a maximum of flexibility.
+
+          The chip supply voltage and the NFC driver voltage can be chosen independently from
+          each other.
+
+          The PN5180 uses an external 27.12 MHz crystal as clock source for generating the RF
+          field and its internal digital logic. In addition, an internal PLL allows using an accurate
+          external clock source of either 8, 12, 16, 24 MHz. This saves the 27.12 MHz crystal
+          in systems which implement one of the mentioned clock frequencies (e.g. for USB or
+          system clock).
+
+          Two types of memory are implemented in the PN5180: RAM and EEPROM.
+
+          Internal registers of the PN5180 state machine store configuration data. The internal
+          registers are reset to initial values in case of PowerON, and Hardware-reset and standby.
+
+          The RF configuration for dedicated RF protocols is defined by EEPROM data which
+          is copied by a command issued from the host microcontroller - LOAD_RF_CONFIG-
+          into the registers of the PN5180. The PN5180 is initialized with EEPROM data for the
+          LOAD_RF_CONFIG command which has been tested to work well for one typical
+          antenna. For customer-specific antenna sizes and dedicated antenna environment
+          conditions like metal or ferrite, the pre-defined EEPROM settings can be modified by the
+          user. This allows users to achieve the maximum RF performance from a given antenna
+          design. It is mandatory to use the command LOAD_RF_CONFIG for the selection of a
+          specific RF protocol.
+
+          The command LOAD_RF_CONFIG initializes the registers faster compared to individual
+          register writes.
+
+11.2 Power-up and Clock
+
+11.2.1 Power Management Unit
+
+11.2.1.1 Supply Connections and Power-up
+
+             The Power Management Unit of the PN5180 generates internal supplies required for
+             operation.
+
+             The following pins are used to supply the IC:
+
+             · PVDD - supply voltage for the SPI interface and control connections
+             · VBAT - Supply Voltage input
+
+PN5180A0xx_C3       All information provided in this document is subject to legal disclaimers.  © NXP B.V. 2018. All rights reserved.
+
+Product data sheet               Rev. 3.4 -- 7 May 2018                                                             12 / 157
+COMPANY PUBLIC                              436534
+NXP Semiconductors                                                                                       PN5180A0xx/C3
+
+                    High-performance multi-protocol full NFC frontend, supporting all NFC Forum modes
+
+                    · TVDD - Transmitter supply
+                    · AVDD - Analog supply input, connected to VDD
+                    · DVDD - Digital supply input, connected to VDD
+                    · VDD - 1.8 V output, to be connected to AVDD and DVDD
+
+                    Decoupling capacitors shall be placed as close as possible to the pins of the package.
+                    Any additional filtering/damping of the transmitter supply, e.g. by ferrite beads, might
+                    have an impact on the analog RF signal quality and shall be monitored carefully.
+
+                    Power-up sequence of the PN5180
+
+                    · First ramp VBAT, PVDD can immediately follow, latest 2 ms after VBAT reaches 1.8 V.
+                    · There is no timing dependency on TVDD, only that TVDD shall rise equal or later to
+
+                      VBAT.
+                    · VBAT must be equal or higher than PVDD
+                    · TVDD has no other relationship to VBAT or PVDD
+
+                    voltage
+
+                                                                                                         VBAT
+
+                    1.8 V                                                                                PVDD
+
+                                                                   max                                         time
+                                                                                                               aaa-020676
+                    Figure 4. Power-up voltages
+
+                    After power-up, the PN5180 is indicating the ability to receive command from a host
+                    microcontroller by an IDLE IRQ.
+
+                    There are configurations in EEPROM, which allow to specify the behavior of the PN5180
+                    after start-up. LPCD (Low-power card detection) and DPC (dynamic power control) are
+                    functionalities which are configurable in EEPROM.
+
+                    The PN5180 supports full FNC functionality, this means Reader/Writer, Card and Peer to
+                    Peer mode. The default configuration of the PN5180 after power-up is the card mode to
+                    allow a collision avoidance with another RF field.
+
+11.2.1.2 Power-down
+
+             A hard power-down is enabled with LOW level on pin RESET_N. This low level puts the
+             internal voltage regulators for the analog and digital core supply as well as the oscillator
+             in a low-power state. All digital input buffers are separated from the input pads and
+             clamped internally (except pin RESET_N itself). IRQ, BUSY, AUX1, AUX2 have an
+
+PN5180A0xx_C3                All information provided in this document is subject to legal disclaimers.  © NXP B.V. 2018. All rights reserved.
+
+Product data sheet                        Rev. 3.4 -- 7 May 2018                                                             13 / 157
+COMPANY PUBLIC                                       436534
+NXP Semiconductors                                                                              PN5180A0xx/C3
+
+                    High-performance multi-protocol full NFC frontend, supporting all NFC Forum modes
+
+             internal pull down resistor which is activated on RESET_N ==0. All other output pins are
+             switched to high impedance.
+
+             To leave the power-down mode, the level at the pin RESET_N has to be set to HIGH.
+             This high level starts the internal start-up sequence from Power-Down.
+
+11.2.1.3 Standby
+
+             The standby mode is entered immediately after sending the instruction SWITCH_MODE
+             with standby command. All internal current sinks are set to low-power state.
+
+             In opposition to the power-down mode, the digital input buffers are not separated by the
+             input pads and keep their functionality. The digital output pins do not change their state.
+
+             During standby mode, all registers values, the buffer content and the configuration
+             itself are not kept, exceptions are the registers with addresses 05h(PADCONFIG),
+             07h(PADOUT) 25h (TEMP_CONTROL). To leave the standby mode, various possibilities
+             do exist. The conditions for wake-up are configured in the register STBY_CFG.
+
+             · Wake-up via Timer
+             · Wake-up via RF level detector
+             · Low Level on RESET_N
+             · PVDD disappears
+
+             Any host communication (data is not validated) triggers the internal start-up sequence.
+             The reader IC is in operation mode when the internal start-up sequence is finalized, and
+             is indicating this by an IDLE IRQ.
+
+11.2.1.4 Temperature Sensor
+
+             The PN5180 implements a configurable temperature sensor. The temperature sensor is
+             configurable by the TEMP_CONTROL register (25h).
+
+             The Temperature Sensor supports temperature settings for 85 °C, 115 °C, 125 °C and
+             135 °C.
+
+             In case the sensed device temperature is higher than configured, a TEMPSENS_ERROR
+             IRQ is raised. In case of an TEMPSENS_ERROR, the Firmware is switching off the
+             RF Field. Additionally host can set the device into standby as response to the raised
+             IRQ. In case the sensed device temperature is higher than the configured, FW is
+             automatically switching off the RF field in-order to protect the TX drivers and sets the
+             TEMPSENS_ERROR_IRQ_STAT in the IRQ_STATUS register to 1.
+
+             The host can either poll on the TEMPSENS_ERROR_IRQ_STAT or enable the bit
+             TEMPSENS_ERROR_IRQ_EN in IRQ_ENABLE register to get an interrupt on the IRQ
+             pin.
+
+             In addtion, the host can set the device into standby based on the
+             TEMPSENS_ERROR_IRQ_STAT.
+
+             This feature is enabled by default. Only the interrupt can be enabled / disabled via the
+             IRQ_ENABLE register
+
+11.2.2 Reset and start-up time
+
+            A constant low level of at least 10 s at the RESET_N pin starts the internal reset
+            procedure.
+
+PN5180A0xx_C3       All information provided in this document is subject to legal disclaimers.  © NXP B.V. 2018. All rights reserved.
+
+Product data sheet               Rev. 3.4 -- 7 May 2018                                                             14 / 157
+COMPANY PUBLIC                              436534
+NXP Semiconductors                                                                              PN5180A0xx/C3
+
+                    High-performance multi-protocol full NFC frontend, supporting all NFC Forum modes
+
+                    When the PN5180 has finished the start_up, a IDLE_IRQ is raised and the IC is ready to
+                    receive commands on the host interface.
+
+11.2.3 Clock concept
+
+            The PN5180 is supplied by an 27.12 MHz crystal for operation. In addition, the internal
+            PLL uses an accurate external clock source of either 8, 12, 16, 24 MHz instead of the
+            crystal.
+
+            The clock applied to the PN5180 provides a time basis for the RF encoder and decoder.
+            The stability of the clock frequency, is an important factor for correct operation. To obtain
+            optimum performance, clock jitter must be reduced as much as possible. Optimum
+            performance is best achieved using the internal oscillator buffer with the recommended
+            circuitry.
+
+            In card emulation mode, the clock is also required.
+
+            If an external clock source of 27.12 MHz is used instead of a crystal, the clock signal
+            must be applied to pin CLK1. In this case, special care must be taken with the clock duty
+            cycle and clock jitter (see Table 141).
+
+            The crystal is a component which is impacting the overall performance of the system.
+            A high-quality component is recommended here. The resistor RD1 reduces the start-up
+            time of the crystal. A short start-up time is especially desired in case the Low-Power card
+            detection is used. The values of these resistors depend on the crystal which is used.
+
+                                                           PN5180
+
+                                                     CLK1     CLK2                              VSS
+                                                      RD1      RD1
+
+                                                     crystal
+
+                                                     CL1      CL1
+
+                                                                    aaa-020196
+
+                    Figure 5. Connection of crystal
+
+11.3 Timer and Interrupt system
+
+11.3.1 General Purpose Timer
+
+            The Timers are used to measure certain intervals between certain configurable events of
+            the receiver, transmitter and other RF-events. The timer signals its expiration by raising a
+            flag and the value of the timer may be accessed via the register-set.
+
+            Three general-purpose timers T0, T1, and T2 running with the PN5180 clock with
+            several start conditions, stop conditions, time resolutions, and maximal timer periods are
+            implemented.
+
+PN5180A0xx_C3       All information provided in this document is subject to legal disclaimers.       © NXP B.V. 2018. All rights reserved.
+
+Product data sheet               Rev. 3.4 -- 7 May 2018                                                                  15 / 157
+COMPANY PUBLIC                              436534
+NXP Semiconductors                                                                              PN5180A0xx/C3
+
+                    High-performance multi-protocol full NFC frontend, supporting all NFC Forum modes
+
+            For automatic timeout handling during MIFARE Classic Authentication Timer2 is blocked
+            during this operation.
+
+            In case EMVCo EMD handling is enabled (EMD_CONTROL register (address 0028h), bit
+            EMD_ENABLE) Timer1 is automatically restarted when an EMD event occurs.
+
+            Timers T0 to T2 has a resolution of 20 bits and may be operated at clock frequencies
+            derived from the 13.56 MHz system clock. Several start events can be configured: start
+            now, start on external RF-field on/off and start on Rx (receive)/Tx (transmit) started/
+            ended. The timers allow reload of the counter value. At expiration of the timers, a flag is
+            raised and an IRQ is triggered.
+
+            The clock may be divided by a prescaler for frequencies of:
+
+            · 6.78 MHz
+            · 3.39 MHz
+            · 1.70 MHz
+            · 848 kHz
+            · 424 kHz
+            · 212 kHz
+            · 106 kHz
+            · 53 kHz
+
+11.3.2 Interrupt System
+
+11.3.2.1 IRQ PIN
+
+             The IRQ_ENABLE configures, which of the interrupts are routed to the IRQ pin of the
+             PN5180. All of the interrupts can be enabled and disabled independent from each other.
+             The IRQ on the pin can either be cleared by writing to the IRQ_CLEAR register or by
+             reading the IRQ_STATUS register (EEPROM configuration). If not all enabled IRQ's are
+             cleared, the IRQ pin remains active.
+
+             The polarity of the external IRQ signal is configured by EEPROM in IRQ_PIN_CONFIG
+             (01Ah).
+
+11.3.2.2 IRQ_STATUS Register
+
+             The IRQ_STATUS register contains the status flags. The status flags cannot be disabled.
+             Status Flag can either be cleared by writing to the IRQ_CLEAR register or when the
+             IRQ_STATUS register is read (EEPROM configuration)
+
+             The PN5180 indicates certain events by setting bits in the register
+             GENERAL_IRQ_STATUS and additionally, if activated, on the pin IRQ.
+
+             LPCD_IRQ, GENERAL_ERROR_IRQ and HV_ERROR_IRQ are non-maskable
+             interrupts.
+
+11.4 SPI Host Interface
+
+          The following description of the SPI host interface is valid for the NFC operation mode.
+          The Secure Firmware Download mode uses a different physical host interface handling.
+          Details are described in chapter 12.
+
+PN5180A0xx_C3       All information provided in this document is subject to legal disclaimers.  © NXP B.V. 2018. All rights reserved.
+
+Product data sheet               Rev. 3.4 -- 7 May 2018                                                             16 / 157
+COMPANY PUBLIC                              436534
+NXP Semiconductors                                                                              PN5180A0xx/C3
+
+                    High-performance multi-protocol full NFC frontend, supporting all NFC Forum modes
+
+11.4.1 Physical Host Interface
+
+            The interface of the PN5180 to a host microcontroller is based on a SPI interface,
+            extended by signal line BUSY. The maximum SPI speed is 7 Mbps and fixed to CPOL
+            = 0 and CPHA = 0. Only a half-duplex data transfer is supported. There is no chaining
+            allowed, meaning that the whole instruction has to be sent or the whole receive buffer
+            has to be read out. The whole transmit buffer shall be written at once as well. No NSS
+            assertion is allowed during data transfer.
+
+            As the MISO line is per default high-ohmic in case of NSS high, an internal pull-up
+            resistor can be enabled via EEPROM.
+
+            The BUSY signal is used to indicate that the PN5180 is not able to send or receive data
+            over the SPI interface.
+
+            The host interface is designed to support the typical interface supply voltages of 1.8 V
+            and 3.3 V of CPUs. A dedicated supply input which defines the host interface supply
+            voltage independent from other supplies is available (PVDD). Only a voltage of 1.8 V or
+            3.3 V is supported, but no voltage in the range of 1.95 V to 2.7 V.
+
+            · Master In Slave Out (MISO)
+
+            The MISO line is configured as an output in a slave device. It is used to transfer data
+            from the slave to the master, with the most significant bit sent first. The MISO signal is
+            put into 3-state mode when NSS is high.
+
+            · Master Out Slave In (MOSI)
+
+            The MOSI line is configured as an input in a slave device. It is used to transfer data from
+            the master to a slave, with the most significant bit sent first.
+
+            · Serial Clock (SCK)
+
+            The serial clock is used to synchronize data movement both in and out of the device
+            through its MOSI and MISO lines.
+
+            · Not Slave Select (NSS)
+
+            The slave select input (NSS) line is used to select a slave device. It shall be set to low
+            before any data transaction starts and must stay low during the transaction.
+
+            · Busy
+
+            During frame reception, the BUSY line goes ACTIVE and goes to IDLE when
+            PN5180 is able to receive a new frame or data is available (depending if SET or
+            GET frame is issued). If there is a parameter error, the IRQ is set to ACTIVE and a
+            GENERAL_ERROR_IRQ is set.
+
+            Both master and slave devices must operate with the same timing. The master device
+            always places data on the MOSI line a half cycle before the clock edge SCK, in order for
+            the slave device to latch the data.
+
+            The BUSY line is used to indicate that the system is BUSY and cannot receive any data
+            from a host. Recommendation for the BUSY line handling by the host:
+
+            1. Assert NSS to Low
+            2. Perform Data Exchange
+            3. Wait until BUSY is high
+            4. Deassert NSS
+            5. Wait until BUSY is low
+
+PN5180A0xx_C3       All information provided in this document is subject to legal disclaimers.  © NXP B.V. 2018. All rights reserved.
+
+Product data sheet               Rev. 3.4 -- 7 May 2018                                                             17 / 157
+COMPANY PUBLIC                              436534
+NXP Semiconductors                                                                                             PN5180A0xx/C3
+
+                    High-performance multi-protocol full NFC frontend, supporting all NFC Forum modes
+
+                    In order to write data to or read data from the PN5180, "dummy reads" shall be
+                    performed. The Figure 8 and Figure 9 are illustrating the usage of this "dummy reads" on
+                    the SPI interface.
+
+                    MOSI  Set_Reg                           Get_Reg                                            FF (data ignored)
+                    MISO      FF                                FF                                               Rsp Get_Reg
+
+                      BUSY (idle low)                                                                                             aaa-011438
+
+                    Figure 6. Read RX of SPI data using BUSY line
+
+                          Host TX  SET instruction                                                             SET instruction
+                          Host RX       0xFF...                                                                     0xFF...
+
+                            BUSY                                                                                                                       aaa-018979
+
+                    Figure 7. Writing data to the PN5180
+
+                          Host TX  GET instruction                               ignored
+                          Host RX       0xFF...                    Response of GET instruction
+
+                            BUSY                                                                                     aaa-018980
+
+                    Figure 8. Reading data from the PN5180
+
+11.4.2 Timing Specification SPI
+            The timing condition for SPI interface is as follows:
+
+PN5180A0xx_C3                      All information provided in this document is subject to legal disclaimers.  © NXP B.V. 2018. All rights reserved.
+
+Product data sheet                              Rev. 3.4 -- 7 May 2018                                                             18 / 157
+COMPANY PUBLIC                                             436534
+NXP Semiconductors                                                                                                 PN5180A0xx/C3
+
+                    High-performance multi-protocol full NFC frontend, supporting all NFC Forum modes
+
+                    tNSSH  tSCKL                    tSCKH              tSCKL
+                                                                      th(SCKL-Q)
+ SCK                       tsu(D-SCKH)
+MOSI                                           th(SCKH-D)
+
+                                        MSB                                                                                LSB
+
+MISO                                    MSB                                                                                LSB
+
+                                                                                                                           t(SCKL-NSSH)
+
+                    NSS                                                                                                                  aaa-016093
+
+Figure 9. Connection to host with SPI
+
+                    Remark: To send more bytes in one data stream, the NSS signal must be LOW during
+                    the send process. To send more than one data stream, the NSS signal must be HIGH
+                    between each data stream. Any data available to be read from the SPI interface is
+                    indicated by the BUSY signal de-asserted.
+
+11.4.3 Logical Host Interface
+
+11.4.3.1 Host Interface Command
+
+             A Host Interface Command consists of either 1 or 2 SPI frames depending whether the
+             host wants to write or read data from the PN5180. An SPI Frame consists of multiple
+             bytes.
+
+             The protocol used between the host and the PN5180 uses 1 byte indicating the
+             instruction code and additional bytes for the payload (instruction-specific data). The
+             actual payload size depends on the instruction used. The minimum length of the payload
+             is 1 byte. This provides a constant offset at which message data begins.
+
+                                       Byte 1              Byte 2                                                  Byte N
+
+                                       lnstruction         Payload 1              Payload N
+
+                                                                      ......
+
+                                                                      - Size of payload depends on Instruction
+                                                                      - Minimum payload is 1 byte
+
+                                                                                                                    aaa-023432
+
+                    Figure 10. Instruction Payload
+
+                    All commands are packed into one SPI Frame. An SPI Frame consists of multiple bytes.
+                    No NSS toggles allowed during sending of an SPI frame.
+
+                    For all 4 byte command parameter transfers (e.g. register values), the payload
+                    parameters passed follow the little endian approach (Least Significant Byte first).
+
+                    Direct Instructions are built of a command code (1 Byte) and the instruction parameters
+                    (max. 260 bytes). The actual payload size depends on the instruction used.
+
+PN5180A0xx_C3                          All information provided in this document is subject to legal disclaimers.                        © NXP B.V. 2018. All rights reserved.
+
+Product data sheet                                  Rev. 3.4 -- 7 May 2018                                                                                   19 / 157
+COMPANY PUBLIC                                                 436534
+NXP Semiconductors                                                                                   PN5180A0xx/C3
+
+                    High-performance multi-protocol full NFC frontend, supporting all NFC Forum modes
+
+                    Responses to direct instructions contain only a payload field (no header). All instructions
+                    are bound to conditions. If at least one of the conditions is not fulfilled, an exception is
+                    raised.
+
+                               Byte 1                    Byte 2                                      Byte N
+
+                               Payload 1             Payload 2                                       Payload N
+
+                                                                 ......
+
+                                                                                                     aaa-023431
+
+                    Figure 11. Instruction Response
+
+                    In case of an exception, the IRQ line of PN5180 is asserted and corresponding interrupt
+                    status register contain information on the exception.
+
+         11.4.3.2 Transmission Buffer
+
+                      Two buffers are implemented in the PN5180. The transmission buffer has a buffer size of
+                      260 bytes, the reception buffer has a size of 508 bytes. Both memories buffer the input
+                      and output data streams between the host and the internal state machine / contactless
+                      UART of the PN5180. Thus, it is possible to handle data streams with lengths of up
+                      to 260 bytes for transmission and up to 508 bytes for reception without taking timing
+                      constraints into account.
+
+         11.4.3.3 Host Interface Command List
+
+Table 5.1-Byte Direct Commands and Direct Command Codes
+
+Command                  Command Description
+                         code
+
+WRITE_REGISTER           0x00  Write one 32bit register value
+
+WRITE_REGISTER_OR_MASK   0x01  Sets one 32bit register value using a 32 bit OR mask
+
+WRITE_REGISTER_AND_MASK  0x02  Sets one 32bit register value using a 32 bit AND mask
+
+WRITE_REGISTER_MULTIPLE  0x03  Processes an array of register addresses in random order and
+                               performs the defined action on these addresses.
+
+READ_REGISTER            0x04  Reads one 32bit register value
+
+READ_REGISTER_MULTIPLE   0x05  Reads from an array of max.18 register addresses in random
+                               order
+
+WRITE_EEPROM             0x06  Processes an array of EEPROM addresses in random order and
+                               writes the value to these addresses
+
+READ_EEPROM              0x07  Processes an array of EEPROM addresses from a start address
+                               and reads the values from these addresses
+
+WRITE_TX_DATA            0x08  This instruction is used to write data into the transmission buffer
+
+SEND_DATA                0x09  This instruction is used to write data into the transmission buffer,
+                               the START_SEND bit is automatically set.
+
+READ_DATA                0x0A  This instruction is used to read data from reception buffer, after
+                               successful reception.
+
+SWITCH_MODE              0x0B  This instruction is used to switch the mode. It is only possible to
+                               switch from NormalMode to standby, LPCD or Autocoll.
+
+PN5180A0xx_C3            All information provided in this document is subject to legal disclaimers.              © NXP B.V. 2018. All rights reserved.
+
+Product data sheet                    Rev. 3.4 -- 7 May 2018                                                                         20 / 157
+COMPANY PUBLIC                                   436534
+NXP Semiconductors                                                                                         PN5180A0xx/C3
+
+                    High-performance multi-protocol full NFC frontend, supporting all NFC Forum modes
+
+Command                        Command Description
+                               code
+
+MIFARE_AUTHENTICATE            0x0C         This instruction is used to perform a MIFARE Classic
+                                            Authentication on an activated card.
+
+EPC_INVENTORY                  0x0D         This instruction is used to perform an inventory of ISO18000-3M3
+                                            tags.
+
+EPC_RESUME_INVENTORY           0x0E         This instruction is used to resume the inventory algorithm in case
+                                            it is paused.
+
+EPC_RETRIEVE_INVENTORY_RESULT 0x0F          This instruction is used to retrieve the size of the inventory result.
+_SIZE
+
+EPC_RETRIEVE_INVENTORY_RESULT 0x10          This instruction is used to retrieve the result of a preceding
+                                            EPC_INVENTORY or EPC_RESUME_INVENTORY instruction.
+
+LOAD_RF_CONFIG                 0x11         This instruction is used to load the RF configuration from
+                                            EEPROM into the configuration registers.
+
+UPDATE_RF_CONFIG               0x12         This instruction is used to update the RF configuration within
+                                            EEPROM.
+
+RETRIEVE_RF_CONFIG_SIZE        0x13         This instruction is used to retrieve the number of registers for a
+                                            selected RF configuration
+
+RETRIEVE_RF_CONFIG             0x14         This instruction is used to read out an RF configuration. The
+                                            register address-value-pairs are available in the response
+
+-                              0x15         RFU
+
+RF_ON                          0x16         This instruction switch on the RF Field
+
+RF_OFF                         0x17         This instruction switch off the RF Field
+
+CONFIGURE_TESTBUS_DIGITAL      0x18         Enables the Digital test bus
+
+CONFIGURE_TESTBUS_ANALOG       0x19         Enables the Analog test bus
+
+                    The following direct instructions are supported on the Host Interface: Detail Description of
+                    the instruction.
+
+                    WRITE_REGISTER - 0x00
+
+                    Table 6.WRITE_REGISTER
+
+                    Payload    Length       Value/Description
+                               (byte)
+
+                    Command code 1          0x00
+
+                    Parameter  1            Register address
+
+                               4            Register content
+
+                    Response   -            -
+
+                    Description:
+                    This command is used to write a 32-bit value (little endian) to a configuration register.
+
+                    Condition:
+                    The address of the register must exist. If the condition is not fulfilled, an exception is
+                    raised.
+
+PN5180A0xx_C3                  All information provided in this document is subject to legal disclaimers.  © NXP B.V. 2018. All rights reserved.
+
+Product data sheet                          Rev. 3.4 -- 7 May 2018                                                             21 / 157
+COMPANY PUBLIC                                         436534
+NXP Semiconductors                                                                                         PN5180A0xx/C3
+
+                    High-performance multi-protocol full NFC frontend, supporting all NFC Forum modes
+
+                    WRITE_REGISTER_OR_MASK - 0x01
+
+                    Table 7.WRITE_REGISTER
+
+                    Payload    Length          Value/Description
+                               (byte)
+
+                    Command code 1             0x01
+
+                    Parameter  1               Register address
+
+                               4               OR_MASK
+
+                    Response   -               -
+
+                    Description:
+
+                    This command modifies the content of a register using a logical OR operation. The
+                    content of the register is read and a logical OR operation is performed with the provided
+                    mask. The modified content is written back to the register.
+
+                    Condition:
+
+                    The address of the register must exist. If the condition is not fulfilled, an exception is
+                    raised.
+
+                    WRITE _REGISTER_AND_MASK - 0x02
+
+                    Table 8.WRITE_REGISTER_AND_MAKSK
+
+                    Payload       Length Value/Description
+                                  (byte)
+
+                    Command code 1          0x02
+
+                    Parameter     1         Register address
+
+                                  4         AND_MASK
+
+                    Response      -         -
+
+                    Description:
+
+                    This command modifies the content of a register using a logical AND operation. The
+                    content of the register is read and a logical AND operation is performed with the provided
+                    mask. The modified content is written back to the register.
+
+                    Condition:
+
+                    The address of the register must exist. If the condition is not fulfilled, an exception is
+                    raised.
+
+                    WRITE_REGISTER_MULTIPLE - 0x03
+
+                    Table 9.WRITE_REGISTER_MULTIPLE
+
+                    Payload    Length Value/Description
+                               (byte)
+
+                    Command code 1     0x03
+
+                    Parameter  5...210 Array of up to 42 elements {address, action, content}
+
+PN5180A0xx_C3                  All information provided in this document is subject to legal disclaimers.  © NXP B.V. 2018. All rights reserved.
+
+Product data sheet                          Rev. 3.4 -- 7 May 2018                                                             22 / 157
+COMPANY PUBLIC                                         436534
+NXP Semiconductors                                                                                              PN5180A0xx/C3
+
+                    High-performance multi-protocol full NFC frontend, supporting all NFC Forum modes
+
+                    Payload                 Length Value/Description
+                    Response                (byte)
+
+                                                    1 byte Register address
+
+                                                    1 byte Action
+
+                                                    4 bytes Register content
+
+                                            -       -
+
+                    Description:
+
+                    This instruction allows processing actions on multiple addresses with a single command.
+                    Input parameter is an array of register addresses, actions, and values (little endian). The
+                    command processes this array, register addresses are allowed to be in random order.
+                    For each address, an individual ACTION can be defined.
+
+                    Parameter value is either the REGISTER_DATA, the OR MASK or the AND_MASK.
+
+                    ACTION that can be defined individually for each register address:
+
+                    · 0x01 WRITE_REGISTER
+                    · 0x02 WRITE_REGISTER_OR_MASK
+                    · 0x03 WRITE_REGISTER_AND_MASK
+
+                    Note: In case of an exception, the operation is not rolled-back, i.e. registers which have
+                    been modified until exception occurs remain in modified state. Host has to take proper
+                    actions to recover to a defined state.
+
+Write Multiple Registers:
+
+Byte 1              Byte 2             Byte 3        Byte 4            Byte 5                                    Byte 6    Byte 7
+
+Command:            Register  WRITE_REGISTER:       Register          Register                                  Register  Register
+    0x03            address             0x01        content           content                                   content   content
+
+                                                      LSB                                                                                    ....
+                                                                                                                            MSB
+
+                                                                                                                                    aaa-023442
+
+Figure 12. Write_Register_Multiple
+
+Modifying Multiple Registers with OR mask:
+
+Byte 1              Byte 2                  Byte 3  Byte 4            Byte 5                                    Byte 6    Byte 7
+                                                    MASK              MASK                                      MASK
+Command:            Register  WRITE_REGISTER:        LSB                                                                  MASK
+    0x03            address        _OR_MASK:                                                                                                ....
+                                        0x02
+                                                                                                                           MSB
+                                                                                                                                  aaa-024843
+
+Figure 13. WRITE_REGISTER_OR_MASK
+
+PN5180A0xx_C3                       All information provided in this document is subject to legal disclaimers.            © NXP B.V. 2018. All rights reserved.
+
+Product data sheet                               Rev. 3.4 -- 7 May 2018                                                                       23 / 157
+COMPANY PUBLIC                                              436534
+NXP Semiconductors                                                                                         PN5180A0xx/C3
+
+                    High-performance multi-protocol full NFC frontend, supporting all NFC Forum modes
+
+Modifying Multiple Registers with AND mask:
+
+Byte 1              Byte 2     Byte 3                Byte 4  Byte 5                                        Byte 6  Byte 7
+                                                     MASK    MASK                                          MASK
+Command:            Register   WRITE_REGISTER:        LSB                                                          MASK
+    0x03            address        _AND_MASK:                                                                                        ....
+                                         0x03
+                                                                                                                    MSB
+                                                                                                                           aaa-024844
+
+Figure 14. WRITE_REGISTER_AND_MASK
+
+                    Condition:
+
+                    The address of the registers must exist. If the condition is not fulfilled, an exception is
+                    raised.
+
+                    READ_REGISTER - 0x04
+
+                    Table 10.READ_REGISTER
+
+                    Payload                  Length  Value/Description
+                                             (byte)
+                                                     0x04
+                    Command code 1                   Register address
+                                                     Register content
+                    Parameter                1
+
+                    Response                 4
+
+                    Description:
+
+                    This command is used to read the content of a configuration register. The content of the
+                    register is returned in the 4 byte response.
+
+                    Condition:
+
+                    The address of the register must exist. If the condition is not fulfilled, an exception is
+                    raised.
+
+                    READ_REGISTER_MULTIPLE -0x05
+
+                    Table 11.READ_REGISTER_MULTIPLE
+
+                    Payload                  Length  Value/Description
+                                             (byte)
+
+                    Command code 1                   0x05
+
+                    Parameter                1..18   Array of up to 18 elements {Register address}
+
+                                                     1 byte Register address
+
+                    Response                 4..72   Array of up to 18 4-byte elements {Register content}
+
+                                                     4..72 Register content: n*4-Byte (32-bit) register data
+                                                     byte
+
+                    Description:
+
+                    This command is used to read up to 18 configuration registers at once. The addresses
+                    are allowed to be in random order. The result (data of each register) is provided in the
+                    response to the command. Only the register values are included in the response. The
+
+PN5180A0xx_C3                  All information provided in this document is subject to legal disclaimers.          © NXP B.V. 2018. All rights reserved.
+
+Product data sheet                          Rev. 3.4 -- 7 May 2018                                                                     24 / 157
+COMPANY PUBLIC                                         436534
+NXP Semiconductors                                                                                         PN5180A0xx/C3
+
+                    High-performance multi-protocol full NFC frontend, supporting all NFC Forum modes
+
+                    order of the register contents within the response corresponds to the order of the register
+                    addresses within the command parameter.
+
+                    Condition:
+
+                    The address of the register must exist. The size of `Register Address' array must be in
+                    the range from 1 ­ 18, inclusive. If the condition is not fulfilled, an exception is raised.
+
+                    WRITE_EEPROM -0x06
+
+                    Table 12.WRITE_EEPROM
+
+                    Payload    length      Value/Description
+                               (byte)
+                                           0x06
+                    Command code 1         Address in EEPROM from which write operation starts
+                                           {EEPROM Address}
+                    Parameter  1           Array of up to 255 elements {EEPROM content}
+                                           1 byte EEPROM content
+                               1..255      -
+
+                    Response   -
+
+                    Description:
+
+                    This command is used to write up to 255 bytes to the EEPROM. The field `EEPROM
+                    content' contains the data to be written to EEPROM starting at the address given by byte
+                    `EEPROM Address'. The data is written in sequential order.
+
+                    Condition:
+
+                    The EEPROM Address field must be in the range from 0 ­ 254, inclusive. The number of
+                    bytes within `Values' field must be in the range from 1 ­ 255, inclusive. If the condition is
+                    not fulfilled, an exception is raised.
+
+                    READ_EEPROM - 0x07
+
+                    Table 13.READ_EEPROM
+
+                    Payload    Length      Value/Description
+                               (byte)
+                                           0x07
+                    Command code 1         Address in EEPROM from which read operation starts
+                                           (EEPROM Address)
+                    Parameter  1           Number of bytes to read from EEPROM
+                                           Array of up to 255 elements {EEPROM content}
+                    Response   1           1 byte EEPROM content
+                               1..255
+
+                    Description:
+
+                    This command is used to read data from EEPROM memory area. The field 'Address"
+                    indicates the start address of the read operation. The field Length indicates the number
+                    of bytes to read. The response contains the data read from EEPROM (content of the
+
+PN5180A0xx_C3                  All information provided in this document is subject to legal disclaimers.  © NXP B.V. 2018. All rights reserved.
+
+Product data sheet                          Rev. 3.4 -- 7 May 2018                                                             25 / 157
+COMPANY PUBLIC                                         436534
+

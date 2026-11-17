@@ -1,0 +1,3030 @@
+SL2S2602                     Product data sheet
+                             COMPANY PUBLIC
+ICODE SLIX2
+
+Rev. 4.2 -- 1 December 2021
+
+1 General description
+
+                              The ICODE SLIX2 IC is the newest member of NXP's SLIX product family. The chip is
+                              fully backwards compatible to SLIX and offers an increased user memory size, along with
+                              new outstanding features and performance:
+
+                              · NXP originality signature
+                              · Increased speed for Inventory management
+                              · Increased reading range
+                              · Increased robustness against detuning effects
+                              · 2.5 kbit user memory size
+                              · Flexible user memory segmentation with separate access conditions
+                              · Password protected on-chip service cycle counter
+
+                  1.1 Contactless energy and data transfer
+
+                              Whenever connected to a very simple and easy-to-produce type of antenna (as a result
+                              of the 13.56 MHz carrier frequency) made out of a few windings printed, winded, etched
+                              or punched coil, the ICODE SLIX2 IC can be operated without line of sight up to a
+                              distance of 1.5 m (gate width). No battery is needed. When the smart label is positioned
+                              in the field of an interrogator antenna, the high-speed RF communication interface
+                              enables data to be transmitted up to 53 kbit/s.
+
+                  1.2 Anti-collision
+
+                              An intelligent anti-collision function enables several tags to operate in the field
+                              simultaneously. The anti-collision algorithm selects each tag individually and ensures
+                              that the execution of a transaction with a selected tag is performed correctly without data
+                              corruption resulting from other tags in the field.
+
+                  1.3 Security and privacy aspects
+
+                              · Unique IDentifier (UID):
+                                The UID cannot be altered and guarantees the uniqueness of each label.
+
+                              · Originality signature:
+                                32 byte ECC-based originality signature.
+
+                              · Password protected memory management (Read/Write access):
+                                The user memory can be segmented into two pages and the access rights for read/
+                                write access can be defined for each of them. This ensures that only authorized users
+                                get read/write access to the protected parts of the user memory (anti counterfeiting).
+                                READMULTIPLE BLOCK and (FAST) INVENTORY READ are compatible to ICODE
+                                SLI and ICODE SLIX.
+NXP Semiconductors                                                                              SL2S2602
+
+                                                                                                         ICODE SLIX2
+
+                    · Password protected Label Destroy:
+                      The 32-bit Destroy password enables an addressed label to be destroyed with the
+                      DESTROY SLIX2 command. That status is irreversible and the label will never respond
+                      to any command again.
+
+                    · Password protected Privacy Mode:
+                      The 32-bit Privacy password enables a label to be set to the Privacy mode with the
+                      ENABLE PRIVACY command. In this mode the label will not respond to any command
+                      except the command GET RANDOM NUMBER, until it next receives the correct
+                      Privacy password. This mode is especially designed to meet the increasing demand to
+                      take care of the customers privacy.
+
+                    · Password protected EAS and AFI functionality:
+                      The 32-bit EAS/AFI password enables the addressed label to be set in a mode
+                      where the EAS status, the EAS ID and/or the AFI value can only be changed if the
+                      correct EAS/AFI password needs to be transmitted before with the SET PASSWORD
+                      command.
+
+                    · 16-bit counter:
+                      The last block of the user memory provides a special feature - the 16-bit counter.
+                      The counter can be increased by one with a WRITE command (optionally password
+                      protected by the read password). The counter can be reset to an initial value with the
+                      write password.
+
+SL2S2602            All information provided in this document is subject to legal disclaimers.  © NXP B.V. 2021. All rights reserved.
+
+Product data sheet           Rev. 4.2 -- 1 December 2021                                                               2 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                                   SL2S2602
+
+2 Features and benefits                                                                                       ICODE SLIX2
+
+                    2.1 ICODE SLIX2 RF interface (ISO/IEC 15693)
+
+                            · Contactless transmission of data and supply energy (no battery needed)
+                            · Operating distance: up to 1.5 m (depending on antenna geometry)
+                            · Operating frequency: 13.56 MHz (ISM, world-wide license freely available)
+                            · Fast data transfer: up to 53 kbit/s
+                            · High data integrity: 16-bit CRC, framing
+                            · True anti-collision
+                            · Electronic Article Surveillance (EAS)
+                            · Application Family Identifier (AFI) supported
+                            · Data Storage Format Identifier (DSFID)
+                            · ENABLE PRIVACY command with 32-bit Privacy password
+                            · DESTROY SLIX2 command with 32-bit Destroy password
+                            · Additional fast anti-collision read
+                            · Persistent quiet mode to enable faster inventory speed
+                            · Write distance equal to read distance
+
+                    2.2 EEPROM
+
+                            · 2560 bits user memory, organized in 80 blocks of 4 bytes each (last block reserved for
+                              counter feature)
+
+                            · 50 years data retention
+                            · Write endurance of 100000 cycles
+
+                    2.3 Security
+
+                            · Unique identifier for each device (8 byte)
+                            · 32 byte originality signature
+                            · Lock mechanism for each user memory block (write protection)
+                            · Lock mechanism for DSFID, AFI, EAS
+                            · Password (32-bit) protected memory management for Read access
+                            · Password (32-bit) protected memory management for Write access
+                            · Password (32-bit) protected Label Destroy
+                            · Password (32-bit) protected Privacy Mode
+                            · Password (32-bit) protected EAS and AFI functionality
+                            · 16-bit counter (optionally password protected with the read and write password)
+
+SL2S2602                 All information provided in this document is subject to legal disclaimers.  © NXP B.V. 2021. All rights reserved.
+
+Product data sheet                Rev. 4.2 -- 1 December 2021                                                               3 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                              SL2S2602
+
+3 Applications                                                                                           ICODE SLIX2
+
+                              · Libraries
+                              · Item level tagging in pharmaceutical supply chains
+                              · Counterfeit protection for consumer goods
+                              · Industrial applications
+                              · Asset and document tracking
+
+SL2S2602            All information provided in this document is subject to legal disclaimers.  © NXP B.V. 2021. All rights reserved.
+
+Product data sheet           Rev. 4.2 -- 1 December 2021                                                               4 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                                           SL2S2602
+
+                                                                                                                      ICODE SLIX2
+
+4 Ordering information
+
+                    Table 1.Ordering information
+
+                    Type number  Package                                                                     Version
+                                                                                                             -
+                                 Name Description                                                            SOT500-4
+                                                                                                             SOT1122
+                    SL2S2602FUD/BG Wafer          sawn, bumped wafer, 120 m with 7  Polyimide
+                                                  spacer, on film frame carrier,
+
+                                                  Ci between LA and LB = 23.5 pF (typical)
+
+                    SL2S2602FA8  MOA8             plastic lead less module carrier package;
+                                                  35 mm wide tape;
+                                                  Ci between LA and LB = 23.5 pF (typical)
+
+                    SL2S2602FTB  XSON3            plastic extremely thin small outline package; no
+                                                  leads; 3 terminals; body 1 x 1.45 x 0.5 mm;
+
+                                                  Ci between LA and LB = 23.5 pF (typical)
+
+SL2S2602                         All information provided in this document is subject to legal disclaimers.  © NXP B.V. 2021. All rights reserved.
+
+Product data sheet                        Rev. 4.2 -- 1 December 2021                                                               5 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                                       SL2S2602
+
+                                                                                                                  ICODE SLIX2
+
+5 Block diagram
+
+                                    ANALOG                 DIGITAL CONTROL                               EEPROM
+                               RF INTERFACE
+
+                                            VREG
+                             PAD
+
+                                                  VDD      ANTICOLLISION
+
+                               LA  DEMOD                   READ/WRITE
+                             RECT
+
+                                                  data     CONTROL
+
+                                                  in
+
+                    ANTENNA  Cres  MOD                         ACCESS CONTROL                                MEMORY
+                                   CLK
+                             PAD                  data                                                    SEQUENCER
+                              LB                  out                                                    CHARGE PUMP
+
+                                                             EEPROM INTERFACE R/W                                             001aam247
+                                                                     CONTROL
+
+                                                  Clock    RF INTERFACE
+                                                              CONTROL
+
+                    Figure 1.Block diagram of ICODE SLIX2
+
+SL2S2602                     All information provided in this document is subject to legal disclaimers.  © NXP B.V. 2021. All rights reserved.
+
+Product data sheet                    Rev. 4.2 -- 1 December 2021                                                               6 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                                                                               SL2S2602
+
+                                                                                                                                                          ICODE SLIX2
+
+6 Pinning information
+
+                                                     LA 2       1 LB
+
+                                                             3                                       n.c.
+
+                                                                                                                         aaa-009401
+                                                                                        Transparent top view
+
+                    Figure 2.Pin configuration for SOT1122
+
+                    Table 2.Pin description SOT1122
+
+                    Pin  Symbol  Description
+
+                    1    LB      antenna RF input
+
+                    2    LA      antenna RF input
+
+                    3    n.c.    not connected
+
+                                 LA                          top view                                                                LB
+
+                                                                                                                                     aaa-006273
+
+                    Figure 3.Pin configuration for SOT500-4 (MOA8)
+
+                    Table 3.Pin description SOT500-4 (MOA8)
+
+                    Pin  Symbol  Description
+
+                    LA   LA      antenna RF input
+
+                    LB   LB      antenna RF input
+
+SL2S2602                 All information provided in this document is subject to legal disclaimers.                                              © NXP B.V. 2021. All rights reserved.
+
+Product data sheet                Rev. 4.2 -- 1 December 2021                                                                                                           7 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                                          SL2S2602
+
+7 Wafer Layout                                                                                                       ICODE SLIX2
+
+                                                      LA                                                LB
+
+                                                     GND                 TEST
+
+                                                           not to scale                                     aaa-016465
+
+                    Figure 4.Wafer SL2S2602FUD/BG layout and pin configuration for the bare die
+
+                    7.1 Pin Description
+
+                    Table 4.Bonding pad description
+
+                    Symbol               Description
+
+                    LA                   antenna RF input
+
+                    LB                   antenna RF input
+
+                    GND                  ground
+
+                    TEST                 test input
+
+                    See Ref. 6 "General specification for 8" wafer on UV-tape with electronic fail die
+                    marking".
+
+SL2S2602                    All information provided in this document is subject to legal disclaimers.                  © NXP B.V. 2021. All rights reserved.
+
+Product data sheet                   Rev. 4.2 -- 1 December 2021                                                                               8 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                              SL2S2602
+
+                                                                                                         ICODE SLIX2
+
+8 Mechanical specification
+
+                    The ICODE SLIX2 wafers are available in 120 m thickness. The 120 m thick wafer
+                    is enhanced with 7 m Polyimide spacer providing better assembly tolerance (e.g.
+                    pressure).
+
+                    8.1 Wafer specification
+
+                    See Ref. 6 "General specification for 8" wafer on UV-tape with electronic fail die
+                    marking".
+
+                    Table 5.Wafer specification     each wafer is inscribed with batch number and wafer number
+                    Wafer                           200 mm (8 inches)
+                    Designation                     120 m ± 15 m
+                    Diameter                        CMOS 0.14 m
+                    Thickness                       25 wafers
+                    Process                         94823
+                    Batch size
+                    Dies per wafer                  Si
+                    Wafer backside                  ground and stress release
+                    Material                        Ra minimum = 0.5 m
+                    Treatment                       Rt maximum = 5 m
+                    Roughness
+                                                    540 m × 543 m = 0.29322 mm2
+                    Chip dimensions
+                    Die size without scribe         15 m (scribe line width measured between nitride edges)
+                    Scribe line width               15 m (scribe line width measured between nitride edges)
+                                                    4
+                         X-dimension                non-diagonal/placed in chip corners
+                         Y-dimension                430 m (center to center)
+                    Number of pads                  371.5 m (center to center)
+                    Pad location
+                    Distance pad to pad LA to LB    sandwich structure
+                    Distance pad to pad LB to TEST  PE-nitride (on top)
+                    Passivation on front            1.75 m total thickness of passivation
+                    Type                            7 m ± 1 m
+                    Material
+                    Thickness                       >99.9 % pure Au
+                    Polyimide spacer                35 HV to 80 HV 0.005
+                    Au bump
+                    Material
+                    Hardness
+
+SL2S2602            All information provided in this document is subject to legal disclaimers.  © NXP B.V. 2021. All rights reserved.
+
+Product data sheet           Rev. 4.2 -- 1 December 2021                                                               9 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                                              SL2S2602
+
+                                                                                                                         ICODE SLIX2
+
+                    Table 5.Wafer specification...continued
+
+                    Shear strength            >70 MPa
+
+                    Height                    25 m[1]
+
+                    Height uniformity
+
+                    within a die              ±2 m
+
+                    within a wafer            ±3 m
+
+                    wafer to wafer            ±4 m
+
+                    Bump flatness             ±1.5 m
+
+                    Bump size
+
+                    LA, LB                    80 m × 80 m
+
+                    TEST, GND                 60 m × 60 m
+
+                    variation                 ±5 m
+
+                    Under bump metallization  sputtered TiW
+
+                    1. Because of the 7 µm spacer, the bump will measure 18 µm relative height protruding
+                        the spacer.
+
+8.1.1 Fail die identification
+
+          No ink dots are applied to the wafer.
+
+          Electronic wafer mapping (SECS II format) covers the electrical test results and
+          additionally the results of mechanical/visual inspection.
+
+          See Ref. 6 "General specification for 8" wafer on UV-tape with electronic fail die
+          marking".
+
+8.1.2 Map file distribution
+
+          See Ref. 6 "General specification for 8" wafer on UV-tape with electronic fail die
+          marking".
+
+SL2S2602                            All information provided in this document is subject to legal disclaimers.  © NXP B.V. 2021. All rights reserved.
+
+Product data sheet                           Rev. 4.2 -- 1 December 2021                                                             10 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                              SL2S2602
+
+9 Functional description                                                                                 ICODE SLIX2
+
+                    9.1 Block description
+
+                            The ICODE SLIX2 IC consists of three major blocks:
+
+                            · Analog RF interface
+                            · Digital controller
+                            · EEPROM
+
+                            The analog section provides stable supply voltage and demodulates data received
+                            from the reader for processing by the digital section. The analog section's modulation
+                            transistor also transmits data back to the reader.
+
+                            The digital section includes the state machines, processes the protocol and handles
+                            communication with the EEPROM.
+
+                            The label requires no internal power supply. Its contactless interface generates the
+                            power supply and the system clock via the resonant circuitry by inductive coupling to
+                            the interrogator. The interface also demodulates data that are transmitted from the
+                            interrogator to the ICODE Label, and modulates the electromagnetic field for data
+                            transmission from the ICODE Label to the interrogator.
+
+                            Data are stored in a non-volatile memory (EEPROM).
+
+                    9.2 Memory organization
+
+                            The 2560-bit user accessible EEPROM memory is divided into 80 blocks. A block is the
+                            smallest access unit. Each block consists of 4 bytes (1 block = 32 bits). Bit 0 in each
+                            byte represents the least significant bit (LSB) and bit 7 the most significant bit (MSB),
+                            respectively.
+
+                            The entire memory is divided into 3 parts:
+
+                            · Configuration area
+                              ­ Within this part of the memory all required information is stored, such as UID, write
+                                 protection, access control information, passwords, AFI and EAS and originality
+                                 signature. This memory area cannot be directly accessed.
+
+                            · User memory
+                              ­ Within the 2528-bit memory (79 blocks) area, the user data are stored. Direct read/
+                                 write access to this part of the memory is possible depending on the related security
+                                 and write protection conditions.
+
+                            · 16-bit counter
+                              ­ The last block of the EEPROM memory (block 79) contains the 16-bit counter and the
+                                 counter password protection flag.
+
+SL2S2602            All information provided in this document is subject to legal disclaimers.  © NXP B.V. 2021. All rights reserved.
+
+Product data sheet           Rev. 4.2 -- 1 December 2021                                                             11 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                                                    SL2S2602
+
+                                                                                                                               ICODE SLIX2
+
+                    Table 6.Memory organization
+
+                    Block      Byte 0          Byte 1  Byte 2       Byte 3                                     Description
+                                                                                                               Configuration area for
+                    -                                  :            :                                          internal use
+                                                       0x00         PROT                                       User memory:
+                    0
+                                                                                                                   79 blocks,
+                    1                                                                                              4 bytes each,
+                                                                                                                   316 bytes in total.
+                    2
+                                                                                                               Counter
+                    3
+
+                    :          :               :
+
+                    76
+
+                    77
+
+                    78
+
+                    79         C0              C1
+
+                    Only Blocks 0 to 79 can be addressed with read and write commands.
+
+                    Remark: Block 79 contains the 16-bit counter and cannot be used to store user data.
+                    READ and WRITE commands to that block require special data considerations (refer to
+                    section "16-bit counter feature").
+
+9.2.1 Unique identifier
+
+                    The 64-bit unique identifier (UID) is programmed during the production process according
+                    to ISO/IEC 15693-3 and cannot be changed afterwards.
+
+                    The 64 bits are numbered according to ISO/IEC 15693-3 starting with LSB 1 and ending
+                    with MSB 64. This is in contrast to the general used bit numbering within a byte.
+
+                    The TAG type is a part of the UID (bit 41 to 48, next to the manufacturer code which is
+                    "04h" for NXP Semiconductors).
+
+                    The TAG type of the ICODE SLIX2 IC is "01h".
+
+                    Bit 37and bit 36 are used to differentiate between ICODE SLI, ICODE SLIX and ICODE
+                    SLIX2 (refer to Table 8).
+
+                    Table 7.Unique identifier                                                                                LSB
+                        MSB                                                                                                  UID 0
+
+                        64:57     56:49        48:41                                                           40:1
+
+                        "E0"      "04"         "01"                 IC manufacturer serial number
+
+                        UID 7     UID 6        UID 5   UID 4        UID 3                                      UID 2  UID 1
+
+                    Table 8.Type indicator bits
+
+                    Bit 37         Bit 36              ICODE Type
+                                                       ICODE SLI
+                    0              0                   ICODE SLIX
+                                                       ICODE SLIX2
+                    1              0
+
+                    0              1
+
+SL2S2602                           All information provided in this document is subject to legal disclaimers.         © NXP B.V. 2021. All rights reserved.
+
+Product data sheet                          Rev. 4.2 -- 1 December 2021                                                                    12 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                                      SL2S2602
+
+                                                                                                                 ICODE SLIX2
+
+                    Table 8.Type indicator bits...continued
+
+                    Bit 37  Bit 36  ICODE Type
+
+                    1       1       RFU
+
+9.2.2 Originality signature
+
+          ICODE SLIX2 features a cryptographically supported originality check. With this feature,
+          it is possible to verify with a high confidence that the tag is using an IC manufactured by
+          NXP Semiconductors. This check can be performed on personalized tags as well.
+
+          ICODE SLIX2 digital signature is based on standard Elliptic Curve Cryptography (curve
+          name secp128r1), according to the ECDSA algorithm. The use of a standard algorithm
+          and curve ensures easy software integration of the originality check procedure in NFC
+          devices without specific hardware requirements.
+
+          Each ICODE SLIX2 UID is signed with an NXP private key and the resulting 32-byte
+          signature is stored in a hidden part of the ICODE SLIX2 memory during IC production.
+
+          This signature can be retrieved using the READ_SIGNATURE command (refer to Section
+          9.5.3.20 "READ SIGNATURE") and can be verified in the NFC device by using the
+          corresponding ECC public key provided by NXP. In case the NXP public key is stored
+          in the reader device, the complete signature verification procedure can be performed
+          offline.
+
+          To verify the signature (for example with the use of the public domain crypto library
+          OpenSSL) the tool domain parameters shall be set to secp128r1, defined within the
+          standards for elliptic curve cryptography SEC (Ref. 7).
+
+9.2.3 Configuration of delivered ICs
+
+          ICODE SLIX2 ICs are delivered with the following configuration by NXP Semiconductors:
+
+          · Unique identifier is unique and read only
+          · Write access conditions allow change to user blocks, AFI, DSFID, EAS and passwords
+
+            (password protection disabled)
+          · All password bytes are 00h for the read and write protection password and the EAS/AFI
+
+            password
+          · All password bytes are 0Fh for the Privacy and Destroy passwords
+          · User data memory is not password protected
+          · Password protected Privacy Mode is disabled
+          · EAS and AFI password protection is disabled
+          · Status of EAS mode is not defined
+          · AFI is supported and not defined
+          · DSFID is supported and not defined
+          · User data memory is not defined
+
+          Remark: Because the EAS mode is undefined at delivery, the EAS mode shall be set
+          (enabled or disabled) according to your application requirements during the test or
+          initialization phase.
+
+          Remark: If password protection is not required, depending on the targeted application, it
+          is recommended to write random passwords during the label initialization.
+
+SL2S2602                    All information provided in this document is subject to legal disclaimers.  © NXP B.V. 2021. All rights reserved.
+
+Product data sheet                   Rev. 4.2 -- 1 December 2021                                                             13 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                                                           SL2S2602
+
+                                                                                                                                      ICODE SLIX2
+
+                    9.3 Communication principle
+
+                            For detailed description of the protocol and timing, please refer to ISO/IEC 15693-2
+                            (modulation, bit-coding, framing, Ref. 2) and ISO/IEC 15693-3 (anti-collision, timing,
+                            protocol, Ref. 3).
+
+                            For additional recommendations when using 100% ASK, refer to Ref. 8.
+
+                    9.4 State diagram
+
+                            The state diagram illustrates the different states of the ICODE SLIX2.
+
+                                                                        In Field, if persistent
+                                                                        quiet on
+
+                                                 Power-off
+
+                                                 Out of Field           In Field, if persistent
+                                                                        quiet off
+
+                                                                 Ready                                                       Any other command
+                                                                                                                             where Selected_Flag
+                                                                                                                             is not set
+
+            Stay Quiet (UID) or                  Reset to Ready         Select (UID)                                         Stay Quiet Persistent (UID) or
+   Inventory Read (extended                                                                                                  Inventory Read (extended mode)
+mode) with Quiet_Flag is set                                                                                                 with Persistent_Quiet_Flag is set
+
+Out of Field                     Reset to Ready where                   Reset to Ready                                                          Out of Field
+                       Quiet     Selected_Flag is set or                                                                     Persistent Quiet
+                                                                           Select (UID)
+                                   Select (different UID)
+                                                                            Stay Quiet
+                                Select (UID)     Selected                   Persistent
+                              Stay Quiet (UID)
+                                                                                (UID)
+
+                Any other command where the      Any other command                                Any other command where
+                      Addressed_flag is set                               the Addressed_flag is set AND where inventory_flag is not set
+
+            AND where inventory_flag is not set                                       or where inventory_flag AND AFI_flag is set
+                                                                        or Inventory Read (extended mode) with both Goto Quiet flags set
+Figure 5.State diagram ICODE SLIX2
+                                                                                                           or EAS Alarm
+
+                                                                                                                                                             aaa-016466
+
+                              Remark: It is possible to set the ICODE SLIX2 IC into the Quiet and Persistent
+                              Qiet.mode at the same time. In this case, the behavior is the same as for the Quiet state
+                              only until the IC enters the Power-off state. The IC enters to the Persistent Quiet mode at
+                              the next power-on if the persistent time has not been exceeded.
+
+SL2S2602                                         All information provided in this document is subject to legal disclaimers.  © NXP B.V. 2021. All rights reserved.
+
+Product data sheet                                        Rev. 4.2 -- 1 December 2021                                                             14 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                              SL2S2602
+
+                                                                                                         ICODE SLIX2
+
+                    9.5 Supported commands
+
+ 9.5.1 Mandatory commands
+
+9.5.1.1 INVENTORY
+            As defined in ISO/IEC 15693-3.
+            Exception: If the Privacy or Destroy mode is enabled the label will not respond.
+
+9.5.1.2 STAY QUIET
+            As defined in ISO/IEC 15693-3.
+
+ 9.5.2 Optional commands
+
+9.5.2.1 READ SINGLE BLOCK
+            As defined in ISO/IEC 15693-3.
+            Option 0 (Option flag not set) is supported.
+            Option 1 (Option flag set) is supported.
+            If the related page of the addressed block is protected with the Read-Password and the
+            password has not been transmitted first with the SET PASSWORD command the label
+            will respond according to the error handling (see Section 9.6 "Error handling").
+            Remark: Block 79 of the user memory contains the 16-bit counter feature and needs to
+            be treated differently (refer to section "16 -bit counter feature").
+
+9.5.2.2 WRITE SINGLE BLOCK
+            As defined in ISO/IEC 15693-3.
+            Option 0 (Option flag not set) is supported.
+            Option 1 (Option flag set) is supported.
+            If the addressed block is part of a write protected page or only protected with the Read
+            Password (see Section 9.5.3.6 "PROTECT PAGE") and the password has not been
+            transmitted first with the SET PASSWORD command the label will respond according to
+            the error handling (see Section 9.6 "Error handling").
+            Remark: Block 79 of the user memory contains the 16-bit counter feature and needs to
+            be treated differently (refer to section "16-bit counter feature").
+
+9.5.2.3 LOCK BLOCK
+            As defined in ISO/IEC 15693-3.
+            Option 0 (Option flag not set) is supported.
+            Option 1 (Option flag set) is supported.
+            If the addressed block is part of a write protected page or only protected with the read
+            password (see Section 9.5.3.6 "PROTECT PAGE") and the password has not been
+
+SL2S2602            All information provided in this document is subject to legal disclaimers.  © NXP B.V. 2021. All rights reserved.
+
+Product data sheet           Rev. 4.2 -- 1 December 2021                                                             15 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                              SL2S2602
+
+                                                                                                         ICODE SLIX2
+
+            transmitted first with the SET PASSWORD command, the label will respond according to
+            the error handling (see Section 9.6 "Error handling").
+            Remark: Block 79 of the user memory contains the 16-bit counter feature and cannot be
+            locked (refer to section "16-bit counter feature").
+
+9.5.2.4 READ MULTIPLE BLOCKS
+
+            As defined in ISO/IEC 15693-3.
+            Option 0 (Option flag not set) is supported.
+            Option 1 (Option flag set) is supported.
+            If one of the addressed blocks is part of a page protected with the Read-Password and
+            the password has not been transmitted first with the SET PASSWORD command the
+            label will respond according to the error handling (see Section 9.6 "Error handling").
+            Remark: Block 79 of the user memory contains the 16-bit counter feature and needs to
+            be treated differently (refer to section "16-bit counter feature").
+
+9.5.2.5 SELECT
+
+            As defined in ISO/IEC 15693-3.
+
+9.5.2.6 RESET TO READY
+
+            As defined in ISO/IEC 15693-3.
+            Remark: RESET TO READY also resets the label IC from the persistent quiet state
+            (refer to Section 9.5.3.10 "INVENTORY READ" and Section 9.5.3.19 "STAY QUIET
+            PERSISTENT") into the READY state.
+
+9.5.2.7 WRITE AFI
+
+            As defined in ISO/IEC 15693-3.
+            Option 0 (Option flag not set) is supported.
+            Option 1 (Option flag set) is supported.
+            Remark: This command maybe password protected, refer to Section 9.5.3.16
+            "PASSWORD PROTECT EAS/AFI".
+
+9.5.2.8 LOCK AFI
+
+            As defined in ISO/IEC 15693-3.
+            Option 0 (Option flag not set) is supported.
+            Option 1 (Option flag set) is supported.
+            Remark: This command maybe password protected, refer to Section 9.5.3.16
+            "PASSWORD PROTECT EAS/AFI".
+
+9.5.2.9 WRITE DSFID
+
+            As defined in ISO/IEC 15693-3.
+            Option 0 (Option flag not set) is supported.
+            Option 1 (Option flag set) is supported.
+
+SL2S2602            All information provided in this document is subject to legal disclaimers.  © NXP B.V. 2021. All rights reserved.
+
+Product data sheet           Rev. 4.2 -- 1 December 2021                                                             16 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                                             SL2S2602
+
+                                                                                                                        ICODE SLIX2
+
+9.5.2.10 LOCK DSFID
+             As defined in ISO/IEC 15693-3.
+             Option 0 (Option flag not set) is supported.
+             Option 1 (Option flag set) is supported.
+
+9.5.2.11 GET SYSTEM INFORMATION
+             As defined in ISO/IEC 15693-3.
+             The TAG type of the ICODE SLIX2 IC is "01h".
+
+9.5.2.12 GET MULTIPLE BLOCK SECURITY STATUS
+             As defined in ISO/IEC 15693-3.
+
+9.5.3 Custom commands
+
+          The manufacturer code of NXP Semiconductors is defined in ISO/IEC 7816-6A1 (Ref. 5).
+          It has the value "04h".
+          For the structure of custom commands, please refer to ISO/IEC 15693-3.
+          If not explicitly specified differently all address modes are supported.
+
+9.5.3.1 GET RANDOM NUMBER
+
+            Command code = B2h
+
+            The GET RANDOM NUMBER command is required to receive a random number from
+            the label IC. The passwords that will be transmitted with the SET PASSWORD,ENABLE
+            PRIVACY and DESTROY commands have to be calculated with the password and the
+            random number (see Section 9.5.3.2 "SET PASSWORD").
+
+            The different passwords are addressed with the password identifier.
+
+                    Table 9.GET RANDOM NUMBER request format
+
+                    SOF  Flags           GET     IC Mfg code UID                                               CRC16         EOF
+                                         RANDOM                                                                16 bits       -
+                                         NUMBER
+
+                    -    8 bits          8 bits  8 bits                                              64 bits
+
+                                                                                                     optional
+
+                    Table 10.GET RANDOM NUMBER response when Error_flag set
+
+                    SOF          Flags           Error code                                          CRC16              EOF
+                                                                                                                        -
+                    -            8 bits          8 bits                                              16 bits
+
+                    Table 11.GET RANDOM NUMBER response format when Error_flag NOT set
+
+                    SOF          Flags           Random number CRC16                                                    EOF
+
+                    -            8 bits          16 bits                                             16 bits            -
+
+SL2S2602                 All information provided in this document is subject to legal disclaimers.            © NXP B.V. 2021. All rights reserved.
+
+Product data sheet                Rev. 4.2 -- 1 December 2021                                                                       17 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                                                     SL2S2602
+
+                                                                                                                                ICODE SLIX2
+
+9.5.3.2 SET PASSWORD
+
+                    Command code = B3h
+
+                    The SET PASSWORD command enables the different passwords to be transmitted to
+                    the label to access the different protected functionalities of the following commands. The
+                    SET PASSWORD command has to be executed just once for the related passwords if
+                    the label is powered.
+
+                    Remark: The SET PASSWORD command can only be executed in Addressed or
+                    Selected mode except for the Privacy password. If the Privacy password is transmitted
+                    (see Section 9.5.3.9 "ENABLE PRIVACY"), the timing of the SET PASSWORD command
+                    is write alike.
+
+                    The XOR password has to be calculated with the password and two times the received
+                    random number from the last GET RANDOM NUMBER command:
+
+                    XOR_Password[31:0] = Password[31:0] XOR {Random_Number[15:0],
+                    Random_Number[15:0]}.
+
+                    The different passwords are addressed with the password identifier.
+
+                    Table 12.SET PASSWORD request format
+
+                    SOF Flags SET                 IC Mfg UID          Password XOR                                     CRC16    EOF
+                                                                                                                                -
+                         PASSWORD code                                identifier password
+
+                    -    8 bits 8 bits            8 bits          64 bits 8 bits                              32 bits  16 bits
+                                                                  optional
+
+                    Table 13.Password Identifier                  Password
+                    Password identifier                           Read
+                    01h                                           Write
+                    02h                                           Privacy
+                    04h                                           Destroy
+                    08h                                           EAS/AFI
+                    10h
+
+                    Table 14.SET PASSWORD response format when Error_flag set
+
+                    SOF  Flags                            Error code                                 CRC16             EOF
+                                                                                                                       -
+                    -    8 bits                           8 bits                                     16 bits
+
+                    Table 15.SET PASSWORD response format when Error_flag NOT set
+
+                    SOF                 Flags                     CRC16                                       EOF
+
+                    -                   8 bits                    16 bits                                     -
+
+                    Remark: If the IC receives an invalid password, it will not execute any following
+                    command until a Power-On Reset (POR) (RF reset) is executed.
+
+SL2S2602                 All information provided in this document is subject to legal disclaimers.                    © NXP B.V. 2021. All rights reserved.
+
+Product data sheet                Rev. 4.2 -- 1 December 2021                                                                               18 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                                            SL2S2602
+
+                                                                                                                       ICODE SLIX2
+
+9.5.3.3 WRITE PASSWORD
+
+                    Command code = B4h
+
+                    The WRITE PASSWORD command enables a new password to be written into the
+                    related memory if the related old password has already been transmitted with a SET
+                    PASSWORD command and the addressed password is not locked (see Section 9.5.3.4
+                    "LOCK PASSWORD").
+
+                    Remark: The WRITE PASSWORD command can only be executed in addressed or
+                    selected mode. The new password takes effect immediately which means that the new
+                    password has to be transmitted with the SET PASSWORD command to access protected
+                    blocks/pages.
+
+                    The different passwords are addressed with the password identifier.
+
+                    The timing of the command is write alike.
+
+                    Option 0 (Option flag not set) is supported.
+
+                    Option 1 (Option flag set) is supported.
+
+                    Table 16.WRITE PASSWORD request format
+
+                    SOF Flags WRITE               IC Mfg UID          Password                                Password  CRC16    EOF
+                                                                      identifier                              32 bits   16 bits  -
+                         PASSWORD code
+
+                    -    8 bits 8 bits            8 bits  64 bits 8 bits
+                                                          optional
+
+                    Table 17.Password Identifier                  Password
+                    Password identifier                           Read
+                    01h                                           Write
+                    02h                                           Privacy
+                    04h                                           Destroy
+                    08h                                           EAS/AFI
+                    10h
+
+                    Table 18.WRITE PASSWORD response format when Error_flag set
+
+                    SOF  Flags                            Error code                                 CRC16              EOF
+                                                                                                                        -
+                    -    8 bits                           8 bits                                     16 bits
+
+                    Table 19.WRITE PASSWORD response format when Error_flag NOT set
+
+                    SOF                 Flags                     CRC16                                       EOF
+
+                    -                   8 bits                    16 bits                                     -
+
+9.5.3.4 LOCK PASSWORD
+            Command code = B5h
+
+SL2S2602                 All information provided in this document is subject to legal disclaimers.              © NXP B.V. 2021. All rights reserved.
+
+Product data sheet                Rev. 4.2 -- 1 December 2021                                                                         19 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                                            SL2S2602
+
+                                                                                                                       ICODE SLIX2
+
+                    The LOCK PASSWORD command enables the addressed password to be locked if the
+                    related password has already been transmitted with a SET PASSWORD command. A
+                    locked password cannot be changed.
+
+                    The different passwords are addressed with the password identifier.
+
+                    The timing of the command is write alike.
+
+                    Option 0 (Option flag not set) is supported.
+
+                    Option 1 (Option flag set) is supported.
+
+                    Table 20.LOCK PASSWORD request format
+
+                    SOF Flags LOCK                IC Mfg          UID                                Password CRC16     EOF
+                                                                                                     identifier         -
+                         PASSWORD code
+
+                    -    8 bits 8 bits            8 bits          64 bits                            8 bits   16 bits
+                                                                  optional
+
+                    Table 21.Password identifier                  Password
+                    Password identifier                           Read
+                    01h                                           Write
+                    02h                                           Privacy
+                    04h                                           Destroy
+                    08h                                           EAS/AFI
+                    10h
+
+                    Table 22.LOCK PASSWORD response format when Error_flag set
+
+                    SOF  Flags                            Error code                                 CRC16         EOF
+                                                                                                                   -
+                    -    8 bits                           8 bits                                     16 bits
+
+                    Table 23.LOCK PASSWORD response format when Error_flag NOT set
+
+                    SOF                 Flags                     CRC16                                       EOF
+
+                    -                   8 bits                    16 bits                                     -
+
+9.5.3.5 64 BIT PASSWORD PROTECTION
+
+            Command code = BBh
+
+            The 64-bit PASSWORD PROTECTION command enables the Label IC to be instructed
+            that both of the Read and Write passwords are required to get access to password
+            protected blocks (pages). This mode can be enabled if the Read and Write passwords
+            have been transmitted first with a SET PASSWORD command.
+
+            If the 64-bit password protection is enabled, both passwords are required for read and
+            write access to protected blocks (pages).
+
+            Once the 64-bit password protection is enabled, a change back to 32-bit password
+            protection (read and write password) is not possible.
+
+SL2S2602                 All information provided in this document is subject to legal disclaimers.              © NXP B.V. 2021. All rights reserved.
+
+Product data sheet                Rev. 4.2 -- 1 December 2021                                                                         20 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                                                  SL2S2602
+
+                                                                                                                             ICODE SLIX2
+
+                    Remark: A retransmission of the passwords is not required after the execution of the 64-
+                    bit PASSWORD PROTECTION command.
+
+                    Remark: The 64-bit PASSWORD PROTECTION does not include the 16-bit counter
+                    block.
+
+                    The timing of the command is write alike.
+
+                    Table 24.64 BIT PASSWORD PROTECTION request format
+
+                    SOF    Flags           64 BIT      IC Mfg code UID                                              CRC16        EOF
+                                                                                                                    16 bits      -
+                                           PASSWORD
+
+                                           PROTECTION
+
+                    -      8 bits          8 bits      8 bits                                             64 bits
+
+                                                                                                          optional
+
+                    Table 25.64 BIT PASSWORD PROTECTION response format when Error_flag set
+
+                    SOF            Flags           Error code                                             CRC16          EOF
+
+                    -              8 bits          8 bits                                                 16 bits        -
+
+                    Table 26.64 BIT PASSWORD PROTECTION response format when Error_flag NOT
+                    set
+
+                    SOF            Flags                       CRC16                                                EOF
+
+                    -              8 bits                      16 bits                                              -
+
+9.5.3.6 PROTECT PAGE
+
+                    Command code = B6h
+
+                    The PROTECT PAGE command defines the protection pointer address of the user
+                    memory to divide the user memory into two arbitrarily sized pages and defines the
+                    access conditions for the two pages.
+
+                    The protection pointer address defines the base address of the higher user memory
+                    segment Page H. All block addresses smaller than the protection pointer address are in
+                    the user memory segment Page L.
+
+                    Table 27 shows an example of the user memory segmentation with the protection pointer
+                    address 20 (0x14).
+
+                    Table 27.Memory organization
+
+                    Block  Byte 0          Byte 1    Byte 2    Byte 3                                               Description
+                                                     :         :                                                    Page L
+                    0
+                                                                                                                    Page H
+                    1
+
+                    2
+
+                    :      :               :
+
+                    18
+
+                    19
+
+                    20
+
+SL2S2602                      All information provided in this document is subject to legal disclaimers.               © NXP B.V. 2021. All rights reserved.
+
+Product data sheet                     Rev. 4.2 -- 1 December 2021                                                                          21 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                                               SL2S2602
+
+                                                                                                                          ICODE SLIX2
+
+                    Table 27.Memory organization...continued
+
+                    Block     Byte 0          Byte 1       Byte 2       Byte 3                                   Description
+                                                                        :
+                    21
+
+                    :         :               :            :
+
+                    77
+
+                    78
+
+                    79        C0              C1           0x00         Protection Counter
+
+                    Remark: If the protection pointer address is set to block 0, the entire user memory (block
+                    0 to block 78) is defined as Page H.
+
+                    The access conditions and the protection pointer address can be changed under the
+                    following circumstances:
+
+                    · The related passwords (Read and Write password) have been transmitted first with the
+                      SET PASSWORD command.
+
+                    · The page protection condition is not locked (see Section 9.5.3.7 "LOCK PAGE
+                      PROTECTION CONDITION" on page 21
+
+                    The timing of the command is write alike.
+
+                    Table 28.POTECT PAGE request format
+
+                    SOF       Flags     PROTECT IC Mfg UID              Protection                               Extended    CRC16    EOF
+                                                                        pointer                                  protection  16 bits  -
+                                        PAGE      code                  address                                  status
+
+                    -         8 bits 8 bits       8 bits 64 bits 8 bits                                          8 bits
+
+                                                              optional
+
+                    Remark: The label IC only accepts protection pointer address values from 0x00 (block 0)
+                    to 0x4E (block 78). Block 79 (containing the 16-bit counter) is excluded from the standard
+                    user memory password protection scheme.
+
+                    Table 29.Extended Protection status byte
+
+                    Bit              Name               Value           Description
+                                                                        Page L is not read protected
+                    b1 (LSB)         RL                 0               Page L is read protected
+                                                                        Page L is not write protected
+                                                        1               Page L is write protected
+                                                                        RFU
+                    b2               WL                 0               RFU
+                                                                        Page H is not read protected
+                                                        1               Page H is read protected
+                                                                        Page H is not write protected
+                    b3               -                  0               Page H is write protected
+                                                                        RFU
+                    b4               -                  0               RFU
+
+                    b5               RH                 0
+
+                                                        1
+
+                    b6               WH                 0
+
+                                                        1
+
+                    b7               -                  0
+
+                    b8 (MSB)         -                  0
+
+SL2S2602                             All information provided in this document is subject to legal disclaimers.              © NXP B.V. 2021. All rights reserved.
+
+Product data sheet                            Rev. 4.2 -- 1 December 2021                                                                         22 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                                                          SL2S2602
+
+                                                                                                                                     ICODE SLIX2
+
+                    Table 30.Protection status bits definition
+
+                    Wx   Rx         32 bit password protection                                                  64 bit password protection
+
+                    0    0          Public                                                                      Public
+
+                    0    1          Read and Write protected by the Read Read and Write protected by the Read
+
+                                    password                                                                    plus Write password
+
+                    1    0          Write protected by the Write password Write protected by the Read plus
+                                                                                         Write password
+
+                    1    1          Read protected by the Read                                                  Read and Write protected by the Read
+
+                                    password and Write protected by the plus Write password
+
+                                    Read and Write password
+
+                    Table 31.POTECT PAGE response format when Error_flag set
+
+                    SOF             Flags     Error code                                                        CRC16            EOF
+                                                                                                                                 -
+                    -               8 bits    8 bits                                                            16 bits
+
+                    Table 32.POTECT PAGE response format when Error_flag NOT set
+
+                    SOF             Flags                       CRC16                                                       EOF
+                                                                                                                            -
+                    -               8 bits                      16 bits
+
+                    The information about the stored settings of the protection pointer address and access
+                    conditions can be read with the GET NXP SYSTEM INFORMATION command (refer to
+                    Section 9.5.3.18 "GET NXP SYSTEM INFOMATION")
+
+9.5.3.7 LOCK PAGE PROTECTION CONDITION
+
+            Command code = B7h
+
+            The LOCK PAGE PROTECTION CONDITION command locks the protection pointer
+            address and the status of the page protection conditions if the Read and Write
+            passwords have been transmitted first with the SET PASSWORD command.
+
+            The timing of the command is write alike.
+
+                    Table 33.LOCK PAGE PROTECTION CONDITION request format
+
+                    SOF     Flags LOCK PAGE IC Mfg UID                                                          Protection  CRC16     EOF
+                                          PROTECTION code                                                       pointer     16 bits   -
+                                                                                                                address
+                                          CONDITION
+
+                    -       8 bits  8 bits    8 bits            64 bits 8 bits
+                                                                optional
+
+                    Remark: If the transmitted protection pointer address does not match with the stored
+                    address the label will respond according to the error handling (see Section 9.6 "Error
+                    handling").
+
+                    Table 34.LOCK PAGE PROTECTION CONDITION response format when Error_flag
+                    set
+
+                    SOF             Flags     Error code                                                        CRC16            EOF
+
+                    -               8 bits    8 bits                                                            16 bits          -
+
+SL2S2602                            All information provided in this document is subject to legal disclaimers.              © NXP B.V. 2021. All rights reserved.
+
+Product data sheet                           Rev. 4.2 -- 1 December 2021                                                                         23 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                                             SL2S2602
+
+                                                                                                                        ICODE SLIX2
+
+                    Table 35.LOCK PAGE PROTECTION CONDITION response format when Error_flag NOT
+                    set
+
+                    SOF          Flags                       CRC16                                             EOF
+
+                    -            8 bits                      16 bits                                           -
+
+9.5.3.8 DESTROY
+
+                    Command code = B9h
+
+                    The DESTROY SLIX2 command enables the ICODE SLIX2 Label IC to be destroyed if
+                    the Destroy password is correct. This command is irreversible and the ICODE SLIX2 will
+                    never respond to any command again.
+
+                    The DESTROY SLIX2 command can only be executed in addressed or selected mode.
+
+                    The XOR password has to be calculated with the password and two times the received
+                    random number from the last GET RANDOM NUMBER command:
+
+                    XOR_Password[31:0] = Password[31:0] XOR {Random_Number[15:0],
+                    Random_Number[15:0]}.
+
+                    The timing of the command is write alike.
+
+                    Table 36.DESTROY request format
+
+                    SOF  Flags   DESTROY IC Mfg              UID                                     XOR       CRC16     EOF
+                                                  code                                                                   -
+                                                             64 bits                                 password
+                                                             optional
+                    -    8 bits  8 bits  8 bits                                                      32 bits   16 bits
+
+                    Table 37.DESTROY response format when Error_flag set
+
+                    SOF          Flags               Error code                                      CRC16          EOF
+                                                                                                                    -
+                    -            8 bits              8 bits                                          16 bits
+
+                    Table 38.DESTROY response format when Error_flag NOT set
+
+                    SOF          Flags                       CRC16                                             EOF
+                                                                                                               -
+                    -            8 bits                      16 bits
+
+9.5.3.9 ENABLE PRIVACY
+
+            Command code = BAh
+
+            The ENABLE PRIVACY command enables the ICODE SLIX2 Label IC to be set to
+            Privacy mode if the Privacy password is correct. The ICODE SLIX2 will not respond to
+            any command except GET RANDOM NUMBER and SET PASSWORD.
+
+            The XOR password has to be calculated with the password and two times the received
+            random number from the last GET RANDOM NUMBER command:
+
+            XOR_Password[31:0] = Password[31:0] XOR {Random_Number[15:0],
+            Random_Number[15:0]}.
+
+            To get out of the Privacy status, the valid Privacy password has to be transmitted to the
+            IC with the SET PASSWORD command.
+
+SL2S2602                 All information provided in this document is subject to legal disclaimers.               © NXP B.V. 2021. All rights reserved.
+
+Product data sheet                Rev. 4.2 -- 1 December 2021                                                                          24 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                                                     SL2S2602
+
+                                                                                                                                ICODE SLIX2
+
+                    The timing of the command is write alike.
+
+                    Table 39.ENABLE PRIVACY request format
+
+                    SOF  Flags   ENABLE IC Mfg UID                                                           XOR          CRC16 EOF
+                                 PRIVACY code                                                                password     16 bits -
+
+                    -    8 bits  8 bits  8 bits                64 bits                                       32 bits
+
+                                                               optional
+
+                    Table 40.ENABLE PRIVACY response format when Error_flag set
+
+                    SOF          Flags   Error code                                                          CRC16          EOF
+                                                                                                                            -
+                    -            8 bits  8 bits                                                              16 bits
+
+                    Table 41.ENABLE PRIVACY response format when Error_flag NOT set
+
+                    SOF          Flags                         CRC16                                                   EOF
+
+                    -            8 bits                        16 bits                                                 -
+
+9.5.3.10 INVENTORY READ
+
+             Command code = A0h
+
+             When receiving the INVENTORY READ request, the ICODE SLIX2 IC performs the
+             same as the anti-collision sequence, with the difference that instead of the UID and the
+             DSFID, the requested response is defined by additional options.
+
+             The INVENTORY READ command provides two modes which are defined by the most
+             significant bit of the mask length byte as follows:
+
+             · Standard mode (MSB mask length byte equal 0)
+                The standard mode of the INVENTORY READ command is fully backward compatible
+                to the ICODE SLI and ICODE SLIX (refer to Section "8.4.3.10.1. Standard mode")
+
+             · Extended mode (MSB mask length byte equal 1)
+                The extended mode offers additional features to optimize the inventory procedure for
+                different requirements (refer to Section "8.4.3.10.2 Extended Mode")
+
+                    8.4.3.10.1 Standard mode
+
+                    If MSB mask length byte equal 0 the INVENTORY READ command is used in the
+                    standard mode.
+
+                    If the Inventory_flag is set to 1 and an error is detected, the ICODE SLIX2 IC remains
+                    silent.
+
+                    If the Option flag is set to logic 0, n blocks of data are retransmitted. If the Option flag
+                    is set to 1, n blocks of data and the part of the UID which is not part of the mask are
+                    retransmitted.
+
+                    The request contains:
+
+                    · Flags
+                    · INVENTORY READ command code
+                    · IC manufacturer code
+                    · AFI (if AFI flag set)
+
+SL2S2602                         All information provided in this document is subject to legal disclaimers.               © NXP B.V. 2021. All rights reserved.
+
+Product data sheet                        Rev. 4.2 -- 1 December 2021                                                                          25 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                                                    SL2S2602
+
+                                                                                                                               ICODE SLIX2
+
+                    · Mask length (most significant bit equal 0)
+                    · Mask value (if mask length > 0)
+                    · First block number to be read
+                    · Number of blocks to be read
+                    · CRC 16
+
+Table 42.INVENTORY READ request format
+
+SOF Flags INVENTORY IC Mfg AFI                        Mask    Mask     First block Number                             CRC16    EOF
+                                                      length  value    number of blocks                               16 bits  -
+   READ                  code
+                                                      8 bits  0 to 64
+-  8 bits 8 bits         8 bits  8 bits                       bits     8 bits                                8 bits
+                                 optional
+
+                    If the Inventory_flag is set to logic 1, only tags in the READY or SELECTED state will
+                    respond (same behavior as in the INVENTORY command). The meaning of flags 5 to 8
+                    is in accordance with table 5 in ISO/IEC 15693-3.
+
+                    The INVENTORY READ command can also be transmitted in the addressed or selected
+                    mode (refer to "Section 8.4.3.10.3 Addressed and selected mode).
+
+                    The number of blocks in the request is one less than the number of blocks that the
+                    ICODE SLIX2 IC returns in its response.
+
+                    If the Option flag in the request is set to logic 0 the response contains:
+
+                    Table 43.INVENTORY READ response format: Option flag logic 0
+
+                    SOF          Flags                Data                                                   CRC16    EOF
+                                                                                                                      -
+                    -            8 bits               Block length                                           16 bits
+
+                                                      Repeated as needed
+
+                    The ICODE SLIX2 IC reads the requested block(s) and sends back their value in the
+                    response. The mechanism and timing of the INVENTORY READ command performs the
+                    same as the INVENTORY command which is described in clause 8 of ISO/IEC 15693-3.
+
+                    If the Option flag in the request is set to logic 1, the response contains:
+
+                    Table 44.INVENTORY READ response format: Option flag logic 1
+
+                    SOF Flags            Rest of UID which is not part Data                                           CRC16    EOF
+                                         of the mask and slot number                                                           -
+
+                    -    8 bits          0 to 64 bit                   Block length                                   16 bits
+
+                                         Multiple of 8 bits            Repeated as needed
+
+                    The ICODE SLIX2 IC reads the requested block(s) and sends back their value in the
+                    response. Additionally the bytes of the UID, which are not parts of the mask and the
+                    slot number in case of 16 slots, are returned. Instead of padding with zeros up to the
+                    next byte boundary, the corresponding bits of the UID are returned. The mechanism
+                    and timing of the INVENTORY READ command perform the same as the INVENTORY
+                    command which is described in clause 8 of ISO/IEC 15693-3.
+
+                    Remark: The number of bits of the retransmitted UID can be calculated as follows:
+
+                    · 16 slots: 60 bits (bit 64 to bit 4) - mask length rounded up to the next byte boundary
+                    · 1 slot: 64 bits - mask length rounded up to the next byte boundary
+
+SL2S2602                         All information provided in this document is subject to legal disclaimers.           © NXP B.V. 2021. All rights reserved.
+
+Product data sheet                        Rev. 4.2 -- 1 December 2021                                                                      26 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                                                     SL2S2602
+
+                                                                                                                                ICODE SLIX2
+
+                    Remark: If the sum of first block number and number of blocks exceeds the total
+                    available number of user blocks, the number of transmitted blocks is less than the
+                    requested number of blocks, which means that the last returned block is the highest
+                    available user block, followed by the 16-bit CRC and the EOF.
+
+                    Example: mask length = 30 bits
+
+                    Returned: bit 64 to bit 4 (30 bits) = 30 gives 4 bytes
+
+                    Table 45.Example: mask length = 30
+                    Byte 0 Byte 1 Byte 2 Byte 3 Byte 4 Byte 5 Byte 6 Byte 7 UID
+
+                           mask value including           -                                                            transmitted by
+                            padding with zeros
+                                                                                                                       interrogator
+
+                                                          returned value                                               transmitted by
+                                                                                                                       ICODE SLIX2 IC
+
+                    8.4.3.10.2 Extended Mode
+
+                    If the most significant bit of the Mask Length byte is equal 1 the response format is
+                    defined by the extended option byte.
+
+                    The request contains:
+
+                    · Flags
+                    · Inventory Read command code
+                    · IC Manufacturer code
+                    · AFI (if the AFI flag is set)
+                    · Mask length (most significant bit equal 1)
+                    · Extended Options
+                    · Mask value (if mask length > 0)
+                    · First Block Number, if specified in extended options byte
+                    · Number of Blocks, if specified in extended options byte
+                    · CRC 16
+
+Table 46.Inventory Read (extended mode) response format
+
+SOF Flags Inventory IC Mfr. AFI  Mask            ext.     Mask                                               First     Number CRC 16 EOF
+                                 Length          Options  Value                                              block     of blocks
+         Read       code                                                                                     number
+                                                          0 to 64
+8 bits 8 bits       8 bits 8 bits 8 bits MSB 8 bits       bits                                               8 bits    8 bits    8 bits
+                                optional = 1                                                                 optional
+                                                                                                                       optional
+
+                    If the Inventory_flag is set to logic 1, only tags in the READY or SELECTED state will
+                    respond (same behavior as in the INVENTORY command). The meaning of flags 5 to 8
+                    is in accordance with table 5 in ISO/IEC 15693-3.
+
+                    The INVENTORY READ command can also be transmitted in the addressed or selected
+                    mode (refer to Section "8.4.3.10.3 Addressed and selected mode").
+
+Table 47.Extended options  Value Feature
+Bit number Bit name
+
+1 (LSB)  EAS_MODE          0  Label responds independent from the EAS status
+
+                           1  Only labels will respond which have the EAS enabled
+
+SL2S2602                         All information provided in this document is subject to legal disclaimers.                      © NXP B.V. 2021. All rights reserved.
+
+Product data sheet                        Rev. 4.2 -- 1 December 2021                                                                                 27 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                                                                SL2S2602
+
+                                                                                                                                           ICODE SLIX2
+
+Table 47.Extended options...continued
+
+Bit number Bit name                Value Feature
+
+2  UID_MODE                        0   UID will be transmitted as in regular mode (truncated reply depending on least
+
+                                       significant 7 bits value of mask length and the mask value)
+
+                                   1   Complete UID will be transmitted (independent from mask length)
+
+3  -                               0   RFU
+
+4  -                               0   RFU
+
+5  SKIP_DATA                       0   Tag will add the user memory blocks in the response as requested with first block
+
+                                       number byte and number of blocks byte in the command
+
+                                   1   No user memory data are requested from the tag, first block number byte and
+
+                                       number of blocks byte shall not be transmitted in the command
+
+6  QUIET                           0   refer to Table 48 "QUIET and PERSISTANT QUIET bit in Extended options"
+
+7  PERSISTENT 0                        refer to Table 48 "QUIET and PERSISTANT QUIET bit in Extended options"
+
+   QUIET
+
+8 (MSB) -                          0   RFU
+
+Table 48.QUIET and PERSISTANT QUIET bit in Extended options
+
+QUIET bit [6]       PERSISTENT        Feature
+                    QUIET bit [7]
+
+0                   0                 remain in current state
+
+1                   0                 go to Quiet State after response (refer to Section 9.5.1.2 "STAY QUIET")
+
+0                   1                 go to Persistent Quiet State after Response (refer to Section 9.5.3.19 "STAY QUIET
+                                      PERSISTENT")
+
+1                   1                 only tags in the PERSISTENT QUIET state will respond to the command
+
+                       If the option flag in the request is set to 1 the response contains the truncated or
+                       complete UID depending on the extended option flag 2.
+
+                       If the option flag in the request is set to 0 the UID is not part of the response.
+
+                       Table 49.Inventory Read (extended mode) response format: Option flag logic 1
+
+                       SOF Flags Optional truncated UID OR                                                         Optional data       CRC16    EOF
+                                              complete UID                                                                                      -
+
+                       -           8 bits 0 to 64 bit                                                              Block length        16 bits
+
+                                       Multiple of 8 bits                                                          Repeated as needed
+
+                       The mechanism and timing of the INVENTORY READ command performs the same as
+                       at the INVENTORY command which is described in clause 8 of ISO/IEC 15693-3.
+
+                       If the UID is requested in the truncated format the retransmitted UID can be calculated as
+                       follows:
+
+                       16 slots: 64 - 4 - mask length rounded up to the next byte boundary
+
+                       1 slot: 64 - mask length rounded up to the next byte boundary
+
+                       Example: mask length = 30
+
+                       Returned: 64 - 4 - 30 = 30 gives 4 bytes
+
+SL2S2602                               All information provided in this document is subject to legal disclaimers.                      © NXP B.V. 2021. All rights reserved.
+
+Product data sheet                              Rev. 4.2 -- 1 December 2021                                                                                 28 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                              SL2S2602
+
+                                                                                                         ICODE SLIX2
+
+                    Table 50.Example
+                    Byte 0 Byte 1 Byte 2 Byte 3 Byte 4 Byte 5 Byte 6 Byte 7 UID
+
+                    mask value incl. padding with zeros                                         transmitted by
+                                                                                                Interrogator
+
+                                                         returned value                         transmitted by
+                                                                                                ICODE SLIX2 IC
+
+             8.4.3.10.3 Addressed and selected mode
+
+             The INVENTORY READ command can also be transmitted in the addressed or selected
+             mode. In this case, the Inventory_flag is set to 0 and the meaning of flags 5 to 8 is in
+             accordance with table 4 in ISO/IEC 15693-3.
+
+             In the addressed or selected mode, the INVENTORY READ command behaves similar to
+             a READ or READ MULTIPLE BLOCK command.
+
+             In the addressed mode, it is recommended to address the label IC with a mask length of
+             64 and to transmit the complete UID in the mask value field.
+
+             In the selected mode (label IC has been selected with a valid SELECT command before),
+             it is recommended to address the label IC with a mask length of 0 (and do not transmit
+             the mask value field).
+
+             Remark: If the INVENTORY READ command is used in the addressed or selected
+             mode, the AFI shall not be transmitted and the label IC will only respond in the first time
+             slot.
+
+9.5.3.11 FAST INVENTORY READ
+
+             Command code = A1h
+
+             When receiving the FAST INVENTORY READ command the ICODE SLIX2 IC behaves
+             the same as the INVENTORY READ command with the following exceptions:
+
+             The data rate in the direction ICODE SLIX2 IC to the interrogator is twice that defined in
+             ISO/IEC 15693-3 depending on the Datarate_flag 53 kbit (high data rate) or 13 kbit (low
+             data rate).
+
+             The data rate from the interrogator to the ICODE SLIX2 IC and the time between the
+             rising edge of the EOF from the interrogator to the ICODE SLIX2 IC remain unchanged
+             (stay the same as defined in ISO/IEC 15693-3).
+
+             In the ICODE SLIX2 IC to the interrogator direction, only the single subcarrier mode is
+             supported.
+
+9.5.3.12 SET EAS
+
+             Command code = A2h
+
+             The SET EAS command enables the EAS mode if the EAS mode is not locked. If the
+             EAS mode is password protected the EAS password has to be first transmitted with the
+             SET PASSWORD command.
+
+             The timing of the command is write alike.
+
+             Option 0 (Option flag not set) is supported.
+
+             Option 1 (Option flag set) is supported.
+
+SL2S2602            All information provided in this document is subject to legal disclaimers.  © NXP B.V. 2021. All rights reserved.
+
+Product data sheet           Rev. 4.2 -- 1 December 2021                                                             29 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                                                     SL2S2602
+
+                                                                                                                                ICODE SLIX2
+
+                    Table 51.SET EAS request format
+
+                    SOF  Flags           SET EAS     IC Mfg code                                             UID       CRC16     EOF
+                                                     8 bits                                                            16 bits   -
+                    -    8 bits          8 bits                                                              64 bits
+                                                                                                             optional
+
+                    Table 52.SET EAS response format when Error_flag set
+
+                    SOF          Flags               Error code                                              CRC16          EOF
+                                                                                                                            -
+                    -            8 bits              8 bits                                                  16 bits
+
+                    Table 53.SET EAS response format when Error_flag NOT set
+
+                    SOF          Flags                       CRC16                                                     EOF
+                                                                                                                       -
+                    -            8 bits                      16 bits
+
+9.5.3.13 RESET EAS
+
+                    Command code = A3h
+
+                    The RESET EAS command disables the EAS mode if the EAS mode is not locked. If the
+                    EAS mode is password protected the EAS password has to be first transmitted with the
+                    SET PASSWORD command.
+
+                    The timing of the command is write alike.
+
+                    Option 0 (Option flag not set) is supported.
+
+                    Option 1 (Option flag set) is supported.
+
+                    Table 54.RESET EAS request format             UID                                                  CRC16     EOF
+                    SOF Flags RESET EAS IC Mfg code                                                                              -
+
+                    -    8 bits  8 bits              8 bits       64 bits optional 16 bits
+
+                    Table 55.RESET EAS response format when Error_flag set
+
+                    SOF          Flags               Error code                                              CRC16          EOF
+                                                                                                                            -
+                    -            8 bits              8 bits                                                  16 bits
+
+                    Table 56.RESET EAS response format when Error_flag NOT set
+
+                    SOF          Flags                       CRC16                                                     EOF
+                                                                                                                       -
+                    -            8 bits                      16 bits
+
+9.5.3.14 LOCK EAS
+
+             Command code = A4h
+
+             The LOCK EAS command locks the current state of the EAS mode and the EAS ID. If the
+             EAS mode is password protected the EAS password has to be first transmitted with the
+             SET PASSWORD command.
+
+SL2S2602                         All information provided in this document is subject to legal disclaimers.            © NXP B.V. 2021. All rights reserved.
+
+Product data sheet                        Rev. 4.2 -- 1 December 2021                                                                       30 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                                             SL2S2602
+
+                                                                                                                        ICODE SLIX2
+
+                    The timing of the command is write alike.
+                    Option 0 (Option flag not set) is supported.
+                    Option 1 (Option flag set) is supported.
+
+                    Table 57.LOCK EAS request format
+
+                    SOF  Flags           LOCK EAS IC Mfg code                                        UID       CRC16     EOF
+                                                                                                               16 bits   -
+                    -    8 bits          8 bits        8 bits                                        64 bits
+                                                                                                     optional
+
+                    Table 58.LOCK EAS response format when Error_flag set
+
+                    SOF          Flags                Error code                                     CRC16          EOF
+                                                                                                                    -
+                    -            8 bits               8 bits                                         16 bits
+
+                    Table 59.LOCK EAS response format when Error_flag NOT set
+
+                    SOF          Flags                            CRC16                                        EOF
+                                                                                                               -
+                    -            8 bits                           16 bits
+
+9.5.3.15 EAS ALARM
+
+                    Command code = A5h
+
+                    The EAS ALARM command can be used in the following configurations:
+
+                    · Option flag is set to 0:
+                      EAS ID mask length and EAS ID value shall not be transmitted.
+                      If the EAS mode is enabled, the EAS response is returned from the ICODE SLIX2 IC.
+                      This configuration is compliant with the EAS command of the ICODE SLI IC.
+
+                    · Option flag is set to 1:
+                      Within the command, the EAS ID mask length has to be transmitted to identify how
+                      many bits of the following EAS ID value are valid (multiple of 8-bits). Only those ICODE
+                      SLIX2 ICs will respond with the EAS sequence which have stored the corresponding
+                      data in the EAS ID configuration (selective EAS) and if the EAS Mode is set.
+                      If the EAS ID mask length is set to 0, the ICODE SLIX2 IC will answer with its EAS ID.
+
+                    Table 60.EAS ALARM Request format             EAS ID mask EAS ID value                          CRC16 EOF
+                                                                  length                                            16 bits -
+                    SOF Flags EAS IC Mfg UID
+                                         ALARM code
+
+                    -    8 bits 8 bits 8 bits    64 bits 8 bits optional 0, 8 or 16 bits
+
+                                                 optional                                            optional
+
+                    If an error is detected the ICODE SLIX2 IC remains silent.
+
+                    Option flag is set to logic 0 or Option flag is set to logic 1 and the EAS ID mask length is
+                    not equal to 0:
+
+                    Table 61.EAS ALARM Response format (Option flag logic 0)
+
+                    SOF          Flags                EAS sequence CRC16                                            EOF
+                                                                                                                    -
+                    -            8 bits               256 bits                                       16 bits
+
+SL2S2602                 All information provided in this document is subject to legal disclaimers.            © NXP B.V. 2021. All rights reserved.
+
+Product data sheet                Rev. 4.2 -- 1 December 2021                                                                       31 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                                                             SL2S2602
+
+                                                                                                                                        ICODE SLIX2
+
+                    EAS sequence (starting with the LSB, which is transmitted first; read from left to right):
+
+                       11110100  11001101  01000110  00001110  10101011                                      11100101  00001001     11111110
+                       00010111  10001101  00000001  00011100  01001011                                      10000001  10010010     01101110
+                       01000001  01011011  01011001  01100001  11110110                                      11110101  11010001     00001101
+                       10001111  00111001  10001011  01001000  10100101                                      01001110  11101100     11110111
+
+                    Option flag is set to logic 1 and the EAS ID mask length is equal to 0:
+
+                    Table 62.EAS ALARM Response format (Option flag logic 1)
+
+                    SOF          Flags               EAS ID value                                            CRC16             EOF
+                                                                                                                               -
+                    -            8 bits              16 bits                                                 16 bits
+
+                    If the EAS mode is disabled (see RESET EAS command in Section 9.5.3.13 "RESET
+                    EAS"), the ICODE SLIX2 IC remains silent.
+
+                    Remark: Labels in the QUIET state will not respond to an EAS ALARM command except
+                    of the addressed flag is set. Labels in the PERSISTANT QUIET mode will respond even if
+                    the addressed flag is not set. (refer to Section 9.4 "State diagram").
+
+9.5.3.16 PASSWORD PROTECT EAS/AFI
+
+                    Command code = A6h
+
+                    The PASSWORD PROTECT EAS/AFI command enables the password protection for
+                    EAS and/or AFI if the EAS/AFI password is first transmitted with the SET PASSWORD
+                    command.
+
+                    Option flag set to logic 0: EAS will be password protected.
+
+                    Option flag set to logic 1: AFI will be password protected.
+
+                    Both password protections (AFI and EAS) can be enabled separately.
+
+                    Remark: Independent of the Option flag, this write-alike command will be executed like a
+                    write command with Option flag 0 (Option flag not set).
+
+                    Once the EAS/AFI password protection is enabled, it is not possible to change back to
+                    unprotected EAS and/or AFI.
+
+                    The timing of the command is write alike (as write command with Option flag 0).
+
+                    Table 63.PASSWORD PROTECT EAS/AFI request format
+
+                    SOF Flags    PASSWORD            IC Mfg code UID                                                           CRC16    EOF
+                                                                                                                               16 bits  -
+                                 PROTECT EAS/AFI
+
+                    -    8 bits 8 bits               8 bits                                                  64 bits optional
+
+                    Table 64.PASSWORD PROTECT EAS/AFI response format when Error_flag set
+
+                    SOF          Flags               Error code                                              CRC16             EOF
+
+                    -            8 bits              8 bits                                                  16 bits           -
+
+SL2S2602                         All information provided in this document is subject to legal disclaimers.                    © NXP B.V. 2021. All rights reserved.
+
+Product data sheet                        Rev. 4.2 -- 1 December 2021                                                                               32 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                                             SL2S2602
+
+                                                                                                                        ICODE SLIX2
+
+                    Table 65.PASSWORD PROTECT EAS/AFI response format when Error_flag NOT
+                    set
+
+                    SOF          Flags                    CRC16                                                EOF
+
+                    -            8 bits                   16 bits                                              -
+
+9.5.3.17 WRITE EAS ID
+
+                    Command code = A7h
+
+                    The command WRITE EAS ID enables a new EAS Identifier to be stored in the
+                    corresponding configuration memory. If EAS is password protected (for Set and Reset
+                    EAS), the EAS password has to be first transmitted with the SET PASSWORD command.
+
+                    The timing of the command is write alike.
+
+                    Option 1 (Option flag set) is supported.
+
+                    Option 0 (Option flag not set) is supported.
+
+                    Table 66.WRITE EAS ID request format
+
+                    SOF  Flags   WRITE   IC Mfg code UID                                             EAS ID    CRC16       EOF
+                                 EAS ID                                                              value     16 bits     -
+
+                    -    8 bits  8 bits  8 bits           64 bits                                    16 bits
+
+                                                          optional
+
+                    Table 67.WRITE EAS ID response format when Error_flag set
+
+                    SOF          Flags   Error code                                                  CRC16          EOF
+                                                                                                                    -
+                    -            8 bits  8 bits                                                      16 bits
+
+                    Table 68.WRITE EAS ID response format when Error_flag NOT set
+
+                    SOF          Flags                    CRC16                                                EOF
+                                                                                                               -
+                    -            8 bits                   16 bits
+
+9.5.3.18 GET NXP SYSTEM INFOMATION
+
+                    Command code = ABh
+
+                    The command GET NXP SYSTEM INFORMATION command provides information about
+                    the IC access conditions and supported features.
+
+                    Table 69.GET NXP SYSTEM INFORMATION request format
+
+                    SOF  Flags   Get NXP System Info IC Mfg code UID                                              CRC16    EOF
+                                                                                                                  16 bits  -
+                    -    8 bits  8 bits                   8 bits                                     64 bits
+                                                                                                     optional
+
+                    Table 70.GET NXP SYSTEM INFORMATION response format when Error_flag set
+
+                    SOF          Flags   Error code                                                  CRC16          EOF
+
+                    -            8 bits  8 bits                                                      16 bits        -
+
+SL2S2602                 All information provided in this document is subject to legal disclaimers.               © NXP B.V. 2021. All rights reserved.
+
+Product data sheet                Rev. 4.2 -- 1 December 2021                                                                          33 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                                                  SL2S2602
+
+                                                                                                                             ICODE SLIX2
+
+                    Table 71.GET NXP SYSTEM INFORMATION response format when Error_flag NOT
+                    set
+
+                    SOF      Flags      PP        PP          Lock bits Feature CRC16                               EOF
+                                        pointer
+                                                  conditions                                                 flags
+
+                    -        8 bits     8 bits    8 bits      8 bits                                         32 bits 16 bits -
+
+                    On a valid received command the label IC responds with the following information:
+
+                    · Actual protection pointer address (PP pointer)
+                    · Actual protection conditions for the password protection (PP conditions)
+                    · Actual lock bits settings (Lock bits)
+                    · Supported commands and features (Feature flags)
+
+                    The value of the bits in Table 72 define if the related feature is enabled or disabled:
+
+                    · 0: feature disabled
+                    · 1: feature enabled
+
+                    Table 72. PP conditions bits
+
+                    Bit      Name                 Feature
+
+                    1 (LSB)  RL                   Page L read password protection status
+
+                    2        WL                   Page L write password protection status
+
+                    3-4      -                    RFU
+
+                    5        RH                   Page H read password protection status
+
+                    6        WH                   Page H write password protection status
+
+                    7-8 (MSB) -                   RFU
+
+                    Table 73.Lock bits
+
+                    Bit      Name                 Feature
+                                                  AFI lock bit
+                    1 (LSB)  AFI                  EAS lock bit
+                                                  DSFID lock bit
+                    2        EAS                  Password protection pointer address and access conditions lock
+                                                  bit
+                    3        DSFID                RFU
+
+                    4        PPL
+
+                    5-8 (MSB) -
+
+                    Table 74.Feature flags bits
+
+                    Bit      Name                 Feature
+
+                    1 (LSB)  UM PP                User memory password protection supported (refer to Section
+                                                  9.5.3.6 "PROTECT PAGE")
+                    2        COUNTER
+                                                  Counter feature supported
+                    3        EAS ID
+                                                  EAS ID supported by EAS ALARM command (refer to Section
+                                                  9.5.3.17 "WRITE EAS ID")
+
+SL2S2602                         All information provided in this document is subject to legal disclaimers.         © NXP B.V. 2021. All rights reserved.
+
+Product data sheet                        Rev. 4.2 -- 1 December 2021                                                                    34 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                                        SL2S2602
+
+                                                                                                                   ICODE SLIX2
+
+                    Table 74.Feature flags bits...continued
+
+                    Bit    Name      Feature
+
+                    4      EAS PP    EAS password protection supported (refer to Section 9.5.3.16
+
+                                     "PASSWORD PROTECT EAS/AFI")
+
+                    5      AFI PP    AFI password protection supported (refer to Section 9.5.3.16
+
+                                     "PASSWORD PROTECT EAS/AFI")
+
+                    6      INVENTORY Extended mode supported by INVENTORY READ command
+
+                           READ EXT  (refer to Section 9.5.3.10 "INVENTORY READ")
+
+                    7      EAS IR    EAS selection supported by extended mode in INVENTORY
+
+                                     READ command ((refer to Section 9.5.3.10 "INVENTORY
+
+                                     READ"))
+
+                    8      -         RFU
+
+                    9      ORIGINALITY READ SIGNATURE command supported (refer to Section
+
+                           SIG       9.5.3.20 "READ SIGNATURE")
+
+                    10     ORIGINALITY Password protection for READ SIGNATURE command
+
+                           SIG PP    supported (refer to Section 9.5.3.20 "READ SIGNATURE")
+
+                    11     P QUIET   STAY QUIET PERSISTENT command supported (refer to Table
+
+                                     note [9.5.3.19]
+
+                    12     -         RFU
+
+                    13     PRIVACY   ENABLE PRIVACY command supported (refer to Section 9.5.3.9
+
+                                     "ENABLE PRIVACY")
+
+                    14     DESTROY   DESTROY command supported (refer to Section 9.5.3.8
+
+                                     "DESTROY")
+
+                    15-31  -         RFU
+
+                    32 (MSB) EXT     Additional 32 bits feature flags are transmitted
+
+9.5.3.19 STAY QUIET PERSISTENT
+
+             Command code = BCh
+
+             When receiving the STAY QUIET PERSISTENT command, the label IC enters the
+             persistent quiet state and will not send back a response.
+
+             Remark: The STAY QUIET PERSISTENT command provides the same behavior as the
+             mandatory STAY QUIET command with the only difference at a reset (power off). The
+             label IC will turn to the ready state, if the power off time is exceeding the persistent time.
+
+             When in PERSISTENT QUIET state:
+
+             The label IC will not process any request where the Inventory_flag is set, except
+
+             · the AFI_flag is set or
+             · the QUIET and PERSTENT QUIET flags in the extended mode of the (Fast) Inventory
+
+                command are both set.
+
+             The label IC will process any
+
+             · EAS ALARM request
+             · addressed or selected request
+
+             The label IC will exit the persistent quiet state when:
+
+             · reset (power off) exceeding the persistent time,
+
+SL2S2602                      All information provided in this document is subject to legal disclaimers.  © NXP B.V. 2021. All rights reserved.
+
+Product data sheet                     Rev. 4.2 -- 1 December 2021                                                             35 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                                             SL2S2602
+
+                                                                                                                        ICODE SLIX2
+
+                    · receiving a SELECT request. It shall then go to the Selected state.
+                    · receiving a RESET TO READY request. It shall then go to the Ready state.
+
+                    The STAY QUIET PERSISTENT shall always be executed in addressed mode
+                    (Select_flag is set to 0 and Address_flag is set to 1).
+
+                    Table 75.STAY PERSISTENT QUIET request format
+
+                    SOF  Flags           STAY QUIET IC Mfg code UID                                            CRC16         EOF
+                                         PERSISTENT                                                            16 bits
+
+                    -    8 bits          8 bits     8 bits                                           64 bits
+
+                                                                                                     optional
+
+9.5.3.20 READ SIGNATURE
+
+                    Command code = BDh
+
+                    The READ SIGNATURE command returns an IC specific, 32-byte ECC signature, to
+                    verify NXP Semiconductors as the silicon vendor. The signature is programmed at chip
+                    production and cannot be changed afterwards.
+
+                    Table 76.READ SIGNATURE request format
+
+                    SOF  Flags           READ       IC Mfg code UID                                            CRC16         EOF
+                                                                                                               16 bits
+                                         SIGNATURE
+
+                    -    8 bits          8 bits     8 bits                                           64 bits
+
+                                                                                                     optional
+
+                    Table 77.READ SIGNATURE response format when Error_flag set
+
+                    SOF          Flags              Error code                                       CRC16              EOF
+                                                                                                                        -
+                    -            8 bits             8 bits                                           16 bits
+
+                    Table 78.READ SIGNATURE response format when Error_flag NOT set
+
+                    SOF          Flags           Originality Signature CRC16                                            EOF
+                                                                                                                        -
+                    -            8 bits          256 bits                                            16 bits
+
+                    Details on how to check the signature value will be provided in the Application note
+                    "ICODE SLIX2 Originality Signature Validation". It is foreseen to offer an online and
+                    offline way to verify originality of ICODE SLIX2.
+
+9.5.3.21 16-bit counter
+
+             Block 79 of the user memory contains the 16-bit counter. The block can be accessed with
+             the standard READ and WRITE commands but special data considerations are required.
+
+             The standard password protection mechanisms for the user memory is not valid for block
+             79.
+
+             The 16-bit counter (block 79) can be
+
+             · read
+             · increased by one optionally protected with the read password
+             · preset to initial start value protected with the write password
+
+SL2S2602                 All information provided in this document is subject to legal disclaimers.            © NXP B.V. 2021. All rights reserved.
+
+Product data sheet                Rev. 4.2 -- 1 December 2021                                                                       36 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                                         SL2S2602
+
+                                                                                                                    ICODE SLIX2
+
+                    The counter can be read with a READ SINGLE BLOCK command to block 79 or a READ
+                    MULTIPLE BLOCK command including block 79. The 4 byte data from block 79 provide
+                    the following information:
+
+                    Table 79.COUNTER BLOCK data structure
+
+                    Byte Name  Value                        Description
+
+                    0  C0      0x00 - 0xFF                  LSB of the counter value
+
+                    1  C1      0x00 - 0xFF                  MSB of the counter value
+
+                    2  -       0x00                         RFU
+
+                    3  PROT    0x00                         Incrementing of the counter value is not password
+                                                            protected
+
+                               0x01                         Incrementing of the counter value is protect with the
+                                                            read password
+
+                    The counter can be preset to a start value with a WRITE SINGLE BLOCK command to
+                    block 79. As the counter preset is password protected with the write password, a SET
+                    PASSWORD command with the write password is required before executing the Preset
+                    (refer to Section 9.5.3.2 "SET PASSWORD").
+
+                    The PROT byte (data byte 3) value defines if the password protection to increment the
+                    counter is enabled or disabled. If the password protection is enabled, the read password
+                    is required to increment the counter value.
+
+                    The data for the WRITE SINGLE BLOCK command to preset the counter are defined in
+                    Table 80.
+
+                    Remark: A Preset counter value of 0x0001 is not possible, a WRITE SINGLE BLOCK
+                    command with that value will only increment the counter.
+
+                    Table 80.Preset counter data structure
+
+                    Byte Name  Value                        Description
+
+                    0  C0      0x00, 0x02 - 0xFF LSB of the counter value
+
+                    1  C1      0x00 - 0xFF                  MSB of the counter value
+
+                    2  -       0x00                         RFU
+
+                    3  PROT    0x00                         Disable the password protection to increment the
+                                                            counter
+
+                               0x01                         Enable the password protection to increment the
+                                                            counter with read password
+
+                    To increment the counter by one with a WRITE SINGLE BLOCK command to block 79.
+                    If the password protection to increment the counter is enabled, the read password needs
+                    to be transmitted to the label IC with the SET PASSWORD command before (refer to
+                    Section 9.5.3.2 "SET PASSWORD")
+
+                    The data for the WRITE SINGLE BLOCK command to increment the counter are defined
+                    in Table 80.
+
+                    Remark: The counter can only be incremented with the C0 and C1 values defined in
+                    Table 81. Other values than that preset the counter if the write password had been
+                    transmitted before with a SET PASSWORD command or leads to an error message.
+
+SL2S2602                       All information provided in this document is subject to legal disclaimers.  © NXP B.V. 2021. All rights reserved.
+
+Product data sheet                      Rev. 4.2 -- 1 December 2021                                                             37 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                                         SL2S2602
+
+                                                                                                                    ICODE SLIX2
+
+                    Table 81.Increment counter data structure
+
+                    Byte Name           Value  Description
+
+                    0  C0               0x01   LSB of the counter value
+
+                    1  C1               0x00   MSB of the counter value
+
+                    2  -                0x00   RFU
+
+                    3  PROT             0x00   Incrementing of the counter value is not password
+                                               protected
+
+                    9.6 Error handling
+
+ 9.6.1 Transmission errors
+            According to ISO/IEC 15693 the label IC will not respond if a transmission error (CRC,
+            bit coding, bit count, wrong framing) is detected and will silently wait for the next correct
+            received command.
+
+ 9.6.2 Not supported commands or options
+            If the received command or option is not supported, the behavior of the label IC depends
+            on the addressing mechanism.
+
+9.6.2.1 Non-Addressed Mode
+            The label IC remains silent.
+
+9.6.2.2 Addressed or Selected Mode
+            The addressed or selected label IC responds with the error code "0Fh" (error with no
+            information given or error code is not supported).
+            If the Inventory flag or the Protocol Extension flag is set, the label IC will not respond if
+            the command or option is not supported.
+
+ 9.6.3 Parameter out of range
+
+9.6.3.1 Read commands
+            If the sum of the first block number and the number of blocks exceeds the total available
+            number of user blocks, the number of transmitted blocks is less than the requested
+            number of blocks, which means that the last returned block is the highest available user
+            block, followed by the 16-bit CRC and the EOF.
+
+9.6.3.2 Write and lock commands
+            If the address of a block to be written does not exist or a block to be written is locked, the
+            behavior of the label IC depends on the addressing mechanism.
+
+            Non-Addressed Mode
+            · The label IC remains silent and aborts the command without writing anything.
+
+SL2S2602                       All information provided in this document is subject to legal disclaimers.  © NXP B.V. 2021. All rights reserved.
+
+Product data sheet                      Rev. 4.2 -- 1 December 2021                                                             38 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                              SL2S2602
+
+                                                                                                         ICODE SLIX2
+
+                            Addressed or Selected Mode
+
+                            · The addressed or selected label IC responds with the error code "0Fh" (error with no
+                              information given or error code is not supported).
+
+                    9.7 Data integrity
+
+                            Following mechanisms are implemented in the contactless communication link between
+                            interrogator and label to ensure very reliable data transmission:
+                            · 16-bit CRC per block
+                            · Bit count checking
+                            · Bit coding to distinguish between logic 1, logic 0, and no information
+                            · Channel monitoring (protocol sequence and bit stream analysis)
+
+                    9.8 RF interface
+
+                            The definition of the RF interface is according to the standard ISO/IEC 15693-2 and ISO/
+                            IEC 15693-3.
+
+SL2S2602            All information provided in this document is subject to legal disclaimers.  © NXP B.V. 2021. All rights reserved.
+
+Product data sheet           Rev. 4.2 -- 1 December 2021                                                             39 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                                                   SL2S2602
+
+                                                                                                                              ICODE SLIX2
+
+10 Limiting values
+
+Table 82.Limiting values (Wafer)[1][2]
+In accordance with the Absolute Maximum Rating System (IEC 60134).
+
+Symbol   Parameter                        Conditions                                                          Min Max     Unit
+
+Tstg     storage temperature                                                                                  -55 +125 °C
+
+Ptot     total power dissipation                                                                              -      125  mW
+Tj       junction temperature
+Ii(max)  maximum input current                                                                                -40 +85     °C
+II       input current
+                                          LA to LB; peak                                                      [3] -  ±60  mA
+                                          LA to LB; RMS
+                                                                                                              -      30   mA
+
+VESD     electrostatic discharge voltage  Human body model                                                    [4] -  ±2   kV
+
+                    1. Stresses above those listed under Absolute Maximum Ratings may cause permanent
+                        damage to the device. This is a stress rating only and functional operation of the
+                        device at these or any conditions other than those described in the operating
+                        conditions and electrical characteristics sections of this specification is not implied.
+
+                    2. This product includes circuitry specifically designed for the protection of its internal
+                        devices from the damaging effects of excessive static charge. Nonetheless, it is
+                        suggested that conventional precautions be taken to avoid applying greater than the
+                        rated maxima.
+
+                    3. The voltage between LA and LB is limited by the on-chip voltage limitation circuitry
+                        (corresponding to parameter II).
+
+                    4. For ESD measurement, the IC was mounted in a CDIP8 package.
+
+SL2S2602                          All information provided in this document is subject to legal disclaimers.         © NXP B.V. 2021. All rights reserved.
+
+Product data sheet                         Rev. 4.2 -- 1 December 2021                                                                    40 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                                                       SL2S2602
+
+11 Characteristics                                                                                                                ICODE SLIX2
+
+            11.1 Wafer memory characteristics
+
+Table 83.Wafer EEPROM characteristics  Conditions   Min                                                      Typ         Max          Unit
+Symbol Parameter                       Tamb  55 °C
+
+tret        retention time                          50                                                       -           -            year
+
+Nendu(W)    write endurance                         100000 -                                                             -            cycle
+
+            11.2 Interface characteristics
+
+Table 84.Interface characteristics
+Typical ratings are not guaranteed. The values listed are at room temperature.
+
+Symbol Parameter                                    Conditions                                               Min  Typ         Max     Unit
+                                                                                                                  13.56       13.567  MHz
+fi          input frequency                         operating read/             [1] 13.553                        -           1.3     V
+Vi(RMS)min  minimum RMS input voltage               write                            1.1
+                                                                                                                  40
+Pi(min)     minimum input power                     operating                   [2] -                             23.5        -       W
+Ci          input capacitance                                                   [3] 22.3
+                                                    between LA                                                    -           24.7    pF
+                                                    and LB
+
+tpersist    persistent time                                                     [4] 2                                         -       s
+
+                    1. Bandwidth limitation (± 7 kHz) according to ISM band regulations.
+                    2. Including losses in the resonant capacitor and rectifier.
+                    3. Measured with an HP4285A LCR meter at 13.56 MHz and 1.5 V RMS.
+                    4. The maximum persistent time strongly depends on the ambient temperature.
+
+SL2S2602                         All information provided in this document is subject to legal disclaimers.                 © NXP B.V. 2021. All rights reserved.
+
+Product data sheet                        Rev. 4.2 -- 1 December 2021                                                                            41 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                                       SL2S2602
+
+12 Marking                                                                                                                  ICODE SLIX2
+
+                12.1 Marking SOT1122                                                            Marking code
+                                                                                                26
+                                 Table 85.Marking SOT1122
+                                  Type number
+                                  SL2S2602FTB
+
+SL2S2602            All information provided in this document is subject to legal disclaimers.  © NXP B.V. 2021. All rights reserved.
+
+Product data sheet           Rev. 4.2 -- 1 December 2021                                                             42 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                                                                        SL2S2602
+
+                                                                                                                                                   ICODE SLIX2
+
+13 Package outline                                                                                                                        SOT1122
+
+  XSON3: plastic extremely thin small outline package; no leads; 3 terminals; body 1 x 1.45 x 0.5 mm
+
+                                       b                            b1
+                     L3                                                  1
+
+                                                                                                                         4×
+
+                                                                                       L1                                (2)
+
+                                                                                           e
+
+                                                                    2
+
+                                             e1             e1
+
+                        4×                                                                       A
+                          (2)
+                                                                                         A1
+            type code                               D
+
+                                                                                       E
+
+                                                terminal 1      pin 1 indication                                         2 mm
+                                                index area
+                                                                               1
+                                          0                                 scale
+
+Dimensions
+
+Unit        A(1) A1            b  b1      D      E   e          e1  L              L1
+
+max 0.50 0.04 0.45 0.55 1.50 1.05                                   0.35 0.30
+
+mm nom               0.40 0.50 1.45 1.00 0.55 0.425 0.30 0.25
+
+min                  0.37 0.47 1.40 0.95                            0.27 0.22
+
+Notes                                                                                                                                             sot1122_po
+1. Dimension A is including plating thickness.                                                                                            Issue date
+2. Can be visible in some manufacturing processes.                                                                                        09-10-09
+
+Outline                                              References                                                               European
+version                                                                                                                       projection
+                     IEC                     JEDEC                  JEITA
+
+SOT1122                                      MO-252
+
+Figure 6.Package outline SOT1122
+
+SL2S2602                                     All information provided in this document is subject to legal disclaimers.                   © NXP B.V. 2021. All rights reserved.
+
+Product data sheet                                    Rev. 4.2 -- 1 December 2021                                                                              43 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                                                                     SL2S2602
+
+  PLLMC: plastic leadless module carrier package; 35 mm wide tape                                                                               ICODE SLIX2
+
+                                                                                                                                                         SOT500-4
+
+                                                                                                                          X
+                                                                       D
+
+                                                                           A
+
+                                                                                                                             detail X
+
+                                   0                                   10     20 mm
+
+Dimensions                                                        scale
+
+Unit        A(1) D
+
+max 0.26 35.05             For unspecified dimensions see PLLMC-drawing given in the subpackage code.
+
+mm nom              35.00
+
+min                 34.95
+
+Note                                                                                                                                          sot500-4_po
+1. Total package thickness, exclusive punching burr.                                                                                   Issue date
+                                                                                                                                       11-02-18
+Outline                                               References                                               European
+version                                                                                                        projection
+                           IEC     JEDEC                          JEITA
+
+SOT500-4                   ---     ---                            ---
+
+Figure 7.Package outline SOT500-4
+
+                           For more details on the contactless MOA8 module see Ref. 9.
+
+SL2S2602                           All information provided in this document is subject to legal disclaimers.                          © NXP B.V. 2021. All rights reserved.
+
+Product data sheet                          Rev. 4.2 -- 1 December 2021                                                                                     44 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                                                        SL2S2602
+
+14 Bare die outline                                                                                                                ICODE SLIX2
+
+                     (1)
+
+                                    LA                    LB
+
+                          (9)                    (5)
+
+                                    Y
+
+                                                                                                                     (6)  (4)
+
+                                                       X
+
+                          (7)                    (10)
+
+                                    GND                   TEST
+                                            (8)
+
+                               (2)
+
+                                                                                                                (3)       aaa-016467
+
+                                                                                            not to scale!
+
+                    (1) X-scribe line width: 15 m
+                    (2) Y-scribe line width: 15 m
+                    (3) Chip step, X-length: 555 m
+                    (4) Chip step, Y-length: 558 m
+                    (5) Bump to bump distance X (LA - LB): 430 m
+                    (6) Bump to bump distance Y (LB - TEST): 371.5 m
+                    (7) Distance GND bump to nitride edge X: 45 m
+                    (8) Distance GND bump to nitride edge Y: 45 m
+                    (9) Distance LA bump to nitride edge X: 55 m
+                    (10) Bump to bump distance X (GND - TEST): 450 m
+                    Bump size LA and LB (X × Y): 80 m × 80 m
+                    Bump size TEST and GND (X × Y): 60 m × 60 m
+
+                    Figure 8.Wafer SL2S2602FUD/BG bare die layout
+
+SL2S2602             All information provided in this document is subject to legal disclaimers.                           © NXP B.V. 2021. All rights reserved.
+
+Product data sheet            Rev. 4.2 -- 1 December 2021                                                                                      45 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                                       SL2S2602
+
+                                                                                                                  ICODE SLIX2
+
+15 Abbreviations
+
+                    Table 86.Abbreviations
+
+                    Acronym  Description
+
+                    AFI      Application Family Identifier
+
+                    CRC      Cyclic Redundancy Check
+
+                    DSFID    Data Storage Format Identifier
+
+                    EAS      Electronic Article Surveillance
+
+                    EEPROM   Electrically Erasable Programmable Read Only Memory
+
+                    EOF      End Of Frame
+
+                    IC       Integrated Circuit
+
+                    LCR      Inductance, Capacitance, Resistance
+
+                    LSB      Least Significant Byte/Bit
+
+                    MSB      Most Significant Byte/Bit
+
+                    RF       Radio Frequency
+
+                    SOF      Start Of Frame
+
+                    UID      Unique IDentifier
+
+SL2S2602                     All information provided in this document is subject to legal disclaimers.  © NXP B.V. 2021. All rights reserved.
+
+Product data sheet                    Rev. 4.2 -- 1 December 2021                                                             46 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                                                               SL2S2602
+
+                                                                                                                                          ICODE SLIX2
+
+16 References
+
+                              [1]
+                              ISO Standard
+                              ISO/IEC 15693 - Identification cards - Contactless integrated circuit cards - Vicinity cards.
+                              [2]
+                              ISO Standard
+                              ISO/IEC 15693-2 -Identification cards - Contactless integrated circuit cards - Vicinity
+                              cards - Part 2: Air interface and initialization.
+                              [3]
+                              ISO Standard
+                              ISO/IEC 15693-3 -Identification cards - Contactless integrated circuit cards - Vicinity
+                              cards - Part 3: Anticollision and transmission protocol.
+                              [4]
+                              ISO Standard
+                              ISO/IEC 18000-3 - Information technology - Radio frequency identification for item
+                              management - Part 3: Parameters for air interface communications at 13.56 MHz.
+                              [5]
+                              ISO Standard
+                              ISO/IEC 7816-6 - Identification cards - Integrated circuit cards - Part 6: Interindustry data
+                              elements for interchange.
+                              [6]
+                              General specification for 8" wafer on UV-tape with electronic fail die marking
+                              Delivery type description ­ BU-ID document number: 1093**1.
+                              [7]
+                              Certicom Research. SEC 2
+                              Recommended Elliptic Curve Domain Parameters, version 2.0, January 2010.
+                              [8]
+                              Application Note
+                              AN3660 - ICODE SLIX2 Recommended operating conditions when using 100% ASK.
+                              [9]
+                              Contactless smart card module specification MOA8
+                              Delivery Type Description, BU-ID Document number 1636**1.
+
+SL2S2602            1 ** ... document version number                                                                             © NXP B.V. 2021. All rights reserved.
+
+Product data sheet                                   All information provided in this document is subject to legal disclaimers.                       47 / 54
+COMPANY PUBLIC
+                                                  Rev. 4.2 -- 1 December 2021
+NXP Semiconductors                                                                                                  SL2S2602
+
+                                                                                                                             ICODE SLIX2
+
+17 Revision history
+
+Table 87.Revision history
+
+Document ID                Release date       Data sheet status     Change notice Supersedes
+
+SL2S2602 v. 4.2            20211201           Product data sheet    -                                            SL2S2602 v. 4.1
+
+Modifications:             · Addition of ordering information for SL2S2602FTB
+
+SL2S2602 v. 4.1            20170725           Product data sheet    -                                            SL2S2602 v. 4.0
+
+Modifications:             · Addition of SL2S2602FA8 with SOT500-4 (MOA8) package
+                           · Addition of SL2S2602FTB with SOT1122 package
+
+SL2S2602 v. 4.0            20160218           Product data sheet    -                                            SL2S2602 v. 3.2
+
+Modifications:             · Changed ordering information to SL2S2602FUD/BG (with 7 m Polyimide spacer)
+                           · Added 7 m Polyimide spacer to wafer specification
+
+SL2S2602 v. 3.2            20150126           Product data sheet    -                                            SL2S2602_276331
+
+Modifications:             · Editorial changes
+
+SL2S2602_276331            20141210           Product data sheet    -                                            276330
+
+Modifications:             · Security status changed into COMPANY PUBLIC
+
+276330                     20141118           Product data sheet    -                                            276311
+
+Modifications:             · Data sheet status changed from objective to product
+
+276311                     20140528           Objective data sheet  -                                            276310
+
+Modifications:             · Section 9.4 "State diagram" added
+                           · Conditions added for STAY QUIETPERSITANT command in Section 9.5.3.19
+                           · Modification of the QUIET and PERSISTANT QUIET bit in the extended mode of the
+
+                             INVENTORY READ command in Table 47 "Extended options" and Table 48 "QUIET and
+                             PERSISTANT QUIET bit in Extended options"
+
+                           · Added remark for QUIET and PERSISTANT QUIET state in Section 9.5.3.15 "EAS
+                             ALARM"
+
+                           · Update of die dimensions in Section 8.1 "Wafer specification" and Section 14 "Bare die
+                             outline"
+
+                           · Editorial changing
+
+276310                     20131001           Objective data sheet  -                                            -
+
+Modifications:             · Initial version
+
+SL2S2602                             All information provided in this document is subject to legal disclaimers.     © NXP B.V. 2021. All rights reserved.
+
+Product data sheet                            Rev. 4.2 -- 1 December 2021                                                                48 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                                          SL2S2602
+
+                                                                                                                     ICODE SLIX2
+
+18 Legal information
+
+18.1 Data sheet status
+
+Document status[1][2]           Product status[3]                                Definition
+Objective [short] data sheet    Development                                      This document contains data from the objective specification for product
+                                                                                 development.
+Preliminary [short] data sheet  Qualification
+Product [short] data sheet      Production                                       This document contains data from the preliminary specification.
+
+                                                                                 This document contains the product specification.
+
+[1] Please consult the most recently issued document before initiating or completing a design.
+[2] The term 'short data sheet' is explained in section "Definitions".
+[3] The product status of device(s) described in this document may have changed since this document was published and may differ in case of multiple
+
+       devices. The latest product status information is available on the Internet at URL http://www.nxp.com.
+
+18.2 Definitions                                                                 Suitability for use -- NXP Semiconductors products are not designed,
+                                                                                 authorized or warranted to be suitable for use in life support, life-critical or
+Draft -- A draft status on a document indicates that the content is still        safety-critical systems or equipment, nor in applications where failure or
+under internal review and subject to formal approval, which may result           malfunction of an NXP Semiconductors product can reasonably be expected
+in modifications or additions. NXP Semiconductors does not give any              to result in personal injury, death or severe property or environmental
+representations or warranties as to the accuracy or completeness of              damage. NXP Semiconductors and its suppliers accept no liability for
+information included in a draft version of a document and shall have no          inclusion and/or use of NXP Semiconductors products in such equipment or
+liability for the consequences of use of such information.                       applications and therefore such inclusion and/or use is at the customer's own
+                                                                                 risk.
+
+Short data sheet -- A short data sheet is an extract from a full data sheet      Applications -- Applications that are described herein for any of these
+with the same product type number(s) and title. A short data sheet is            products are for illustrative purposes only. NXP Semiconductors makes no
+intended for quick reference only and should not be relied upon to contain       representation or warranty that such applications will be suitable for the
+detailed and full information. For detailed and full information see the         specified use without further testing or modification.
+relevant full data sheet, which is available on request via the local NXP
+Semiconductors sales office. In case of any inconsistency or conflict with the   Customers are responsible for the design and operation of their
+short data sheet, the full data sheet shall prevail.                             applications and products using NXP Semiconductors products, and NXP
+                                                                                 Semiconductors accepts no liability for any assistance with applications or
+Product specification -- The information and data provided in a Product          customer product design. It is customer's sole responsibility to determine
+data sheet shall define the specification of the product as agreed between       whether the NXP Semiconductors product is suitable and fit for the
+NXP Semiconductors and its customer, unless NXP Semiconductors and               customer's applications and products planned, as well as for the planned
+customer have explicitly agreed otherwise in writing. In no event however,       application and use of customer's third party customer(s). Customers should
+shall an agreement be valid in which the NXP Semiconductors product              provide appropriate design and operating safeguards to minimize the risks
+is deemed to offer functions and qualities beyond those described in the         associated with their applications and products.
+Product data sheet.
+                                                                                 NXP Semiconductors does not accept any liability related to any default,
+18.3 Disclaimers                                                                 damage, costs or problem which is based on any weakness or default
+                                                                                 in the customer's applications or products, or the application or use by
+Limited warranty and liability -- Information in this document is believed       customer's third party customer(s). Customer is responsible for doing all
+to be accurate and reliable. However, NXP Semiconductors does not give           necessary testing for the customer's applications and products using NXP
+any representations or warranties, expressed or implied, as to the accuracy      Semiconductors products in order to avoid a default of the applications
+or completeness of such information and shall have no liability for the          and the products or of the application or use by customer's third party
+consequences of use of such information. NXP Semiconductors takes no             customer(s). NXP does not accept any liability in this respect.
+responsibility for the content in this document if provided by an information
+source outside of NXP Semiconductors.                                            Limiting values -- Stress above one or more limiting values (as defined in
+In no event shall NXP Semiconductors be liable for any indirect, incidental,     the Absolute Maximum Ratings System of IEC 60134) will cause permanent
+punitive, special or consequential damages (including - without limitation -     damage to the device. Limiting values are stress ratings only and (proper)
+lost profits, lost savings, business interruption, costs related to the removal  operation of the device at these or any other conditions above those
+or replacement of any products or rework charges) whether or not such            given in the Recommended operating conditions section (if present) or the
+damages are based on tort (including negligence), warranty, breach of            Characteristics sections of this document is not warranted. Constant or
+contract or any other legal theory.                                              repeated exposure to limiting values will permanently and irreversibly affect
+Notwithstanding any damages that customer might incur for any reason             the quality and reliability of the device.
+whatsoever, NXP Semiconductors' aggregate and cumulative liability
+towards customer for the products described herein shall be limited in           Terms and conditions of commercial sale -- NXP Semiconductors
+accordance with the Terms and conditions of commercial sale of NXP               products are sold subject to the general terms and conditions of commercial
+Semiconductors.                                                                  sale, as published at http://www.nxp.com/profile/terms, unless otherwise
+                                                                                 agreed in a valid written individual agreement. In case an individual
+Right to make changes -- NXP Semiconductors reserves the right to                agreement is concluded only the terms and conditions of the respective
+make changes to information published in this document, including without        agreement shall apply. NXP Semiconductors hereby expressly objects to
+limitation specifications and product descriptions, at any time and without      applying the customer's general terms and conditions with regard to the
+notice. This document supersedes and replaces all information supplied prior     purchase of NXP Semiconductors products by customer.
+to the publication hereof.
+                                                                                 No offer to sell or license -- Nothing in this document may be interpreted
+                                                                                 or construed as an offer to sell products that is open for acceptance or
+                                                                                 the grant, conveyance or implication of any license under any copyrights,
+                                                                                 patents or other industrial or intellectual property rights.
+
+SL2S2602                        All information provided in this document is subject to legal disclaimers.  © NXP B.V. 2021. All rights reserved.
+
+Product data sheet                       Rev. 4.2 -- 1 December 2021                                                             49 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                              SL2S2602
+
+                                                                                                         ICODE SLIX2
+
+Quick reference data -- The Quick reference data is an extract of the           Translations -- A non-English (translated) version of a document is for
+product data given in the Limiting values and Characteristics sections of this  reference only. The English version shall prevail in case of any discrepancy
+document, and as such is not complete, exhaustive or legally binding.           between the translated and English versions.
+
+Export control -- This document as well as the item(s) described herein         18.4 Trademarks
+may be subject to export control regulations. Export might require a prior
+authorization from competent authorities.                                       Notice: All referenced brands, product names, service names, and
+                                                                                trademarks are the property of their respective owners.
+Suitability for use in non-automotive qualified products -- Unless              NXP -- wordmark and logo are trademarks of NXP B.V.
+this data sheet expressly states that this specific NXP Semiconductors          ICODE and I-CODE -- are trademarks of NXP B.V.
+product is automotive qualified, the product is not suitable for automotive
+use. It is neither qualified nor tested in accordance with automotive testing
+or application requirements. NXP Semiconductors accepts no liability for
+inclusion and/or use of non-automotive qualified products in automotive
+equipment or applications.
+
+In the event that customer uses the product for design-in and use in
+automotive applications to automotive specifications and standards,
+customer (a) shall use the product without NXP Semiconductors' warranty
+of the product for such automotive applications, use and specifications, and
+(b) whenever customer uses the product for automotive applications beyond
+NXP Semiconductors' specifications such use shall be solely at customer's
+own risk, and (c) customer fully indemnifies NXP Semiconductors for any
+liability, damages or failed product claims resulting from customer design and
+use of the product for automotive applications beyond NXP Semiconductors'
+standard warranty and NXP Semiconductors' product specifications.
+
+SL2S2602            All information provided in this document is subject to legal disclaimers.  © NXP B.V. 2021. All rights reserved.
+
+Product data sheet           Rev. 4.2 -- 1 December 2021                                                             50 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                              SL2S2602
+
+                                                                                                         ICODE SLIX2
+
+Tables
+
+Tab. 1.   Ordering information ..........................................5          Tab. 39.  ENABLE PRIVACY request format ..................25
+Tab. 2.   Pin description SOT1122 .................................. 7              Tab. 40.  ENABLE PRIVACY response format when
+Tab. 3.   Pin description SOT500-4 (MOA8) ....................7                               Error_flag set ...................................................25
+Tab. 4.   Bonding pad description ....................................8             Tab. 41.  ENABLE PRIVACY response format when
+Tab. 5.   Wafer specification ............................................ 9                  Error_flag NOT set ..........................................25
+Tab. 6.   Memory organization .......................................12             Tab. 42.  INVENTORY READ request format ................ 26
+Tab. 7.   Unique identifier .............................................. 12       Tab. 43.  INVENTORY READ response format:
+Tab. 8.   Type indicator bits ........................................... 12                  Option flag logic 0 ........................................... 26
+Tab. 9.   GET RANDOM NUMBER request format ........17                               Tab. 44.  INVENTORY READ response format:
+Tab. 10.  GET RANDOM NUMBER response when                                                     Option flag logic 1 ........................................... 26
+          Error_flag set ...................................................17      Tab. 45.  Example: mask length = 30 ............................ 27
+Tab. 11.  GET RANDOM NUMBER response format                                         Tab. 46.  Inventory Read (extended mode) response
+          when Error_flag NOT set ................................ 17                         format .............................................................. 27
+Tab. 12.  SET PASSWORD request format ................... 18                        Tab. 47.  Extended options ............................................ 27
+Tab. 13.  Password Identifier ..........................................18          Tab. 48.  QUIET and PERSISTANT QUIET bit in
+Tab. 14.  SET PASSWORD response format when                                                   Extended options ............................................ 28
+          Error_flag set ...................................................18      Tab. 49.  Inventory Read (extended mode) response
+Tab. 15.  SET PASSWORD response format when                                                   format: Option flag logic 1 ...............................28
+          Error_flag NOT set ..........................................18           Tab. 50.  Example ...........................................................29
+Tab. 16.  WRITE PASSWORD request format ............... 19                          Tab. 51.  SET EAS request format .................................30
+Tab. 17.  Password Identifier ..........................................19          Tab. 52.  SET EAS response format when Error_flag
+Tab. 18.  WRITE PASSWORD response format                                                      set ....................................................................30
+          when Error_flag set .........................................19           Tab. 53.  SET EAS response format when Error_flag
+Tab. 19.  WRITE PASSWORD response format                                                      NOT set ...........................................................30
+          when Error_flag NOT set ................................ 19               Tab. 54.  RESET EAS request format ............................30
+Tab. 20.  LOCK PASSWORD request format .................20                          Tab. 55.  RESET EAS response format when Error_
+Tab. 21.  Password identifier .......................................... 20                   flag set ............................................................ 30
+Tab. 22.  LOCK PASSWORD response format when                                        Tab. 56.  RESET EAS response format when Error_
+          Error_flag set ...................................................20                flag NOT set ....................................................30
+Tab. 23.  LOCK PASSWORD response format when                                        Tab. 57.  LOCK EAS request format .............................. 31
+          Error_flag NOT set ..........................................20           Tab. 58.  LOCK EAS response format when Error_
+Tab. 24.  64 BIT PASSWORD PROTECTION                                                          flag set ............................................................ 31
+          request format ................................................. 21       Tab. 59.  LOCK EAS response format when Error_
+Tab. 25.  64 BIT PASSWORD PROTECTION                                                          flag NOT set ....................................................31
+          response format when Error_flag set .............. 21                     Tab. 60.  EAS ALARM Request format .......................... 31
+Tab. 26.  64 BIT PASSWORD PROTECTION                                                Tab. 61.  EAS ALARM Response format (Option flag
+          response format when Error_flag NOT set ...... 21                                   logic 0) ............................................................ 31
+Tab. 27.  Memory organization .......................................21             Tab. 62.  EAS ALARM Response format (Option flag
+Tab. 28.  POTECT PAGE request format .......................22                                logic 1) ............................................................ 32
+Tab. 29.  Extended Protection status byte ......................22                  Tab. 63.  PASSWORD PROTECT EAS/AFI request
+Tab. 30.  Protection status bits definition ....................... 23                        format .............................................................. 32
+Tab. 31.  POTECT PAGE response format when                                          Tab. 64.  PASSWORD PROTECT EAS/AFI
+          Error_flag set ...................................................23                response format when Error_flag set .............. 32
+Tab. 32.  POTECT PAGE response format when                                          Tab. 65.  PASSWORD PROTECT EAS/AFI
+          Error_flag NOT set ..........................................23                     response format when Error_flag NOT set ...... 33
+Tab. 33.  LOCK PAGE PROTECTION CONDITION                                            Tab. 66.  WRITE EAS ID request format ........................33
+          request format ................................................. 23       Tab. 67.  WRITE EAS ID response format when
+Tab. 34.  LOCK PAGE PROTECTION CONDITION                                                      Error_flag set ...................................................33
+          response format when Error_flag set .............. 23                     Tab. 68.  WRITE EAS ID response format when
+Tab. 35.  LOCK PAGE PROTECTION CONDITION                                                      Error_flag NOT set ..........................................33
+          response format when Error_flag NOT set ...... 24                         Tab. 69.  GET NXP SYSTEM INFORMATION
+Tab. 36.  DESTROY request format ...............................24                            request format ................................................. 33
+Tab. 37.  DESTROY response format when Error_                                       Tab. 70.  GET NXP SYSTEM INFORMATION
+          flag set ............................................................ 24            response format when Error_flag set .............. 33
+Tab. 38.  DESTROY response format when Error_                                       Tab. 71.  GET NXP SYSTEM INFORMATION
+          flag NOT set ....................................................24                 response format when Error_flag NOT set ...... 34
+
+SL2S2602            All information provided in this document is subject to legal disclaimers.  © NXP B.V. 2021. All rights reserved.
+
+Product data sheet           Rev. 4.2 -- 1 December 2021                                                             51 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                              SL2S2602
+
+                                                                                                         ICODE SLIX2
+
+Tab. 72.  PP conditions bits ........................................... 34        Tab. 79.  COUNTER BLOCK data structure .................. 37
+Tab. 73.  Lock bits .......................................................... 34  Tab. 80.  Preset counter data structure ..........................37
+Tab. 74.  Feature flags bits ............................................ 34       Tab. 81.  Increment counter data structure .................... 38
+Tab. 75.  STAY PERSISTENT QUIET request format .... 36                             Tab. 82.  Limiting values (Wafer)[1][2] ............................40
+Tab. 76.  READ SIGNATURE request format .................36                        Tab. 83.  Wafer EEPROM characteristics ...................... 41
+Tab. 77.  READ SIGNATURE response format when                                      Tab. 84.  Interface characteristics .................................. 41
+          Error_flag set ...................................................36     Tab. 85.  Marking SOT1122 ........................................... 42
+Tab. 78.  READ SIGNATURE response format when                                      Tab. 86.  Abbreviations ...................................................46
+          Error_flag NOT set ..........................................36          Tab. 87.  Revision history ...............................................48
+
+SL2S2602            All information provided in this document is subject to legal disclaimers.  © NXP B.V. 2021. All rights reserved.
+
+Product data sheet           Rev. 4.2 -- 1 December 2021                                                             52 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                              SL2S2602
+
+                                                                                                         ICODE SLIX2
+
+Figures
+
+Fig. 1.  Block diagram of ICODE SLIX2 ........................ 6        Fig. 5.  State diagram ICODE SLIX2 ...........................14
+Fig. 2.  Pin configuration for SOT1122 .......................... 7     Fig. 6.  Package outline SOT1122 ...............................43
+Fig. 3.  Pin configuration for SOT500-4 (MOA8) ........... 7            Fig. 7.  Package outline SOT500-4 ............................. 44
+Fig. 4.  Wafer SL2S2602FUD/BG layout and pin                            Fig. 8.  Wafer SL2S2602FUD/BG bare die layout ....... 45
+         configuration for the bare die ............................ 8
+
+SL2S2602            All information provided in this document is subject to legal disclaimers.  © NXP B.V. 2021. All rights reserved.
+
+Product data sheet           Rev. 4.2 -- 1 December 2021                                                             53 / 54
+COMPANY PUBLIC
+NXP Semiconductors                                                                                SL2S2602
+
+                                                                                                           ICODE SLIX2
+
+Contents
+
+1    General description ............................................ 1         9.5.3.8 DESTROY ........................................................24
+
+1.1  Contactless energy and data transfer ................1                     9.5.3.9 ENABLE PRIVACY .......................................... 24
+
+1.2  Anti-collision .......................................................1    9.5.3.10 INVENTORY READ ......................................... 25
+
+1.3  Security and privacy aspects .............................1                9.5.3.11 FAST INVENTORY READ ...............................29
+
+2    Features and benefits .........................................3           9.5.3.12 SET EAS ......................................................... 29
+
+2.1  ICODE SLIX2 RF interface (ISO/IEC                                          9.5.3.13 RESET EAS .................................................... 30
+
+     15693) ................................................................3   9.5.3.14 LOCK EAS .......................................................30
+
+2.2  EEPROM ........................................................... 3       9.5.3.15 EAS ALARM .................................................... 31
+
+2.3  Security .............................................................. 3  9.5.3.16 PASSWORD PROTECT EAS/AFI ................... 32
+
+3    Applications .........................................................4    9.5.3.17 WRITE EAS ID ................................................ 33
+
+4    Ordering information .......................................... 5          9.5.3.18 GET NXP SYSTEM INFOMATION .................. 33
+
+5    Block diagram ..................................................... 6      9.5.3.19 STAY QUIET PERSISTENT ............................ 35
+
+6    Pinning information ............................................ 7         9.5.3.20 READ SIGNATURE ......................................... 36
+
+7    Wafer Layout ....................................................... 8     9.5.3.21 16-bit counter ...................................................36
+
+7.1  Pin Description .................................................. 8       9.6   Error handling .................................................. 38
+
+8    Mechanical specification ....................................9             9.6.1 Transmission errors ......................................... 38
+
+8.1  Wafer specification ............................................ 9         9.6.2 Not supported commands or options ...............38
+
+8.1.1 Fail die identification ........................................ 10       9.6.2.1 Non-Addressed Mode ......................................38
+
+8.1.2 Map file distribution ......................................... 10        9.6.2.2 Addressed or Selected Mode .......................... 38
+
+9    Functional description ......................................11            9.6.3 Parameter out of range ................................... 38
+
+9.1  Block description ............................................. 11         9.6.3.1 Read commands ............................................. 38
+
+9.2  Memory organization ....................................... 11             9.6.3.2 Write and lock commands ............................... 38
+
+9.2.1 Unique identifier ...............................................12       9.7   Data integrity ................................................... 39
+
+9.2.2 Originality signature ......................................... 13        9.8   RF interface ..................................................... 39
+
+9.2.3 Configuration of delivered ICs ......................... 13               10    Limiting values .................................................. 40
+
+9.3  Communication principle ................................. 14               11    Characteristics .................................................. 41
+
+9.4  State diagram .................................................. 14        11.1  Wafer memory characteristics ......................... 41
+
+9.5  Supported commands ......................................15                11.2  Interface characteristics ...................................41
+
+9.5.1 Mandatory commands ..................................... 15               12    Marking ...............................................................42
+
+9.5.1.1 INVENTORY .................................................... 15       12.1  Marking SOT1122 ............................................42
+
+9.5.1.2 STAY QUIET ....................................................15       13    Package outline .................................................43
+
+9.5.2 Optional commands .........................................15             14    Bare die outline .................................................45
+
+9.5.2.1 READ SINGLE BLOCK ................................... 15                15    Abbreviations .................................................... 46
+
+9.5.2.2 WRITE SINGLE BLOCK ..................................15                 16    References ......................................................... 47
+
+9.5.2.3 LOCK BLOCK ..................................................15         17    Revision history ................................................ 48
+
+9.5.2.4 READ MULTIPLE BLOCKS .............................16                    18    Legal information .............................................. 49
+
+9.5.2.5 SELECT ........................................................... 16
+
+9.5.2.6 RESET TO READY ......................................... 16
+
+9.5.2.7 WRITE AFI ...................................................... 16
+
+9.5.2.8 LOCK AFI ........................................................ 16
+
+9.5.2.9 WRITE DSFID ................................................. 16
+
+9.5.2.10 LOCK DSFID ................................................... 17
+
+9.5.2.11 GET SYSTEM INFORMATION ........................17
+
+9.5.2.12 GET MULTIPLE BLOCK SECURITY
+
+     STATUS ........................................................... 17
+
+9.5.3 Custom commands ..........................................17
+
+9.5.3.1 GET RANDOM NUMBER ................................17
+
+9.5.3.2 SET PASSWORD ............................................ 18
+
+9.5.3.3 WRITE PASSWORD ....................................... 19
+
+9.5.3.4 LOCK PASSWORD ......................................... 19
+
+9.5.3.5 64 BIT PASSWORD PROTECTION ................ 20
+
+9.5.3.6 PROTECT PAGE .............................................21
+
+9.5.3.7 LOCK PAGE PROTECTION CONDITION ....... 23
+
+                                                                                Please be aware that important notices concerning this document and the product(s)
+                                                                                described herein, have been included in section 'Legal information'.
+
+                                                                                © NXP B.V. 2021.  All rights reserved.
+
+                                                                                For more information, please visit: http://www.nxp.com
+                                                                                For sales office addresses, please send an email to: salesaddresses@nxp.com
+
+                                                                                                                                                            Date of release: 1 December 2021
+                                                                                                                                                                Document identifier: SL2S2602
+

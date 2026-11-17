@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+.venv/
+# local snapshots of earlier revisions (use git history instead once it exists)
+revisions/

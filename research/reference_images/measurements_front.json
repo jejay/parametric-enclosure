@@ -1,0 +1,524 @@
+[
+ {
+  "name": "F01 Sugimori official artwork",
+  "source": "official 2D art",
+  "D_px": 656.15,
+  "D_raw_px": 656.15,
+  "ball_centre": [
+   346.03,
+   343.95
+  ],
+  "ball_fit_rms_px": 0.87,
+  "roll_deg": 0.0,
+  "yaw_deg": -10.7,
+  "tilt_deg": 25.3,
+  "corr_px": {
+   "ring_od": -6.37146257468919,
+   "disc": 6.37146257468919,
+   "band": -6.37146257468919
+  },
+  "notes": "hand-drawn, tilted view; outline width 6.4 px; ellipses are not mutually consistent (button taller than wide, disc wider than tall) - artistic, not geometric",
+  "ring_od_px": 210.61,
+  "ring_od_minor_px": 183.16,
+  "ring_od_fit_rms_px": 1.57,
+  "ring_od_over_D": 0.321,
+  "ring_od_free_fit_over_D": 0.3172,
+  "ring_od_axis_ratio_model_vs_free": [
+   0.8735,
+   0.8906
+  ],
+  "disc_px": 136.27,
+  "disc_minor_px": 121.13,
+  "disc_fit_rms_px": 6.05,
+  "disc_over_D": 0.2077,
+  "disc_free_fit_over_D": 0.2213,
+  "disc_axis_ratio_model_vs_free": [
+   0.8835,
+   0.7838
+  ],
+  "button_px": 91.57,
+  "button_minor_px": 79.31,
+  "button_fit_rms_px": 1.22,
+  "button_over_D": 0.1396,
+  "button_free_fit_over_D": 0.1376,
+  "button_axis_ratio_model_vs_free": [
+   0.8662,
+   0.8883
+  ],
+  "band_tilt_scale": 1.1062,
+  "band_f-0.62_px": 42.03,
+  "band_f-0.62_over_D": 0.0641,
+  "band_f+0.50_px": 33.78,
+  "band_f+0.50_over_D": 0.0515,
+  "band_over_D": 0.0578,
+  "band_centre_offset_over_D": 0.1933
+ },
+ {
+  "name": "F02 Pokemon GO item sprite",
+  "source": "official 3D render",
+  "D_px": 180.02,
+  "D_raw_px": 180.02,
+  "ball_centre": [
+   92.58,
+   92.64
+  ],
+  "ball_fit_rms_px": 0.16,
+  "roll_deg": 0.0,
+  "yaw_deg": 15.5,
+  "tilt_deg": 19.8,
+  "corr_px": {},
+  "notes": "186 px sprite, +/-0.5 px edges => +/-5 % on the band, +/-2 % on the ring; 75 % column is inside the button ring, f=+0.8 used on that side",
+  "ring_od_px": 64.7,
+  "ring_od_minor_px": 57.69,
+  "ring_od_fit_rms_px": 0.35,
+  "ring_od_over_D": 0.3594,
+  "ring_od_free_fit_over_D": 0.3634,
+  "ring_od_axis_ratio_model_vs_free": [
+   0.8917,
+   0.8729
+  ],
+  "disc_px": 46.18,
+  "disc_minor_px": 41.34,
+  "disc_fit_rms_px": 0.1,
+  "disc_over_D": 0.2565,
+  "disc_free_fit_over_D": 0.2559,
+  "disc_axis_ratio_model_vs_free": [
+   0.8952,
+   0.8993
+  ],
+  "button_px": 23.9,
+  "button_minor_px": 21.17,
+  "button_fit_rms_px": 0.24,
+  "button_over_D": 0.1327,
+  "button_free_fit_over_D": 0.1344,
+  "button_axis_ratio_model_vs_free": [
+   0.8857,
+   0.8643
+  ],
+  "band_tilt_scale": 1.0631,
+  "band_f-0.50_px": 10.75,
+  "band_f-0.50_over_D": 0.0597,
+  "band_f-0.70_px": 9.81,
+  "band_f-0.70_over_D": 0.0545,
+  "band_f+0.80_px": 9.72,
+  "band_f+0.80_over_D": 0.054,
+  "band_over_D": 0.0561,
+  "band_centre_offset_over_D": 0.1437
+ },
+ {
+  "name": "F03 Let's Go in-game model (screenshot)",
+  "source": "official game 3D model",
+  "D_px": 212.17,
+  "D_raw_px": 212.17,
+  "ball_centre": [
+   805.24,
+   505.82
+  ],
+  "ball_fit_rms_px": 0.88,
+  "roll_deg": 0.0,
+  "yaw_deg": 0.1,
+  "tilt_deg": 5.4,
+  "corr_px": {},
+  "notes": "210 px ball in a JPEG screenshot; button is glowing so only D, band and ring OD are usable",
+  "ring_od_px": 75.13,
+  "ring_od_minor_px": 74.75,
+  "ring_od_fit_rms_px": 0.4,
+  "ring_od_over_D": 0.3541,
+  "ring_od_free_fit_over_D": 0.3584,
+  "ring_od_axis_ratio_model_vs_free": [
+   0.995,
+   0.9771
+  ],
+  "disc_over_D": null,
+  "button_over_D": null,
+  "band_tilt_scale": 1.0044,
+  "band_25pct_px": 21.41,
+  "band_25pct_over_D": 0.1009,
+  "band_75pct_px": 21.28,
+  "band_75pct_over_D": 0.1003,
+  "band_over_D": 0.1006,
+  "band_centre_offset_over_D": 0.0477
+ },
+ {
+  "name": "F04 TWC die-cast replica (Dusk Ball), front photo",
+  "source": "official replica, photo",
+  "D_px": 1875.91,
+  "D_raw_px": 1875.91,
+  "ball_centre": [
+   1226.27,
+   1091.25
+  ],
+  "ball_fit_rms_px": 1.58,
+  "roll_deg": 0.0,
+  "yaw_deg": 1.2,
+  "tilt_deg": 0.6,
+  "corr_px": {},
+  "notes": "straight-on studio photo, 1876 px ball; ring/disc/button are separated by shadow grooves",
+  "ring_od_px": 701.82,
+  "ring_od_minor_px": 701.59,
+  "ring_od_fit_rms_px": 1.38,
+  "ring_od_over_D": 0.3741,
+  "ring_od_free_fit_over_D": 0.3756,
+  "ring_od_axis_ratio_model_vs_free": [
+   0.9997,
+   0.99
+  ],
+  "disc_px": 474.08,
+  "disc_minor_px": 474.01,
+  "disc_fit_rms_px": 0.79,
+  "disc_over_D": 0.2527,
+  "disc_free_fit_over_D": 0.2538,
+  "disc_axis_ratio_model_vs_free": [
+   0.9998,
+   0.9912
+  ],
+  "button_px": 310.22,
+  "button_minor_px": 310.18,
+  "button_fit_rms_px": 0.61,
+  "button_over_D": 0.1654,
+  "button_free_fit_over_D": 0.1663,
+  "button_axis_ratio_model_vs_free": [
+   0.9998,
+   0.9892
+  ],
+  "band_tilt_scale": 1.0001,
+  "band_25pct_px": 146.21,
+  "band_25pct_over_D": 0.0779,
+  "band_75pct_px": 147.24,
+  "band_75pct_over_D": 0.0785,
+  "band_over_D": 0.0782,
+  "band_centre_offset_over_D": 0.006
+ },
+ {
+  "name": "F05 TWC die-cast replica (Poke Ball) in hand",
+  "source": "official replica, photo/composite",
+  "D_px": 1881.18,
+  "D_raw_px": 1881.18,
+  "ball_centre": [
+   1751.49,
+   1608.79
+  ],
+  "ball_fit_rms_px": 0.2,
+  "roll_deg": 2.9,
+  "yaw_deg": 17.0,
+  "tilt_deg": 6.1,
+  "corr_px": {},
+  "notes": "silhouette partly hidden by fingers (circle fitted to the free arcs, -56..124 deg); 75 % column is inside the ring, f=+0.8 used; button = groove around the raised button face",
+  "ring_od_px": 706.3,
+  "ring_od_minor_px": 665.84,
+  "ring_od_fit_rms_px": 2.79,
+  "ring_od_over_D": 0.3755,
+  "ring_od_free_fit_over_D": 0.3791,
+  "ring_od_axis_ratio_model_vs_free": [
+   0.9427,
+   0.921
+  ],
+  "disc_px": 471.41,
+  "disc_minor_px": 446.07,
+  "disc_fit_rms_px": 0.83,
+  "disc_over_D": 0.2506,
+  "disc_free_fit_over_D": 0.2495,
+  "disc_axis_ratio_model_vs_free": [
+   0.9462,
+   0.9546
+  ],
+  "button_px": 310.06,
+  "button_minor_px": 292.78,
+  "button_fit_rms_px": 1.1,
+  "button_over_D": 0.1648,
+  "button_free_fit_over_D": 0.1637,
+  "button_axis_ratio_model_vs_free": [
+   0.9443,
+   0.9628
+  ],
+  "band_tilt_scale": 1.0058,
+  "band_25pct_px": 136.42,
+  "band_25pct_over_D": 0.0725,
+  "band_f+0.80_px": 131.99,
+  "band_f+0.80_over_D": 0.0702,
+  "band_over_D": 0.0713,
+  "band_centre_offset_over_D": 0.0431
+ },
+ {
+  "name": "F06 TWC MINI replica (40 mm), render",
+  "source": "official replica, render",
+  "D_px": 1565.86,
+  "D_raw_px": 1565.86,
+  "ball_centre": [
+   937.0,
+   966.0
+  ],
+  "ball_fit_rms_px": 0.33,
+  "roll_deg": 0.0,
+  "yaw_deg": -1.0,
+  "tilt_deg": 0.5,
+  "corr_px": {},
+  "notes": "CG render with visibly strong perspective; different product from F04/F05 (40 mm, thicker band)",
+  "ring_od_px": 659.1,
+  "ring_od_minor_px": 658.95,
+  "ring_od_fit_rms_px": 0.8,
+  "ring_od_over_D": 0.4209,
+  "ring_od_free_fit_over_D": 0.4217,
+  "ring_od_axis_ratio_model_vs_free": [
+   0.9998,
+   0.9949
+  ],
+  "disc_px": 437.09,
+  "disc_minor_px": 437.0,
+  "disc_fit_rms_px": 0.1,
+  "disc_over_D": 0.2791,
+  "disc_free_fit_over_D": 0.2792,
+  "disc_axis_ratio_model_vs_free": [
+   0.9998,
+   0.9996
+  ],
+  "button_px": 284.86,
+  "button_minor_px": 284.8,
+  "button_fit_rms_px": 0.27,
+  "button_over_D": 0.1819,
+  "button_free_fit_over_D": 0.1823,
+  "button_axis_ratio_model_vs_free": [
+   0.9998,
+   0.9954
+  ],
+  "band_tilt_scale": 1.0,
+  "band_f-0.60_px": 132.12,
+  "band_f-0.60_over_D": 0.0844,
+  "band_f+0.60_px": 130.45,
+  "band_f+0.60_over_D": 0.0833,
+  "band_over_D": 0.0838,
+  "band_centre_offset_over_D": 0.0034
+ },
+ {
+  "name": "F08 vector art, official clip-art style",
+  "source": "2D vector (provenance unverified)",
+  "D_px": 1135.18,
+  "D_raw_px": 1135.18,
+  "ball_centre": [
+   578.32,
+   576.0
+  ],
+  "ball_fit_rms_px": 0.72,
+  "roll_deg": 0.0,
+  "yaw_deg": 13.6,
+  "tilt_deg": -6.5,
+  "corr_px": {},
+  "notes": "all edges taken at outline centre lines; stylised, thick band",
+  "ring_od_px": 392.44,
+  "ring_od_minor_px": 377.19,
+  "ring_od_fit_rms_px": 2.56,
+  "ring_od_over_D": 0.3457,
+  "ring_od_free_fit_over_D": 0.3408,
+  "ring_od_axis_ratio_model_vs_free": [
+   0.9611,
+   0.9998
+  ],
+  "disc_px": 270.04,
+  "disc_minor_px": 259.4,
+  "disc_fit_rms_px": 1.99,
+  "disc_over_D": 0.2379,
+  "disc_free_fit_over_D": 0.2332,
+  "disc_axis_ratio_model_vs_free": [
+   0.9606,
+   0.9989
+  ],
+  "button_px": 190.6,
+  "button_minor_px": 183.31,
+  "button_fit_rms_px": 1.33,
+  "button_over_D": 0.1679,
+  "button_free_fit_over_D": 0.1647,
+  "button_axis_ratio_model_vs_free": [
+   0.9618,
+   0.9994
+  ],
+  "band_tilt_scale": 1.0065,
+  "band_f-0.66_px": 136.11,
+  "band_f-0.66_over_D": 0.1199,
+  "band_f+0.74_px": 143.43,
+  "band_f+0.74_over_D": 0.1263,
+  "band_over_D": 0.1231,
+  "band_centre_offset_over_D": -0.0065
+ },
+ {
+  "name": "F09 fan 3D model (Sketchfab, JMGameDev)",
+  "source": "fan 3D model, render",
+  "D_px": 584.87,
+  "D_raw_px": 584.87,
+  "ball_centre": [
+   974.37,
+   549.45
+  ],
+  "ball_fit_rms_px": 0.55,
+  "roll_deg": 0.0,
+  "yaw_deg": -14.3,
+  "tilt_deg": 4.9,
+  "corr_px": {},
+  "notes": "low-poly silhouette; band deeply recessed, so its visible black height in this tilted view understates the shell gap slightly; 25 % column is inside the ring, f=-0.78 used",
+  "ring_od_px": 214.42,
+  "ring_od_minor_px": 205.85,
+  "ring_od_fit_rms_px": 1.84,
+  "ring_od_over_D": 0.3666,
+  "ring_od_free_fit_over_D": 0.3725,
+  "ring_od_axis_ratio_model_vs_free": [
+   0.96,
+   0.9287
+  ],
+  "disc_px": 155.53,
+  "disc_minor_px": 148.8,
+  "disc_fit_rms_px": 0.33,
+  "disc_over_D": 0.2659,
+  "disc_free_fit_over_D": 0.2664,
+  "disc_axis_ratio_model_vs_free": [
+   0.9567,
+   0.9534
+  ],
+  "button_px": 82.28,
+  "button_minor_px": 78.51,
+  "button_fit_rms_px": 0.3,
+  "button_over_D": 0.1407,
+  "button_free_fit_over_D": 0.1436,
+  "button_axis_ratio_model_vs_free": [
+   0.9542,
+   0.9556
+  ],
+  "band_tilt_scale": 1.0037,
+  "band_f-0.78_px": 61.4,
+  "band_f-0.78_over_D": 0.105,
+  "band_75pct_px": 65.22,
+  "band_75pct_over_D": 0.1115,
+  "band_over_D": 0.1082,
+  "band_centre_offset_over_D": 0.0399
+ },
+ {
+  "name": "F10 fan 3D print (Printables, Gonz Heredia)",
+  "source": "fan 3D print, phone photo",
+  "D_px": 1569.17,
+  "D_raw_px": 1569.17,
+  "ball_centre": [
+   1513.52,
+   1078.34
+  ],
+  "ball_fit_rms_px": 2.29,
+  "roll_deg": 0.0,
+  "yaw_deg": -2.3,
+  "tilt_deg": 0.8,
+  "corr_px": {},
+  "notes": "close-up phone photo (strong perspective); the white part is ONE big button (reported as 'disc'), its faint raised centre is not a separate part; the band has the parting seam in its middle",
+  "ring_od_px": 576.0,
+  "ring_od_minor_px": 575.38,
+  "ring_od_fit_rms_px": 2.26,
+  "ring_od_over_D": 0.3671,
+  "ring_od_free_fit_over_D": 0.3694,
+  "ring_od_axis_ratio_model_vs_free": [
+   0.9989,
+   0.9866
+  ],
+  "disc_px": 422.25,
+  "disc_minor_px": 421.58,
+  "disc_fit_rms_px": 0.99,
+  "disc_over_D": 0.2691,
+  "disc_free_fit_over_D": 0.27,
+  "disc_axis_ratio_model_vs_free": [
+   0.9984,
+   0.9921
+  ],
+  "button_over_D": null,
+  "band_tilt_scale": 1.0001,
+  "band_f-0.62_px": 175.44,
+  "band_f-0.62_over_D": 0.1118,
+  "band_f+0.62_px": 170.01,
+  "band_f+0.62_over_D": 0.1083,
+  "band_over_D": 0.1101,
+  "band_centre_offset_over_D": 0.0049
+ },
+ {
+  "name": "F11 TV anime EP001 (Pokedex screen)",
+  "source": "official anime frame",
+  "D_px": 160.09,
+  "D_raw_px": 160.09,
+  "ball_centre": [
+   328.53,
+   247.66
+  ],
+  "ball_fit_rms_px": 0.18,
+  "roll_deg": 0.0,
+  "yaw_deg": -9.7,
+  "tilt_deg": 10.8,
+  "corr_px": {},
+  "notes": "160 px, blurry TV frame: +/-1 px = +/-8 % on the band, +/-2 % on the ring; right half of the band is merged with a drawn shadow, so only the left side is measured",
+  "ring_od_px": 54.61,
+  "ring_od_minor_px": 52.63,
+  "ring_od_fit_rms_px": 0.59,
+  "ring_od_over_D": 0.3411,
+  "ring_od_free_fit_over_D": 0.3389,
+  "ring_od_axis_ratio_model_vs_free": [
+   0.9638,
+   0.9805
+  ],
+  "disc_px": 29.37,
+  "disc_minor_px": 28.28,
+  "disc_fit_rms_px": 0.17,
+  "disc_over_D": 0.1834,
+  "disc_free_fit_over_D": 0.1811,
+  "disc_axis_ratio_model_vs_free": [
+   0.963,
+   0.9875
+  ],
+  "button_px": 18.66,
+  "button_minor_px": 17.95,
+  "button_fit_rms_px": 0.17,
+  "button_over_D": 0.1166,
+  "button_free_fit_over_D": 0.1147,
+  "button_axis_ratio_model_vs_free": [
+   0.9622,
+   0.9923
+  ],
+  "band_tilt_scale": 1.0182,
+  "band_f-0.70_px": 12.18,
+  "band_f-0.70_over_D": 0.0761,
+  "band_over_D": 0.0761,
+  "band_centre_offset_over_D": 0.119
+ },
+ {
+  "name": "F12 Smash Bros. Wii U trophy render",
+  "source": "official game 3D model (Nintendo)",
+  "D_px": 236.34,
+  "D_raw_px": 236.34,
+  "ball_centre": [
+   254.26,
+   202.14
+  ],
+  "ball_fit_rms_px": 0.3,
+  "roll_deg": 11.0,
+  "yaw_deg": 22.1,
+  "tilt_deg": -16.2,
+  "corr_px": {},
+  "notes": "low-poly game model, strongly tilted and rolled; button is a small protruding stub that cannot be fitted as a circle here",
+  "ring_od_px": 92.87,
+  "ring_od_minor_px": 80.64,
+  "ring_od_fit_rms_px": 0.18,
+  "ring_od_over_D": 0.3929,
+  "ring_od_free_fit_over_D": 0.3935,
+  "ring_od_axis_ratio_model_vs_free": [
+   0.8684,
+   0.866
+  ],
+  "disc_px": 68.55,
+  "disc_minor_px": 61.33,
+  "disc_fit_rms_px": 0.63,
+  "disc_over_D": 0.2901,
+  "disc_free_fit_over_D": 0.2903,
+  "disc_axis_ratio_model_vs_free": [
+   0.8946,
+   0.8928
+  ],
+  "button_over_D": null,
+  "band_tilt_scale": 1.0413,
+  "band_f-0.55_px": 14.12,
+  "band_f-0.55_over_D": 0.0598,
+  "band_f+0.80_px": 14.54,
+  "band_f+0.80_over_D": 0.0615,
+  "band_over_D": 0.0606,
+  "band_centre_offset_over_D": -0.1144
+ }
+]

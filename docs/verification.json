@@ -1,0 +1,1135 @@
+[
+ {
+  "name": "watertight:bowl",
+  "ok": true,
+  "detail": "solids=1 valid=True watertight=True winding=True V_cad=32128 V_mesh=32055 mm3 tris=18636",
+  "data": {
+   "volume_mm3": 32127.596689331807,
+   "mass_g_petg": 40.8020477954514,
+   "bbox": [
+    96.90925128165767,
+    99.86032772227264,
+    43.60837597880065
+   ],
+   "triangles": 18636,
+   "section": "Watertight printable solids"
+  }
+ },
+ {
+  "name": "watertight:band",
+  "ok": true,
+  "detail": "solids=1 valid=True watertight=True winding=True V_cad=4610 V_mesh=4583 mm3 tris=5072",
+  "data": {
+   "volume_mm3": 4609.536781779487,
+   "mass_g_petg": 5.8541117128599485,
+   "bbox": [
+    94.506813312538,
+    97.64102950099074,
+    8.861139864176746
+   ],
+   "triangles": 5072,
+   "section": "Watertight printable solids"
+  }
+ },
+ {
+  "name": "watertight:lid",
+  "ok": true,
+  "detail": "solids=1 valid=True watertight=True winding=True V_cad=27795 V_mesh=27727 mm3 tris=10054",
+  "data": {
+   "volume_mm3": 27795.095133460563,
+   "mass_g_petg": 35.29977081949492,
+   "bbox": [
+    96.93842752903817,
+    99.84238149935835,
+    46.61259555673324
+   ],
+   "triangles": 10054,
+   "section": "Watertight printable solids"
+  }
+ },
+ {
+  "name": "watertight:bezel",
+  "ok": true,
+  "detail": "solids=1 valid=True watertight=True winding=True V_cad=2647 V_mesh=2646 mm3 tris=4326",
+  "data": {
+   "volume_mm3": 2646.8272108841315,
+   "mass_g_petg": 3.361470557822847,
+   "bbox": [
+    11.937214595921226,
+    34.01319414129687,
+    35.20797150694321
+   ],
+   "triangles": 4326,
+   "section": "Watertight printable solids"
+  }
+ },
+ {
+  "name": "watertight:lens",
+  "ok": true,
+  "detail": "solids=1 valid=True watertight=True winding=True V_cad=1176 V_mesh=1175 mm3 tris=10076",
+  "data": {
+   "volume_mm3": 1175.9539976773651,
+   "mass_g_petg": 1.4934615770502537,
+   "bbox": [
+    5.406106095451989,
+    23.740000200000004,
+    23.747379019300624
+   ],
+   "triangles": 10076,
+   "section": "Watertight printable solids"
+  }
+ },
+ {
+  "name": "watertight:cone",
+  "ok": true,
+  "detail": "solids=1 valid=True watertight=True winding=True V_cad=1098 V_mesh=1098 mm3 tris=3036",
+  "data": {
+   "volume_mm3": 1098.0139179182027,
+   "mass_g_petg": 1.3944776757561175,
+   "bbox": [
+    8.653880160610193,
+    23.868240319579073,
+    23.875637787959644
+   ],
+   "triangles": 3036,
+   "section": "Watertight printable solids"
+  }
+ },
+ {
+  "name": "watertight:stage",
+  "ok": true,
+  "detail": "solids=1 valid=True watertight=True winding=True V_cad=24133 V_mesh=24106 mm3 tris=20056",
+  "data": {
+   "volume_mm3": 24132.772990133384,
+   "mass_g_petg": 30.648621697469398,
+   "bbox": [
+    88.85896354300039,
+    94.1383918386673,
+    28.069512717425198
+   ],
+   "triangles": 20056,
+   "section": "Watertight printable solids"
+  }
+ },
+ {
+  "name": "watertight:chassis",
+  "ok": true,
+  "detail": "solids=1 valid=True watertight=True winding=True V_cad=40628 V_mesh=40612 mm3 tris=13892",
+  "data": {
+   "volume_mm3": 40628.105767435154,
+   "mass_g_petg": 51.597694324642646,
+   "bbox": [
+    89.76860102417709,
+    91.26154456716172,
+    46.360463110174024
+   ],
+   "triangles": 13892,
+   "section": "Watertight printable solids"
+  }
+ },
+ {
+  "name": "watertight:pawl",
+  "ok": true,
+  "detail": "solids=1 valid=True watertight=True winding=True V_cad=385 V_mesh=385 mm3 tris=1656",
+  "data": {
+   "volume_mm3": 385.1640381204488,
+   "mass_g_petg": 0.48915832841297,
+   "bbox": [
+    18.20000020000003,
+    12.900000200000024,
+    7.499542446538825
+   ],
+   "triangles": 1656,
+   "section": "Watertight printable solids"
+  }
+ },
+ {
+  "name": "watertight:cradle",
+  "ok": true,
+  "detail": "solids=1 valid=True watertight=True winding=True V_cad=3248 V_mesh=3248 mm3 tris=2356",
+  "data": {
+   "volume_mm3": 3247.759864985151,
+   "mass_g_petg": 4.1246550285311425,
+   "bbox": [
+    14.401204925215186,
+    28.401204925215183,
+    12.801054334563288
+   ],
+   "triangles": 2356,
+   "section": "Watertight printable solids"
+  }
+ },
+ {
+  "name": "watertight:slider",
+  "ok": true,
+  "detail": "solids=1 valid=True watertight=True winding=True V_cad=290 V_mesh=290 mm3 tris=4806",
+  "data": {
+   "volume_mm3": 289.71397646289006,
+   "mass_g_petg": 0.3679367501078704,
+   "bbox": [
+    8.000963980172148,
+    11.000963980172152,
+    10.30000020000001
+   ],
+   "triangles": 4806,
+   "section": "Watertight printable solids"
+  }
+ },
+ {
+  "name": "watertight:sleeve",
+  "ok": true,
+  "detail": "solids=1 valid=True watertight=True winding=True V_cad=74 V_mesh=74 mm3 tris=1008",
+  "data": {
+   "volume_mm3": 74.0222061038827,
+   "mass_g_petg": 0.09400820175193103,
+   "bbox": [
+    4.500000200000002,
+    6.301398880996338,
+    4.501398880996337
+   ],
+   "triangles": 1008,
+   "section": "Watertight printable solids"
+  }
+ },
+ {
+  "name": "watertight:spk_clamp",
+  "ok": true,
+  "detail": "solids=1 valid=True watertight=True winding=True V_cad=877 V_mesh=877 mm3 tris=3172",
+  "data": {
+   "volume_mm3": 876.903977925348,
+   "mass_g_petg": 1.113668051965192,
+   "bbox": [
+    3.3130071509336894,
+    51.60000020000006,
+    42.01300715093369
+   ],
+   "triangles": 3172,
+   "section": "Watertight printable solids"
+  }
+ },
+ {
+  "name": "watertight:grass_base",
+  "ok": true,
+  "detail": "solids=1 valid=True watertight=True winding=True V_cad=77646 V_mesh=77652 mm3 tris=15846",
+  "data": {
+   "volume_mm3": 77646.16815505578,
+   "mass_g_petg": 98.61063355692085,
+   "bbox": [
+    116.04833279187187,
+    76.02657224588863,
+    13.460143875840842
+   ],
+   "triangles": 15846,
+   "section": "Watertight printable solids"
+  }
+ },
+ {
+  "name": "watertight:grass_top",
+  "ok": true,
+  "detail": "solids=1 valid=True watertight=True winding=True V_cad=8412 V_mesh=8413 mm3 tris=4158",
+  "data": {
+   "volume_mm3": 8411.941038949653,
+   "mass_g_petg": 10.68316511946606,
+   "bbox": [
+    108.83784198555949,
+    76.02657224588864,
+    1.6334824976122277
+   ],
+   "triangles": 4158,
+   "section": "Watertight printable solids"
+  }
+ },
+ {
+  "name": "watertight:grass_blades",
+  "ok": true,
+  "detail": "solids=18 valid=True watertight=True winding=True V_cad=5937 V_mesh=5824 mm3 tris=107804",
+  "data": {
+   "volume_mm3": 5936.554380711604,
+   "mass_g_petg": 7.539424063503737,
+   "bbox": [
+    83.73768564906855,
+    75.02492060684074,
+    18.30460160238838
+   ],
+   "triangles": 107804,
+   "section": "Watertight printable solids"
+  }
+ },
+ {
+  "name": "watertight:grass_spot",
+  "ok": true,
+  "detail": "solids=1 valid=True watertight=True winding=True V_cad=1963 V_mesh=1963 mm3 tris=500",
+  "data": {
+   "volume_mm3": 1963.4954084936207,
+   "mass_g_petg": 2.4936391687868986,
+   "bbox": [
+    50.01554109995922,
+    50.00000020000004,
+    1.015541099959222
+   ],
+   "triangles": 500,
+   "section": "Watertight printable solids"
+  }
+ },
+ {
+  "name": "fit:closed assembly",
+  "ok": true,
+  "detail": "42 items, 0 collisions, 9 intended overlaps",
+  "data": {
+   "collisions": [],
+   "intended": [
+    [
+     "bowl",
+     "inserts",
+     184.80104625476605,
+     "heat-set inserts melt into \u00d84.0 holes"
+    ],
+    [
+     "inserts",
+     "base_screws",
+     38.87720908817365,
+     "M3 thread in the inserts"
+    ],
+    [
+     "inserts",
+     "stack_screws",
+     49.24446484502009,
+     "M3 thread in the inserts"
+    ],
+    [
+     "grass_top",
+     "turf_screws",
+     12.063715789784792,
+     "self-tapping 2.2 in \u00d81.8 pilot"
+    ],
+    [
+     "chassis",
+     "servo_screws",
+     6.220353454107787,
+     "servo screws in \u00d81.6 pilot"
+    ],
+    [
+     "chassis",
+     "clamp_screws",
+     11.812388377497626,
+     "self-tapping 2.2 in \u00d81.8 pilot"
+    ],
+    [
+     "stage",
+     "pawl_screw",
+     7.929379857660635,
+     "self-tapping 2.2 in \u00d81.8 pilot"
+    ],
+    [
+     "lock_pin",
+     "slider",
+     2.316924582022466,
+     "\u00d83 pin pressed into \u00d82.9 bore"
+    ],
+    [
+     "lid",
+     "hinge_pin",
+     1.0547897334427576,
+     "\u00d82 pin pressed into \u00d81.95 bores"
+    ]
+   ],
+   "section": "Static fit (closed)"
+  }
+ },
+ {
+  "name": "clearance:lid inner wall - stage dome",
+  "ok": true,
+  "detail": "0.20 mm (need >= 0.0)",
+  "data": {
+   "distance": 0.20000000000000018,
+   "section": "Clearances"
+  }
+ },
+ {
+  "name": "clearance:ring - lid",
+  "ok": true,
+  "detail": "3.77 mm (need >= 1.0)",
+  "data": {
+   "distance": 3.7696703154950466,
+   "section": "Clearances"
+  }
+ },
+ {
+  "name": "clearance:servo horn - stage",
+  "ok": true,
+  "detail": "1.50 mm (need >= 0.3)",
+  "data": {
+   "distance": 1.4999999999999964,
+   "section": "Clearances"
+  }
+ },
+ {
+  "name": "clearance:servo horn - pawl (latched)",
+  "ok": true,
+  "detail": "1.27 mm (need >= 0.2)",
+  "data": {
+   "distance": 1.2674964118240108,
+   "section": "Clearances"
+  }
+ },
+ {
+  "name": "clearance:cell - charger board",
+  "ok": true,
+  "detail": "5.66 mm (need >= 0.8)",
+  "data": {
+   "distance": 5.659334530794061,
+   "section": "Clearances"
+  }
+ },
+ {
+  "name": "clearance:speaker - lid hook",
+  "ok": true,
+  "detail": "2.24 mm (need >= 1.0)",
+  "data": {
+   "distance": 2.239691846448164,
+   "section": "Clearances"
+  }
+ },
+ {
+  "name": "clearance:base insert bosses - chassis",
+  "ok": true,
+  "detail": "0.00 mm (need >= 0.0)",
+  "data": {
+   "distance": 0.0,
+   "section": "Clearances"
+  }
+ },
+ {
+  "name": "clearance:reader harness and plugs - chassis",
+  "ok": true,
+  "detail": "7.20 mm (need >= 2.0)",
+  "data": {
+   "distance": 7.199999999999996,
+   "section": "Clearances"
+  }
+ },
+ {
+  "name": "clearance:reader harness - bowl (window and wall)",
+  "ok": true,
+  "detail": "1.51 mm (need >= 0.5)",
+  "data": {
+   "distance": 1.5103477920598394,
+   "section": "Clearances"
+  }
+ },
+ {
+  "name": "clearance:spring coil - lid",
+  "ok": true,
+  "detail": "0.50 mm (need >= 0.2)",
+  "data": {
+   "distance": 0.49999999999999956,
+   "section": "Clearances"
+  }
+ },
+ {
+  "name": "clearance:spring coil - stage",
+  "ok": true,
+  "detail": "1.22 mm (need >= 0.2)",
+  "data": {
+   "distance": 1.2189315071404427,
+   "section": "Clearances"
+  }
+ },
+ {
+  "name": "clearance:spring coil - sleeve",
+  "ok": true,
+  "detail": "0.40 mm (need >= 0.2)",
+  "data": {
+   "distance": 0.39999999999999764,
+   "section": "Clearances"
+  }
+ },
+ {
+  "name": "clearance:spring body leg on the stage yoke",
+  "ok": true,
+  "detail": "0.00 mm gap (seat, need <= 0.3)",
+  "data": {
+   "distance": 0.0,
+   "section": "Clearances"
+  }
+ },
+ {
+  "name": "clearance:spring lid leg along the lid wall",
+  "ok": true,
+  "detail": "leg tip is 0.39 mm from the lid wall (it bends onto the wall under load); overlap of the legs with lid or stage 0.00 mm3",
+  "data": {
+   "distance": 0.38530472887782885,
+   "section": "Clearances"
+  }
+ },
+ {
+  "name": "clearance:cell lifts straight out of its cradle",
+  "ok": true,
+  "detail": "cell lifted 3..40 mm with the stage removed: blocked by nothing",
+  "data": {
+   "blockers": [],
+   "section": "Clearances"
+  }
+ },
+ {
+  "name": "motion:lid opening sweep",
+  "ok": true,
+  "detail": "39 positions 0..95 deg, 0 collisions",
+  "data": {
+   "collisions": [],
+   "section": "Lid motion"
+  }
+ },
+ {
+  "name": "motion:end stop holds at the open angle",
+  "ok": true,
+  "detail": "overlap lid/stage at 98 deg: 9.21 mm3 (must be > 0)",
+  "data": {
+   "overlap": 9.20918622013885,
+   "section": "Lid motion"
+  }
+ },
+ {
+  "name": "motion:spring coil clears the lid",
+  "ok": true,
+  "detail": "minimum distance coil/lid over the travel: 0.50 mm",
+  "data": {
+   "distance": 0.49999999999999956,
+   "section": "Lid motion"
+  }
+ },
+ {
+  "name": "latch:engaged pawl holds the lid",
+  "ok": true,
+  "detail": "overlap when lid is forced to 1.5 deg: 8.83 mm3 (must be > 0)",
+  "data": {
+   "overlap": 8.830323261136842,
+   "section": "Latch"
+  }
+ },
+ {
+  "name": "latch:released pawl frees the lid",
+  "ok": true,
+  "detail": "max overlap lid/pawl with pawl at 24 deg: 0.000 mm3",
+  "data": {
+   "overlap": 0.0,
+   "section": "Latch"
+  }
+ },
+ {
+  "name": "latch:pawl travel",
+  "ok": true,
+  "detail": "0..28 deg, 0 collisions",
+  "data": {
+   "collisions": [],
+   "section": "Latch"
+  }
+ },
+ {
+  "name": "latch:servo horn sweep",
+  "ok": true,
+  "detail": "-50..5 deg, 0 collisions",
+  "data": {
+   "collisions": [],
+   "section": "Latch"
+  }
+ },
+ {
+  "name": "latch:horn drives pawl at release angle",
+  "ok": true,
+  "detail": "gap horn/post with both at release pose: 0.00 mm (contact expected, < 0.8)",
+  "data": {
+   "gap": 0.0,
+   "section": "Latch"
+  }
+ },
+ {
+  "name": "latch:emergency clip path is free",
+  "ok": true,
+  "detail": "blocked by nothing; path reaches the pawl lug: True",
+  "data": {
+   "blockers": [],
+   "section": "Latch"
+  }
+ },
+ {
+  "name": "ring:locked pin retains the ring",
+  "ok": true,
+  "detail": "overlap pin/ring when the ring is lifted 2 mm: 10.51 mm3 (must be > 0)",
+  "data": {
+   "overlap": 10.50633088410713,
+   "section": "Ring lock"
+  }
+ },
+ {
+  "name": "ring:released ring lifts out freely",
+  "ok": true,
+  "detail": "ring lifted 0..16 mm with the pin retracted",
+  "data": {
+   "section": "Ring lock"
+  }
+ },
+ {
+  "name": "ring:lock slider travel",
+  "ok": true,
+  "detail": "0 collisions in both end positions",
+  "data": {
+   "collisions": [],
+   "section": "Ring lock"
+  }
+ },
+ {
+  "name": "ring:seat play",
+  "ok": true,
+  "detail": "side play 0.60 mm per side before felt lining; locked lift play 0.30 mm; ring sunk 8.6 of 19.2 mm",
+  "data": {
+   "lift_play": 0.3000000000000007,
+   "section": "Ring lock"
+  }
+ },
+ {
+  "name": "assembly:core drops into the bowl",
+  "ok": true,
+  "detail": "core lifted 2..55 mm above its seat, 0 collisions with bowl, inserts or the parked harness",
+  "data": {
+   "collisions": [],
+   "section": "Assembly paths"
+  }
+ },
+ {
+  "name": "assembly:band lowers over the core",
+  "ok": true,
+  "detail": "band lifted 1..25 mm, 0 collisions",
+  "data": {
+   "collisions": [],
+   "section": "Assembly paths"
+  }
+ },
+ {
+  "name": "assembly:stage with lid lowers onto the core",
+  "ok": true,
+  "detail": "stage sub-assembly lifted 1..40 mm, lid closed and open, 0 collisions",
+  "data": {
+   "collisions": [],
+   "section": "Assembly paths"
+  }
+ },
+ {
+  "name": "assembly:USB-C plug body reaches the socket",
+  "ok": true,
+  "detail": "plug body 12.6 x 6.6 mm at the port: blocked by nothing",
+  "data": {
+   "blockers": [],
+   "section": "Assembly paths"
+  }
+ },
+ {
+  "name": "base:ball bears on the seat pads only",
+  "ok": true,
+  "detail": "bowl to the 4 pads 0.00 mm (contact), bowl to turf 0.25 mm, overlap 0.00 mm3; elsewhere the tongue keeps 0.25 mm from the ball",
+  "data": {
+   "pad": 0.0,
+   "turf": 0.2499999999999901,
+   "section": "Grass tongue and figure"
+  }
+ },
+ {
+  "name": "base:tongue is flush with the ball's flat and stays in front of it",
+  "ok": true,
+  "detail": "the underside of the tongue and the flat of the ball both lie on the table plane (gaps 0.000 and 0.000 mm) and nothing reaches below it (0.00 mm3, screw heads included); the tongue begins 10 mm in front of the ball's axis, under its belly, is 76 mm wide and 15 mm high and reaches 76 mm beyond the ball: nothing of it lies beside or behind the ball",
+  "data": {
+   "x_rear": 10.0,
+   "reach": 76.0,
+   "width": 76.0,
+   "below": 0.0,
+   "section": "Grass tongue and figure"
+  }
+ },
+ {
+  "name": "base:grass blades clear the ball",
+  "ok": true,
+  "detail": "71 blades in 18 tufts, nearest is 1.10 mm from the ball's sphere (need >= 0.6); no part of the ball stands more than 0.3 mm outside that sphere (0.00 mm3), and the ring round the button, which does stand out by that much, has its nearest blade at 1.36 mm; the tallest blade ends 11 mm below the rim of the bowl",
+  "data": {
+   "distance": 1.1018155839703472,
+   "bezel": 1.3623219461072578,
+   "section": "Grass tongue and figure"
+  }
+ },
+ {
+  "name": "base:ball lowers onto the tongue",
+  "ok": true,
+  "detail": "ball lifted 0.5..30 mm, 0 collisions with tray, turf, turf screws or blades",
+  "data": {
+   "collisions": [],
+   "section": "Grass tongue and figure"
+  }
+ },
+ {
+  "name": "base:screws engage the inserts",
+  "ok": true,
+  "detail": "4 x M3 x 16 countersunk through 7.1 mm of tongue: 4.5 mm of thread in the 5.7 mm insert, tip 1.2 mm below the top of the boss",
+  "data": {
+   "grip": 4.5,
+   "section": "Grass tongue and figure"
+  }
+ },
+ {
+  "name": "base:reader drops into its pocket, turf closes it",
+  "ok": true,
+  "detail": "board on its ledge (0.00 mm), 0.10 mm under the turf; pushed to one side of its 70.6 x 39.3 mm pocket, the antenna half still rests on 1.5 mm of ledge; reader, hall switch and turf lifted 0.5..12 mm: 0 collisions",
+  "data": {
+   "collisions": [],
+   "section": "Grass tongue and figure"
+  }
+ },
+ {
+  "name": "base:room under the reader board",
+  "ok": true,
+  "detail": "5.0 mm between tray floor and board for components (1.3 mm) and wires; the hall switch lies on the floor of the pocket, its face 3.48 mm below the board",
+  "data": {
+   "gap": 5.0,
+   "section": "Grass tongue and figure"
+  }
+ },
+ {
+  "name": "base:plug passes the cable window, window is hidden",
+  "ok": true,
+  "detail": "the 10 mm wide window lets a section of 15.5 x 6.5 mm pass (at r = 29.2 mm); the chosen 6-pin pair measures 9.25 x 3.2 mm; the window's upper edge lies 2.7 mm below the turf surface, behind the tongue",
+  "data": {
+   "hidden": 2.698703145794944,
+   "section": "Grass tongue and figure"
+  }
+ },
+ {
+  "name": "figure:clear of the ball",
+  "ok": true,
+  "detail": "dummy figure 18.4 mm, envelope of all four Pok\u00e9mon figures (\u00d852 x 78 mm) 12.4 mm from the ball",
+  "data": {
+   "figure": 18.390150278350728,
+   "envelope": 12.378728217965019,
+   "section": "Grass tongue and figure"
+  }
+ },
+ {
+  "name": "figure:stands free on a plain flat spot",
+  "ok": true,
+  "detail": "within 30.0 mm of the spot centre nothing stands above the surface (0.00 mm3) and nothing is recessed (surface 100.0 % filled): no rim, no pocket, no lock; nearest grass 8.3 mm from a \u00d845 mm foot, so a figure may stand 7 mm off centre before it touches grass; no grass within 57\u00b0 of straight ahead",
+  "data": {
+   "blade": 8.261881270503329,
+   "front_deg": 57.04665632291326,
+   "section": "Grass tongue and figure"
+  }
+ },
+ {
+  "name": "grass:tufts are scattered, not mirrored",
+  "ok": true,
+  "detail": "18 tufts (10 left of the centre line, 8 right) with 2 to 6 blades each, blades 5 to 18 mm high, tufts turned in 6 of 6 direction classes; no tuft has a twin on the other side: the nearest mirror image of another tuft is 5.0 mm away at least and 6.5 mm on average. Places, sizes, directions and leaf shapes come from a random generator with a fixed seed (LAWN_SEED)",
+  "data": {
+   "tufts": 18,
+   "twin_min": 5.026328868817456,
+   "sizes": [
+    3,
+    5,
+    3,
+    5,
+    4,
+    3,
+    6,
+    3,
+    6,
+    5,
+    5,
+    3,
+    5,
+    3,
+    4,
+    3,
+    3,
+    2
+   ],
+   "section": "Grass tongue and figure"
+  }
+ },
+ {
+  "name": "rfid:antenna to the figure's foot",
+  "ok": true,
+  "detail": "antenna copper 1.7 to 3.30 mm below the standing surface (plain side to component side of the board); revision 1 had 10.6 mm",
+  "data": {
+   "distance": 3.3000000000000043,
+   "section": "Grass tongue and figure"
+  }
+ },
+ {
+  "name": "rfid:antenna above the table",
+  "ok": true,
+  "detail": "antenna copper 11.7 mm above whatever the tongue stands on; 10 mm is the spacing to metal that TI recommends (research/02 section 3.2); revision 2 had 3.2 mm",
+  "data": {
+   "distance": 11.699999999999996,
+   "section": "Grass tongue and figure"
+  }
+ },
+ {
+  "name": "rfid:hall switch below the standing spot",
+  "ok": true,
+  "detail": "top of the hall switch 6.8 mm below the standing surface, on the axis of the spot: its element lies 8.3 to 9.3 mm below the pole face of a magnet of a classic Tonie (\u00d86 x 6 mm, set 1-2 mm into the foot). An ideal magnet on the axis gives 19 to 24 mT there; by the table of research/09 section 7 a magnet 8 mm off the axis still gives about 6 mT, and two magnets 20 mm apart with like poles down about 6.5 mT. The switch needs 4.8 mT at most. Not covered: two magnets with unlike poles down, which cancel on the axis; the reader's IRQ line is wired as the second way to wake",
+  "data": {
+   "distance": 6.780000000000001,
+   "element_to_pole": [
+    8.280000000000001,
+    9.280000000000001
+   ],
+   "on_axis_mT": [
+    18.594385318433382,
+    24.02895509509409
+   ],
+   "section": "Grass tongue and figure"
+  }
+ },
+ {
+  "name": "rfid:metal keeps away from the antenna",
+  "ok": true,
+  "detail": "distance from the antenna loop: turf_screws 9 mm, base_screws 40 mm, inserts 39 mm, speaker 36 mm, cell 66 mm, servo 57 mm, harness 66 mm (harness = its plugs)",
+  "data": {
+   "near": {
+    "turf_screws": 8.843167174265583,
+    "base_screws": 40.13453306722901,
+    "inserts": 39.334533067229,
+    "speaker": 36.266270831173145,
+    "cell": 65.95611204413898,
+    "servo": 56.743478920489174,
+    "harness": 65.50122136265857
+   },
+   "section": "Grass tongue and figure"
+  }
+ },
+ {
+  "name": "base:load estimate for a push on the tongue",
+  "ok": true,
+  "detail": "20 N on the tip with the ball held: at most 49 N of tension in each front screw (an M3 insert in PETG holds several hundred), about 1.3 MPa bending stress in the tray where the pocket begins (PETG yields near 45 MPa; revision 2 had 13 MPa); estimate by hand formula, turf not counted",
+  "data": {
+   "screw": 48.713599614303,
+   "stress": 1.337901234725647,
+   "section": "Grass tongue and figure"
+  }
+ },
+ {
+  "name": "physics:ball alone, mass and centre of gravity",
+  "ok": true,
+  "detail": "mass 268 g, CoG x=1.4 y=-0.3 z=-3.9 mm (below the ball centre: self-righting)",
+  "data": {
+   "mass": 268.2410825213166,
+   "cg": [
+    1.3544009129045476,
+    -0.2749466165113602,
+    -3.903182664222635
+   ],
+   "section": "Physics and function"
+  }
+ },
+ {
+  "name": "physics:ball alone stands on its flat with the lid open",
+  "ok": true,
+  "detail": "CoG with open lid x=-6.8 y=-0.3; flat radius 17.1 mm -> tipping margin 10.2 mm",
+  "data": {
+   "cg_open": [
+    -6.813061080612754,
+    -0.27206549582247985,
+    -0.6140809800143366
+   ],
+   "margin": 10.240231006196254,
+   "section": "Physics and function"
+  }
+ },
+ {
+  "name": "physics:device stands on the ball's flat and the tongue",
+  "ok": true,
+  "detail": "mass 406 g; CoG closed x=23.6, open x=18.3, with a 50 g figure x=30.7 mm; distance of the CoG from the edge of the standing area (flat of the ball and underside of the tongue together): closed 31 mm, lid open 28 mm, closed with a figure on the spot 35 mm",
+  "data": {
+   "mass": 406.3679444299941,
+   "cg": [
+    23.64478102871828,
+    -0.14815293438982752,
+    -15.854393850780472
+   ],
+   "cg_open": [
+    18.253487555346844,
+    -0.14625112362189438,
+    -13.68327723494536
+   ],
+   "margins": {
+    "closed": 31.192206158477255,
+    "lid open": 27.94365860807475,
+    "closed with a figure on the spot": 35.455634292658495
+   },
+   "section": "Physics and function"
+  }
+ },
+ {
+  "name": "physics:spring opens the lid",
+  "ok": true,
+  "detail": "lid 35 g, gravity torque 14.7 N mm; spring 33.1 N mm closed (80 % of Mn), 5.8 N mm at 95 deg; net opening torque with a -20 % spring: 11.8 N mm",
+  "data": {
+   "lid_mass": 35.29977081949492,
+   "gravity_torque": 14.710054552644193,
+   "spring_closed": 33.12,
+   "spring_open": 5.76,
+   "section": "Physics and function"
+  }
+ },
+ {
+  "name": "physics:latch load",
+  "ok": true,
+  "detail": "force on the pawl nose with a +20 % spring: 0.32 N at 78 mm from the hinge",
+  "data": {
+   "latch_force": 0.32267826035376157,
+   "section": "Physics and function"
+  }
+ },
+ {
+  "name": "audio:slit open area",
+  "ok": true,
+  "detail": "134 mm2 of slits = 16 % of the cone area (855 mm2)",
+  "data": {
+   "slit_area": 134.3484645015155,
+   "section": "Physics and function"
+  }
+ },
+ {
+  "name": "print:bowl",
+  "ok": true,
+  "detail": "97 x 100 x 44 mm, PETG white; overhang area needing support ~3531 mm2; rim on the bed (dome up), tree supports inside only",
+  "data": {
+   "extents": [
+    96.68863339252371,
+    99.52981214999922,
+    43.50000000000001
+   ],
+   "support_area": 3531.1740127795497,
+   "section": "Printability"
+  }
+ },
+ {
+  "name": "print:band",
+  "ok": true,
+  "detail": "94 x 97 x 9 mm, PETG black; overhang area needing support ~77 mm2; upside down: lid seat on the bed, no supports",
+  "data": {
+   "extents": [
+    94.3861179485889,
+    97.31713495609483,
+    8.800000000000013
+   ],
+   "support_area": 77.2630093403999,
+   "section": "Printability"
+  }
+ },
+ {
+  "name": "print:lid",
+  "ok": true,
+  "detail": "97 x 100 x 46 mm, PETG red; overhang area needing support ~2756 mm2; rim on the bed (dome up), supports inside only (hook, pole)",
+  "data": {
+   "extents": [
+    96.82583197230493,
+    99.63676032402662,
+    46.5
+   ],
+   "support_area": 2755.6146005945207,
+   "section": "Printability"
+  }
+ },
+ {
+  "name": "print:bezel",
+  "ok": true,
+  "detail": "35 x 34 x 12 mm, PETG black; overhang area needing support ~4 mm2; face down on the bed, no supports",
+  "data": {
+   "extents": [
+    35.199999999999996,
+    33.99214555371158,
+    11.921271782034989
+   ],
+   "support_area": 3.681014812599674,
+   "section": "Printability"
+  }
+ },
+ {
+  "name": "print:lens",
+  "ok": true,
+  "detail": "24 x 24 x 5 mm, PETG natural / clear; overhang area needing support ~291 mm2; flange on the bed, button up, 100 % infill",
+  "data": {
+   "extents": [
+    23.74,
+    23.673618145081214,
+    5.4
+   ],
+   "support_area": 291.4629570718069,
+   "section": "Printability"
+  }
+ },
+ {
+  "name": "print:cone",
+  "ok": true,
+  "detail": "24 x 24 x 9 mm, PETG white; overhang area needing support ~0 mm2; large end on the bed",
+  "data": {
+   "extents": [
+    23.8,
+    23.73345037291209,
+    8.62127178203499
+   ],
+   "support_area": 0.0,
+   "section": "Printability"
+  }
+ },
+ {
+  "name": "print:stage",
+  "ok": true,
+  "detail": "89 x 94 x 28 mm, PETG black; overhang area needing support ~298 mm2; upside down: deck on the bed, supports for the hinge yoke only",
+  "data": {
+   "extents": [
+    88.82586771529472,
+    94.09145474133425,
+    28.00000000000001
+   ],
+   "support_area": 298.14882772178703,
+   "section": "Printability"
+  }
+ },
+ {
+  "name": "print:chassis",
+  "ok": true,
+  "detail": "90 x 91 x 46 mm, PETG any colour; overhang area needing support ~586 mm2; plate on the bed, supports under the baffle disc and shelf",
+  "data": {
+   "extents": [
+    89.68137361743621,
+    91.10939149640143,
+    46.311513130556904
+   ],
+   "support_area": 586.1148933638224,
+   "section": "Printability"
+  }
+ },
+ {
+  "name": "print:pawl",
+  "ok": true,
+  "detail": "18 x 13 x 7 mm, PETG any colour; overhang area needing support ~13 mm2; upside down: top face on the bed",
+  "data": {
+   "extents": [
+    18.199999999999996,
+    12.887869697974505,
+    7.4981938965756605
+   ],
+   "support_area": 12.645773500070035,
+   "section": "Printability"
+  }
+ },
+ {
+  "name": "print:cradle",
+  "ok": true,
+  "detail": "14 x 28 x 13 mm, PETG red or black; overhang area needing support ~112 mm2; as assembled, no supports",
+  "data": {
+   "extents": [
+    14.399999999999999,
+    28.4,
+    12.8
+   ],
+   "support_area": 112.45516358315024,
+   "section": "Printability"
+  }
+ },
+ {
+  "name": "print:slider",
+  "ok": true,
+  "detail": "8 x 11 x 10 mm, PETG any colour; overhang area needing support ~75 mm2; cap on the bed (upside down)",
+  "data": {
+   "extents": [
+    7.999999999999998,
+    11.0,
+    10.3
+   ],
+   "support_area": 75.01103526158292,
+   "section": "Printability"
+  }
+ },
+ {
+  "name": "print:sleeve",
+  "ok": true,
+  "detail": "4 x 4 x 6 mm, PETG any colour; overhang area needing support ~0 mm2; standing on one end",
+  "data": {
+   "extents": [
+    4.48741708731531,
+    4.5,
+    6.300000000000001
+   ],
+   "support_area": 0.0,
+   "section": "Printability"
+  }
+ },
+ {
+  "name": "print:spk_clamp",
+  "ok": true,
+  "detail": "42 x 52 x 3 mm, PETG any colour; overhang area needing support ~206 mm2; flat on the bed",
+  "data": {
+   "extents": [
+    42.0,
+    51.582306928292525,
+    3.300000000000005
+   ],
+   "support_area": 205.51576688188055,
+   "section": "Printability"
+  }
+ },
+ {
+  "name": "print:grass_base",
+  "ok": true,
+  "detail": "116 x 76 x 13 mm, PETG dark green; overhang area needing support ~90 mm2; sole on the bed, no supports",
+  "data": {
+   "extents": [
+    115.89374429288486,
+    76.0,
+    13.400000000000006
+   ],
+   "support_area": 90.3285558387323,
+   "section": "Printability"
+  }
+ },
+ {
+  "name": "print:grass_top",
+  "ok": true,
+  "detail": "109 x 76 x 2 mm, PETG dark green; overhang area needing support ~214 mm2; underside on the bed, no supports; one job with the two parts below",
+  "data": {
+   "extents": [
+    108.7133699906629,
+    76.0,
+    1.600000000000005
+   ],
+   "support_area": 213.50000000000006,
+   "section": "Printability"
+  }
+ },
+ {
+  "name": "print:grass_blades",
+  "ok": true,
+  "detail": "84 x 75 x 18 mm, PETG bright green; overhang area needing support ~15 mm2; stands on the grass top: load the three grass-top files as one object",
+  "data": {
+   "extents": [
+    83.63528427924726,
+    74.91336017434426,
+    17.961238616973308
+   ],
+   "support_area": 15.211253685940374,
+   "section": "Printability"
+  }
+ },
+ {
+  "name": "print:grass_spot",
+  "ok": true,
+  "detail": "50 x 50 x 1 mm, PETG bright green; overhang area needing support ~0 mm2; lies in the grass top, level with its surface: same object",
+  "data": {
+   "extents": [
+    50.0,
+    49.860189859059005,
+    1.0
+   ],
+   "support_area": 0.0,
+   "section": "Printability"
+  }
+ }
+]

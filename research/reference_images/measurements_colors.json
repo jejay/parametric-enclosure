@@ -1,0 +1,290 @@
+{
+ "F01": {
+  "name": "F01 Sugimori official artwork",
+  "red": {
+   "median": "#ED5E64",
+   "share_of_ball": 0.56,
+   "lum_p15_p85": [
+    106,
+    172
+   ]
+  },
+  "black": {
+   "median": "#393A39",
+   "share_of_ball": 0.1,
+   "lum_p15_p85": [
+    49,
+    80
+   ]
+  },
+  "white": {
+   "median": "#D5D6DC",
+   "share_of_ball": 0.277,
+   "lum_p15_p85": [
+    184,
+    237
+   ]
+  }
+ },
+ "F02": {
+  "name": "F02 Pokemon GO item sprite",
+  "red": {
+   "median": "#FF2322",
+   "share_of_ball": 0.614,
+   "lum_p15_p85": [
+    71,
+    131
+   ]
+  },
+  "black": {
+   "median": "#141A22",
+   "share_of_ball": 0.1,
+   "lum_p15_p85": [
+    15,
+    36
+   ]
+  },
+  "white": {
+   "median": "#E7F3F7",
+   "share_of_ball": 0.248,
+   "lum_p15_p85": [
+    228,
+    251
+   ]
+  }
+ },
+ "F03": {
+  "name": "F03 Let's Go in-game model (screenshot)",
+  "red": {
+   "median": "#FD7F7A",
+   "share_of_ball": 0.417,
+   "lum_p15_p85": [
+    150,
+    181
+   ]
+  },
+  "black": {
+   "median": "#525B4F",
+   "share_of_ball": 0.005,
+   "lum_p15_p85": [
+    79,
+    89
+   ]
+  },
+  "white": {
+   "median": "#D4DCD6",
+   "share_of_ball": 0.396,
+   "lum_p15_p85": [
+    197,
+    247
+   ]
+  }
+ },
+ "F05": {
+  "name": "F05 TWC die-cast replica (Poke Ball) in hand",
+  "red": {
+   "median": "#D24040",
+   "share_of_ball": 0.454,
+   "lum_p15_p85": [
+    65,
+    134
+   ]
+  },
+  "black": {
+   "median": "#2A2A2A",
+   "share_of_ball": 0.141,
+   "lum_p15_p85": [
+    24,
+    53
+   ]
+  },
+  "white": {
+   "median": "#B9B9B9",
+   "share_of_ball": 0.387,
+   "lum_p15_p85": [
+    167,
+    215
+   ]
+  }
+ },
+ "F06": {
+  "name": "F06 TWC MINI replica (40 mm), render",
+  "red": {
+   "median": "#E04848",
+   "share_of_ball": 0.378,
+   "lum_p15_p85": [
+    81,
+    142
+   ]
+  },
+  "black": {
+   "median": "#282727",
+   "share_of_ball": 0.166,
+   "lum_p15_p85": [
+    31,
+    55
+   ]
+  },
+  "white": {
+   "median": "#D5D5D5",
+   "share_of_ball": 0.451,
+   "lum_p15_p85": [
+    194,
+    247
+   ]
+  }
+ },
+ "F08": {
+  "name": "F08 vector art, official clip-art style",
+  "red": {
+   "median": "#EF4036",
+   "share_of_ball": 0.283,
+   "lum_p15_p85": [
+    115,
+    115
+   ]
+  },
+  "black": {
+   "median": "#58585A",
+   "share_of_ball": 0.195,
+   "lum_p15_p85": [
+    32,
+    88
+   ]
+  },
+  "white": {
+   "median": "#FFFFFF",
+   "share_of_ball": 0.521,
+   "lum_p15_p85": [
+    158,
+    255
+   ]
+  }
+ },
+ "F09": {
+  "name": "F09 fan 3D model (Sketchfab, JMGameDev)",
+  "red": {
+   "median": "#CE2935",
+   "share_of_ball": 0.442,
+   "lum_p15_p85": [
+    71,
+    109
+   ]
+  },
+  "black": {
+   "median": "#181516",
+   "share_of_ball": 0.14,
+   "lum_p15_p85": [
+    14,
+    48
+   ]
+  },
+  "white": {
+   "median": "#D9DAE5",
+   "share_of_ball": 0.336,
+   "lum_p15_p85": [
+    182,
+    252
+   ]
+  }
+ },
+ "F10": {
+  "name": "F10 fan 3D print (Printables, Gonz Heredia)",
+  "red": {
+   "median": "#DF413B",
+   "share_of_ball": 0.388,
+   "lum_p15_p85": [
+    102,
+    126
+   ]
+  },
+  "black": {
+   "median": "#191B1C",
+   "share_of_ball": 0.126,
+   "lum_p15_p85": [
+    8,
+    55
+   ]
+  },
+  "white": {
+   "median": "#B8C2CA",
+   "share_of_ball": 0.398,
+   "lum_p15_p85": [
+    173,
+    214
+   ]
+  }
+ },
+ "F11": {
+  "name": "F11 TV anime EP001 (Pokedex screen)",
+  "red": {
+   "median": "#C63655",
+   "share_of_ball": 0.42,
+   "lum_p15_p85": [
+    99,
+    102
+   ]
+  },
+  "black": {
+   "median": "#47374C",
+   "share_of_ball": 0.086,
+   "lum_p15_p85": [
+    40,
+    74
+   ]
+  },
+  "white": {
+   "median": "#BDC4DC",
+   "share_of_ball": 0.195,
+   "lum_p15_p85": [
+    193,
+    219
+   ]
+  }
+ },
+ "F12": {
+  "name": "F12 Smash Bros. Wii U trophy render",
+  "red": {
+   "median": "#FE3118",
+   "share_of_ball": 0.244,
+   "lum_p15_p85": [
+    99,
+    116
+   ]
+  },
+  "black": {
+   "median": "#020200",
+   "share_of_ball": 0.103,
+   "lum_p15_p85": [
+    0,
+    35
+   ]
+  },
+  "white": {
+   "median": "#EEEDE9",
+   "share_of_ball": 0.623,
+   "lum_p15_p85": [
+    196,
+    255
+   ]
+  }
+ },
+ "F07": {
+  "name": "F07 fan vector (Commons 'Poke Ball.svg')",
+  "svg_fills": [
+   "maroon",
+   "#f2f2f2",
+   "black",
+   "#999"
+  ]
+ },
+ "F13": {
+  "name": "F13 fan icon (Commons 'Poke Ball icon.svg')",
+  "svg_fills": [
+   "#FFFFFF",
+   "#DFDFDF",
+   "#FF1C1C",
+   "#DF1818"
+  ]
+ }
+}

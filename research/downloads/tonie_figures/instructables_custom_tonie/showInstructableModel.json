@@ -1,0 +1,302 @@
+{
+    "favorites": 6,
+    "featureFlag": true,
+    "keywords": ["Tonie"],
+    "commentingEnabled": true,
+    "urlString": "Custom-Tonie-Audio-Figure",
+    "downloadUrl": "https://content.instructables.com/FSU/KESH/MG8A1RVM/FSUKESHMG8A1RVM.jpg",
+    "publishDate": "2025-10-05 16:06:58.0",
+    "usesAutodeskSoftware": false,
+    "showUrl": "/Custom-Tonie-Audio-Figure/",
+    "title": "Custom Tonie Audio Figure",
+    "type": "Step by Step",
+    "locale": "en_US",
+    "homePageFeatureGiftSent": false,
+    "indexTags": ["internal"],
+    "supplies": "<ol><li data-list=\"bullet\">Creative Tonie<\/li><\/ol><p class=\"ql-indent-2\"><a href=\"https://www.amazon.com/Tonies-DIY-Creative-Audio-Character\" rel=\"nofollow noopener noreferrer\">https://www.amazon.com/Tonies-DIY-Creative-Audio-Character<\/a><\/p><ol><li data-list=\"bullet\">Heatgun <em>or <\/em>some way to heat water safely<\/li><\/ol><p class=\"ql-indent-2\"><a href=\"https://www.amazon.com/SEEKONE-Dual-Temperature-Settings-Shrinking-Stripping/dp/B086WH19WH\" rel=\"nofollow noopener noreferrer\">https://www.amazon.com/SEEKONE-Dual-Temperature-Settings-Shrinking-Stripping/dp/B086WH19WH<\/a><\/p><ol><li data-list=\"bullet\">Cutting pliers/tin-snips<\/li><\/ol><p class=\"ql-indent-2\"><a href=\"https://www.amazon.com/Cutters-BOOSDEN-Precision-Artificial-Crafting/dp/B09C5S2TMD\" rel=\"nofollow noopener noreferrer\">https://www.amazon.com/Cutters-BOOSDEN-Precision-Artificial-Crafting/dp/B09C5S2TMD<\/a><\/p><ol><li data-list=\"bullet\">Flat-head screwdriver<\/li><li data-list=\"bullet\">Superglue or UHU-style glue.<\/li><li data-list=\"bullet\">3D Printer <em>or<\/em> a suitably sized toy you are willing to drill into<\/li><li data-list=\"bullet\">Paint, Varnish, Sandpaper etc for decorating your printed model<\/li><\/ol>",
+    "coverImage": {
+        "image": true,
+        "embedType": "NONE",
+        "name": "FLOLZHTMG8A1PN3.jpg",
+        "modifiedDate": "2025-10-05 16:03:37.0",
+        "width": 1436,
+        "mosaic": false,
+        "downloadUrl": "https://content.instructables.com/FSU/KESH/MG8A1RVM/FSUKESHMG8A1RVM.jpg",
+        "imageNotes": [],
+        "id": "FSUKESHMG8A1RVM",
+        "height": 1197
+    },
+    "maxStepsAllowed": 151,
+    "id": "EFOZSKMMG16DX7G",
+    "editVersion": 1440,
+    "views": 12735,
+    "hideFromSearchEngine": false,
+    "numStepsByWordCount": 2,
+    "featuredBy": "Penolopy Bulnick",
+    "comments": 0,
+    "author": {
+        "downloadUrl": "https://www.instructables.com/static/defaultIMG/user.MEDIUM.png",
+        "id": "ME2JBM5FY3KNSWO",
+        "screenName": "VitriolUK",
+        "isAdmin": false,
+        "followersCount": 0,
+        "recent": []
+    },
+    "sponsoredFlag": false,
+    "steps": [
+        {
+            "stepIndex": 0,
+            "wordCount": 180,
+            "files": [{
+                "image": true,
+                "embedType": "NONE",
+                "name": "tonie_on_player.jpg",
+                "modifiedDate": "2025-10-05 15:52:40.0",
+                "width": 1436,
+                "mosaic": false,
+                "downloadUrl": "https://content.instructables.com/FLO/LZHT/MG8A1PN3/FLOLZHTMG8A1PN3.jpg",
+                "imageNotes": [],
+                "id": "FLOLZHTMG8A1PN3",
+                "height": 1907
+            }],
+            "showUrl": "/Custom-Tonie-Audio-Figure/",
+            "id": "S5U1PXSMG16DXPH",
+            "title": "Custom Tonie Audio Figure",
+            "body": "<p><strong>Tonies <\/strong>are small plastic figurines that, when placed atop a <a href=\"https://tonies.com/\" rel=\"nofollow noopener noreferrer\">Tonie Player<\/a>, play songs or tell stories. It's a toy that lets small children choose and control the music and/or stories they can listen to.<\/p><p>These days there are hundreds of different Tonies available licensed from all sorts of properties, but that still barely scratches the surface of the myriad things your kid might become obsessed with. So what if you want a Tonie representing some property that's not commercially available, playing the songs associated with that property? In that case you just have to make your own.<\/p><p>In our case our youngest has recently become obsessed with the music from <a href=\"https://en.wikipedia.org/wiki/KPop_Demon_Hunters\" rel=\"nofollow noopener noreferrer\">Kpop Demon Hunters<\/a>, the Netflix animated musical with some surprisingly good songs - whenever its her turn to choose the music in the car we'll inevitably be listening to <em>Golden<\/em>, <em>Takedown<\/em> and the other songs from the film. She also has a Tonie Player that she loves. So my wife and I thought we'd make her a KPop Demon Hunters Tonie that played the music from the film's soundtrack.<\/p>",
+            "url": "https://www.instructables.com/Custom-Tonie-Audio-Figure/"
+        },
+        {
+            "stepIndex": 1,
+            "wordCount": 567,
+            "files": [
+                {
+                    "image": true,
+                    "embedType": "NONE",
+                    "name": "extract_tonie_1.jpg",
+                    "modifiedDate": "2025-09-30 06:32:21.0",
+                    "width": 1436,
+                    "mosaic": false,
+                    "downloadUrl": "https://content.instructables.com/FTX/BKR5/MG16DY5Z/FTXBKR5MG16DY5Z.jpg",
+                    "imageNotes": [],
+                    "id": "FTXBKR5MG16DY5Z",
+                    "height": 1907
+                },
+                {
+                    "image": true,
+                    "embedType": "NONE",
+                    "name": "extract_tonie_2.jpg",
+                    "modifiedDate": "2025-09-30 06:32:28.0",
+                    "width": 1436,
+                    "mosaic": false,
+                    "downloadUrl": "https://content.instructables.com/FJS/R40E/MG16DY64/FJSR40EMG16DY64.jpg",
+                    "imageNotes": [],
+                    "id": "FJSR40EMG16DY64",
+                    "height": 1907
+                },
+                {
+                    "image": true,
+                    "embedType": "NONE",
+                    "name": "extract_tonie_3.jpg",
+                    "modifiedDate": "2025-09-30 06:32:34.0",
+                    "width": 2532,
+                    "mosaic": false,
+                    "downloadUrl": "https://content.instructables.com/F9F/CT2A/MG16DY6C/F9FCT2AMG16DY6C.jpg",
+                    "imageNotes": [],
+                    "id": "F9FCT2AMG16DY6C",
+                    "height": 1907
+                }
+            ],
+            "showUrl": "/Custom-Tonie-Audio-Figure/step1/Extract-Chip-and-Magnets-From-Tonie/",
+            "id": "SPPUB2XMG16DXPK",
+            "title": "Extract Chip and Magnets From Tonie",
+            "body": "<p>Start by putting the Creative Tonie on your Tonie Player and ensuring it works - follow the instructions on the packaging the first time you use it, after that you should just need to put it on the player. <\/p><p>Now, you need to remove the chip and magnets from your Creative Tonie.<\/p><p>The way Tonie figurines work is that they contain an <a href=\"https://en.wikipedia.org/wiki/Near-field_communication\" rel=\"nofollow noopener noreferrer\">NFC<\/a> chip that the Tonie Player senses when the figure is placed on top of it. This tells the player what figure it is, and it then downloads the relevant sound tracks from the Tonie servers onto its internal storage (if they aren't cached there already). As such we need to remove this chip from the Creative Tonie so that we can use it in the alternate figurine we're going to be putting it into.<\/p><p><strong>Note<\/strong> The NFC chip has some delicate wiring wrapped around it. If you break any of these wires while removing it your chip <em>will not work. <\/em>Take care whenever you are getting near the chip itself, and also test it is working at every stage to ensure you haven't broken anything.<\/p><p>On a standard Creative Tonie the chip is held inside the faceplate of the model. This faceplate is a separate piece of plastic to the rest of the body and so can be pried out. However, because the plastic is normally quite rigid you'll need to use heat to soften it. If you have a heatgun then give it 15-20s or so of relatively high heat directed at the face before using the screwdriver to dig into the edge of the faceplate and pry it out. If it seems too stiff then apply more heat before retrying. Be careful not to cut yourself with the screwdriver. If you do not have a heatgun others report that putting the Tonie in a plastic bag and putting it in boiling water for 4-5 minutes also softens the plastic sufficiently.<\/p><p>Once you have removed the faceplate and can see the chip make sure it still works - hold the faceplate about 5cm above the Tonie Player and ensure it still plays.<\/p><p>Now you need to <em>carefully<\/em> remove the chip from the faceplate. I recommend using the cutting pliers to cut away the plastic on 3 of the 4 sides, staying well clear of the chip and its wires, then use the heatgun (or use tongs to hold it over a hob or other source of gentle heat) to soften the glue  if necessary and carefully remove the chip, making sure not to break any wires. Again, test the chip with the Tonie Player to ensure it still works.<\/p><p>Now you can harvest the magnets. A Tonie figurine doesn't <em>need<\/em> magnets to function, but they hold the figure in place on the player, and the Creative Tonie you've just taken apart has some available.<\/p><p>These magnets are in the feet. The easiest way to get at these is to just chop the Tonie in half using your cutting pliers and then work your way down towards the feet cutting as you go. Once you get close to the magnets you can just poke the end of the pliers into the holes and pull out the magnets. These are powerful magnets, so keep them away from delicate electronics and do not put them anywhere a child or animal could swallow them while you're working.<\/p>",
+            "url": "https://www.instructables.com/Custom-Tonie-Audio-Figure/step1/Extract-Chip-and-Magnets-From-Tonie/"
+        },
+        {
+            "stepIndex": 2,
+            "wordCount": 315,
+            "files": [],
+            "showUrl": "/Custom-Tonie-Audio-Figure/step2/Check-Magnets-Wont-Mess-With-Your-3D-Printer/",
+            "id": "SKJWST8MG8A1RTE",
+            "title": "Check Magnets Won't Mess With Your 3D Printer",
+            "body": "<p>The guide below is for how to <em>encapsulate<\/em> the chip and magnets inside your model while you print it. This is a neat trick with 3d printing that is hard to replicate with other manufacturing techniques that avoids the need to leave and fill a hole.<\/p><p>Essentially, you are going to add holes inside your model big enough to hold the magnets and chip, and then <em>pause<\/em> the printing at just the right moment to allow you to carefully drop the magnets and chips into their corresponding holes. You then resume the print and you end up with your chip and magnets nicely inside the model.<\/p><p><strong>However<\/strong>, remember that two of the objects you are going to be dropping in are powerful magnets. As such, you can only do this if the nozzle and bottom of the hot end are non-ferrous - that is, are not going to attract the magnet. Otherwise as soon as you resume the printing and your print head passes over the magnet its going to jump out of its hole and grab onto some part of your hot end.<\/p><p>This is trivial to check - take the magnet and wave it directly underneath your print head. If you feel it pulling upwards then sorry, you aren't going to be able to do this trick for the magnets, though you can still encapsulate the chip. You'll need to either model in a pair of cylindrical holes all the way to the bottom instead or just drill those holes after you're done, and then fill them with epoxy or something else once the magnets are inside.<\/p><p>You should also just check that your slicer can add pauses; if not you'd need to manually edit the Gcode afterwards to add one or watch your print very carefully and press pause at just the right moment if you want to use this encapulation trick.<\/p>",
+            "url": "https://www.instructables.com/Custom-Tonie-Audio-Figure/step2/Check-Magnets-Wont-Mess-With-Your-3D-Printer/"
+        },
+        {
+            "stepIndex": 3,
+            "wordCount": 1120,
+            "files": [
+                {
+                    "image": true,
+                    "embedType": "NONE",
+                    "name": "scale_model.png",
+                    "modifiedDate": "2025-10-05 14:40:18.0",
+                    "width": 611,
+                    "mosaic": false,
+                    "downloadUrl": "https://content.instructables.com/FR0/6ZB7/MG8A1I7F/FR06ZB7MG8A1I7F.png",
+                    "imageNotes": [],
+                    "id": "FR06ZB7MG8A1I7F",
+                    "height": 752
+                },
+                {
+                    "image": true,
+                    "embedType": "NONE",
+                    "name": "extruded.png",
+                    "modifiedDate": "2025-10-05 15:24:27.0",
+                    "width": 1297,
+                    "mosaic": false,
+                    "downloadUrl": "https://content.instructables.com/F5K/OSU9/MG8A1KS1/F5KOSU9MG8A1KS1.png",
+                    "imageNotes": [],
+                    "id": "F5KOSU9MG8A1KS1",
+                    "height": 849
+                },
+                {
+                    "image": true,
+                    "embedType": "NONE",
+                    "name": "extruded_pyramid.png",
+                    "modifiedDate": "2025-10-05 15:25:03.0",
+                    "width": 1962,
+                    "mosaic": false,
+                    "downloadUrl": "https://content.instructables.com/F6S/NT86/MG8A1KSO/F6SNT86MG8A1KSO.png",
+                    "imageNotes": [],
+                    "id": "F6SNT86MG8A1KSO",
+                    "height": 1191
+                },
+                {
+                    "image": true,
+                    "embedType": "NONE",
+                    "name": "modifiers.png",
+                    "modifiedDate": "2025-10-05 15:25:11.0",
+                    "width": 673,
+                    "mosaic": false,
+                    "downloadUrl": "https://content.instructables.com/FUJ/59EQ/MG8A1KTA/FUJ59EQMG8A1KTA.png",
+                    "imageNotes": [],
+                    "id": "FUJ59EQMG8A1KTA",
+                    "height": 667
+                },
+                {
+                    "image": true,
+                    "embedType": "NONE",
+                    "name": "chip_void.png",
+                    "modifiedDate": "2025-10-05 15:25:20.0",
+                    "width": 715,
+                    "mosaic": false,
+                    "downloadUrl": "https://content.instructables.com/F7H/56MZ/MG8A1KTX/F7H56MZMG8A1KTX.png",
+                    "imageNotes": [],
+                    "id": "F7H56MZMG8A1KTX",
+                    "height": 974
+                }
+            ],
+            "showUrl": "/Custom-Tonie-Audio-Figure/step3/Design-a-3D-Printed-Tonie-With-Space-for-the-Chip-/",
+            "id": "SLZJMZDMG16E2IC",
+            "title": "Design a 3D Printed Tonie With Space for the Chip and Magnets",
+            "body": "<p>The next two steps assume you are 3D-printing a Tonie. If you are instead modifying an existing figurine then skip to the the end of step 4.<\/p><h3>Getting Blender<\/h3><p>This guide is going to focus on <a href=\"https://www.blender.org/\" rel=\"nofollow noopener noreferrer\">Blender<\/a> as a tool for modifying an existing STL file. Blender is a powerful free and open-source 3d modelling program, but many other programs could be used if you are familiar with them. Go ahead and install it if you don't have a different tool you're already familiar with.<\/p><p>Now you need a model. Go find a suitable-looking figure from a site like <a href=\"https://www.printables.com/\" rel=\"nofollow noopener noreferrer\">Printables<\/a> or <a href=\"https://www.thingiverse.com/\" rel=\"nofollow noopener noreferrer\">Thingiverse<\/a>, and download the STL file.<\/p><h3>Scaling your model<\/h3><p>The standard Tonie figure is between 6cm and 7cm (~2.5 inches), so it's going to be helpful to scale the model inside Blender to match. In the toolbar on the right select Scene Properties-&gt;Units. Choose 'Metric' for Unit System and 'Millimeters' for Length. Now in the file menu select Import-&gt;STL and load your model. <\/p><p>Select the model and hit 'N' to bring up the Transform Properties in the top right. In the Dimensions:Z section enter the height you want your model to be in mm and hit enter. Your model probably looks really weird now - that's OK, copy the value from the Scale:Z section to the Scale:Y and Scale:X values and voila - your model is now the appropriate size.<\/p><h3>Adding a base<\/h3><p>If your model has a nice wide section at the bottom to embed the magnets in then you can skip this step; if not we need to add a circular base so it will stand securely on the player and we have somewhere to put the magnets. To do this go to the Layout tab at the top and, below it, choose Add-&gt;Mesh-&gt;Cylinder. You should see a rather blocky cylinder as well as a little floating 'Cylinder' menu - expand that and change the 'Vertices' value from the default 32 to something more like 1000 - the result should be much smoother.<\/p><p>Now we need to size and position our base. Change the X and Y Dimensions to something like 44mm, and the Z dimension to 11mm. Leave the cylinder where it is and select your model and adjust the Location values carefully until it's at just the right height to be centred and standing on the base - I recommend having the feet a millimeter or two <em>inside<\/em> the base to ensure you've got a solid contact with no gaps.<\/p><h3>Creating gaps for the magnets<\/h3><p>OK, now we're going to create a pair of voids inside the model to put the magnets in. First create a cube 8mm on each side: Add-&gt;Mesh-&gt;Cube and then change the dimensions to be 8mm each. This will fit our 6mm magnet with a bit of room to spare. However, if we were to just use this as-is the print would fail, because the printer can't print the top layer on thin air, so we need to add a pyramid to one side of the cube so that the printer can close the void a bit at a time with an overhang it can manage.<\/p><p>To do this, switch to Edit Mode (Tab) and then Face Select Mode (3) and click on the side of the cube that will be upright when you print the model - I decided to print mine lying on her back, so I selected the side she was facing; you should see it highlight just that face with a white line. Now press E for extrude and drag your mouse to pull out a new portion about 4mm (half the width of the cube) or a bit more. Hit S for scale mode and click and you should get a 'Resize' popup - enter 0 in each Scale for X, Y and Z to bring the new face to a point.<\/p><p>We now have the object that will form the hole inside our print for the magnet. If you created a base its Z Location should already be correct - set Y to 10 and X to 6. if you are using the figure as-is adjust it to be about 1.5mm from the bottom, and move its X and Y to be nicely inside the figure. Now duplicate the object by right-clicking on it in the Scene Collection in the top-right and choosing Copy and then Paste. Select the second one and adjust its Y location to -10 if you are using a base or another appropriate value if not.<\/p><p>You should now have two object embedded in your model ready to form a space for the magnets. To actually do this, select your base object (if you have one) or the figure object (if not), choose Modifiers from the right-hand tabs and select 'Add Modifier'. Using search, pick 'Boolean'. Leave it on Difference and for Object select one of your pointy cubes. Now add a second modifier and select the other cube.<\/p><p>Finally, select one of your pointy cubes in the menu in the top right and in Visibility untick every box. Do the same for the other. Ta da - you now have a model with two holes in it for magnets.<\/p><h3>Creating a gap for the chip<\/h3><p>Now we have to do the same thing, but for the chip. Same drill - create a cube ( Add-&gt;Mesh-&gt;Cube), but change the dimensions of this one to be X: 5mm, Y 5mm and Z: 13mm. Again, switch to Edit Mode (Tab) and then Face Select Mode (3) and click on the side of the cube that will be upright when you print the model. Press E and drag that face out. Press S to resize it, but now when you scale it leave the long side something like 8mm to stop any side being too steep.<\/p><p>Reposition the void inside your figure so that it's something like 50mm above the base, and add a new Boolean modifier to your figure (<em>always<\/em> to your figure in this case, even if for the magnet holes you applied them to the base). Choose your new chip hole model as the target Object, select your chip model object in the top-right menu and turn off all the visibility checkboxes.<\/p><p>Note that if you line up the top edges of the magnet and chip holes you can put the magnets and chip in the model during the same pause, otherwise you'll need to pause the print twice: once to add the chip and once to add the magnets.<\/p><h3>Export your model<\/h3><p>Final step - select the entire collection in the top right and in the File menu choose Export-&gt;STL. You now have a model ready to slice and print.<\/p>",
+            "url": "https://www.instructables.com/Custom-Tonie-Audio-Figure/step3/Design-a-3D-Printed-Tonie-With-Space-for-the-Chip-/"
+        },
+        {
+            "stepIndex": 4,
+            "wordCount": 627,
+            "files": [
+                {
+                    "image": true,
+                    "embedType": "NONE",
+                    "name": "slicer.png",
+                    "modifiedDate": "2025-10-05 15:38:06.0",
+                    "width": 2304,
+                    "mosaic": false,
+                    "downloadUrl": "https://content.instructables.com/F1T/W8GU/MG8A1MQS/F1TW8GUMG8A1MQS.png",
+                    "imageNotes": [],
+                    "id": "F1TW8GUMG8A1MQS",
+                    "height": 1642
+                },
+                {
+                    "image": true,
+                    "embedType": "NONE",
+                    "name": "print_with_holes.jpg",
+                    "modifiedDate": "2025-10-05 15:42:17.0",
+                    "width": 2532,
+                    "mosaic": false,
+                    "downloadUrl": "https://content.instructables.com/FTU/WVQ7/MG8A1NH2/FTUWVQ7MG8A1NH2.jpg",
+                    "imageNotes": [],
+                    "id": "FTUWVQ7MG8A1NH2",
+                    "height": 1907
+                },
+                {
+                    "image": true,
+                    "embedType": "NONE",
+                    "name": "print_with_inserts.jpg",
+                    "modifiedDate": "2025-10-05 15:42:27.0",
+                    "width": 2532,
+                    "mosaic": false,
+                    "downloadUrl": "https://content.instructables.com/FSL/QAPB/MG8A1NHH/FSLQAPBMG8A1NHH.jpg",
+                    "imageNotes": [],
+                    "id": "FSLQAPBMG8A1NHH",
+                    "height": 1907
+                }
+            ],
+            "showUrl": "/Custom-Tonie-Audio-Figure/step4/3D-Printing-Your-Tonie-and-Adding-the-Chip-and-Mag/",
+            "id": "SURHHU1MG16E2ID",
+            "title": "3D Printing Your Tonie and Adding the Chip and Magnets",
+            "body": "<h3>Picking the slicer settings<\/h3><p>Open the STL file in your slicer of choice (I use Creality Print, as I have a Creality Ender 5 S1) and orient your model for printing - I chose to print mine on its back, but you may also have a figure you can print best standing upright.<\/p><p>Pick an appropriate level of infill. Tonie figures tend to be quite hefty for their size, so I went with 60% infill, much more than I'd usually use for a figurine. This should also help it survive being handled by a child. You will probably need supports, so turn that on, but make sure to select 'Build Plate Only' or equivalent - you don't want any support material in those voids you're going to be putting the chip and magnets into.<\/p><p>Make any other tweaks that work best for your printer - brim, speed, etc, and then slice the model.<\/p><h3>Checking the preview and adding a pause<\/h3><p>Once you have a preview of the print layers, scrub through those layers to ensure you see nice clean gaps inside for the magnets and the chip - in Creality Print that's done with a slider on the right-hand side that shows and hides the uppermost layers as you drag it. You should also drag the layers up and make sure that your hole then tapers closed smoothly with an overhang your printer can handle.<\/p><p>Assuming it looks good go back to the layer before the holes start to close and add a pause - in Creality Print that is done by right-clicking on the layer slider when it's at the appropriate layer and selecting 'Add Pause'. If your magnet and chip holes aren't matched up you'll need two pauses - one when its time to insert the magnets, one to add the chip.<\/p><p>Finally, export your gcode to your printer and get printing.<\/p><h3>Adding the chip and magnets during printing<\/h3><p>Your printer should pause at the appropriate moment. Different slicers will do different things when they pause - in my case it literally just stops the head mid-print, but some will move the print-head out of the way. If it just stops the head and it happens to be in the way of the hole you might need to hit restart and then manually pause it again as soon as the head is out of the way.<\/p><p>Drop the chip and magnets into the corresponding holes. When it comes to placing the magnets I recommend inserting the one furthest from you first, to avoid the chance of the second magnet passing over the first and pulling it out of place. Once they are nicely in place I recommend adding a bit of glue so they don't end up rattling around inside, just make sure it doesn't overflow the holes.<\/p><p>Finally, resume your printing and you should see the chip and magnets disappearing nicely inside your figure as the printing completes.<\/p><h3>Adding the chip and/or magnets after printing<\/h3><p>If you were modifying an existing figure or weren't able to encapsulate the chip and/or magnets this is where it's time to get the drill and glue out. Take the chip or magnet and use it to pick the smallest drill bit you have that is still larger than the diameter of the chip or magnet, choose an unobtrustive spot on the figure in the appropriate location (usually from the bottom) and drill holes to the appropriate heights for the chip and magnets - you want the magnets just above the base and the chip about 5cm (2 inches) above the base. Insert the chip or magnet and add glue to hold it in place. Once the glue has dried add epoxy or hotglue to cover up the hole.<\/p>",
+            "url": "https://www.instructables.com/Custom-Tonie-Audio-Figure/step4/3D-Printing-Your-Tonie-and-Adding-the-Chip-and-Mag/"
+        },
+        {
+            "stepIndex": 5,
+            "wordCount": 187,
+            "files": [
+                {
+                    "image": true,
+                    "embedType": "NONE",
+                    "name": "creative_tonie.png",
+                    "modifiedDate": "2025-10-05 15:52:26.0",
+                    "width": 1786,
+                    "mosaic": false,
+                    "downloadUrl": "https://content.instructables.com/FR3/PSIH/MG8A1PMK/FR3PSIHMG8A1PMK.png",
+                    "imageNotes": [],
+                    "id": "FR3PSIHMG8A1PMK",
+                    "height": 1204
+                },
+                {
+                    "image": true,
+                    "embedType": "NONE",
+                    "name": "tonie_on_player.jpg",
+                    "modifiedDate": "2025-10-05 15:52:16.0",
+                    "width": 1436,
+                    "mosaic": false,
+                    "downloadUrl": "https://content.instructables.com/FT9/IUCV/MG8A1PLI/FT9IUCVMG8A1PLI.jpg",
+                    "imageNotes": [],
+                    "id": "FT9IUCVMG8A1PLI",
+                    "height": 1907
+                }
+            ],
+            "showUrl": "/Custom-Tonie-Audio-Figure/step5/Paint-Your-Figure-and-Add-Its-Music/",
+            "id": "SSYU4HEMG8A1RTF",
+            "title": "Paint Your Figure and Add Its Music",
+            "body": "<p>You can now decorate your figure as much as you would like - in my case we sanded it down with a few grades of sandpaper, painted it and sprayed on some varnish to protect the paint from coming off.<\/p><p>With that done its time to add whatever music you want your custom Tonie to have. Go to <a href=\"https://my.tonies.com\" rel=\"nofollow noopener noreferrer\">my.tonies.com<\/a>, log in and select 'Creative Tonies' from the tab at the top, and pick the creative tonie you dismantled to extract the chip and magnets.<\/p><p>Now you just need to add the music tracks you want your figure to play. Per the Tonie website they support <a href=\"https://support.tonies.com/hc/en-gb/articles/29036563051154-Supported-audio-formats-for-Creative-Tonies\" rel=\"nofollow noopener noreferrer\">a bunch of file formats<\/a> include MP3, M4A and WAV. If you struggle to find the music in an appropriate format there are online convertors, or if you get really stuck you can download the Tonie phone app, where you can actually record the music you want directly on your phone and upload that.<\/p><p>With all of this done you now have a custom Tonie that looks and sounds exactly the way you wanted it for you or your child to enjoy!<\/p>",
+            "url": "https://www.instructables.com/Custom-Tonie-Audio-Figure/step5/Paint-Your-Figure-and-Add-Its-Music/"
+        }
+    ],
+    "classifications": [{
+        "channels": [{
+            "name": "3d-printing",
+            "title": "3D Printing",
+            "type": "channel"
+        }],
+        "name": "workshop",
+        "title": "Workshop",
+        "type": "category"
+    }],
+    "license": {
+        "fullName": "Attribution-NonCommercial-ShareAlike",
+        "shortName": "by-nc-sa",
+        "url": "https://creativecommons.org/licenses/by-nc-sa/4.0/"
+    },
+    "editUrl": "/editInstructable/edit/EFOZSKMMG16DX7G",
+    "modifiedDate": "2025-10-06 11:23:38.0",
+    "fullAccessFlag": false,
+    "homePageFeatureFlag": false,
+    "files": [],
+    "suppliesFiles": [],
+    "status": "PUBLISHED",
+    "featuredDate": "2025-10-06 11:23:59.0"
+}

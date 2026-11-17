@@ -1,0 +1,74 @@
+              
+             NanJing Top Power ASIC Corp.
+
+TP4056 1A Standalone Linear Li-lon Battery Charger with Thermal
+                               Regulation in SOP-8
+
+DESCRIPTION
+
+The TP4056 is a complete constant-current/constant-voltage linear charger for single cell
+
+lithium-ion batteries. Its SOP package and low external component count make the TP4056
+
+ideally suited for portable applications. Furthermore, the TP4056 can work within USB and wall
+
+adapter.
+
+No blocking diode is required due to the internal PMOSFET architecture and have prevent to
+
+negative Charge Current Circuit. Thermal feedback regulates the charge current to limit the die
+
+temperature during high power operation or high ambient temperature. The charge voltage is
+
+fixed at 4.2V, and the charge current can be programmed externally with a single resistor. The
+
+TP4056 automatically terminates the charge cycle when the charge current drops to 1/10th the
+
+programmed value after the final float voltage is reached.
+
+TP4056 Other features include current monitor, under voltage lockout, automatic recharge and
+
+two status pin to indicate charge termination and the presence of an input voltage.
+
+FEATURES                                              ABSOLUTE MAXIMUM RATINGS
+
+· Programmable Charge Current Up to                ·Input Supply Voltage(VCC)-0.3V8V
+
+   1000mA                                          ·TEMP-0.3V10V
+·No MOSFET, Sense Resistor or Blocking
+                                                   ·CE-0.3V10V
+   Diode Required                                  ·BAT Short-Circuit DurationContinuous
+· Complete Linear Charger in SOP-8                 ·BAT Pin Current1200mA
+                                                   ·PROG Pin Current1200uA
+   Package for Single Cell Lithium-Ion             ·Maximum Junction Temperature145
+                                                   ·Operating Ambient Temperature Range-40
+   Batteries
+·Constant-Current/Constant-Voltage                    85
+·Charges Single Cell Li-Ion Batteries Directly     ·Lead Temp.(Soldering, 10sec)260
+
+    from USB Port
+· Preset 4.2V Charge Voltage with 1.5%
+
+   Accuracy                                        APPLICATIONS
+·Automatic Recharge
+·two Charge Status Output Pins                     ·Cellular Telephones, PDAs, GPS
+·C/10 Charge Termination                           ·Charging Docks and Cradles
+·2.9V Trickle Charge Threshold (TP4056)            ·Digital Still Cameras, Portable Devices
+·Soft-Start Limits Inrush Current                  ·USB Bus-Powered Chargers,Chargers
+·Available Radiator in 8-Lead SOP Package,
+                                                   Complete Charge Cycle (1000mAh
+   the Radiator need connect GND or                Battery)
+
+   impending
+
+PACKAGE/ORDER INFORMATION
+
+photo        SOP8
+             ORDER PART NUMBER
+
+                 TP4056-42-SOP8-PP
+
+             PART MARKING TP4056
+
+                                                1
+

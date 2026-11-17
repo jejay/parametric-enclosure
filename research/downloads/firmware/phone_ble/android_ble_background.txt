@@ -1,0 +1,687 @@
+Communicate in the background  |  Connectivity  |  Android Developers
+Skip to main content
+[Android Developers]
+Essentials
+Build AI experiences
+Build AI-powered Android apps with Gemini APIs and more.
+Get started
+Get started
+Create your first app. Use Compose for UI and adaptive app development to support multiple device form factors.
+Hello, world!
+Adaptive apps
+Compose for UI
+AI-powered IDE
+Monetization with Play ↗️
+Developer Verification
+Registered App Stores
+Optimize by form factor
+Build apps that optimize the user experience on phones, tablets, foldables, cars, XR, and more.
+Phones, tablets, foldables
+Android for Cars
+Android TV
+Android XR
+Googlebook
+ChromeOS
+Wear OS
+Build by category
+Learn to build for your use case by following Google's prescriptive and opinionated guidance.
+Games
+Camera & media
+Social & messaging
+Health & fitness
+Productivity
+Enterprise apps
+Get the latest
+Stay in touch with the latest releases throughout the year, join our preview programs, and give us your feedback.
+Latest updates
+Experimental updates
+Android Studio preview
+Jetpack & Compose libraries
+Wear OS releases
+Privacy Sandbox ↗️
+Design & Plan
+Excellent Experiences
+Build the best experiences for your best users.
+Learn more
+UI Design
+Design a beautiful user interface using Android best practices.
+Design for Android
+Mobile
+Desktop experiences
+XR Headsets & XR Glasses
+AI Glasses
+Widgets
+Wear OS
+Android TV
+Android for Cars
+Architecture
+Design robust, testable, and maintainable app logic and services.
+Introduction
+Libraries
+Navigation
+Modularization
+Testing
+Kotlin Multiplatform
+Quality
+Plan for app quality and align with Play store guidelines.
+Overview
+Core value
+User experience
+Accessibility
+Technical quality
+Excellent Experiences
+Security
+Safeguard users against threats and ensure a secure Android experience.
+Overview
+Privacy
+Permissions
+Identity
+Fraud prevention
+Develop
+Build more with agents in Android
+Turn prompts into real Android experiences using your favorite agents.
+Learn more
+Get Android CLI
+Core areas
+Get the samples and docs for the features you need.
+Samples
+Multidevice support
+User interfaces
+Background work
+Data and files
+Connectivity
+All core areas ⤵️
+Tools and workflow
+Use the IDE to write and build your app, or create your own pipeline.
+Write and debug code
+Build projects
+Test your app
+Performance
+Command-line tools
+Gradle plugin API
+Android Bench
+Build with agents
+Device tech
+Write code for form factors. Connect devices and share data.
+Phones, tablets, foldables
+Googlebook
+ChromeOS
+Android for Cars
+Android TV
+Android XR
+Wear OS
+Android Health
+Better Together
+All devices ⤵️
+Libraries
+Browse API reference documentation with all the details.
+Android platform
+Jetpack libraries
+Compose libraries
+Google Play services ↗️
+Google Play SDK index ↗️
+Google Play
+Play Console
+Publish your app or game and grow your business on Google Play.
+Learn more ↗️
+Go to Play Console
+Fundamentals
+Learn how to engage users, monitize, and secure your app.
+Play Monetization
+Play Integrity
+Android vitals
+Play Policies
+Play Programs ↗️
+Games Dev Center
+Develop and deliver games. Get tools, downloads, and samples.
+Overview
+Play Asset Delivery
+Play Games Services
+Play Games on PC
+Level Up guidelines
+All Play guides ⤵️
+Libraries
+Browse API reference documentation with all the details.
+Play Feature Delivery
+Play In-app Updates
+Play In-app Reviews
+Play Install Referrer
+Google Play services ↗️
+Google Play SDK index ↗️
+All Play libraries ⤵️
+Tools & resources
+Tools for publishing, promoting, and managing your app.
+Android App Bundles
+Brand & marketing
+Play Console APIs ↗️
+Blog
+the Android Developer's Blog
+Read the latest
+Explore the authors →
+Explore categories
+Product News
+Stay in the loop with the latest updates, feature releases, and behind-the-scenes looks at how we’re evolving.
+Community
+Discover stories from our users, spotlight features, and the collaborative projects that bring us all together.
+How-tos
+From quick tips to deep-dive tutorials, these step-by-step guides are designed to help you work smarter and faster.
+Case Studies
+Real-world results from real-world users. Explore how different teams use our tools to achieve their goals.
+Events & Programs
+Get the details on upcoming webinars, workshops, meetups, and special initiatives designed to help you grow.
+Documentation
+Access detailed manuals, API references, and technical specifications to help you build and integrate with confidence.
+/
+English
+Deutsch
+Español – América Latina
+Français
+Indonesia
+Italiano
+Polski
+Português – Brasil
+Tiếng Việt
+Türkçe
+Русский
+עברית
+العربيّة
+فارسی
+हिंदी
+বাংলা
+ภาษาไทย
+中文 – 简体
+中文 – 繁體
+日本語
+한국어
+Android Studio
+Sign in
+Develop
+Core areas
+Connectivity
+Overview
+Guides
+[Android Developers]
+Essentials
+More
+Design & Plan
+More
+Develop
+More
+Overview
+Guides
+Google Play
+More
+Blog
+More
+Android Studio
+All core areas
+Connectivity guides
+Add support for protocols
+Network
+Perform network operations
+About performing network operations
+Connect to the network
+Manage network usage
+Read network state
+Optimize network access
+Optimize network data usage
+Monitor connectivity status and connection metering
+Parse XML data
+Wi-Fi
+Set up Wi-Fi scanning
+Add Wi-Fi Direct (P2P)
+Implement Wi-Fi Aware
+Set up Wi-Fi location with the RTT API
+Use a local-only hotspot
+Request permission to access devices
+Discover and connect
+About network service discovery (NSD)
+Use NSD
+Create P2P connections with Wi-Fi Direct
+Use Wi-Fi Direct for service discovery
+About Wi-Fi Easy Connect
+Wi-Fi infrastructure
+About Wi-Fi infrastructure
+Suggest Wi-Fi access points
+Prompt for changing to a Wi-Fi P2P access point
+About Passpoint
+Save networks and Passpoint configurations
+Cellular
+Enhance your apps with 5G
+Overview
+Use network slicing
+Best Practices for 5G App Developers from GSMA
+Add a VPN service
+Constrained satellite networks
+Bluetooth
+Overview of Android support for Bluetooth
+Bluetooth Classic
+Set up Bluetooth
+Find Bluetooth devices
+Connect Bluetooth devices
+Transfer Bluetooth data
+Work with Bluetooth profiles
+Set up companion device pairing
+Set up Bluetooth permissions
+Bluetooth Low Energy (BLE)
+About BLE support
+Find BLE devices
+Connect to a GATT server
+Transfer BLE data
+Communicate in the background
+BLE Audio
+About BLE Audio support
+Use Audio Manager self-managed calls
+Manage calls using the Telecom API
+Set up audio recording
+Near Field Communication (NFC)
+About NFC support
+NFC basics
+Advanced NFC
+About host-based card emulation
+Ranging
+USB
+USB host and accessory overview
+Learn about USB accessories
+Connect to USB hosts
+Telecom
+About telecom
+Dialer Application
+Building a default phone application
+Prevent caller ID spoofing
+Detect eSIMs and SIM cards
+Redirect a call
+Screen calls
+Build a calling application
+Overview
+Telecom
+Call notifications
+API updates
+Unified call history
+Ultra-wideband (UWB) communication
+Optimize your app for connectivity
+Reduce network battery drainage
+About preserving battery
+Avoid unoptimized downloads
+Minimize the effect of regular updates
+Troubleshoot network issues
+Use Cronet to reduce latency and increase network throughput
+About Cronet capabilities
+Send a simple request
+About the Cronet request lifecycle
+Use Cronet with other libraries
+Build AI experiences
+Get started
+Get started
+Hello, world!
+Adaptive apps
+Compose for UI
+AI-powered IDE
+Monetization with Play ↗️
+Developer Verification
+Registered App Stores
+Optimize by form factor
+Phones, tablets, foldables
+Android for Cars
+Android TV
+Android XR
+Googlebook
+ChromeOS
+Wear OS
+Build by category
+Games
+Camera & media
+Social & messaging
+Health & fitness
+Productivity
+Enterprise apps
+Get the latest
+Latest updates
+Experimental updates
+Android Studio preview
+Jetpack & Compose libraries
+Wear OS releases
+Privacy Sandbox ↗️
+Excellent Experiences
+Learn more
+UI Design
+Design for Android
+Mobile
+Desktop experiences
+XR Headsets & XR Glasses
+AI Glasses
+Widgets
+Wear OS
+Android TV
+Android for Cars
+Architecture
+Introduction
+Libraries
+Navigation
+Modularization
+Testing
+Kotlin Multiplatform
+Quality
+Overview
+Core value
+User experience
+Accessibility
+Technical quality
+Excellent Experiences
+Security
+Overview
+Privacy
+Permissions
+Identity
+Fraud prevention
+Build more with agents in Android
+Learn more
+Get Android CLI
+Core areas
+Samples
+Multidevice support
+User interfaces
+Background work
+Data and files
+Connectivity
+All core areas ⤵️
+Tools and workflow
+Write and debug code
+Build projects
+Test your app
+Performance
+Command-line tools
+Gradle plugin API
+Android Bench
+Build with agents
+Device tech
+Phones, tablets, foldables
+Googlebook
+ChromeOS
+Android for Cars
+Android TV
+Android XR
+Wear OS
+Android Health
+Better Together
+All devices ⤵️
+Libraries
+Android platform
+Jetpack libraries
+Compose libraries
+Google Play services ↗️
+Google Play SDK index ↗️
+Play Console
+Learn more ↗️
+Go to Play Console
+Fundamentals
+Play Monetization
+Play Integrity
+Android vitals
+Play Policies
+Play Programs ↗️
+Games Dev Center
+Overview
+Play Asset Delivery
+Play Games Services
+Play Games on PC
+Level Up guidelines
+All Play guides ⤵️
+Libraries
+Play Feature Delivery
+Play In-app Updates
+Play In-app Reviews
+Play Install Referrer
+Google Play services ↗️
+Google Play SDK index ↗️
+All Play libraries ⤵️
+Tools & resources
+Android App Bundles
+Brand & marketing
+Play Console APIs ↗️
+the Android Developer's Blog
+Read the latest
+Explore the authors →
+Explore categories
+Product News
+Community
+How-tos
+Case Studies
+Events & Programs
+Documentation
+Android Developers
+Develop
+Core areas
+Connectivity
+Guides
+Communicate in the background
+Stay organized with collections
+Save and categorize content based on your preferences.
+This guide provides an overview of how to support key use cases for
+communicating with peripheral devices when your app is running in the
+background:
+Find a device
+Connect to a device
+Stay connected to a device
+There are multiple options to support each of these use cases. Each one has
+benefits and drawbacks that might make it more or less suitable for your
+specific needs.
+The following diagram shows a simplified view of the guidance in this document:
+[Flowchart comparing background options to find devices using BluetoothLeScanner or CompanionDeviceManager, connect using WorkManager, foreground services, or PendingIntent, and stay connected.]
+Figure 1. Overview of communicating with BLE devices in the
+background.
+Note: The
+general guidance for background work on
+Android applies for Bluetooth-related work too.
+Find a device
+First, your app needs to find a device to connect to. To find a BLE device you
+can use either of the following APIs:
+BluetoothLeScanner as described in
+Find BLE devices
+(Find BLE devices sample).
+CompanionDeviceManager as described in
+Companion device pairing
+(Companion device manager sample).
+Note: The CompanionDeviceManager API has certain limitations (such as limited
+filtering and no support for non-bonded rotating MAC addresses) that might not
+satisfy your needs depending on the implementation of the peripheral device. For
+BLE devices that use rotating Resolvable Private Addresses (RPAs), you must bond
+with the device using the BluetoothDevice.createBond()
+method so the system can resolve rotating addresses for the
+CompanionDeviceManager.startObservingDevicePresence()
+method.
+In the background
+There is no limitation on using either of these APIs while the app is not
+visible, but they do both need your app process to be alive. If the app process
+is not running, you can use the following workarounds:
+For BluetoothLeScanner: Call startScan() with a
+PendingIntent object instead of a
+ScanCallback object to get notified when a device matching
+your filter is scanned
+(BLE scan intent sample).
+For CompanionDeviceManager: Follow the guidance in
+Keep companion apps awake to wake the app and
+keep it awake while a previously associated device is in range
+(Companion device service sample).
+Note: Scheduling periodic scans to find devices is discouraged. That approach is
+less efficient because it starts the app process periodically regardless of
+whether a device is in range. The methods described in this guide ensure that a
+device is in range before waking up the app process.
+Connect to a device
+To connect to a device after you have found it, you need to get a
+BluetoothDevice instance for the device from one of the
+following sources:
+A BluetoothLeScanner scan result as described in
+Find a device.
+The bonded device list retrieved from
+BluetoothAdapter.getBondedDevices().
+The BluetoothAdapter cache, using
+BluetoothAdapter.getRemoteLeDevice().
+After you have a BluetoothDevice instance, you can start a connection request
+to the corresponding device by calling one of the connectGatt()
+methods. The value that you pass into the autoConnect boolean defines which of
+the following two connection modes the GATT client uses:
+Direct connect (autoconnect = false): Try to connect to the peripheral
+device directly, and fail if the device isn't available. In case of
+disconnection, the GATT client doesn't automatically try to reconnect.
+Auto connect (autoconnect = true): Try to automatically connect to the
+peripheral device whenever it's available. In case of a disconnection
+initiated by the peripheral or because the peripheral is out of range, the
+GATT client automatically tries to reconnect when the peripheral is available.
+Note: Android 9 (API level 28) and lower allow only one connection request at a
+time and queue all subsequent requests. In Android 10 and higher, the system
+groups connection requests for batched execution.
+In the background
+There is no restriction on connecting to a device while the app is in the
+background, although the connection is closed if your process is killed. In
+addition there are
+restrictions on starting activities (in
+Android 10 and higher) or foreground services (in Android
+12 and higher) from the background.
+Thus, to perform a connection while in the background, apps can use the
+following solutions:
+Use WorkManager to connect to your device.
+You can set a PeriodicWorkRequest or a
+OneTimeWorkRequest to perform a defined action,
+although app restrictions might apply.
+Additionally, you can benefit from WorkManager features like
+work constraints, expedited work,
+retry policy, and more.
+If the connection needs to be kept alive as long as possible to perform a
+task, such as data syncing or polling from the peripheral devices, you need
+to start a foreground service following the guidance in
+Support for long-running workers.
+However, foreground service launch restrictions
+apply starting in Android 12.
+Start a foreground service with the connectedDevice type.
+If the connection needs to be kept alive as long as possible to perform a
+task, such as data syncing or polling from peripheral devices, start a
+foreground service. However, foreground service launch restrictions apply
+starting in Android 12.
+Call startScan() with a PendingIntent object as described in
+Find a device to wake your process up when the device is
+present. The peripheral device must be advertising.
+We recommend that you start a Worker and a Job. This might be interrupted by
+the system and thus it can only support short duration communication.
+In versions lower than Android 12 you can start a foreground service
+directly from the PendingIntent object.
+Use CompanionDeviceService and either of the
+REQUEST_COMPANION_RUN_IN_BACKGROUND or
+REQUEST_COMPANION_START_FOREGROUND_SERVICES_FROM_BACKGROUND
+permissions to start the service from the background.
+Stay connected to a device
+Ideally, apps should maintain connections to peripheral devices only as long as
+necessary, and disconnect once the task is completed. However, there are two
+cases where an app might need to keep a connection alive indefinitely:
+While switching between apps.
+While listening to peripheral notifications.
+In both cases, the following options are available:
+Use CompanionDeviceService with the
+REQUEST_COMPANION_RUN_IN_BACKGROUND
+permission and the
+CompanionDeviceManager.startObservingDevicePresence()
+method.
+Start a foreground service while the app is in the foreground
+(or within one of the exemptions) with
+the connectedDevice foreground type.
+While switching between apps
+Finding a device, connecting to it, and transferring data is time consuming and
+resource intensive. To avoid losing connection and having to perform the full
+process every time the user switches between apps or performs simultaneous
+tasks, you should keep the connection alive until the operation finishes. You
+can use either a foreground service with the connectedDevice type or the
+companion device presence API.
+While listening to peripheral notifications
+To listen to peripheral notifications the app must call
+setCharacteristicNotification(), listen to
+callbacks using onCharacteristicChanged(), and keep
+the connection alive. For most apps, it's best to support this use case
+with CompanionDeviceService because the app will likely need to keep listening
+for long periods of time. However, you can also use a foreground service.
+In either case, you can reconnect after a terminated process by following the
+instructions in the Connect to a device section.
+Content and code samples on this page are subject to the licenses described in the Content License. Java and OpenJDK are trademarks or registered trademarks of Oracle and/or its affiliates.
+Last updated 2026-11-13 UTC.
+[[["Easy to understand","easyToUnderstand","thumb-up"],["Solved my problem","solvedMyProblem","thumb-up"],["Other","otherUp","thumb-up"]],[["Missing the information I need","missingTheInformationINeed","thumb-down"],["Too complicated / too many steps","tooComplicatedTooManySteps","thumb-down"],["Out of date","outOfDate","thumb-down"],["Samples / code issue","samplesCodeIssue","thumb-down"],["Other","otherDown","thumb-down"]],["Last updated 2026-11-13 UTC."],[],[]]
+[X]
+X
+Follow @AndroidDev on X
+[YouTube]
+YouTube
+Check out Android Developers on YouTube
+[LinkedIn]
+LinkedIn
+Connect with the Android Developers community on LinkedIn
+More Android
+Android
+Android for Enterprise
+Security
+Source
+News
+Blog
+Podcasts
+Discover
+Gaming
+Machine Learning
+Health & Fitness
+Camera & Media
+Privacy
+5G
+Android Devices
+Large screens
+Wear OS
+ChromeOS devices
+Android for cars
+Android TV
+Releases
+Android 17
+Android 16
+Android 15
+Android 14
+Android 13
+Android 12
+Android 11
+Documentation and Downloads
+Android Studio guide
+Developers guides
+API reference
+Download Studio
+Android NDK
+Support
+Report platform bug
+Report documentation bug
+Google Play support
+Join research studies
+[Google Developers]
+Android
+Chrome
+Firebase
+Google Cloud Platform
+All products
+Privacy
+License
+Brand guidelines
+Manage cookies
+Get news and tips by email
+Subscribe
+English
+Deutsch
+Español – América Latina
+Français
+Indonesia
+Italiano
+Polski
+Português – Brasil
+Tiếng Việt
+Türkçe
+Русский
+עברית
+العربيّة
+فارسی
+हिंदी
+বাংলা
+ภาษาไทย
+中文 – 简体
+中文 – 繁體
+日本語
+한국어

@@ -1,0 +1,21 @@
+[project]
+name = "poketonieengagementhunt"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Julian Habekost", email = "Julian.Habekost@googlemail.com" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "cadquery>=2.8.0",
+    "pillow>=13.0.0",
+    "trimesh>=5.2.1",
+]
+
+[project.scripts]
+poketonieengagementhunt = "poketonieengagementhunt:main"
+
+[build-system]
+requires = ["uv_build>=0.12.23,<0.13.0"]
+build-backend = "uv_build"

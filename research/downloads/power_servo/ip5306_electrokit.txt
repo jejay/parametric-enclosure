@@ -1,0 +1,449 @@
+                                                        IP5306
+
+Fully-Integrated Power Bank System-On-Chip with
+            2.1A charger, 2.1A discharger
+
+   Features                                              Applications
+
+ Switch buck charger and boost                           Power bank, Portable Charger
+                                                         Mobile Phones, Smart Phones, Handheld
+       2.1A Synchronous switching charger and 5V
+            2.1A boost converter                              Devices, Portable Media Player, Tablet
+
+       Boost converter efficiency up to 96%              Description
+       Switching charger efficiency up to 97%
+       Integrated power-path management,                      IP5306 is a fully-integrated multi-function
+                                                        power management SoC. It integrates a boost
+            charging batteries and charging cellphones  converter, a Li battery charger management
+            at the same time                            system and a battery state of charge indicate
+                                                        controller. It provides a turn-key solution for power
+ Charger                                                bank and portable charger applications.
+
+       Adaptive charging current control, excellent           IP5306's high integration and rich features
+            adapter compatibility                       make the minimized component number in
+                                                        application. It can effectively downsize the
+       Charger voltage accuracy ±0.5%                   application and lower the BOM cost.
+       Support 4.20/4.30/4.35/4.40V batteries
+                                                              IP5306 only needs a single inductor to realize
+ State of charge (SOC) indicator                        step-down and step-up which provides 2.1A
+                                                        output current. It can switch to standby mode at
+       Integrated LED controller supports 4/3/2/1       light load automatically
+            LEDs as the SOC indicator
+                                                              IP5306's synchronous switching charger
+ Fully featured                                         provides 2A charging current. Its efficiency is up to
+                                                        97%. It regulates the charging current by IC
+       Key ON/OFF                                       temperature and input voltage.
+       Integrated flashlight controller
+       Integrated cellphone plug-in and plug-out              IP5306 integrates voltage based fuel gauge
+                                                        indication of 1/23/4 LEDs and flashlight function.
+            detector
+                                                              IP5306 is available in eSOP8L
+ Low power
+
+       Smart load detector, switching to standby
+            mode automatically
+
+       <100 µA standby current
+
+ Ultra simplified BOM
+
+       Integrated power FET, charging/boosting
+            with a single inductor
+
+ Multiple protections, high reliability
+
+       Output over-current, over-voltage,
+            short-circuit protection
+
+       Input over-voltage, over-current, battery
+            over-charge, over-drain, over-current
+            protection
+
+       Thermal Shutdown
+       ESD 4KV
+
+V1.10 http://www.injoinic.com/  1 / 11                  Copyright © 2016, Injoinic Corp.
+                                                                              IP5306
+
+                       1 Simplified application schematic (4 LEDs as the SOC indicator)
+
+Pin Definition
+
+                                1                                      8
+                                       VIN               VOUT
+
+                                2                                   7
+                                      LED1               SW
+                                                  power
+                                                                    6
+                                3  LED2     PAD          BAT
+
+                                4                                   5
+                                      LED3               KEY
+
+                                              eSOP8
+
+                                    2 IP5306 Pin Diagram
+
+Pin Name Pin Number Pin Description
+
+VIN                             1           Charger 5V input pin
+
+LED1                            2           Battery indicator pin1
+
+LED2                            3           Battery indicator pin2
+
+LED3                            4           Battery indicator pin3
+
+KEY                             5           ON/OFF key input multiplex torch lighting driver
+
+BAT                             6           Battery voltage sense pin
+
+SW                              7           DCDC switch nodeconnect inductor
+
+VOUT                            8           DCDC 5V output pin
+
+PowerPAD                                    Connect to GND
+
+V1.10 http://www.injoinic.com/              2 / 11                        Copyright © 2016, Injoinic Corp.
+                                                                                    IP5306
+
+The PartList of PowerBank SoC
+
+PartNum charger Boost  LEDs     Torch KEY I2C DCP Type-C Quick                      Package
+ IP5303 1.0A 1.2A       1,2                                                 Charge  eSOP8
+
+                                 - -    -  -
+
+IP5305 1.0A 1.2A 1,2,3,4   - -          -  -                                        eSOP8
+
+IP5306 2.4A 2.1A 1,2,3,4    -           -  -                                        eSOP8
+
+IP5108 2.0A 2.0A 3,4,5    -             -  - eSOP16
+
+IP5308 2.4A 2.1A 1,2,3,4                                                            eSOP16
+
+IP5207T 1.2A 1.2A 1,2,3,4               -  -                                        QFN24
+
+IP5109 2.1A 2.1A 3,4,5    -             -  -                                        QFN24
+
+IP5209 2.4A 2.1A 3,4,5                  -  -                                        QFN24
+
+IP5219 2.4A 2.1A 1,2,3,4                   -                                        QFN24
+
+IP5312 15W 3.5A 2,3,4,5                     QFN32
+
+IP5318Q 18W 4.8A 2,3,4,5                    QFN40
+
+IP5318 18W 4.8A 2,3,4,5                     QFN40
+
+V1.10 http://www.injoinic.com/  3 / 11     Copyright © 2016, Injoinic Corp.
+                                                                                     IP5306
+
+Absolute maximum ratings
+
+               Parameter                symbol            value                           Unit
+      Port input voltage range             VIN          -0.3 ~ 5.5                          V
+  Operating free-air temperature           TA                                              
+                                           TJ             0 ~ 70                           
+                  range                   Tstg          -40 ~ 150                          
+        Junction temperature               JA           -60 ~ 150
+                                          ESD                                             /W
+        Storage temperature                                 40                             KV
+Thermal resistance (from junction                            4
+
+            to ambient air)
+    Human-body model (HBM)
+
+* Stresses beyond those listed under absolute maximum ratings may cause permanent damage to the device.
+
+These are stress ratings only, and functional operation of the device at these or any other conditions beyond those
+indicated under recommended operating conditions is not implied. Exposure to absolute-maximum-rated
+conditions for extended periods may affect device reliability.
+
+Recommended operation conditions
+
+Parameter                       symbol  MIN        Typical                           MAX  Unit
+
+Input voltage                   VIN     4.75       5                                 5.5  V
+
+Load current                    I               0  2.1                               2.6  A
+
+Operating ambient               TA              0  --                                70   
+    temperature
+
+*Beyond these operation conditions, the device's performance will not be guaranteed
+
+V1.10 http://www.injoinic.com/          4 / 11     Copyright © 2016, Injoinic Corp.
+                                                                          IP5306
+
+Electrical Characteristics
+
+TA=25, L=1uH unless otherwise noted
+
+       Parameter                symbol  Test condition               MIN TYP MAX Unit
+
+Charger system
+
+Input voltage                   VIN                                  4.75  5     5.5                V
+Input current (charging)
+Input current (standby)         IVIN    VIN=5Vfs=500KHz                    2                        mA
+
+                                        VIN=5VDevice not switching         100                      uA
+
+Target charge voltage           VTRGT                                      4.2                      V
+
+Charge current                  ICHRG                                      2.1                      A
+
+Trickle charge current          ITRKL VIN=5vBAT=2.7v                       100                      mA
+
+Trickle charge stop voltage     VTRKL                                      2.9                      V
+
+Recharge threshold              VRCH                                       4.1                      V
+
+Charger safety timer            TEND                                       24                       Hour
+
+Input       under-voltage       VUVLO Rising voltage                       4.5                      V
+
+protection
+
+Input       under-voltage       VUVLO                                      200                      mV
+
+protection hysteresis
+
+Boost system
+
+Battery operation voltage       VBAT                                 3.0         4.4                V
+
+Battery operation current               VBAT=3.7V  VOUT=5.1V               3                        mA
+
+DC-DC output voltage            IBAT    fs=5000KHz
+Output voltage ripple
+Boost output current                    VIN=5VDevice not switching         100                      uA
+Load over-current
+detect timer                    VOUT VBAT=3.7V                             5.10                     V
+Load short-circuit
+detect timer                    VOUT    VBAT=3.7V  VOUT=5.0V         50    100 150 mV
+Control system                          fs=500KHz
+
+                                Ivout                                      2.1                      A
+
+                                TUVD    Output voltage continuously        30                       ms
+                                        lower than 4.4V
+
+                                TOCD    Output current continuously  150         200 us
+                                        larger than 3.5A
+
+Switching frequency                          Switching frequency           500                      KHz
+PMOS on resistance              rDSON
+NMOS on resistance                                                         35                       m
+
+                                                                           30                       m
+
+V1.10 http://www.injoinic.com/          5 / 11                    Copyright © 2016, Injoinic Corp.
+                                                                       IP5306
+
+Battery standby current         ISTB        VIN=0VVBAT=3.7V            50                         uA
+
+LED lighting current            Ilight                                 25                         mA
+
+LED indicator current               IL1                                4                          mA
+                                    IL2
+Load removal detect timer           IL3     Load current continuously  32                         s
+Push-button wake-up timer                   lower than 45mA
+Push-button light-on timer        TloadD
+                                                                       50                         ms
+                                TOnDebounc
+                                                                       2                          s
+                                        e
+
+                                 TKeylight
+
+Thermal shutdown                TOTP        Rising temperature         125                        
+                                TOTP
+Thermal     shutdown                                                   40                         
+hysteresis
+
+V1.10 http://www.injoinic.com/              6 / 11              Copyright © 2016, Injoinic Corp.
+                                          IP5306
+
+State Of Charge (SOC) indication
+
+V1.10 http://www.injoinic.com/    7 / 11  Copyright © 2016, Injoinic Corp.
+                                                                                    IP5306
+
+ 4 LEDs mode
+
+Discharging mode, 4 LEDs as the indicator
+
+        SOC%                    L1           L2              L3           L4
+                                                             ON           ON
+        SOC75%                  ON           ON              ON          OFF
+                                                            OFF          OFF
+50%SOC75%                       ON           ON             OFF          OFF
+                                                            OFF          OFF
+25%SOC50%                       ON           ON             OFF          OFF
+
+3%SOC25%                        ON           OFF             L3           L4
+                                                             ON           ON
+0%SOC3%                    1.5Hz blink       OFF             ON
+                                                                       1.5Hz blink
+        SOC=0%                  OFF          OFF          1.5Hz blink
+                                                                         OFF
+Charging mode 4 LEDs as the indicator                       OFF          OFF
+                                                            OFF          OFF
+        SOC%                    L1           L2
+
+        Full                    ON           ON
+
+        75%SOC                  ON           ON
+
+50%SOC75%                       ON           ON
+
+25%SOC50%                       ON          1.5Hz blink
+
+        SOC25%             1.5Hz blink       OFF
+
+ 3 LEDs mode
+
+The displays of 3 LEDs is similar to that of 4 LEDs. The corresponding SOC of each LED is
+
+presented in the following table.
+
+                D1                      D2               D3            D4           D5
+
+3 LEDs          3%                      66%              100%          NA           NA
+
+4 LEDs          25%                     50%              75%           100%         NA
+
+ 2 LEDs Mode
+
+                state               LED1          LED2
+                                    Blink         OFF
+Charging In charging                 ON           OFF
+                                    OFF            ON
+        End of Charge               OFF           Blink
+
+Boost   In discharging
+
+              Low Battery
+
+ 1 LED Mode                         LED1
+                                    Blink
+                                     ON
+Charging In charging                 ON
+                                    Blink
+        End of Charge
+
+Boost   In discharging
+
+              Low Battery
+
+V1.10 http://www.injoinic.com/                    8 / 11                   Copyright © 2016, Injoinic Corp.
+Push Button                                      IP5306
+
+                                        KEY
+
+                                                          Figure 1 KEY button
+   Push button's connecting is shown in Fig 5. IP5306 can identify long push and short push.
+
+      If button is pushed longer than 30ms but shorter than 2s, IP5306 will identify the action as short
+           push. Short push will open SOC indicator LEDs and step-up converter
+
+      If button is pushed longer than 2s, IP5306 will identify the action as long push. Long push will
+           close step-up convertor, SOC indicator LED and flashlight LED.
+
+      If button is pushed shorter than 50ms, IP5306 will ignore the action.
+      If two short push is detected within 1s, IP5306 will open or close flashlight LED
+
+Typical Application Schematic
+
+  IP5306 only needs capacitors, resistors, and inductors to realize a full featured power bank solution.
+
+              7 4 LEDs SOC indicator typical application schematic
+
+V1.10 http://www.injoinic.com/  9 / 11  Copyright © 2016, Injoinic Corp.
+                                                                    IP5306
+
+Package information
+
+                                SYMBOL            MILLIMETER
+
+                                      A  MIN      NOM         MAX
+                                     A1
+                                      A  --       --          1.65
+                                     A3
+                                      b  0.05     --          0.15
+                                     b1
+                                      c  1.30     1.40        1.50
+                                     c1
+                                      D  0.60     0.65        0.70
+                                      E
+                                     E1  0.39     --          0.48
+                                      e
+                                      h  0.38     0.41        0.43
+                                      L
+                                     L1  0.21     --          0.25
+                                      
+                                     D1  0.19     0.20        0.21
+                                     E2
+                                         4.70     4.90        5.10
+V1.10 http://www.injoinic.com/
+                                         5.80     6.00        6.20
+
+                                         3.70     3.90        4.10
+
+                                                  1.27BSC
+
+                                         0.25     --          0.50
+
+                                         0.50     0.60        0.80
+
+                                                  1.05BSC
+
+                                         0        --          8º
+
+                                         --       2.09        --
+
+                                         --       2.09        --
+
+                                         10 / 11              Copyright © 2016, Injoinic Corp.
+                                         IP5306
+
+IMPORTANT NOTICE
+
+      INJOINIC TECHNOLOGY and its subsidiaries reserve the right to make corrections, enhancements,
+improvements and other changes to its semiconductor products and services. Buyers should obtain the latest
+relevant information before placing orders and should verify that such information is current and complete. All
+semiconductor products (also referred to herein as "components") are sold subject to INJOINIC TECHNOLOGY's
+terms and conditions of sale supplied at the time of order acknowledgment.
+
+      INJOINIC TECHNOLOGY assumes no liability for applications assistance or the design of Buyers' products.
+Buyers are responsible for their products and applications using INJOINIC TECHNOLOGY's components. To
+minimize the risks associated with Buyers' products and applications, Buyers should provide adequate design and
+operating safeguards.
+
+      Buyer acknowledges and agrees that it is solely responsible for compliance with all legal, regulatory and
+safety-related requirements concerning its products, and any use of INJOINIC TECHNOLOGY's components in its
+applications, notwithstanding any applications-related information or support that may be provided by INJOINIC
+TECHNOLOGY. Buyer represents and agrees that it has all the necessary expertise to create and implement
+safeguards which anticipate dangerous consequences of failures, monitor failures and their consequences, lessen
+the likelihood of failures that might cause harm and take appropriate remedial actions. Buyer will fully indemnify
+INJOINIC TECHNOLOGY and its representatives against any damages arising out of the use of any INJOINIC
+TECHNOLOGY's components in safety-critical applications.
+
+      Reproduction of significant portions of INJOINIC TECHNOLOGY's information in INJOINIC TECHNOLOGY's data
+books or data sheets is permissible only if reproduction is without alteration and is accompanied by all associated
+warranties, conditions, limitations, and notices. INJOINIC TECHNOLOGY is not responsible or liable for such altered
+documentation. Information of third parties may be subject to additional restrictions.
+
+      INJOINIC TECHNOLOGY will update this document from time to time. The actual parameters of the product
+may vary due to different models or other items. This document voids all express and any implied warranties.
+
+      Resale of INJOINIC TECHNOLOGY's components or services with statements different from or beyond the
+parameters stated by INJOINIC TECHNOLOGY for that component or service voids all express and any implied
+warranties for the associated INJOINIC TECHNOLOGY's component or service and is an unfair and deceptive
+business practice. INJOINIC TECHNOLOGY is not responsible or liable for any such statements.
+
+V1.10 http://www.injoinic.com/  11 / 11  Copyright © 2016, Injoinic Corp.
+
