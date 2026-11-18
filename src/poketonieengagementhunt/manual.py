@@ -134,7 +134,9 @@ def render_steps(img: Path) -> list[Path]:
     nums = numbers(items)
     opened = A.build(lid_deg=P.LID_OPEN_DEG, pawl_deg=P.PAWL_RELEASE_DEG, horn_deg=P.HORN_RELEASE_DEG)
     unlocked = A.build(lid_deg=P.LID_OPEN_DEG, pawl_deg=P.PAWL_RELEASE_DEG, horn_deg=P.HORN_RELEASE_DEG, locked=False)
-    pools = {"closed": items, "open": opened, "unlocked": unlocked}
+    # the lid as it is slid onto the hinge: partly open, the two hinge pins waiting in their towers
+    hinging = A.build(lid_deg=P.HINGE_MOUNT_DEG, pawl_deg=P.PAWL_RELEASE_DEG, horn_deg=P.HORN_RELEASE_DEG, hinge_parked=True)
+    pools = {"closed": items, "open": opened, "unlocked": unlocked, "hinging": hinging}
     for st in STEPS:
         for view in st["views"]:
             pool = pools[view.get("pose", "closed")]
@@ -226,10 +228,10 @@ def render_details(img: Path) -> list[Path]:
 
 def render_print_plate(img: Path) -> list[Path]:
     """All printed parts in print orientation, laid out on a virtual bed."""
-    colours = {"bowl": "white", "band": "black", "lid": "red", "bezel": "black", "lens": "clear", "cone": "white", "stage": "stage", "chassis": "chassis", "pawl": "pawl", "cradle": "cradle", "slider": "slider", "sleeve": "sleeve", "spk_clamp": "clamp", "grass_base": "grass", "grass_top": "grass"}
+    colours = {"bowl": "white", "band": "black", "lid": "red", "bezel": "black", "lens": "clear", "cone": "white", "stage": "stage", "chassis": "chassis", "pawl": "pawl", "pawl_cap": "pawl", "cradle": "cradle", "slider": "slider", "sleeve": "sleeve", "spk_clamp": "clamp", "grass_base": "grass", "grass_top": "grass"}
     layout = {
         "bowl": (-110, 60), "lid": (0, 60), "stage": (110, 60), "chassis": (-110, -55), "band": (0, -55), "cradle": (95, -30),
-        "spk_clamp": (95, -75), "bezel": (150, -35), "lens": (150, -75), "cone": (150, -105), "pawl": (95, -110), "slider": (120, -110), "sleeve": (60, -110),
+        "spk_clamp": (95, -75), "bezel": (150, -35), "lens": (150, -75), "cone": (150, -105), "pawl": (95, -110), "pawl_cap": (77, -112), "slider": (120, -110), "sleeve": (60, -110),
         "grass_base": (-85, -185), "grass_top": (90, -185),
     }
     sc = R.Scene()

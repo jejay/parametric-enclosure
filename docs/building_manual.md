@@ -27,7 +27,7 @@ Before you start: read `research/README.md` for why each part was chosen, `docs/
 | Pos. | Qty | Part | What to buy | Research |
 | --- | --- | --- | --- | --- |
 | 4 | 1 | PN5180 NFC reader (blue board, 70 x 39 mm) | The common blue PN5180 module, about 70 x 39 mm, silkscreen "PN5180-NFC" (AliExpress, Amazon, eBay, AZ-Delivery). Prefer a listing whose pin header is supplied loose. The bag usually holds two test tags as well. | research/02 §1A, 08 |
-| 5 | 1 | Hall switch DRV5032FB (TO-92) | TI DRV5032FB hall switch in TO-92 (4.0 x 3.15 x 1.52 mm). Buy two: the second can go on the spare wire if one does not catch the magnets. | research/04 §5, 09 §7, 10 C5 |
+| 5 | 1 | Hall switch, TO-92 (DRV5032FB or AH3661UA) | TI DRV5032FB hall switch in TO-92 (4.0 x 3.15 x 1.52 mm). If it cannot be had: AH3661UA in the same package (Conrad order number 1569221, TRU COMPONENTS), which needs a 1 MOhm pull-up resistor; see `docs/electronics.md`. Buy three or four: fit the one that answers to a magnet from furthest away, and keep one for the spare wire in case one switch does not catch the magnets. | research/04 §5, 09 §7, 10 C5 |
 | 6 | 2 | Reader harness: 6-pin plug-and-socket pair with wires | Two pre-wired 6-pin wire-to-wire pairs with 1.25 mm pitch and at least 15 cm of 28 AWG wire on each half. Sold as "Micro JST 1.25 mm 6-pin male and female with wire"; the original parts are Molex PicoBlade 51021-0600 and 51047-0600. One half goes to reader and hall switch, the other to the core. | research/10 C1 |
 | 11 | 2 | 18650 contact plates (+ dimple, - spring) | One spring and one button contact plate for AA/18650 holders, about 10 x 10 mm. | research/05 §3.2 |
 | 12 | 1 | Seeed XIAO ESP32-S3 Plus | Seeed XIAO ESP32-S3 Plus (16 MB flash, 8 MB PSRAM) with its U.FL antenna. Fallback: Unexpected Maker TinyS3 (needs a longer pocket). | research/04 §1, 07 §11 |
@@ -39,23 +39,23 @@ Before you start: read `research/README.md` for why each part was chosen, `docs/
 | 19 | 1 | Speaker Visaton K 40 (8 ohm) | Visaton K 40, 8 ohm, art. no. 2840 (Ø40 x 4.3 mm, 83 dB). | research/04 §3 |
 | 22 | 1 | RGB LED WS2812B on 10 mm PCB | One WS2812B or SK6812 on a round Ø10 mm mini PCB. | research/04 §4 |
 | 26 | 1 | 18650 Li-ion cell (unprotected flat top) | Unprotected flat-top 18650, e.g. Samsung INR18650-35E or Molicel M35A. | research/05 §2 |
-| 38 | 1 | Torsion spring Gutekunst T-16324 (0.7 x 6.7, 7 coils) | Gutekunst T-16324L and T-16324R (order one of each). | research/06 §2.1 |
-| 40 | 1 | Engagement ring (EU 49) | The engagement ring. Measure it and adjust the RING_* values in `params.py`, then reprint the cradle. | research/06 §1 |
+| 39 | 1 | Torsion spring Gutekunst T-16324 (0.7 x 6.7, 7 coils) | Gutekunst T-16324L and T-16324R (order one of each). | research/06 §2.1 |
+| 41 | 1 | Engagement ring (EU 49) | The engagement ring. Measure it and adjust the RING_* values in `params.py`, then reprint the cradle. | research/06 §1 |
 
 ### Hardware
 
 | Pos. | Qty | Part | Note | Research |
 | --- | --- | --- | --- | --- |
 | 2 | 8 | Heat-set insert M3 x 5.7 | M3 heat-set inserts, Ø4.6 x 5.7 mm (ruthex / CNC Kitchen). | research/06 §4.1 |
-| 8 | 4 | Screw 2.2 x 6 self-tapping (grass top to tray) | Self-tapping screws 2.2 x 6 with pan head, ISO 7049 (head 4.0 x 1.6 mm). | research/06 §4.2, 10 C4 |
+| 8 | 4 | Screw M2 x 6 (grass top to tray) | M2 x 6 machine screws with a cylindrical head and hex socket, ISO 4762 / DIN 912. Any head up to Ø4.0 x 2.0 mm fits; a countersunk head does not. They form their own thread in the printed pilot holes. | research/06 §4.2, §4.3 |
 | 9 | 4 | Screw M3 x 16 countersunk ISO 10642 (tongue to bowl) | M3 x 16 countersunk screws with hexagon socket, ISO 10642 or DIN 7991. | research/10 C2 |
 | 18 | 2 | Servo mounting screw 2 x 8 (supplied with servo) | Supplied with the servo. | research/05 §8.1 |
-| 21 | 2 | Screw 2.2 x 8 self-tapping (speaker clamp) | Self-tapping screws 2.2 x 8. | research/06 §4.2 |
-| 30 | 1 | Screw 2.2 x 6 self-tapping + washer M2 (pawl pivot) | Self-tapping screw 2.2 x 6 and an M2 washer. | research/06 §4.2 |
-| 31 | 1 | Compression spring 3.5 x 8 (pawl return) | Soft compression spring about Ø3.5-4.5 x 8 mm, for example a piece of a ball-pen spring. | research/06 §2.2 |
-| 33 | 1 | Dowel pin 3 x 24 (ring lock) | Hardened dowel pin Ø3 x 24 mm, ISO 2338. | research/06 §3 |
-| 36 | 1 | Hinge pin 2 x 20 (stainless) | Stainless pin Ø2 x 20 mm: dowel pin ISO 2338, or a cut bicycle spoke. | research/06 §3 |
-| 39 | 4 | Screw M3 x 16 ISO 4762 (stack) | M3 x 16 socket head cap screws, ISO 4762. | research/06 §4.3 |
+| 21 | 2 | Screw M2 x 8 (speaker clamp) | M2 x 8 machine screws with a cylindrical head and hex socket, ISO 4762 / DIN 912. It has to be a hex socket here: the two screws lie deep in the core, where only a hex key reaches them. | research/06 §4.2, §4.3 |
+| 31 | 1 | Screw M2 x 6 (pawl pivot) | M2 x 6 machine screw, the same as for the grass top. The washer under it is printed. | research/06 §4.2, §4.3 |
+| 32 | 1 | Compression spring 3.5 x 8 (pawl return) | Soft compression spring about Ø3.5-4.5 x 8 mm, for example a piece of a ball-pen spring. | research/06 §2.2 |
+| 34 | 1 | Dowel pin 3 x 25 (ring lock) | Steel dowel pin (parallel pin) Ø3 x 25 mm. A 24 mm pin of the ISO 2338 series fits as well; a 20 mm pin is too short: only half as much of it would sit in the slider. | research/06 §3 |
+| 37 | 2 | Dowel pin 2 x 8 (hinge) | Two steel dowel pins (parallel pins) Ø2 x 8 mm, ISO 2338 / DIN 7 or hardened ISO 8734 / DIN 6325. Two pieces of a 2 mm bicycle spoke, 8 mm long with rounded ends, do as well. | research/06 §3 |
+| 40 | 4 | Screw M3 x 16 ISO 4762 (stack) | M3 x 16 socket head cap screws, ISO 4762. | research/06 §4.3 |
 
 ### Small parts without a position number
 
@@ -64,6 +64,7 @@ Before you start: read `research/README.md` for why each part was chosen, `docs/
 | Electrolytic capacitor 470-1000 µF / 10 V | 1 | across the 5 V output of the boost converter, close to the servo |
 | Resistors 2 MOhm and 1 MOhm, capacitor 100 nF | 1 each | battery voltage divider at the ADC pin |
 | Resistors 100 kOhm | 3 | pull-downs on boost enable, amplifier SD and reader RST |
+| Resistor 1 MOhm, capacitor 100 nF | 1 each, only with the AH3661UA hall switch | pull-up from the wake pad to 3.3 V at the controller; capacitor across the supply legs of the switch |
 | Diode 1N4148 | 1 | in series with the LED's 5 V supply, so that 3.3 V data is in spec |
 | Silicone wire 26-28 AWG, heat-shrink tube |  | all point-to-point wiring |
 | Self-adhesive felt or velour, 0.5-1 mm |  | ring slot lining; optional curtain behind the band pocket; optional dots under the ball's flat and the tongue |
@@ -86,16 +87,18 @@ Before you start: read `research/README.md` for why each part was chosen, `docs/
 | 27 | Band (black equator ring) | `export/stl/band.stl` | PETG black | 5.9 g | upside down: lid seat on the bed, no supports |
 | 28 | Stage (inner dome with ring deck) | `export/stl/stage.stl` | PETG black | 31 g | upside down: deck on the bed, supports for the hinge yoke only |
 | 29 | Latch pawl | `export/stl/pawl.stl` | PETG any colour | 0.5 g | upside down: top face on the bed |
-| 32 | Ring cradle | `export/stl/cradle.stl` | PETG red or black | 4.1 g | as assembled, no supports |
-| 34 | Ring lock slider | `export/stl/slider.stl` | PETG any colour | 0.4 g | cap on the bed (upside down) |
-| 35 | Lid (red upper half) | `export/stl/lid.stl` | PETG red | 35 g | rim on the bed (dome up), supports inside only (hook, pole) |
-| 37 | Spring sleeve | `export/stl/sleeve.stl` | PETG any colour | 0.1 g | standing on one end |
+| 30 | Pivot washer for the pawl | `export/stl/pawl_cap.stl` | PETG any colour | 0.0 g | flange on the bed, hub up; 100 % infill |
+| 33 | Ring cradle | `export/stl/cradle.stl` | PETG red or black | 4.1 g | as assembled, no supports |
+| 35 | Ring lock slider | `export/stl/slider.stl` | PETG any colour | 0.4 g | cap on the bed (upside down) |
+| 36 | Lid (red upper half) | `export/stl/lid.stl` | PETG red | 35 g | rim on the bed (dome up), supports inside only (hook, pole) |
+| 38 | Spring sleeve | `export/stl/sleeve.stl` | PETG any colour | 0.1 g | standing on one end |
 
 ### Tools
 
 - FDM printer with a 0.4 mm nozzle; PETG in red, white, black, natural (clear) and a light green, and any colour for the inner parts
 - Soldering iron with a fine tip (also used to set the heat-set inserts)
-- Hex keys 2 and 2.5 mm, small cross-head screwdriver, side cutters, tweezers
+- Hex keys 1.5, 2 and 2.5 mm, long-nose pliers, small cross-head screwdriver, side cutters, tweezers
+- Drill bits of 1.7 or 1.8 mm and of 2.0 mm, only if a pilot hole for an M2 screw or the bore for a hinge pin prints too tight
 - Multimeter; a USB-C cable and charger
 - Calipers, to measure the ring, the reader board and the other delivered boards
 
@@ -107,7 +110,7 @@ Five things decide whether the design works, and none of them can be proven by C
 2. **Metal under the tongue.** Repeat test 1 with a baking tray 12 mm under the board: that is a metal table under the tongue. The distance is a little more than the 10 mm that the antenna guides ask for [research/08 §8], so the figures should still read. If they do not, lay the ferrite sheet from the list of small parts 5 mm under the board, where the floor of the pocket will be, and repeat on both surfaces.
 3. **The magnets.** The pocket is laid out for the magnets of the classic Tonies, which the Pokémon figures should share because they work on the first Toniebox: cylinders of 6 x 6 mm, one in the middle of the foot or one in each of two feet [research/09 §7]. Find them with a steel pin or a compass needle. Then fix the hall switch under the middle of the antenna with its printed face 5 mm below the plastic sheet (a stack of cardboard does it): that is where it lies in the tongue. It must switch when a figure stands on the sheet, in every rotation of the figure, and release when the figure is lifted away. Then slide the figure off the middle and note how far it can stand off before the switch lets go and before the read fails. Nothing marks the place on the tongue, so this distance is the reserve for a figure that is put down by eye; about 8 mm is what the layout counts on. If the switch does not answer at all, read "Wake, if the magnet is not where the switch is" in `docs/electronics.md` before you go on.
 4. **Servo and supply.** Run the servo from the boost converter on the real cell while the amplifier plays. The board must not reset. Measure the stall current.
-5. **Lid spring.** Print the lid, the stage and the band first, hinge them and check that the spring throws the lid open and that it rests on the end stop.
+5. **Lid spring and hinge pins.** Print the lid, the stage and the band first. Try a hinge pin in a tower: it must go in under firm pressure and then sit fast (step 10). Hinge the lid and check that the spring throws it open and that it rests on the end stop.
 
 Also measure the delivered parts against the values marked `MEASURE` in `params.py`: outline of the reader board (69.6 x 38.6 mm assumed; it sets the length of the tongue) and position of its antenna, the foot of a figure (45 mm assumed; the width of the tongue follows it), height of the XIAO, length of the charger and position of its USB-C socket, and the ring itself.
 
@@ -126,7 +129,8 @@ Also measure the delivered parts against the values marked `MEASURE` in `params.
 - Grass tongue (tray): light green, sole on the bed, no supports, 4 perimeters, 40 % infill. The rim round its top overhangs inwards at the tip by less than 40°; it prints without support.
 - Grass top: the same light green, one file (`grass_top.stl`): underside on the bed, tufts up, no supports, 5 perimeters so that the blades print solid. Slow down above the turf surface and keep a minimum layer time of about 8 s, so that the blunt tips do not melt. Its edge leans like the walls of its frame, and its lowest 0.3 mm stand back a little for a first layer that is squeezed wide. If it still does not drop into the frame, scrape its bottom edge with a knife.
 - A green that comes close to the grass of the games: Bambu PETG HF Green [research/10 A.4]. Tray and grass top should come from the same spool.
-- Print pawl, slider, sleeve and cradle first. They are small and show whether your printer's clearances suit: the slider must move in the stage with light friction and the pawl must turn freely on its boss.
+- Print pawl, pivot washer, slider, sleeve and cradle first. They are small and show whether your printer's clearances suit: the slider must move in the stage with light friction and the pawl must turn freely on its boss.
+- M2 pilot holes. The seven M2 screws form their own thread in printed holes: 1.95 mm where the mouth of the hole lies parallel to the print bed (grass top, stage) and 1.7 mm where it lies in an upright wall (chassis) [research/06 §4.2]. How such small holes come out depends on printer and filament, so print `export/stl/m2_test_coupon.stl` first, flat as it comes, in the PETG you will use. It has three holes from the top (1.85, 1.95, 2.05 mm) and three through its side (1.60, 1.70, 1.80 mm), the smallest of each three next to the cut-off corner. An M2 screw should turn into the middle one with light, even resistance and then hold firmly. If a neighbour fits better, change `M2_PILOT_FLAT` or `M2_PILOT_SIDE` in `params.py` and export again. A hole that is only a little tight can be opened with a 1.7 or 1.8 mm drill.
 
 ## 4. Wire the electronics
 
@@ -145,7 +149,7 @@ Parts: **1** Bowl (white lower half), **2** Heat-set insert M3 x 5.7
 
 ### Step 2: Build the grass tongue
 
-Parts: **3** Grass tongue (tray), **4** PN5180 NFC reader (blue board, 70 x 39 mm), **5** Hall switch DRV5032FB (TO-92), **6** Reader harness: 6-pin plug-and-socket pair with wires, **7** Grass top (turf plate with its tufts), **8** Screw 2.2 x 6 self-tapping (grass top to tray)
+Parts: **3** Grass tongue (tray), **4** PN5180 NFC reader (blue board, 70 x 39 mm), **5** Hall switch, TO-92 (DRV5032FB or AH3661UA), **6** Reader harness: 6-pin plug-and-socket pair with wires, **7** Grass top (turf plate with its tufts), **8** Screw M2 x 6 (grass top to tray)
 
 ![step 2](img/step_02a.png)
 
@@ -155,7 +159,7 @@ Parts: **3** Grass tongue (tray), **4** PN5180 NFC reader (blue board, 70 x 39 m
 2. Wire the hall switch. Its supply leg goes to the reader's +3.3V pad and its ground leg to GND, each with a short wire; its output leg takes the eleventh wire of the plugs. The twelfth wire stays free (table in `docs/electronics.md`). Insulate each joint with thin heat-shrink tube.
 3. Glue the hall switch flat onto the floor of the pocket between the three small walls under the middle of the antenna, printed face up, legs pointing towards the ball. If the bench test of section 2 found the magnets of your figures elsewhere, glue it there instead; the floor is flat all over. Lay its wires along the floor.
 4. Lay the reader into the pocket, components down, with the antenna at the tip of the tongue and the header end against the two stops at the rear. It rests on the ledge all round. Lead the wires side by side through the channel towards the ball and fix them there with a drop of hot glue. Two more drops at the corners keep the board from rattling.
-5. Fit the grass top into its frame: hold it level, a little behind its place, and push it forwards and down, so that its bevelled front edge slips under the rim at the tip and the plate lies flush in the frame all round. Turn the tongue over and fasten the four 2.2 x 6 screws from below; their heads sit deep in the holes of the sole. They end inside the roots of grass tufts in the two rear corners, so stop as soon as they are snug.
+5. Fit the grass top into its frame: hold it level, a little behind its place, and push it forwards and down, so that its bevelled front edge slips under the rim at the tip and the plate lies flush in the frame all round. Turn the tongue over and fasten the four M2 x 6 screws from below; their heads sit deep in the holes of the sole. The screws form their own thread in the roots of grass tufts in the two rear corners, so stop as soon as they are snug.
 
 ### Step 3: Screw the tongue under the bowl
 
@@ -195,11 +199,11 @@ Parts: **16** 9 g micro servo (SG90 class), **17** Servo horn (stock single arm)
 
 ### Step 6: Build the front module: speaker, light and bezel
 
-Parts: **19** Speaker Visaton K 40 (8 ohm), **20** Speaker clamp ring, **21** Screw 2.2 x 8 self-tapping (speaker clamp), **22** RGB LED WS2812B on 10 mm PCB, **23** Light cone, **24** Button lens, **25** Button bezel (black ring with sound slits)
+Parts: **19** Speaker Visaton K 40 (8 ohm), **20** Speaker clamp ring, **21** Screw M2 x 8 (speaker clamp), **22** RGB LED WS2812B on 10 mm PCB, **23** Light cone, **24** Button lens, **25** Button bezel (black ring with sound slits)
 
 ![step 6](img/step_06.png)
 
-1. Solder two wires to the speaker. Seat the speaker against the back of the baffle (cone to the front) and clamp it with the clamp ring and two 2.2 x 8 screws. The solder tags sit in the notch of the ring. A thin bead of glue around the rim makes the front chamber airtight.
+1. Solder two wires to the speaker. Seat the speaker against the back of the baffle (cone to the front) and clamp it with the clamp ring and two M2 x 8 screws, which form their own thread in the baffle. Reach them from behind with the long arm of the 1.5 mm hex key, past the servo, and turn the key by its short arm. The solder tags sit in the notch of the ring. A thin bead of glue around the rim makes the front chamber airtight.
 2. Push the lens into the bezel from behind until its flange sits on the step. Push the white light cone in behind it; it holds the lens in place.
 3. Solder three wires to the LED board, press it into the cup at the narrow end of the cone (LED facing the lens) and lead the wires out through the notch.
 4. Glue the bezel into the socket of the baffle. The key under the tube fits only one way; the four slits then lie on the diagonals. Lead the LED wires out of the front chamber through the socket key notch and seal the notch with a drop of glue.
@@ -226,31 +230,37 @@ Parts: **27** Band (black equator ring)
 
 ### Step 9: Assemble the stage: latch and ring lock
 
-Parts: **28** Stage (inner dome with ring deck), **29** Latch pawl, **30** Screw 2.2 x 6 self-tapping + washer M2 (pawl pivot), **31** Compression spring 3.5 x 8 (pawl return), **32** Ring cradle, **33** Dowel pin 3 x 24 (ring lock), **34** Ring lock slider
+Parts: **28** Stage (inner dome with ring deck), **29** Latch pawl, **30** Pivot washer for the pawl, **31** Screw M2 x 6 (pawl pivot), **32** Compression spring 3.5 x 8 (pawl return), **33** Ring cradle, **34** Dowel pin 3 x 25 (ring lock), **35** Ring lock slider
 
 ![step 9](img/step_09a.png)
 
 ![step 9](img/step_09b.png)
 
-1. Turn the stage upside down. Put the pawl on the pivot boss (post pointing away from the deck) and hold it with the 2.2 x 6 screw and washer. The pawl must swing freely; do not clamp it.
+1. Turn the stage upside down. Put the pawl on the pivot boss (post pointing away from the deck) then the printed pivot washer, flange towards the pawl, and the M2 x 6 screw. The screw forms its own thread in the boss: turn it in until the washer sits on the end of the boss, and no further. The pawl must swing freely; the washer only keeps it from slipping off.
 2. Put the short compression spring between the nub on the pawl's tail and the nub on the stage. It pushes the tail against the stop pin.
 3. Turn the stage over. Line the ring slot of the cradle with self-adhesive felt on both sides until the ring slides in with light friction, then drop the cradle into its pocket in the deck.
-4. Press the 3 x 24 mm dowel pin into the stem of the slider. Put the slider into its slot behind the cradle and push the pin forwards through the guide and the cradle. In the rear position the pin clears the ring slot, in the front position it crosses it; in both positions it keeps the cradle captive.
+4. Put the slider into its slot behind the cradle. Push the 3 x 25 mm dowel pin in from behind, through the hole in the rear wall of the stage and into the guide under the deck. It slides in the guide and in the cradle and is a press fit in the stem of the slider, which it takes along to the front end of the slot. Press it in against the edge of the table until it is flush with the rear wall, then push it on with the 2.5 mm hex key until its tip has crossed the ring slot and stops in the hole of the far wall. Do not force it further. Now move the slider: in the rear position the pin clears the ring slot and stands about 1 mm out of the back of its guide, in the front position it crosses the slot; in both positions it keeps the cradle captive.
 
 ### Step 10: Hinge the lid to the stage
 
-Parts: **35** Lid (red upper half), **36** Hinge pin 2 x 20 (stainless), **37** Spring sleeve, **38** Torsion spring Gutekunst T-16324 (0.7 x 6.7, 7 coils)
+Parts: **36** Lid (red upper half), **37** Dowel pin 2 x 8 (hinge), **38** Spring sleeve, **39** Torsion spring Gutekunst T-16324 (0.7 x 6.7, 7 coils)
 
-![step 10](img/step_10.png)
+![step 10](img/step_10a.png)
 
-1. Slip the printed sleeve into the torsion spring. Hold the spring between the two ribs of the lid so that one leg lies up along the inside of the lid's back wall and the other points forwards.
-2. Hold the lid about 90° open behind the stage, bring its ribs between the two hinge towers and push the 2 x 20 mm pin through tower, rib, sleeve, rib and tower. It is a press fit in the ribs.
-3. Lift the forward-pointing spring leg onto the yoke between the towers. The coil must tighten when you close the lid; if it opens instead, take the spring out and use the one with the other winding direction (order both L and R).
-4. Close and open the lid by hand a few times. It must swing freely from closed to the end stop at about 95° and the spring must throw it open.
+![step 10](img/step_10b.png)
+
+1. Press one 2 x 8 mm pin into each hinge tower of the stage from outside, with flat pliers or against the table, until its tip is flush with the inner face of the tower. Both pins now stand 5 mm out of their towers and wait there. They must go in under firm pressure and then sit fast; if a pin does not go in, open the bore of the tower with a 2 mm drill.
+2. Slip the printed sleeve into the torsion spring and check its winding direction now: hold the spring as it will sit, one leg pointing up and the other forwards, and push the upper leg down towards the front one, as the closing lid will do. The coil must wind tighter. If it opens instead, use the spring with the other winding direction (order both L and R). Once the pins are in, the spring can only be changed by cutting the sleeve.
+3. Hold the spring between the two ribs of the lid so that one leg lies up along the inside of the lid's back wall and the other points forwards.
+4. Hold the lid about 65° open behind the stage and slide it forwards until its two ribs lie between the hinge towers and their round ends line up with the round ends of the towers. The two waiting pins pass through the shallow channels inside the wall of the lid.
+5. Squeeze the two pins towards each other with long-nose pliers, coming from above, one jaw on the end of each pin. The pins pass through the ribs and catch the sleeve at both ends. Stop when the jaws lie on the towers. The pins sit fast in the towers; lid and sleeve turn on them.
+6. Lift the forward-pointing spring leg onto the yoke between the towers.
+7. Close and open the lid by hand a few times. It must swing freely from closed to the end stop at about 95° and the spring must throw it open.
+8. One long pin cannot be used in this hinge: the wall of the lid closes the hinge axis at both ends. To take the lid off again, cut the sleeve open with side cutters, take out sleeve and spring, and push each pin outwards with a small screwdriver until it has left the rib. Then print a new sleeve.
 
 ### Step 11: Screw the stage onto the core
 
-Parts: **39** Screw M3 x 16 ISO 4762 (stack)
+Parts: **40** Screw M3 x 16 ISO 4762 (stack)
 
 ![step 11](img/step_11.png)
 
@@ -259,7 +269,7 @@ Parts: **39** Screw M3 x 16 ISO 4762 (stack)
 
 ### Step 12: Seat and lock the ring, close the lid
 
-Parts: **40** Engagement ring (EU 49)
+Parts: **41** Engagement ring (EU 49)
 
 ![step 12](img/step_12.png)
 
@@ -327,7 +337,7 @@ Pull the slider behind the ring back by 7 mm. The pin leaves the ring and the ri
 | --- | --- |
 | ![hinge closed](img/hinge_closed.png) | ![hinge open](img/hinge_open.png) |
 
-The hinge pin sits inside the lid. While the lid opens, its rear rim dips into a shallow pocket in the top edge of the black band. That pocket is the only trace of the hinge on the outside; it is black, lies under the overhanging lid and can be closed with the felt strip from step 8.
+The hinge lies inside the lid, on two short pins in the towers of the stage. While the lid opens, its rear rim dips into a shallow pocket in the top edge of the black band. That pocket is the only trace of the hinge on the outside; it is black, lies under the overhanging lid and can be closed with the felt strip from step 8.
 
 ## 8. Service
 
@@ -356,10 +366,10 @@ To take out the whole core, also lift off the band and separate the two 6-pin pl
 | 2 | Heat-set insert M3 x 5.7 | 8 | hardware |
 | 3 | Grass tongue (tray) | 1 | printed |
 | 4 | PN5180 NFC reader (blue board, 70 x 39 mm) | 1 | purchased |
-| 5 | Hall switch DRV5032FB (TO-92) | 1 | purchased |
+| 5 | Hall switch, TO-92 (DRV5032FB or AH3661UA) | 1 | purchased |
 | 6 | Reader harness: 6-pin plug-and-socket pair with wires | 2 | purchased |
 | 7 | Grass top (turf plate with its tufts) | 1 | printed |
-| 8 | Screw 2.2 x 6 self-tapping (grass top to tray) | 4 | hardware |
+| 8 | Screw M2 x 6 (grass top to tray) | 4 | hardware |
 | 9 | Screw M3 x 16 countersunk ISO 10642 (tongue to bowl) | 4 | hardware |
 | 10 | Chassis | 1 | printed |
 | 11 | 18650 contact plates (+ dimple, - spring) | 2 | purchased |
@@ -372,7 +382,7 @@ To take out the whole core, also lift off the band and separate the two 6-pin pl
 | 18 | Servo mounting screw 2 x 8 (supplied with servo) | 2 | hardware |
 | 19 | Speaker Visaton K 40 (8 ohm) | 1 | purchased |
 | 20 | Speaker clamp ring | 1 | printed |
-| 21 | Screw 2.2 x 8 self-tapping (speaker clamp) | 2 | hardware |
+| 21 | Screw M2 x 8 (speaker clamp) | 2 | hardware |
 | 22 | RGB LED WS2812B on 10 mm PCB | 1 | purchased |
 | 23 | Light cone | 1 | printed |
 | 24 | Button lens | 1 | printed |
@@ -381,15 +391,16 @@ To take out the whole core, also lift off the band and separate the two 6-pin pl
 | 27 | Band (black equator ring) | 1 | printed |
 | 28 | Stage (inner dome with ring deck) | 1 | printed |
 | 29 | Latch pawl | 1 | printed |
-| 30 | Screw 2.2 x 6 self-tapping + washer M2 (pawl pivot) | 1 | hardware |
-| 31 | Compression spring 3.5 x 8 (pawl return) | 1 | hardware |
-| 32 | Ring cradle | 1 | printed |
-| 33 | Dowel pin 3 x 24 (ring lock) | 1 | hardware |
-| 34 | Ring lock slider | 1 | printed |
-| 35 | Lid (red upper half) | 1 | printed |
-| 36 | Hinge pin 2 x 20 (stainless) | 1 | hardware |
-| 37 | Spring sleeve | 1 | printed |
-| 38 | Torsion spring Gutekunst T-16324 (0.7 x 6.7, 7 coils) | 1 | purchased |
-| 39 | Screw M3 x 16 ISO 4762 (stack) | 4 | hardware |
-| 40 | Engagement ring (EU 49) | 1 | purchased |
+| 30 | Pivot washer for the pawl | 1 | printed |
+| 31 | Screw M2 x 6 (pawl pivot) | 1 | hardware |
+| 32 | Compression spring 3.5 x 8 (pawl return) | 1 | hardware |
+| 33 | Ring cradle | 1 | printed |
+| 34 | Dowel pin 3 x 25 (ring lock) | 1 | hardware |
+| 35 | Ring lock slider | 1 | printed |
+| 36 | Lid (red upper half) | 1 | printed |
+| 37 | Dowel pin 2 x 8 (hinge) | 2 | hardware |
+| 38 | Spring sleeve | 1 | printed |
+| 39 | Torsion spring Gutekunst T-16324 (0.7 x 6.7, 7 coils) | 1 | purchased |
+| 40 | Screw M3 x 16 ISO 4762 (stack) | 4 | hardware |
+| 41 | Engagement ring (EU 49) | 1 | purchased |
 

@@ -243,12 +243,26 @@ Usable allowables for hand checks: **1.4310 stainless ≈ 1340–1375 MPa** (bac
 | ISO 2338 length series | …16, 18, 20, 22, 24, 26, 28, 30, 32, 35, 40, 45, 50… | [S1] | fasten.it |
 | End chamfer | ≈ 0.35 mm (Ø2), 0.4 mm (Ø2.5), 0.5 mm (Ø3) | [S1] | fasten.it |
 | Common stock tolerance | **m6** (A2, 1.4305); h8 exists but is less stocked ("on request" at some dealers) | [V2+] | https://www.ehorst.de/en/Zylinderstifte-ISO-2338-1-4305-A2-3-0x10-mm-Passung-m6-Kuppe-Fase-aehnl-DIN-7-1150207.html , Keller & Kalmbach, SFS |
-| Ø3 lengths seen in stock | 3 × 10, 3 × 14, **3 × 36** | [SNIP] | https://www.keller-kalmbach.de/produkte/verbindungselemente/stifte/zylinderstifte/iso-2338-zylinderstift/ |
+| Ø3 lengths seen in stock | 3 × 10, 3 × 14, **3 × 36**; the owner can get 3 × 20 and 3 × 25 (2026-11-18), which is why the ring lock uses 25 mm and not the 24 mm of the ISO series | [SNIP] | https://www.keller-kalmbach.de/produkte/verbindungselemente/stifte/zylinderstifte/iso-2338-zylinderstift/ |
 | Tolerance values | Ø3 m6 = 3.002–3.008; Ø3 h8 = 2.986–3.000; Ø2 m6 = 2.002–2.008; Ø2 h8 = 1.986–2.000 | [MEM] ISO 286 | — |
 | Standard length range per diameter | Ø2: 6–20 mm; Ø3: 8–30 mm | [MEM] — **not confirmed**; dealers do list longer (3 × 36) | — |
 | Stainless round bar | 1.4301, Ø2 and Ø3, bright, **h9** (Ø3 = 2.975–3.000), sold by the metre / 0.5 m / 3 m | [SNIP] | https://www.voss-edelstahl.com/online/en/Stainless-steel/round-bars/8/?lang=1 , eBay metal dealers (≈ 2–4 €/m) |
 
 Practical reading: a **Ø3 × 30–40 mm** pin is easy (ISO 2338 A2 m6, or cut from h9 bar). A **Ø2 × 30–40 mm** dowel pin is probably outside the standard length range; cut it from Ø2 h9 bar and deburr/chamfer the ends.
+
+**The concealed hinge cannot take one long pin (found 2026-11-18)** [INF, measured in the CAD model; `checks.py`, section "Pins"]. The hinge axis lies inside the lid, 7 mm above its rim. The lid's wall therefore closes the axis at both ends, whatever the opening angle, because the axis does not move in the lid: the wall begins 16.8 mm from the middle, and a Ø2 pin touches it already 14.0 mm from the middle, since the wall crosses the axis at 64° to its normal. Beside each hinge tower (outer face 10 mm from the middle) a pin has 4.0 mm of room, beside each rib of the lid 7.3 mm. A pin that passes through both ribs of the lid (13.4 mm over the ribs) can therefore not be put in at any length, neither with the lid on the stage nor into the lid alone. Revisions 1 to 5 specified one pin of 2 × 20 mm "pushed through tower, rib, sleeve, rib and tower"; that could not have been done. No check had covered the path of a pin.
+
+Ways out that were examined:
+
+| Way | Result |
+| --- | --- |
+| **Two short pins 2 × 8, one in each tower** (chosen by the owner) | Each pin is pressed into its tower from outside until it is flush with the tower's inner face and waits there, standing 4.9 mm out, while the lid is slid on; then both are pressed in with long-nose pliers. Press fit in the towers (2.9 mm), the ribs of the lid turn on the pins (3.4 mm each), the tips carry the spring sleeve (1.35 mm each). The inside of the lid wall is relieved to 1.3 mm beside the knuckles so that the waiting pins have room; nothing shows outside. To take the lid off, the printed sleeve has to be cut. |
+| One 2 × 18 pin through a hole in each flank of the lid | Simple and removable, but each hole of 2.2 mm meets the surface at 64° and shows as an oval of about 2.2 × 5.0 mm, 7 mm above the band and 27° from the middle of the back. Against "nothing betrays that the ball can open". |
+| Pin mounted in the towers, ribs of the lid open on one side and clipped on | Nothing shows and the lid comes off without tools. Rejected: an open knuckle is a hook, and the blow of the lid on its end stop (0.02 to 0.05 J, section 2.1) and the stop tab on the same rib would load that hook where it is thinnest; the lid prints with its rim on the bed, so the hook would also be loaded across the layers. A lid that comes off while it jumps open is the worst failure this device can have. |
+| Two pins 2 × 10 | They would meet in the middle and support the sleeve over its whole length, but a waiting pin would need a relief that leaves less than 0.8 mm of wall. |
+| Three pins (2 × 8 in the sleeve, 2 × 6 in each tower) | Needs no relief in the lid, but two lengths to buy, and the middle pin is held in each rib by 0.7 mm only. |
+
+The same review found that the bore for the Ø3 lock pin stopped 0.9 mm short of the outside of the stage's rear wall at its lower edge, leaving a sliver in the pin's path; the bore now runs out through the wall.
 
 **Long M2 / M3 screws as hinge pins** [INF; thread lengths from section 4, diameters MEM]: ISO 4762 screws have a thread length b = 16 mm (M2), 17 mm (M2.5), 18 mm (M3); only screws longer than that have a plain shank (an M3 × 40 has ≈ 22 mm of shank, Ø ≈ 2.86–3.00). A thread running inside a printed knuckle acts as a file and the fit is sloppy (thread major Ø ≈ 2.87–2.98). If a screw is used: let the moving knuckles ride on the plain shank, put the threaded end into a heat-set insert in the fixed part, and do not rely on it for alignment.
 
@@ -291,7 +305,7 @@ Derived for CAD:
 
 Bambu Lab's published hole table for its BT-series self-tapping screws [S1, forum copy of the Bambu wiki]: https://forum.bambulab.com/t/how-to-design-screw-holes-for-3d-printing/217352
 
-| Screw | Material | Hole, axis vertical | Hole, axis horizontal | Wall loops | Engagement | Torque |
+| Screw | Material | "Vertical" hole: mouth in an upright wall of the print | "Horizontal" hole: mouth parallel to the bed | Wall loops | Engagement | Torque |
 | --- | --- | --- | --- | --- | --- | --- |
 | BT2 | PLA Basic | 1.80 | 2.00 | 2 | 4.0 mm | 0.15 N·m |
 | BT2 | PETG Basic / HF | 1.65 / 1.60 | 2.00 / 1.95 | 2 | 4.0 | 0.15 |
@@ -300,7 +314,19 @@ Bambu Lab's published hole table for its BT-series self-tapping screws [S1, foru
 | BT3 | PLA Basic | 2.55 | 3.00 | 3 | 6.0 | 0.30 |
 | BT3 | PETG Basic / HF | 2.40 | 2.95 / 2.80 | 3 | 6.0 | 0.30 |
 
-The source's "horizontal/vertical" wording is taken to mean the hole axis; confirm on a coupon. Same source, **machine screws threaded directly into the print**: PLA M2 1.84 / M2.5 2.30 / M3 2.72 (vertical); PETG Basic 1.74 / 2.20 / 2.72; engagement 4 / 5 / 5 mm.
+**Correction (2026-11-18).** Until revision 5 this note took the source's "horizontal" and "vertical" to mean the direction of the hole axis. The source defines them by the surface in which the hole opens, which is the opposite: "When the screw hole opening surface is parallel to the print bed, we call it a horizontal screw hole", and "When the screw hole opening surface is at a right angle to the print bed, we call it a vertical screw hole". A hole that stands upright in the print is therefore a *horizontal* hole and needs the *larger* diameter, because such small closed loops shrink ("Material cooling and the seam affect the size of horizontal screw holes"). The column heads of the table above have been corrected. The 1.8 mm pilot that revisions 1 to 5 used for 2.2 mm screws in upright holes was tighter than this source advises.
+
+Same source, **machine screws threaded directly into the print** [S1, read again on 2026-11-18]:
+
+| Filament | Thread | Pitch Ø of the thread | "Horizontal" hole: mouth parallel to the bed | "Vertical" hole: mouth in an upright wall |
+| --- | --- | --- | --- | --- |
+| PLA | M2 / M2.5 / M3 | 1.740 / 2.208 / 2.675 | 2.10 / 2.50 / 2.90 | 1.84 / 2.30 / 2.72 |
+| PETG HF | M2 / M2.5 / M3 | 1.740 / 2.208 / 2.675 | **1.95** / 2.45 / 2.90 | **1.70** / 2.15 / 2.60 |
+| PETG Basic | M2 / M2.5 / M3 | 1.740 / 2.208 / 2.675 | 2.10 / 2.50 / 2.90 | 1.74 / 2.20 / 2.72 |
+
+Thread engagement 4.0 / 5.0 / 5.0 mm and tightening torque 0.13 / 0.20 / 0.25 N·m for M2 / M2.5 / M3; "For BT2 and M2 screws, we suggest setting the engagement length to at least 4 mm". The source suggests machine screws "when you don't need to take the screw out often", and a 45° chamfer at the mouth of the hole that "shall not be counted toward the thread engagement length".
+
+Second sources for M2 in an actual hole of about 1.6 to 1.75 mm: a MakerWorld post that gives 1.70 mm for PETG [SNIP] https://makerworld.com/en/community/post/1182854 , and the rules "outer Ø − 0.4 mm" and "80 % of the screw Ø" in the table below, which both give 1.6 mm. The two hole directions were not found in a second source: how much a small upright hole shrinks is a property of printer, slicer and filament, which is why the model exports a test piece.
 
 Other guidance, for sizes not in that table:
 
@@ -310,7 +336,9 @@ Other guidance, for sizes not in that table:
 | Pilot ≈ 80 % of screw Ø | 2.2 → 1.75; 2.6 → 2.1; 3.0 → 2.4 | [S1] | https://www.albanycountyfasteners.com/blog/fasteners-for-3d-printing/ |
 | Accu "Polyfix" chart | M2.5: 1.85 (PETG/ABS) / 2.05 (PLA/nylon); M3: 2.30 / 2.50 | [SNIP] | https://accu-components.com/p/488-threaded-insert-hole-size-charts-for-3d-printing-pla-petg-resin |
 
-Working values: **Ø2.2 screw → 1.8 mm; Ø2.6 → 2.1–2.2 mm; Ø3.0 → 2.4 (PETG) – 2.55 (PLA)**, boss outer Ø ≥ 2 × screw Ø, engagement ≥ 2 × screw Ø. The sources warn that PLA bosses split with self-tappers; print bosses with ≥ 3 wall loops and avoid repeated re-assembly — use inserts wherever the joint will be opened more than a few times.
+Working values since revision 6, for **M2 machine screws that form their own thread in PETG**: **1.95 mm where the mouth of the hole lies parallel to the bed, 1.70 mm where it lies in an upright wall**, at least 4 mm of thread not counting a 0.3 mm lead-in, and a blind hole 0.3 mm deeper than the screw reaches, because a machine screw has a blunt end. These are the smaller of the source's two PETG figures in each direction: a hole that prints too tight can be opened with a drill, one that prints too loose cannot be mended. The owner asked for M2 because 2.2 mm self-tapping screws are hard to come by in Germany.
+
+Working values for self-tapping screws, used until revision 5: **Ø2.2 screw → 1.8 mm; Ø2.6 → 2.1–2.2 mm; Ø3.0 → 2.4 (PETG) – 2.55 (PLA)**, boss outer Ø ≥ 2 × screw Ø, engagement ≥ 2 × screw Ø. The sources warn that PLA bosses split with self-tappers; print bosses with ≥ 3 wall loops and avoid repeated re-assembly — use inserts wherever the joint will be opened more than a few times.
 
 ### 4.3 Screw head dimensions
 
@@ -333,6 +361,10 @@ ISO 7380-1 button heads: the standard **starts at M3** [S1] https://fasten.it/en
 | M2.5 (vendor) | 4.5 or 4.7 — **sources disagree** | 1.5 | 1.5 [MEM] | [SNIP] Westfield 4.5, Accu 4.7 |
 
 For M2 / M2.5 button heads, counterbore for the larger figure (M2 Ø4.2, M2.5 Ø5.2) or measure the purchased screws.
+
+ISO 7045 (DIN 7985) pan head with cross recess, M2: head Ø4.0, height 1.6, recess size 1 [SNIP] https://westfieldfasteners.co.uk/Standards/ScrewBolt-PhilRaPan-M.pdf ; another vendor table prints 1.75 for the height [SNIP] https://tfc.eu.com/?p=2043 . The model keeps room for a head of Ø4.0 x 2.0 mm, which takes this head and the ISO 4762 cap head. The two screws of the speaker clamp must have the hex socket all the same [INF, measured in the model; `checks.py`, section "Small screws"]: they lie deep in the core, a screwdriver in line with them meets the chassis, and only the long arm of a 1.5 mm hex key (or a ball-end driver held 10 to 20° off the axis) reaches them. The parts list therefore names ISO 4762 / DIN 912 for all seven screws.
+
+Plain washers ISO 7089 (DIN 125 A): M2 is 2.2 x 5.0 x 0.3 (0.2–0.4), M2.5 is 2.7 x 6.0 x 0.5 [SNIP] https://mcmaster.com/products/washers/specifications-met~iso-7089 , https://accu-components.com/de/metrische-flachwaschmaschinen/72476-HPW-M2-A2 . A 5 mm washer cannot keep the pawl (bore 5.3 mm) on its pivot, which the parts list of revisions 1 to 5 overlooked; the pivot washer is printed since revision 6.
 
 Clearance holes, ISO 273 medium: M2 2.4, M2.5 2.9, M3 3.4 [MEM]. Counterbores for cap heads in printed parts: head Ø + 0.5 mm, depth = k + 0.3 mm [INF].
 
@@ -597,7 +629,7 @@ Rough targets [INF]: 28 mm speaker ≈ 15–20 cm³; 40 mm speaker ≈ 40–50 c
 | 7 | Small pins | Ø2 h9 1.4301 bar | 0.5 m | metal dealers | Pawl pivot, keeper pin; cut and chamfer |
 | 8 | Heat-set inserts | ruthex **RX-M3x5.7** and **RX-M2x4** (or CNC Kitchen M3 standard/short, M2 standard) | 1 pack each | 3DJake, ruthex, Prusa | Holes Ø4.0 and Ø3.2 |
 | 9 | Screws | ISO 4762 A2 M3 × 6/8/10, M2 × 5/6/8; ISO 7380-1 M3 where a low head is needed | assortment | any | Heads: M3 Ø5.5 × 3.0, M2 Ø3.8 × 2.0 |
-| 10 | Self-tapping screws | Ø2.2 and Ø2.6 for plastic (or Bambu BT2 / BT2.5) | few | Bambu store, hardware dealers | Holes 1.8 / 2.1–2.2 mm |
+| 10 | Self-tapping screws (not used since revision 6: hard to get in Germany; M2 machine screws take their place) | Ø2.2 and Ø2.6 for plastic (or Bambu BT2 / BT2.5) | few | Bambu store, hardware dealers | Holes 1.8 / 2.1–2.2 mm |
 | 11 | Bumpers | 3M Bumpon **SJ5302** (Ø7.9 × 2.2) | 1 card | Farnell, RS | Lid end stop, feet |
 | 12 | Magnets (detents only) | supermagnete **S-06-02-N** (6 × 2, N45, ≈ 7.3 N) and **S-05-02-N52N** | 10 each | supermagnete.de | Not at the main latch |
 | 13 | NFC ferrite | Würth **364005** (60 × 60 × 0.2 mm) or **364006** (0.3 mm) | 1–2 | Würth, RS, Mouser | 364 family only |

@@ -79,8 +79,17 @@ M3_INSERT_DEPTH = 6.7         # 5.7 mm insert + 1 mm
 STACK_SCREW_L = 16.0          # M3 x 16 ISO 4762
 BOSS_R = 4.2                  # radius of the insert bosses in the bowl
 BOSS_DEPTH = 11.0             # boss height below the bowl rim
-M2_PILOT = 1.8                # self-tapping Ø2.2 screw pilot (PETG)
+# M2 machine screws that form their own thread in a printed pilot hole (research/06 section 4.2).
+# The right pilot depends on how the hole lies in the print:
+M2_PILOT_FLAT = 1.95          # mouth of the hole parallel to the print bed (hole axis upright)
+M2_PILOT_SIDE = 1.70          # mouth of the hole in an upright wall of the print (hole axis level)
+M2_LEAD = 0.3                 # chamfer at the mouth of a pilot hole; it does not count as thread
+M2_ENGAGE = 4.0               # thread that an M2 screw needs in the print
 M2_CLEAR = 2.4
+M2_HEAD_D, M2_HEAD_H = 4.0, 2.0   # room for the head of any M2 cap or pan head screw
+                              # (ISO 4762: 3.8 x 2.0; ISO 7045: 4.0 x 1.6)
+CLAMP_SCREW_L = 8.0           # M2 x 8: speaker clamp
+PAWL_SCREW_L = 6.0            # M2 x 6: pawl pivot
 LUG_T = 1.2                   # band lug thickness at its inner tip
 LUG_R_IN = 40.6               # inner radius of the band lugs
 LUG_HALF_DEG = 7.0            # angular half width of a lug
@@ -107,10 +116,21 @@ COLLAR_AZ = 115.0             # the collar only exists within +-this azimuth of 
 # ==========================================================================
 HINGE_E = 7.0                 # hinge axis height above the seam plane
 HINGE_Z = HB + HINGE_E
-HINGE_PIN_D = 2.0             # stainless rod / dowel pin Ø2
-HINGE_PIN_L = 20.0
-HINGE_BORE = 2.3              # rotating bore for the Ø2 pin
-HINGE_PRESS = 1.95            # press-fit bore for the Ø2 pin
+# The hinge axis lies inside the lid, and the lid's wall closes it at both ends: beside each hinge tower a
+# Ø2 pin has only 4 mm of room, so one long pin cannot be put in.  Two short pins are used.  Each is pressed
+# into its tower from outside until it is flush with the tower's inner face and waits there, standing out of
+# the tower, while the lid is put on; then both are pressed in the rest of the way.
+HINGE_PIN_D = 2.0             # two steel dowel pins Ø2 x 8 (ISO 2338)
+HINGE_W = 20.0                # width over the two hinge towers; it sets how far back the hinge can sit
+HINGE_PIN_L = 8.0
+HINGE_PIN_Y1 = HINGE_W / 2 - 0.2            # outer end of a mounted pin: flush with the outer face of its tower
+HINGE_PIN_Y0 = HINGE_PIN_Y1 - HINGE_PIN_L   # inner end, inside the spring sleeve
+HINGE_BORE = 2.3              # rotating bore for the Ø2 pin (ribs of the lid, spring sleeve)
+HINGE_PRESS = 1.95            # press-fit bore for the Ø2 pin (hinge towers)
+HINGE_RECESS_Y = 16.5         # the inside of the lid wall is relieved up to this distance from the middle ...
+HINGE_RECESS_WALL = 1.3       # ... down to this wall thickness: room for the two waiting pins
+HINGE_RECESS_TOP = 2.5        # the relief ends this far above the hinge axis; below, it runs out through the rim
+HINGE_MOUNT_DEG = 65.0        # the lid is held about this far open while it is slid onto the hinge
 KNUCKLE_R = 2.7               # outer radius of the printed knuckles
 LID_WALL_AT_HINGE = 1.0       # the lid wall is locally thinned behind the hinge
 SPRING_OD = 6.7               # Gutekunst T-16324: d 0.7, Di 5.3, De 6.7, 7 coils
@@ -131,7 +151,7 @@ SPRING_DEFL_CLOSED = 115.0    # spring wind-up with the lid closed (<= 80 % Mn)
 # thinned lid wall: the knuckles at the pin ends and the spring coil at the
 # centre must both keep clear of the wall.  The smaller distance wins.
 _r_wall = math.sqrt((R - LID_WALL_AT_HINGE) ** 2 - HINGE_Z**2)
-_w_half = HINGE_PIN_L / 2
+_w_half = HINGE_W / 2
 HINGE_X = -min(
     math.sqrt((_r_wall - KNUCKLE_R - 0.35) ** 2 - _w_half**2),
     _r_wall - SPRING_OD / 2 - 0.5,
@@ -170,6 +190,8 @@ PAWL_POST_Z0 = SERVO_BASE_Z + SG90_ARM_Z0 - 0.5   # post spans the horn arm band
 PAWL_RELEASE_DEG = 24.0               # pawl rotation that frees the lid hook
 PAWL_BOSS_D = 5.0                     # printed pivot boss under the deck
 PAWL_BORE = 5.3
+PAWL_CAP_D, PAWL_CAP_T = 7.0, 0.6     # printed pivot washer: its flange keeps the pawl on the boss ...
+PAWL_CAP_HUB_D, PAWL_CAP_HUB_T = 4.4, 0.9   # ... and its hub takes up the rest of the screw's length
 TOOTH_H = 3.0                         # lid hook tooth height at the stem
 TOOTH_REACH = 2.8                     # tooth overlap under the pawl nose (in -Y)
 HOOK_X0, HOOK_X1 = 33.9, 36.9         # lid hook stem, x range
@@ -190,13 +212,14 @@ RING_SLOT_W = RING_BAND + 1.2 # slot width incl. 2 x 0.5 mm felt + clearance
 CRADLE_X0, CRADLE_X1 = RING_X - 6.0, RING_X + 6.0
 CRADLE_Y = 13.0               # cradle half length (y)
 CRADLE_DEPTH = 12.0           # cradle body below the deck top
-LOCK_PIN_D = 3.0              # steel pin (M3 x 20 screw or Ø3 dowel) through the ring
+LOCK_PIN_D = 3.0              # steel dowel pin through the ring
 LOCK_PIN_DEPTH = 5.0          # pin axis below the deck top
 # The ring is sunk so far that the lock pin passes 0.3 mm above the inside of
 # the band: locked, the ring cannot be lifted more than that.
 RING_SINK = LOCK_PIN_DEPTH + LOCK_PIN_D / 2 + 0.3 + RING_THICK
 LOCK_TRAVEL = 7.0             # slider travel between locked and released
-LOCK_PIN_L = 24.0             # Ø3 x 24 dowel pin (ISO 2338) pressed into the slider
+LOCK_PIN_L = 25.0             # Ø3 x 25 dowel pin (ISO 2338) pressed into the slider; 25 is a stock length, 24 is not.
+                              # The extra millimetre lies at the rear end; the tip positions are unchanged
 LOCK_TIP_X = RING_X + 4.0     # pin tip when locked (inside the cradle front wall)
 LOCK_STEM_X = (-21.5, -16.5)  # slider stem when locked
 LOCK_Z = Z_DECK - LOCK_PIN_DEPTH
@@ -274,7 +297,7 @@ USB_OPEN_W = 9.4                                  # notch width in the band
 USB_PLUG_W, USB_PLUG_H = 12.6, 6.6                # body (overmold) of a USB-C plug, with margin
 USB_Z = Z_BOWL_RIM + USB_H / 2 + 0.2              # receptacle centre: sits on the bowl rim
 USB_AZ = 160.0                                    # azimuth of the port (back, 20 deg left of the hinge)
-HALL_W, HALL_H, HALL_T = 4.0, 3.2, 1.52           # DRV5032FB TO-92
+HALL_W, HALL_H, HALL_T = 4.0, 3.2, 1.52           # DRV5032FB in TO-92; the AH3661UA has the same body
 
 # chassis
 Z_PLATE_TOP = -26.5           # top of the chassis floor plate
@@ -372,10 +395,12 @@ WINDOW_R0, WINDOW_R1 = 26.0, 36.0     # cable window in the bowl wall, hidden be
 WINDOW_HALF_DEG = 19.0
 CHANNEL_W = 8.25              # half width of the cable channel
 
-TURF_SCREW_HEAD_D, TURF_SCREW_HEAD_H = 4.2, 1.8     # pan head self-tapping 2.2 x 6 (ISO 7049: 4.0 x 1.6; research/10 C4)
-TURF_SCREW_L = 6.0
-TURF_SCREW_CB = (Z_RAIL - Z_SOLE) - 2.9             # counterbore in the sole: 2.9 mm of tray stay under the head
-TURF_PILOT_DEPTH = 4.0        # pilot hole from the turf underside, ends inside a blade root
+TURF_SCREW_HEAD_D, TURF_SCREW_HEAD_H = M2_HEAD_D, M2_HEAD_H
+TURF_SCREW_L = 6.0            # M2 x 6
+TURF_SEAT = 1.7               # tray left under the head: the screw then has M2_ENGAGE of thread beyond the lead-in
+TURF_SCREW_CB = (Z_RAIL - Z_SOLE) - TURF_SEAT       # depth of the counterbore in the sole
+TURF_PILOT_DEPTH = TURF_SCREW_L - TURF_SEAT + 0.3   # pilot hole from the turf underside: 0.3 mm deeper than the
+                              # screw reaches; it ends inside a blade root
 # four screws hold the rear half of the grass top (the rim holds its tip); each is hidden in the
 # root of a tuft in one of the two corners beside the ball.  Deliberately not mirrored.
 TURF_SCREW_XY = ((37.5, 29.0), (52.0, 24.5), (43.0, -25.0), (55.5, -28.0))

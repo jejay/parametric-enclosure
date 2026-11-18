@@ -34,16 +34,16 @@
  {
   "name": "watertight:lid",
   "ok": true,
-  "detail": "solids=1 valid=True watertight=True winding=True V_cad=27795 V_mesh=27727 mm3 tris=10054",
+  "detail": "solids=1 valid=True watertight=True winding=True V_cad=27707 V_mesh=27638 mm3 tris=10114",
   "data": {
-   "volume_mm3": 27795.095133460563,
-   "mass_g_petg": 35.29977081949492,
+   "volume_mm3": 27706.74598184498,
+   "mass_g_petg": 35.18756739694312,
    "bbox": [
     96.93842752903817,
     99.84238149935835,
     46.61259555673324
    ],
-   "triangles": 10054,
+   "triangles": 10114,
    "section": "Watertight printable solids"
   }
  },
@@ -98,32 +98,32 @@
  {
   "name": "watertight:stage",
   "ok": true,
-  "detail": "solids=1 valid=True watertight=True winding=True V_cad=24133 V_mesh=24106 mm3 tris=20056",
+  "detail": "solids=1 valid=True watertight=True winding=True V_cad=24133 V_mesh=24107 mm3 tris=20644",
   "data": {
-   "volume_mm3": 24132.772990133384,
-   "mass_g_petg": 30.648621697469398,
+   "volume_mm3": 24133.38248711355,
+   "mass_g_petg": 30.649395758634213,
    "bbox": [
-    88.85896354300039,
+    88.86005635730692,
     94.1383918386673,
     28.069512717425198
    ],
-   "triangles": 20056,
+   "triangles": 20644,
    "section": "Watertight printable solids"
   }
  },
  {
   "name": "watertight:chassis",
   "ok": true,
-  "detail": "solids=1 valid=True watertight=True winding=True V_cad=40628 V_mesh=40612 mm3 tris=13892",
+  "detail": "solids=1 valid=True watertight=True winding=True V_cad=40630 V_mesh=40614 mm3 tris=14900",
   "data": {
-   "volume_mm3": 40628.105767435154,
-   "mass_g_petg": 51.597694324642646,
+   "volume_mm3": 40630.43040046274,
+   "mass_g_petg": 51.60064660858768,
    "bbox": [
     89.76860102417709,
     91.26154456716172,
     46.360463110174024
    ],
-   "triangles": 13892,
+   "triangles": 14900,
    "section": "Watertight printable solids"
   }
  },
@@ -140,6 +140,22 @@
     7.499542446538825
    ],
    "triangles": 1656,
+   "section": "Watertight printable solids"
+  }
+ },
+ {
+  "name": "watertight:pawl_cap",
+  "ok": true,
+  "detail": "solids=1 valid=True watertight=True winding=True V_cad=30 V_mesh=30 mm3 tris=1512",
+  "data": {
+   "volume_mm3": 29.989643471168197,
+   "mass_g_petg": 0.03808684720838361,
+   "bbox": [
+    7.002175925994294,
+    7.0000002000000086,
+    1.501771862595355
+   ],
+   "triangles": 1512,
    "section": "Watertight printable solids"
   }
  },
@@ -178,16 +194,16 @@
  {
   "name": "watertight:sleeve",
   "ok": true,
-  "detail": "solids=1 valid=True watertight=True winding=True V_cad=74 V_mesh=74 mm3 tris=1008",
+  "detail": "solids=1 valid=True watertight=True winding=True V_cad=73 V_mesh=73 mm3 tris=2016",
   "data": {
-   "volume_mm3": 74.0222061038827,
-   "mass_g_petg": 0.09400820175193103,
+   "volume_mm3": 72.73560947991592,
+   "mass_g_petg": 0.09237422403949323,
    "bbox": [
     4.500000200000002,
-    6.301398880996338,
+    6.307430366195248,
     4.501398880996337
    ],
-   "triangles": 1008,
+   "triangles": 2016,
    "section": "Watertight printable solids"
   }
  },
@@ -210,10 +226,10 @@
  {
   "name": "watertight:grass_base",
   "ok": true,
-  "detail": "solids=1 valid=True watertight=True winding=True V_cad=61204 V_mesh=61221 mm3 tris=14234",
+  "detail": "solids=1 valid=True watertight=True winding=True V_cad=61132 V_mesh=61148 mm3 tris=14234",
   "data": {
-   "volume_mm3": 61204.161460154544,
-   "mass_g_petg": 77.72928505439627,
+   "volume_mm3": 61131.62837508508,
+   "mass_g_petg": 77.63716803635805,
    "bbox": [
     101.56427738325107,
     72.00000020000004,
@@ -226,23 +242,23 @@
  {
   "name": "watertight:grass_top",
   "ok": true,
-  "detail": "solids=1 valid=True watertight=True winding=True V_cad=9932 V_mesh=9893 mm3 tris=47058",
+  "detail": "solids=1 valid=True watertight=True winding=True V_cad=9917 V_mesh=9878 mm3 tris=47818",
   "data": {
-   "volume_mm3": 9932.215757321443,
-   "mass_g_petg": 12.613914011798233,
+   "volume_mm3": 9916.76817512651,
+   "mass_g_petg": 12.594295582410668,
    "bbox": [
     88.76360312409972,
     67.68418047173523,
     16.83598765793143
    ],
-   "triangles": 47058,
+   "triangles": 47818,
    "section": "Watertight printable solids"
   }
  },
  {
   "name": "fit:closed assembly",
   "ok": true,
-  "detail": "40 items, 0 collisions, 9 intended overlaps",
+  "detail": "41 items, 0 collisions, 9 intended overlaps",
   "data": {
    "collisions": [],
    "intended": [
@@ -267,8 +283,8 @@
     [
      "grass_top",
      "turf_screws",
-     8.042477193189864,
-     "self-tapping 2.2 in \u00d81.8 pilot"
+     0.8144184073688425,
+     "M2 thread formed in a \u00d81.95 pilot"
     ],
     [
      "chassis",
@@ -279,26 +295,26 @@
     [
      "chassis",
      "clamp_screws",
-     11.812388377497626,
-     "self-tapping 2.2 in \u00d81.8 pilot"
+     7.806520022960589,
+     "M2 thread formed in a \u00d81.70 pilot"
     ],
     [
      "stage",
      "pawl_screw",
-     7.929379857660635,
-     "self-tapping 2.2 in \u00d81.8 pilot"
+     0.6534413999281057,
+     "M2 thread formed in a \u00d81.95 pilot"
+    ],
+    [
+     "stage",
+     "hinge_pin",
+     0.533936247193491,
+     "\u00d82 pins pressed into \u00d81.95 bores"
     ],
     [
      "lock_pin",
      "slider",
      2.316924582022466,
      "\u00d83 pin pressed into \u00d82.9 bore"
-    ],
-    [
-     "lid",
-     "hinge_pin",
-     1.0547897334427576,
-     "\u00d82 pin pressed into \u00d81.95 bores"
     ]
    ],
    "section": "Static fit (closed)"
@@ -309,7 +325,7 @@
   "ok": true,
   "detail": "0.20 mm (need >= 0.0)",
   "data": {
-   "distance": 0.20000000000000018,
+   "distance": 0.19999999999999662,
    "section": "Clearances"
   }
  },
@@ -426,7 +442,7 @@
   "ok": true,
   "detail": "leg tip is 0.39 mm from the lid wall (it bends onto the wall under load); overlap of the legs with lid or stage 0.00 mm3",
   "data": {
-   "distance": 0.38530472887782885,
+   "distance": 0.385304728877831,
    "section": "Clearances"
   }
  },
@@ -525,7 +541,7 @@
   "ok": true,
   "detail": "overlap pin/ring when the ring is lifted 2 mm: 10.51 mm3 (must be > 0)",
   "data": {
-   "overlap": 10.50633088410713,
+   "overlap": 10.506330884107111,
    "section": "Ring lock"
   }
  },
@@ -589,6 +605,112 @@
   "data": {
    "blockers": [],
    "section": "Assembly paths"
+  }
+ },
+ {
+  "name": "screws:M2 screws form enough thread in the print",
+  "ok": true,
+  "detail": "grass top: M2 x 6, 4.0 mm of thread beyond the lead-in, pilot \u00d81.95 (mouth parallel to the bed), hole 0.3 mm deeper than the screw; speaker clamp: M2 x 8, 4.4 mm of thread beyond the lead-in, pilot \u00d81.7 (mouth in an upright wall); pawl pivot: M2 x 6, 4.2 mm of thread beyond the lead-in, pilot \u00d81.95 (mouth parallel to the bed), hole 0.6 mm deeper than the screw. Needed: 4.0 mm (research/06 section 4.2). The clamp screws end 0.5 mm inside the front face of the baffle; above the pivot screw's hole 1.2 mm of the ring deck stay closed. Head room everywhere: \u00d84.0 x 2.0 mm, which takes a cap head (ISO 4762) or a pan head (ISO 7045)",
+  "data": {
+   "rows": [
+    "grass top: M2 x 6, 4.0 mm of thread beyond the lead-in, pilot \u00d81.95 (mouth parallel to the bed), hole 0.3 mm deeper than the screw",
+    "speaker clamp: M2 x 8, 4.4 mm of thread beyond the lead-in, pilot \u00d81.7 (mouth in an upright wall)",
+    "pawl pivot: M2 x 6, 4.2 mm of thread beyond the lead-in, pilot \u00d81.95 (mouth parallel to the bed), hole 0.6 mm deeper than the screw"
+   ],
+   "section": "Small screws"
+  }
+ },
+ {
+  "name": "screws:printed washer keeps the pawl on its pivot",
+  "ok": true,
+  "detail": "the flange of the printed pivot washer (\u00d87.0) overlaps the pawl's bore (\u00d85.3) by 0.65 mm all round, however the washer sits on its screw; a standard M2 washer (\u00d85.0, ISO 7089) would be 0.15 mm smaller than the bore. The pawl keeps 0.30 mm of play above the washer, and the servo arm passes 0.90 mm from it at rest and at release",
+  "data": {
+   "lip": 0.6500000000000001,
+   "pawl": 0.3000000000000007,
+   "horn": 0.899999999999995,
+   "section": "Small screws"
+  }
+ },
+ {
+  "name": "screws:a hex key reaches the speaker clamp screws",
+  "ok": true,
+  "detail": "with the core on the bench (steps 4 to 6) the long arm of a 1.5 mm hex key (45 mm) lies free behind each of the two screws: blocked by nothing; its short arm can swing through 150\u00b0 (60\u00b0 are enough to take a new grip). A screwdriver in line with the screw meets charger, chassis; held 20\u00b0 upwards, as a ball-end hex driver allows, it meets nothing. A cross-head screw cannot be driven here: these two screws need a hex socket",
+  "data": {
+   "sweeps": [
+    150,
+    190
+   ],
+   "blocked": [],
+   "section": "Small screws"
+  }
+ },
+ {
+  "name": "pins:two hinge pins carry lid and spring",
+  "ok": true,
+  "detail": "each \u00d82 x 8 pin is pressed into 2.9 mm of its hinge tower (bore \u00d81.95), carries one rib of the lid over its full 3.4 mm (bore \u00d82.3) and reaches 1.35 mm into the spring sleeve; its outer end lies 0.2 mm inside the outer face of the tower",
+  "data": {
+   "tower": 2.9000000000000012,
+   "rib": 3.3999999999999995,
+   "sleeve": 1.3499999999999992,
+   "section": "Pins"
+  }
+ },
+ {
+  "name": "pins:why the hinge has two pins",
+  "ok": true,
+  "detail": "the hinge axis lies inside the lid and meets its wall 16.8 mm from the middle; beside a hinge tower a \u00d82 pin has 4.0 mm of room before it touches the wall. A pin that goes through both ribs cannot be put in, at any length. A waiting pin stands 4.9 mm out of its tower",
+  "data": {
+   "wall_y": 16.76780413272328,
+   "room": 3.957161434090988,
+   "section": "Pins"
+  }
+ },
+ {
+  "name": "pins:waiting pins clear the lid",
+  "ok": true,
+  "detail": "with the pins waiting in the towers (flush with the towers' inner faces) the lid keeps 0.25 mm from them; the relief inside the lid wall that makes this room leaves 1.3 mm of wall (measured: 100.0 % of that shell is solid), so nothing shows outside. The wall behind the knuckles is 1.0 mm as before",
+  "data": {
+   "gap": 0.24999999999999375,
+   "kept": 1.0,
+   "section": "Pins"
+  }
+ },
+ {
+  "name": "pins:lid slides onto the hinge from behind",
+  "ok": true,
+  "detail": "lid held 65\u00b0 open and brought forwards from 16 mm behind its seat, level and up to 20\u00b0 from below: 0 collisions with the stage or the waiting pins",
+  "data": {
+   "collisions": [],
+   "section": "Pins"
+  }
+ },
+ {
+  "name": "pins:pliers reach the waiting pins",
+  "ok": true,
+  "detail": "two jaws of 2.5 x 1.5 mm reach the ends of both waiting pins and can follow them to the towers, coming from above: lid 65\u00b0 open from 90\u00b0; lid 90\u00b0 open from 90, 105, 120\u00b0 (directions round the hinge, 90\u00b0 is straight from above, tried in steps of 15\u00b0). The jaws stop on the faces of the towers, which sets the depth",
+  "data": {
+   "directions": {
+    "65.0": [
+     15,
+     90
+    ],
+    "90.0": [
+     90,
+     105,
+     120
+    ]
+   },
+   "section": "Pins"
+  }
+ },
+ {
+  "name": "pins:lock pin goes in from behind",
+  "ok": true,
+  "detail": "lock pin \u00d83 x 25: 5.0 mm in the stem of the slider, 2.5 mm standing out behind it; its straight path from behind the stage to the locked position is free (stage 0.00, cradle 0.00 mm3). With the slider drawn back it stands 1.0 mm out of the back of its guide",
+  "data": {
+   "stem": 5.0,
+   "path": 0,
+   "section": "Pins"
   }
  },
  {
@@ -740,11 +862,11 @@
  {
   "name": "grass:turf screws end inside tuft roots",
   "ok": true,
-  "detail": "each of the 4 turf screws stands under the main blade of a tuft and ends 1.5 mm above the turf surface inside its root; the pilot hole reaches 2.4 mm above the surface and has 0.8 mm of solid plastic all round and 1 mm above it (100 % of the probed volume at the worst screw): nothing shows on top. The check runs for whatever lawn the seed gives",
+  "detail": "each of the 4 turf screws stands under the main blade of a tuft and ends 2.7 mm above the turf surface inside its root; the pilot hole reaches 3.0 mm above the surface and has 0.8 mm of solid plastic all round and 1 mm above it (100 % of the probed volume at the worst screw): nothing shows on top. The check runs for whatever lawn the seed gives",
   "data": {
    "solid": [
-    1.0,
-    1.0,
+    0.9988613547823988,
+    0.9978681962505348,
     1.0,
     1.0
    ],
@@ -792,7 +914,7 @@
   "detail": "distance from the antenna loop: turf_screws 13 mm, base_screws 39 mm, inserts 38 mm, speaker 35 mm, cell 65 mm, servo 56 mm, harness 65 mm (harness = its plugs)",
   "data": {
    "near": {
-    "turf_screws": 13.049442954349946,
+    "turf_screws": 13.094151046483702,
     "base_screws": 39.13453306722901,
     "inserts": 38.334533067229,
     "speaker": 35.31631917400227,
@@ -818,11 +940,11 @@
   "ok": true,
   "detail": "mass 268 g, CoG x=1.4 y=-0.3 z=-3.9 mm (below the ball centre: self-righting)",
   "data": {
-   "mass": 268.24125638226405,
+   "mass": 268.169232174318,
    "cg": [
-    1.3602632657418805,
-    -0.274946165302656,
-    -3.903201598306043
+    1.3911886075358835,
+    -0.27502008508694364,
+    -3.9026473534337476
    ],
    "section": "Physics and function"
   }
@@ -830,14 +952,14 @@
  {
   "name": "physics:ball alone stands on its flat with the lid open",
   "ok": true,
-  "detail": "CoG with open lid x=-6.8 y=-0.3; flat radius 17.1 mm -> tipping margin 10.2 mm",
+  "detail": "CoG with open lid x=-6.8 y=-0.3; flat radius 17.1 mm -> tipping margin 10.3 mm",
   "data": {
    "cg_open": [
-    -6.807193434023449,
-    -0.2720650464811781,
-    -0.6141020459336255
+    -6.780188697176875,
+    -0.2721381924619256,
+    -0.6131038929022335
    ],
-   "margin": 10.24609399390609,
+   "margin": 10.273074169269172,
    "section": "Physics and function"
   }
  },
@@ -846,21 +968,21 @@
   "ok": true,
   "detail": "mass 377 g; CoG closed x=18.7, open x=12.9, with a 50 g figure x=26.7 mm; distance of the CoG from the edge of the standing area (flat of the ball and underside of the tongue together): closed 28 mm, lid open 24 mm, closed with a figure on the spot 32 mm",
   "data": {
-   "mass": 377.3844554484586,
+   "mass": 377.20069579308665,
    "cg": [
-    18.676127798656925,
-    -0.21920910657837714,
-    -14.17313746340505
+    18.693030216320118,
+    -0.2193529824593137,
+    -14.16462931336574
    ],
    "cg_open": [
-    12.87077780354562,
-    -0.21716123491513806,
-    -11.83527700424468
+    12.883624236821309,
+    -0.21730411314099235,
+    -11.82594236540027
    ],
    "margins": {
-    "closed": 27.51536539694132,
-    "lid open": 24.21024324916679,
-    "closed with a figure on the spot": 32.08950998875425
+    "closed": 27.52487498761301,
+    "lid open": 24.21744331664736,
+    "closed with a figure on the spot": 32.09987412789422
    },
    "section": "Physics and function"
   }
@@ -870,8 +992,8 @@
   "ok": true,
   "detail": "lid 35 g, gravity torque 14.7 N mm; spring 33.1 N mm closed (80 % of Mn), 5.8 N mm at 95 deg; net opening torque with a -20 % spring: 11.8 N mm",
   "data": {
-   "lid_mass": 35.29977081949492,
-   "gravity_torque": 14.710054552644193,
+   "lid_mass": 35.18756739694312,
+   "gravity_torque": 14.711796510913763,
    "spring_closed": 33.12,
    "spring_open": 5.76,
    "section": "Physics and function"
@@ -882,7 +1004,7 @@
   "ok": true,
   "detail": "force on the pawl nose with a +20 % spring: 0.32 N at 78 mm from the hinge",
   "data": {
-   "latch_force": 0.32267826035376157,
+   "latch_force": 0.32265580715855047,
    "section": "Physics and function"
   }
  },
@@ -926,14 +1048,14 @@
  {
   "name": "print:lid",
   "ok": true,
-  "detail": "97 x 100 x 46 mm, PETG red; overhang area needing support ~2756 mm2; rim on the bed (dome up), supports inside only (hook, pole)",
+  "detail": "97 x 100 x 47 mm, PETG red; overhang area needing support ~2765 mm2; rim on the bed (dome up), supports inside only (hook, pole)",
   "data": {
    "extents": [
     96.82583197230493,
     99.63676032402662,
-    46.5
+    46.50000000000003
    ],
-   "support_area": 2755.6146005945207,
+   "support_area": 2765.019739339532,
    "section": "Printability"
   }
  },
@@ -989,21 +1111,21 @@
     94.09145474133425,
     28.00000000000001
    ],
-   "support_area": 298.14882772178703,
+   "support_area": 298.0857831211986,
    "section": "Printability"
   }
  },
  {
   "name": "print:chassis",
   "ok": true,
-  "detail": "90 x 91 x 46 mm, PETG any colour; overhang area needing support ~586 mm2; plate on the bed, supports under the baffle disc and shelf",
+  "detail": "90 x 91 x 46 mm, PETG any colour; overhang area needing support ~585 mm2; plate on the bed, supports under the baffle disc and shelf",
   "data": {
    "extents": [
     89.68137361743621,
     91.10939149640143,
     46.311513130556904
    ],
-   "support_area": 586.1148933638224,
+   "support_area": 584.575453435942,
    "section": "Printability"
   }
  },
@@ -1018,6 +1140,20 @@
     7.4981938965756605
    ],
    "support_area": 12.645773500070035,
+   "section": "Printability"
+  }
+ },
+ {
+  "name": "print:pawl_cap",
+  "ok": true,
+  "detail": "7 x 7 x 2 mm, PETG any colour; overhang area needing support ~0 mm2; flange on the bed, hub up; 100 % infill",
+  "data": {
+   "extents": [
+    7.0,
+    6.980426580268261,
+    1.5000000000000007
+   ],
+   "support_area": 0.0,
    "section": "Printability"
   }
  },
@@ -1094,14 +1230,14 @@
  {
   "name": "print:grass_top",
   "ok": true,
-  "detail": "89 x 68 x 17 mm, PETG light green; overhang area needing support ~222 mm2; underside on the bed, tufts up, no supports",
+  "detail": "89 x 68 x 17 mm, PETG light green; overhang area needing support ~224 mm2; underside on the bed, tufts up, no supports",
   "data": {
    "extents": [
     88.70158433810195,
     67.61800308080247,
     16.648909834561806
    ],
-   "support_area": 222.0939793347283,
+   "support_area": 223.85454110393434,
    "section": "Printability"
   }
  }

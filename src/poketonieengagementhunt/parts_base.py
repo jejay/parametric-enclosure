@@ -144,8 +144,8 @@ def base_screw_xy() -> list[tuple[float, float]]:
 
 
 def turf_screw_xy() -> list[tuple[float, float]]:
-    """The small screws that hold the grass top in its frame.  Each one ends
-    in the root of a grass tuft, so nothing shows on top."""
+    """The M2 screws that hold the grass top in its frame.  Each one ends in
+    the root of a grass tuft, so nothing shows on top."""
     return list(P.TURF_SCREW_XY)
 
 
@@ -519,7 +519,7 @@ def grass_base() -> cq.Shape:
         body = body.cut(g.cone_z(r_head, P.M3_CLEAR / 2, zs + P.CSK_RECESS, zs + P.CSK_RECESS + (r_head - P.M3_CLEAR / 2), x, y))
     for x, y in turf_screw_xy():
         body = body.cut(g.cyl_z(P.M2_CLEAR / 2, zs - 1, zr + 1, x, y))
-        body = body.cut(g.cyl_z(P.TURF_SCREW_HEAD_D / 2 + 0.4, zs - 1, zs + P.TURF_SCREW_CB, x, y))
+        body = body.cut(g.cyl_z(P.TURF_SCREW_HEAD_D / 2 + 0.5, zs - 1, zs + P.TURF_SCREW_CB, x, y))
     return g.clean(body)
 
 
@@ -541,6 +541,12 @@ def turf_blank() -> cq.Shape:
     return g.clean(plate)
 
 
+def _pilot_lead(x: float, y: float) -> cq.Shape:
+    """Chamfer at the mouth of a turf screw's pilot hole, on the underside of the plate."""
+    r = P.M2_PILOT_FLAT / 2
+    return g.cone_z(r + P.M2_LEAD, r, P.Z_RAIL - 0.001, P.Z_RAIL + P.M2_LEAD, x, y)
+
+
 @lru_cache(maxsize=None)
 def turf_plate() -> cq.Shape:
     """The turf plate alone, with the pilot holes of its screws drilled
@@ -548,7 +554,7 @@ def turf_plate() -> cq.Shape:
     matter (the tufts are checked separately)."""
     body = turf_blank()
     for x, y in turf_screw_xy():
-        body = body.cut(g.cyl_z(P.M2_PILOT / 2, P.Z_RAIL - 1, P.Z_TURF + 1, x, y))
+        body = body.cut(g.cyl_z(P.M2_PILOT_FLAT / 2, P.Z_RAIL - 1, P.Z_TURF + 1, x, y)).cut(_pilot_lead(x, y))
     return body
 
 
@@ -558,7 +564,7 @@ def grass_top() -> cq.Shape:
     zr = P.Z_RAIL
     body = turf_blank().fuse(*[mound_solid(m) for m in mounds()], *[blade_solid(b) for b in blades()])
     for x, y in turf_screw_xy():
-        body = body.cut(g.cyl_z(P.M2_PILOT / 2, zr - 1, zr + P.TURF_PILOT_DEPTH, x, y))
+        body = body.cut(g.cyl_z(P.M2_PILOT_FLAT / 2, zr - 1, zr + P.TURF_PILOT_DEPTH, x, y)).cut(_pilot_lead(x, y))
     return body
 
 

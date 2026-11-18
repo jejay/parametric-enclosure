@@ -29,11 +29,11 @@ INTENDED_OVERLAP: dict[frozenset[str], tuple[float, str]] = {
     frozenset(("inserts", "bowl")): (220.0, "heat-set inserts melt into Ø4.0 holes"),
     frozenset(("stack_screws", "inserts")): (60.0, "M3 thread in the inserts"),
     frozenset(("base_screws", "inserts")): (70.0, "M3 thread in the inserts"),
-    frozenset(("turf_screws", "grass_top")): (45.0, "self-tapping 2.2 in Ø1.8 pilot"),
+    frozenset(("turf_screws", "grass_top")): (3.0, "M2 thread formed in a Ø1.95 pilot"),
     frozenset(("servo_screws", "chassis")): (25.0, "servo screws in Ø1.6 pilot"),
-    frozenset(("clamp_screws", "chassis")): (20.0, "self-tapping 2.2 in Ø1.8 pilot"),
-    frozenset(("pawl_screw", "stage")): (12.0, "self-tapping 2.2 in Ø1.8 pilot"),
-    frozenset(("hinge_pin", "lid")): (2.0, "Ø2 pin pressed into Ø1.95 bores"),
+    frozenset(("clamp_screws", "chassis")): (12.0, "M2 thread formed in a Ø1.70 pilot"),
+    frozenset(("pawl_screw", "stage")): (3.0, "M2 thread formed in a Ø1.95 pilot"),
+    frozenset(("hinge_pin", "stage")): (2.0, "Ø2 pins pressed into Ø1.95 bores"),
     frozenset(("lock_pin", "slider")): (4.0, "Ø3 pin pressed into Ø2.9 bore"),
 }
 TOL_VOLUME = 0.05      # mm^3: anything below is numerical noise / touching faces
@@ -367,7 +367,7 @@ DENSITY = {"printed": 1.27e-3}   # g / mm^3 (PETG)
 MASS_G = {
     "reader": 9.0, "mcu": 3.0, "amp": 1.5, "charger": 2.0, "boost": 1.5, "servo": 9.0, "horn": 0.5,
     "speaker": 10.0, "led": 0.4, "cell": 48.0, "contacts": 1.5, "hall": 0.2, "ring": 3.5,
-    "spring": 0.4, "hinge_pin": 0.5, "lock_pin": 1.3, "stack_screws": 4.4, "inserts": 2.1,
+    "spring": 0.4, "hinge_pin": 0.4, "lock_pin": 1.4, "stack_screws": 4.4, "inserts": 2.1,
     "harness": 6.0, "turf_screws": 1.6, "base_screws": 2.0,
 }
 BASE_KEYS = ("grass_base", "grass_top", "reader", "hall", "harness", "turf_screws", "base_screws")
@@ -628,10 +628,10 @@ def check_grass_base() -> list[Result]:
         hub = tuft.blades[0]
         on_hub = on_hub and hub.hub and math.hypot(hub.x - x, hub.y - y) < 1e-6
         root = g.union(B.mound_solid(tuft.mound), *[B.blade_solid(b) for b in tuft.blades])
-        sleeve = g.cyl_z(P.M2_PILOT / 2 + wall, P.Z_TURF, z_hole, x, y)
-        cap = g.cyl_z(P.M2_PILOT / 2, z_hole, z_hole + 1.0, x, y)
+        sleeve = g.cyl_z(P.M2_PILOT_FLAT / 2 + wall, P.Z_TURF, z_hole, x, y)
+        cap = g.cyl_z(P.M2_PILOT_FLAT / 2, z_hole, z_hole + 1.0, x, y)
         solid.append(min(g.common_volume(sleeve, root) / g.volume(sleeve), g.common_volume(cap, root) / g.volume(cap)))
-    out.append(Result("grass:turf screws end inside tuft roots", on_hub and min(solid) > 0.995 and z_tip <= z_hole - 0.5 and z_tip >= P.Z_TURF + 1.0, f"each of the {len(solid)} turf screws stands under the main blade of a tuft and ends {z_tip - P.Z_TURF:.1f} mm above the turf surface inside its root; the pilot hole reaches {z_hole - P.Z_TURF:.1f} mm above the surface and has {wall} mm of solid plastic all round and 1 mm above it ({100 * min(solid):.0f} % of the probed volume at the worst screw): nothing shows on top. The check runs for whatever lawn the seed gives", {"solid": solid}))
+    out.append(Result("grass:turf screws end inside tuft roots", on_hub and min(solid) > 0.995 and z_tip <= z_hole - 0.25 and z_tip >= P.Z_TURF + 1.0, f"each of the {len(solid)} turf screws stands under the main blade of a tuft and ends {z_tip - P.Z_TURF:.1f} mm above the turf surface inside its root; the pilot hole reaches {z_hole - P.Z_TURF:.1f} mm above the surface and has {wall} mm of solid plastic all round and 1 mm above it ({100 * min(solid):.0f} % of the probed volume at the worst screw): nothing shows on top. The check runs for whatever lawn the seed gives", {"solid": solid}))
 
     # 7. reading geometry
     d_far, d_near = P.Z_TURF - P.Z_PCB_BOT, P.Z_TURF - P.Z_PCB_TOP
@@ -671,6 +671,144 @@ def check_grass_base() -> list[Result]:
     return out
 
 
+def _upright_in_print(key: str, axis: str) -> bool:
+    """Does a hole along ``axis`` (assembly coordinates) stand upright when the part is printed?"""
+    rot = A.PRINT_ORIENT[key]
+    v = {"x": cq.Vector(1, 0, 0), "y": cq.Vector(0, 1, 0), "z": cq.Vector(0, 0, 1)}[axis]
+    if rot:
+        v = cq.Edge.makeLine(cq.Vector(0, 0, 0), v).rotate(cq.Vector(0, 0, 0), {"x": cq.Vector(1, 0, 0), "y": cq.Vector(0, 1, 0), "z": cq.Vector(0, 0, 1)}[rot[0]], rot[1]).endPoint()
+    return abs(v.z) > 0.99
+
+
+def check_fasteners() -> list[Result]:
+    """The M2 machine screws that form their own thread in printed pilot holes."""
+    out = []
+    lug = P.SPK_RIM_T + 2.0                                   # the clamp screw passes through this much of the clamp ring
+    cap = P.PAWL_CAP_T + P.PAWL_CAP_HUB_T                     # ... and the pivot screw through the printed washer
+    boss = (P.Z_DECK - P.DECK_T) - (P.PAWL_Z0 - 0.3)          # length of the pivot boss
+    # joint -> (screw length, length that is not thread in the print, depth of the pilot hole or None for a through hole,
+    #           part with the pilot hole, axis of that hole in the assembly, pilot diameter used there)
+    joints = {
+        "grass top": (P.TURF_SCREW_L, P.TURF_SEAT, P.TURF_PILOT_DEPTH, "grass_top", "z", P.M2_PILOT_FLAT),
+        "speaker clamp": (P.CLAMP_SCREW_L, lug, None, "chassis", "x", P.M2_PILOT_SIDE),
+        "pawl pivot": (P.PAWL_SCREW_L, cap, boss + 1.2, "stage", "z", P.M2_PILOT_FLAT),
+    }
+    ok, rows = True, []
+    for name, (length, free, depth, key, axis, pilot) in joints.items():
+        thread = length - free
+        engaged = thread - P.M2_LEAD
+        fits = depth is None or depth >= thread + 0.2          # a machine screw has a blunt end: the hole must be deeper
+        upright = _upright_in_print(key, axis)
+        right_pilot = abs(pilot - (P.M2_PILOT_FLAT if upright else P.M2_PILOT_SIDE)) < 1e-9
+        ok = ok and engaged >= P.M2_ENGAGE - 1e-9 and fits and right_pilot
+        rows.append(f"{name}: M2 x {length:.0f}, {engaged:.1f} mm of thread beyond the lead-in, pilot Ø{pilot} ({'mouth parallel to the bed' if upright else 'mouth in an upright wall'})" + ("" if depth is None else f", hole {depth - thread:.1f} mm deeper than the screw"))
+    through = (P.BAFFLE_X1 - P.SPK_X_FRONT) - (P.CLAMP_SCREW_L - lug)
+    skin = P.DECK_T - 1.2
+    out.append(Result("screws:M2 screws form enough thread in the print", ok and through >= 0.2 and skin >= 1.0, "; ".join(rows) + f". Needed: {P.M2_ENGAGE} mm (research/06 section 4.2). The clamp screws end {through:.1f} mm inside the front face of the baffle; above the pivot screw's hole {skin:.1f} mm of the ring deck stay closed. Head room everywhere: Ø{P.M2_HEAD_D} x {P.M2_HEAD_H} mm, which takes a cap head (ISO 4762) or a pan head (ISO 7045)", {"rows": rows}))
+    lip = (P.PAWL_CAP_D - P.PAWL_BORE) / 2 - (P.M2_CLEAR - 2.0) / 2
+    standard = (5.0 - P.PAWL_BORE) / 2
+    it = A.by_key(A.build())
+    d_pawl = g.min_distance(it["pawl_cap"].shape(), it["pawl"].shape())
+    d_horn = min(g.min_distance(A.by_key(A.build(horn_deg=h))["pawl_cap"].shape(), A.by_key(A.build(horn_deg=h))["horn"].shape()) for h in (P.HORN_REST_DEG, P.HORN_RELEASE_DEG))
+    out.append(Result("screws:printed washer keeps the pawl on its pivot", lip >= 0.5 and 0.1 <= d_pawl <= 0.6 and d_horn >= 0.3, f"the flange of the printed pivot washer (Ø{P.PAWL_CAP_D}) overlaps the pawl's bore (Ø{P.PAWL_BORE}) by {lip:.2f} mm all round, however the washer sits on its screw; a standard M2 washer (Ø5.0, ISO 7089) would be {-standard:.2f} mm smaller than the bore. The pawl keeps {d_pawl:.2f} mm of play above the washer, and the servo arm passes {d_horn:.2f} mm from it at rest and at release", {"lip": lip, "pawl": d_pawl, "horn": d_horn}))
+    # the two speaker clamp screws lie deep in the core: only a hex key reaches them
+    key_long, key_short = 45.0, 15.0                         # arms of an ordinary 1.5 mm hex key
+    x_head = P.SPK_X_FRONT - lug - P.M2_HEAD_H
+    core = [i for i in A.build() if 4 <= i.step <= 6 and i.key != "clamp_screws"]
+    blocked, sweeps, straight, tilted = [], [], set(), set()
+    for sgn in (1, -1):
+        y = sgn * 22.6
+        shaft = g.cyl_x(1.0, x_head - key_long, x_head - 0.05, y, P.SPK_Z)
+        blocked += [i.key for i in core if g.common_volume(shaft, i.shape()) > TOL_VOLUME]
+        free = set()
+        for ang in range(0, 360, 10):
+            arm = g.move(g.rot(g.box(-0.9, 0.9, 0.0, key_short, -0.9, 0.9), "x", ang, (0, 0, 0)), dx=x_head - key_long + 1.5, dy=y, dz=P.SPK_Z)
+            if all(g.common_volume(arm, i.shape()) <= TOL_VOLUME for i in core):
+                free.add(ang)
+        run = max((next(n for n in range(37) if (a + 10 * n) % 360 not in free) for a in free), default=0) * 10 if len(free) < 36 else 360
+        sweeps.append(run)
+        # a screwdriver in line with the screw, and one held 20 degrees off its axis (possible only with a ball end)
+        inline = g.cyl_x(1.5, x_head - 90.0, x_head - 0.3, y, P.SPK_Z)
+        straight |= {i.key for i in core if g.common_volume(inline, i.shape()) > TOL_VOLUME}
+        t = math.radians(20.0)
+        d = cq.Vector(-math.cos(t), 0.0, math.sin(t))
+        o = cq.Vector(x_head - 0.3, y, P.SPK_Z)
+        tool = cq.Solid.makeCylinder(1.5, 90.0, o, d).fuse(cq.Solid.makeCylinder(8.0, 60.0, o + d * 60.0, d))
+        tilted |= {i.key for i in core if g.common_volume(tool, i.shape()) > TOL_VOLUME}
+    out.append(Result("screws:a hex key reaches the speaker clamp screws", not blocked and min(sweeps) >= 90 and not tilted, f"with the core on the bench (steps 4 to 6) the long arm of a 1.5 mm hex key ({key_long:.0f} mm) lies free behind each of the two screws: blocked by {blocked or 'nothing'}; its short arm can swing through {min(sweeps)}° (60° are enough to take a new grip). A screwdriver in line with the screw meets {', '.join(sorted(straight)) or 'nothing'}; held 20° upwards, as a ball-end hex driver allows, it meets {', '.join(sorted(tilted)) or 'nothing'}. A cross-head screw cannot be driven here: these two screws need a hex socket", {"sweeps": sweeps, "blocked": blocked}))
+    return out
+
+
+def check_pins() -> list[Result]:
+    """The two hinge pins and the pin of the ring lock: do they hold, and can they be put in?"""
+    out = []
+    hx, hz = P.HINGE_X, P.HINGE_Z
+    y_in, y_out = K.hinge_pin_span()
+    w_in, w_out = K.hinge_pin_span(parked=True)
+    rib0, rib1 = P.SPRING_SLOT / 2, P.SPRING_SLOT / 2 + P.LID_RIB_T
+    half = P.SPRING_SLOT / 2 - 0.15
+    in_tower = min(y_out, K.TOWER_Y1) - K.TOWER_Y0
+    in_rib = min(y_out, rib1) - max(y_in, rib0)
+    in_sleeve = half - y_in
+    out.append(Result("pins:two hinge pins carry lid and spring", in_tower >= 2.5 and in_rib >= P.LID_RIB_T - 1e-9 and in_sleeve >= 1.0 and y_out <= K.TOWER_Y1, f"each Ø{P.HINGE_PIN_D:.0f} x {P.HINGE_PIN_L:.0f} pin is pressed into {in_tower:.1f} mm of its hinge tower (bore Ø{P.HINGE_PRESS}), carries one rib of the lid over its full {in_rib:.1f} mm (bore Ø{P.HINGE_BORE}) and reaches {in_sleeve:.2f} mm into the spring sleeve; its outer end lies {K.TOWER_Y1 - y_out:.1f} mm inside the outer face of the tower", {"tower": in_tower, "rib": in_rib, "sleeve": in_sleeve}))
+
+    # one long pin cannot be mounted: the lid's own wall closes the hinge axis
+    lid = S.lid()
+    axis = g.inter(g.cyl_y(0.05, 0.0, 60.0, hx, hz), lid)
+    wall_y = min(sol.BoundingBox().ymin for sol in axis.Solids() if sol.BoundingBox().ymin > rib1 + 0.5)
+    room = math.sqrt((P.R - P.T_LID) ** 2 - (math.hypot(hx, hz) + P.HINGE_PIN_D / 2) ** 2) - K.TOWER_Y1
+    out.append(Result("pins:why the hinge has two pins", wall_y < K.TOWER_Y1 + 2 * P.HINGE_PIN_L and w_out - K.TOWER_Y1 < wall_y - K.TOWER_Y1, f"the hinge axis lies inside the lid and meets its wall {wall_y:.1f} mm from the middle; beside a hinge tower a Ø{P.HINGE_PIN_D:.0f} pin has {room:.1f} mm of room before it touches the wall. A pin that goes through both ribs cannot be put in, at any length. A waiting pin stands {w_out - K.TOWER_Y1:.1f} mm out of its tower", {"wall_y": wall_y, "room": room}))
+
+    # the pins wait in the towers while the lid is put on
+    asm = P.HINGE_MOUNT_DEG                                   # the lid is held about this far open
+    parked = A.by_key(A.build(lid_deg=asm, hinge_parked=True))
+    lid_a, pins, stage = parked["lid"].shape(), parked["hinge_pin"].shape(), parked["stage"].shape()
+    gap = g.min_distance(pins, lid_a)
+    shell = g.inter(g.ball_zone(P.R, P.R - P.HINGE_RECESS_WALL + 0.02, P.HB, hz + 6.0), g.box(-70, -30, 11.6, P.HINGE_RECESS_Y + 2.0, 0, 30))
+    kept = g.common_volume(shell, lid) / g.volume(shell)
+    out.append(Result("pins:waiting pins clear the lid", gap >= 0.15 and kept > 0.999 and P.HINGE_RECESS_WALL >= 1.2, f"with the pins waiting in the towers (flush with the towers' inner faces) the lid keeps {gap:.2f} mm from them; the relief inside the lid wall that makes this room leaves {P.HINGE_RECESS_WALL} mm of wall (measured: {kept * 100:.1f} % of that shell is solid), so nothing shows outside. The wall behind the knuckles is {P.LID_WALL_AT_HINGE} mm as before", {"gap": gap, "kept": kept}))
+    bad = []
+    steps = (0.6, 1.2, 2.0, 3.0, 4.5, 6.5, 9.0, 12.0, 16.0)
+    for ang in (180.0, 190.0, 200.0):
+        ux, uz = math.cos(math.radians(ang)), math.sin(math.radians(ang))
+        for d in steps:
+            moved = g.move(lid_a, dx=d * ux, dz=d * uz)
+            v_s, v_p = g.common_volume(moved, stage), g.common_volume(moved, pins)
+            if v_s > TOL_VOLUME or v_p > TOL_VOLUME:
+                bad.append((ang, d, round(v_s, 2), round(v_p, 2)))
+    out.append(Result("pins:lid slides onto the hinge from behind", not bad, f"lid held {asm:.0f}° open and brought forwards from {steps[-1]:.0f} mm behind its seat, level and up to 20° from below: {len(bad)} collisions with the stage or the waiting pins", {"collisions": bad}))
+    # long-nose pliers press both pins in at once: one jaw on each pin end
+    jaw_t, jaw_w = 1.5, 2.5
+    reach = {}
+    for deg in (asm, 90.0):
+        lid_j = A.by_key(A.build(lid_deg=deg, hinge_parked=True))["lid"].shape()
+        free = []
+        for ang in range(0, 360, 15):
+            ok = True
+            for sgn in (1, -1):
+                ya, yb = sorted((sgn * (K.TOWER_Y1 + 0.05), sgn * (w_out + jaw_t)))
+                bar = g.move(g.rot(g.box(-0.6, 40.0, ya, yb, -jaw_w / 2, jaw_w / 2), "y", -ang, (0, 0, 0)), dx=hx, dz=hz)
+                if g.common_volume(bar, lid_j) > TOL_VOLUME or g.common_volume(bar, stage) > TOL_VOLUME:
+                    ok = False
+                    break
+            if ok:
+                free.append(ang)
+        reach[deg] = free
+    above = {deg: [a for a in fr if 45 <= a <= 135] for deg, fr in reach.items()}
+    out.append(Result("pins:pliers reach the waiting pins", all(above.values()) and len(above[90.0]) >= 2, "two jaws of " + f"{jaw_w} x {jaw_t} mm reach the ends of both waiting pins and can follow them to the towers, coming from above: " + "; ".join(f"lid {deg:.0f}° open from {', '.join(str(a) for a in fr)}°" for deg, fr in above.items()) + " (directions round the hinge, 90° is straight from above, tried in steps of 15°). The jaws stop on the faces of the towers, which sets the depth", {"directions": {str(k): v for k, v in reach.items()}}))
+
+    # ring lock
+    stem = P.LOCK_STEM_X[1] - max(P.LOCK_STEM_X[0], P.LOCK_TIP_X - P.LOCK_PIN_L)
+    behind = P.LOCK_STEM_X[0] - (P.LOCK_TIP_X - P.LOCK_PIN_L)
+    guide_x = P.LOCK_STEM_X[0] - P.LOCK_TRAVEL - 1.5
+    proud = guide_x - (P.LOCK_TIP_X - P.LOCK_TRAVEL - P.LOCK_PIN_L)
+    it = A.by_key(A.build())
+    path = g.cyl_x(P.LOCK_PIN_D / 2, -80.0, P.LOCK_TIP_X, 0, P.LOCK_Z)
+    v_stage, v_cradle = g.common_volume(path, it["stage"].shape()), g.common_volume(path, it["cradle"].shape())
+    out.append(Result("pins:lock pin goes in from behind", stem >= 5.0 - 1e-9 and 0.0 <= behind <= 3.0 and v_stage <= TOL_VOLUME and v_cradle <= TOL_VOLUME and 0.0 <= proud <= 2.0, f"lock pin Ø{P.LOCK_PIN_D:.0f} x {P.LOCK_PIN_L:.0f}: {stem:.1f} mm in the stem of the slider, {behind:.1f} mm standing out behind it; its straight path from behind the stage to the locked position is free (stage {v_stage:.2f}, cradle {v_cradle:.2f} mm3). With the slider drawn back it stands {proud:.1f} mm out of the back of its guide", {"stem": stem, "path": v_stage + v_cradle}))
+    return out
+
+
 def check_printability() -> list[Result]:
     """Bed fit and a coarse estimate of the area that needs support."""
     out = []
@@ -698,6 +836,8 @@ def run_all(verbose: bool = True) -> list[Result]:
         ("Latch", check_latch),
         ("Ring lock", check_ring_lock),
         ("Assembly paths", check_assembly_paths),
+        ("Small screws", check_fasteners),
+        ("Pins", check_pins),
         ("Grass tongue and figure", check_grass_base),
         ("Physics and function", check_physics),
         ("Printability", check_printability),

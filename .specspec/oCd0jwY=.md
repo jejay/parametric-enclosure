@@ -17,7 +17,7 @@ sources:
 ---
 # Lid, hinge and the pocket in the band
 
-The lid carries two ribs with the pin bores, a stop tab on each rib and a wall thinned from inside so that the pin can sit close to it. The stage carries the two hinge towers, the yoke on which the spring's body leg rests and the beam that stops the tabs at 95°. The pocket in the band and the relief in the stage are cut with the surface of revolution that the lid's rear rim sweeps about the hinge axis.
+The lid carries two ribs with the bores in which it turns on the two hinge pins, a stop tab on each rib, a wall thinned from inside so that the hinge can sit close to it, and beside that a relief for the pins while they wait in their towers. The stage carries the two hinge towers, into which the pins are pressed, the yoke on which the spring's body leg rests and the beam that stops the tabs at 95°. The pocket in the band and the relief in the stage are cut with the surface of revolution that the lid's rear rim sweeps about the hinge axis.
 
 The checks sweep the lid through 39 positions without contact, confirm that 3° beyond the stop collides, that the spring coil stays clear, and that the spring's torque exceeds gravity with a spring 20 % below nominal.
 

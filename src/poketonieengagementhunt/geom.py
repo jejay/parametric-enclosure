@@ -64,6 +64,11 @@ def cone_x(r0: float, r1: float, x0: float, x1: float, y: float = 0.0, z: float 
     return cq.Solid.makeCone(r0, r1, x1 - x0, cq.Vector(x0, y, z), cq.Vector(1, 0, 0))
 
 
+def cone_y(r0: float, r1: float, y0: float, y1: float, x: float = 0.0, z: float = 0.0) -> Shape:
+    """Frustum along +Y with radius r0 at y0 and r1 at y1."""
+    return cq.Solid.makeCone(r0, r1, y1 - y0, cq.Vector(x, y0, z), cq.Vector(0, 1, 0))
+
+
 def cone_z(r0: float, r1: float, z0: float, z1: float, x: float = 0.0, y: float = 0.0) -> Shape:
     return cq.Solid.makeCone(r0, r1, z1 - z0, cq.Vector(x, y, z0), cq.Vector(0, 0, 1))
 

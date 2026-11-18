@@ -24,7 +24,7 @@ from . import parts_shell as S
 
 HX, HZ = P.HINGE_X, P.HINGE_Z
 TOWER_Y0 = P.SPRING_SLOT / 2 + P.LID_RIB_T + 0.2      # inner face of a hinge tower
-TOWER_Y1 = P.HINGE_PIN_L / 2                           # outer face of a hinge tower
+TOWER_Y1 = P.HINGE_W / 2                               # outer face of a hinge tower
 DECK_BOTTOM = P.Z_DECK - P.DECK_T
 
 
@@ -144,13 +144,14 @@ def stage() -> cq.Shape:
     behind = g.box(-60, HX, -P.BACK_RELIEF_Y, P.BACK_RELIEF_Y, -1, HZ)
     body = body.cut(relief).cut(behind)
     body = body.fuse(_hinge_towers())
-    body = body.cut(g.cyl_y(P.HINGE_BORE / 2, -30, 30, HX, HZ))
+    body = body.cut(g.cyl_y(P.HINGE_PRESS / 2, -30, 30, HX, HZ))    # the two hinge pins are pressed into the towers
 
     # ring cradle pocket and the guide of the lock pin behind it
     guide = g.box(P.LOCK_STEM_X[0] - P.LOCK_TRAVEL - 1.5, P.CRADLE_X0 - 0.2, -4.0, 4.0, P.LOCK_Z - 3.2, DECK_BOTTOM + 0.01)
     body = body.fuse(guide)
     body = body.cut(g.box(P.CRADLE_X0 - 0.2, P.CRADLE_X1 + 0.2, -P.CRADLE_Y - 0.2, P.CRADLE_Y + 0.2, 0, 60))
-    body = body.cut(g.cyl_x(P.LOCK_PIN_D / 2 + 0.15, -40, P.CRADLE_X0, 0, P.LOCK_Z))
+    # the lock pin is pushed in from behind: its bore runs out through the rear wall of the stage
+    body = body.cut(g.cyl_x(P.LOCK_PIN_D / 2 + 0.15, -60, P.CRADLE_X0, 0, P.LOCK_Z))
     stem_slot = g.box(P.LOCK_STEM_X[0] - P.LOCK_TRAVEL - 0.3, P.LOCK_STEM_X[1] + 0.3, -1.7, 1.7, P.LOCK_Z - 2.3, 60)
     body = body.cut(stem_slot)
     # detent dimples for the slider cap (locked / released)
@@ -165,7 +166,9 @@ def stage() -> cq.Shape:
     seat = g.box(tail_x - 2.6, tail_x + 2.6, 9.3, 11.6, P.PAWL_Z0 - 0.5, DECK_BOTTOM + 0.01)
     nub = g.cyl_y(1.1, 8.3, 9.4, tail_x, (P.PAWL_Z0 + P.PAWL_Z1) / 2)
     body = body.fuse(boss).fuse(stop_pin).fuse(seat).fuse(nub)
-    body = body.cut(g.cyl_z(P.M2_PILOT / 2, P.PAWL_Z0 - 1, DECK_BOTTOM + 1.2, px, py))
+    # the pivot screw forms its own thread in the boss; the mouth of the hole is at the top of the print
+    body = body.cut(g.cyl_z(P.M2_PILOT_FLAT / 2, P.PAWL_Z0 - 1, DECK_BOTTOM + 1.2, px, py))
+    body = body.cut(g.cone_z(P.M2_PILOT_FLAT / 2 + P.M2_LEAD, P.M2_PILOT_FLAT / 2, P.PAWL_Z0 - 0.301, P.PAWL_Z0 - 0.3 + P.M2_LEAD, px, py))
 
     # openings: screws, lid hook, bezel tube, band lugs
     for az in P.SCREW_AZ:
@@ -326,7 +329,9 @@ def chassis() -> cq.Shape:
     body = body.cut(S.emergency_channel(3.0, 30.0))
     body = body.cut(g.box(P.SPK_X_FRONT - 1, P.BAFFLE_X1 + 1, -4.2, 4.2, P.BEZEL_R - 0.5, 60))
     for sgn in (1, -1):
-        body = body.cut(g.cyl_x(P.M2_PILOT / 2, P.SPK_X_FRONT - 1, P.BAFFLE_X1 + 1, sgn * 22.6, P.SPK_Z))
+        # the clamp screws form their own thread; these holes lie level in the print
+        body = body.cut(g.cyl_x(P.M2_PILOT_SIDE / 2, P.SPK_X_FRONT - 1, P.BAFFLE_X1 + 1, sgn * 22.6, P.SPK_Z))
+        body = body.cut(g.cone_x(P.M2_PILOT_SIDE / 2 + P.M2_LEAD, P.M2_PILOT_SIDE / 2, P.SPK_X_FRONT - 0.001, P.SPK_X_FRONT + P.M2_LEAD, sgn * 22.6, P.SPK_Z))
     # USB shelf access through wall and flange
     body = body.cut(_usb_frame(g.box(38.0, 70, -P.TP_W / 2 - 0.2, P.TP_W / 2 + 0.2, zt, 5)))
     # bowl bosses, stack screws
@@ -448,7 +453,20 @@ def slider() -> cq.Shape:
 @lru_cache(maxsize=None)
 def sleeve() -> cq.Shape:
     half = P.SPRING_SLOT / 2 - 0.15
-    return g.cyl_y(P.SLEEVE_OD / 2, -half, half, HX, HZ).cut(g.cyl_y(P.HINGE_BORE / 2, -10, 10, HX, HZ))
+    body = g.cyl_y(P.SLEEVE_OD / 2, -half, half, HX, HZ).cut(g.cyl_y(P.HINGE_BORE / 2, -10, 10, HX, HZ))
+    # each end catches the tip of one hinge pin: a funnel leads it in
+    r, lead = P.HINGE_BORE / 2, 0.4
+    body = body.cut(g.cone_y(r + lead, r, -half - 0.001, -half + lead, HX, HZ))
+    body = body.cut(g.cone_y(r, r + lead, half - lead, half + 0.001, HX, HZ))
+    return g.clean(body)
+
+
+def hinge_pin_span(parked: bool = False) -> tuple[float, float]:
+    """Distance from the middle of the hinge to the inner and the outer end of a hinge pin.  ``parked``: as it
+    waits in its tower while the lid is put on, flush with the tower's inner face."""
+    if parked:
+        return (TOWER_Y0, TOWER_Y0 + P.HINGE_PIN_L)
+    return (P.HINGE_PIN_Y0, P.HINGE_PIN_Y1)
 
 
 @lru_cache(maxsize=None)
@@ -465,4 +483,39 @@ def spk_clamp() -> cq.Shape:
     body = body.cut(g.cyl_x(P.SPK_D / 2 + 0.25, x1, P.SPK_X_FRONT + 1, 0, P.SPK_Z))
     body = body.cut(g.cyl_x(P.SPK_BASKET_D / 2 + 0.5, x0 - 1, x1 + 1, 0, P.SPK_Z))
     body = body.cut(g.box(x0 - 1, P.SPK_X_FRONT + 1, 11.0, 19.5, P.SPK_Z - 3.0, P.SPK_Z + 3.0))   # solder tags
+    return g.clean(body)
+
+
+@lru_cache(maxsize=None)
+def pawl_cap() -> cq.Shape:
+    """Printed washer of the pawl pivot.  Its flange lies against the end of
+    the pivot boss and keeps the pawl on it; a standard M2 washer is only 5 mm
+    across and would slip through the pawl's bore.  Its hub fills the rest of
+    the length of an M2 x 6 screw."""
+    px, py = P.PAWL_PIVOT
+    z1 = P.PAWL_Z0 - 0.3                         # end of the pivot boss
+    z0 = z1 - P.PAWL_CAP_T
+    body = g.cyl_z(P.PAWL_CAP_D / 2, z0, z1, px, py).fuse(g.cyl_z(P.PAWL_CAP_HUB_D / 2, z0 - P.PAWL_CAP_HUB_T, z0 + 0.01, px, py))
+    return g.clean(body.cut(g.cyl_z(P.M2_CLEAR / 2, z0 - P.PAWL_CAP_HUB_T - 1, z1 + 1, px, py)))
+
+
+M2_COUPON_STEP = 0.1                              # the test holes differ by this much
+
+
+@lru_cache(maxsize=None)
+def m2_coupon() -> cq.Shape:
+    """Test piece for the M2 pilot holes, in its own coordinates and print
+    orientation.  Three holes from the top (mouth parallel to the bed) and
+    three through its side (mouth in an upright wall), each the model's value
+    and one step either side.  The smallest of each three is nearest to the
+    cut-off corner."""
+    body = g.box(0.0, 37.0, 0.0, 12.0, 0.0, 8.0)
+    body = body.cut(g.prism_xy([(-1.0, -1.0), (3.5, -1.0), (-1.0, 3.5)], -1.0, 9.0))
+    for i, x in enumerate((5.0, 11.0, 17.0)):
+        d = P.M2_PILOT_FLAT + (i - 1) * M2_COUPON_STEP
+        body = body.cut(g.cyl_z(d / 2, 2.0, 9.0, x, 6.0))
+        body = body.cut(g.cone_z(d / 2, d / 2 + P.M2_LEAD, 8.0 - P.M2_LEAD, 8.001, x, 6.0))
+    for i, x in enumerate((23.0, 28.0, 33.0)):
+        d = P.M2_PILOT_SIDE + (i - 1) * M2_COUPON_STEP
+        body = body.cut(g.cyl_y(d / 2, -1.0, 13.0, x, 4.0))
     return g.clean(body)

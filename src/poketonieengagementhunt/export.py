@@ -2,6 +2,7 @@
 
 export/stl/<part>.stl        printed parts, already turned into print orientation
 export/step/<part>.step      printed parts in assembly coordinates
+export/stl/m2_test_coupon.stl  test piece for the M2 pilot holes (not a part of the device)
 export/step/components/      dummy models of the purchased components
 export/step/assembly.step    the complete, coloured and named assembly
 """
@@ -30,6 +31,15 @@ def export_all(root: Path) -> list[Path]:
         mesh = to_mesh(A.print_oriented(key), *A.MESH.get(key, (0.01, 0.1)))
         p = stl_dir / f"{key}.stl"
         mesh.export(p)
+        written.append(p)
+        p = step_dir / f"{key}.step"
+        cq.exporters.export(cq.Workplane(obj=shape), str(p))
+        written.append(p)
+
+    # test pieces: not parts of the device, exported as they are modelled
+    for key, (shape, _filament, _note) in A.extra_prints().items():
+        p = stl_dir / f"{key}.stl"
+        to_mesh(shape).export(p)
         written.append(p)
         p = step_dir / f"{key}.step"
         cq.exporters.export(cq.Workplane(obj=shape), str(p))

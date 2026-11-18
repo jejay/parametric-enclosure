@@ -113,7 +113,7 @@ def _ribs(c: float = 0.0, bores: bool = True) -> cq.Shape:
     out = g.inter(out, g.sphere(P.R - 0.25))
     out = g.inter(out, g.slab(P.HB - c, 100.0))
     if bores:
-        out = out.cut(g.cyl_y(P.HINGE_PRESS / 2, -30, 30, hx, hz))
+        out = out.cut(g.cyl_y(P.HINGE_BORE / 2, -30, 30, hx, hz))      # the ribs turn on the two hinge pins
     return out
 
 
@@ -138,6 +138,14 @@ def lid(fat: float = 0.0) -> cq.Shape:
         g.box(-70, -30, -11.5 + c, 11.5 - c, P.HB - 5, P.HINGE_Z + 4.0 - c),
     )
     body = body.cut(patch)
+    # ... and relieved beside them: the two hinge pins stand out of their towers while the lid is put on
+    for sgn in (1, -1):
+        ya, yb = sorted((sgn * 11.4, sgn * (P.HINGE_RECESS_Y - c)))
+        relief = g.inter(
+            g.sphere(P.R - P.HINGE_RECESS_WALL - c),
+            g.box(-70, -30, ya, yb, P.HB - 5, P.HINGE_Z + P.HINGE_RECESS_TOP - c),
+        )
+        body = body.cut(relief)
     body = body.fuse(_ribs(c, bores=(c == 0.0)))
     body = body.fuse(_hook(c))
     body = body.cut(_bezel_cut(P.SEAM_GAP - c))

@@ -13,7 +13,7 @@ GRASS_IN = ["reader", "hall", "harness"]
 TURF = ["grass_top"]
 GRASS = ["grass_base"] + GRASS_IN + TURF + ["turf_screws"]
 FOOT = BOWL + GRASS + ["base_screws"]          # everything below the core
-STAGE = ["stage", "pawl", "pawl_screw", "pawl_spring", "cradle", "lock_pin", "slider"]
+STAGE = ["stage", "pawl", "pawl_cap", "pawl_screw", "pawl_spring", "cradle", "lock_pin", "slider"]
 LID = ["lid", "hinge_pin", "sleeve", "spring"]
 
 ANTENNA_MM = P.Z_TURF - P.Z_PCB_BOT            # antenna copper below the standing surface, at most
@@ -48,7 +48,7 @@ STEPS = [
             "Wire the hall switch. Its supply leg goes to the reader's +3.3V pad and its ground leg to GND, each with a short wire; its output leg takes the eleventh wire of the plugs. The twelfth wire stays free (table in `docs/electronics.md`). Insulate each joint with thin heat-shrink tube.",
             "Glue the hall switch flat onto the floor of the pocket between the three small walls under the middle of the antenna, printed face up, legs pointing towards the ball. If the bench test of section 2 found the magnets of your figures elsewhere, glue it there instead; the floor is flat all over. Lay its wires along the floor.",
             "Lay the reader into the pocket, components down, with the antenna at the tip of the tongue and the header end against the two stops at the rear. It rests on the ledge all round. Lead the wires side by side through the channel towards the ball and fix them there with a drop of hot glue. Two more drops at the corners keep the board from rattling.",
-            "Fit the grass top into its frame: hold it level, a little behind its place, and push it forwards and down, so that its bevelled front edge slips under the rim at the tip and the plate lies flush in the frame all round. Turn the tongue over and fasten the four 2.2 x 6 screws from below; their heads sit deep in the holes of the sole. They end inside the roots of grass tufts in the two rear corners, so stop as soon as they are snug.",
+            "Fit the grass top into its frame: hold it level, a little behind its place, and push it forwards and down, so that its bevelled front edge slips under the rim at the tip and the plate lies flush in the frame all round. Turn the tongue over and fasten the four M2 x 6 screws from below; their heads sit deep in the holes of the sole. The screws form their own thread in the roots of grass tufts in the two rear corners, so stop as soon as they are snug.",
         ],
         "views": [
             {"file": "step_02a.png", "show": ["grass_base"], "new": GRASS_IN, "lift": {"hall": (0, 0, 9), "reader": (0, 0, 22), "harness": (0, 0, 36)}, "az": -55, "el": 44},
@@ -105,7 +105,7 @@ STEPS = [
         "title": "Build the front module: speaker, light and bezel",
         "parts": FRONT,
         "text": [
-            "Solder two wires to the speaker. Seat the speaker against the back of the baffle (cone to the front) and clamp it with the clamp ring and two 2.2 x 8 screws. The solder tags sit in the notch of the ring. A thin bead of glue around the rim makes the front chamber airtight.",
+            "Solder two wires to the speaker. Seat the speaker against the back of the baffle (cone to the front) and clamp it with the clamp ring and two M2 x 8 screws, which form their own thread in the baffle. Reach them from behind with the long arm of the 1.5 mm hex key, past the servo, and turn the key by its short arm. The solder tags sit in the notch of the ring. A thin bead of glue around the rim makes the front chamber airtight.",
             "Push the lens into the bezel from behind until its flange sits on the step. Push the white light cone in behind it; it holds the lens in place.",
             "Solder three wires to the LED board, press it into the cup at the narrow end of the cone (LED facing the lens) and lead the wires out through the notch.",
             "Glue the bezel into the socket of the baffle. The key under the tube fits only one way; the four slits then lie on the diagonals. Lead the LED wires out of the front chamber through the socket key notch and seal the notch with a drop of glue.",
@@ -152,14 +152,14 @@ STEPS = [
         "title": "Assemble the stage: latch and ring lock",
         "parts": STAGE,
         "text": [
-            "Turn the stage upside down. Put the pawl on the pivot boss (post pointing away from the deck) and hold it with the 2.2 x 6 screw and washer. The pawl must swing freely; do not clamp it.",
+            "Turn the stage upside down. Put the pawl on the pivot boss (post pointing away from the deck) then the printed pivot washer, flange towards the pawl, and the M2 x 6 screw. The screw forms its own thread in the boss: turn it in until the washer sits on the end of the boss, and no further. The pawl must swing freely; the washer only keeps it from slipping off.",
             "Put the short compression spring between the nub on the pawl's tail and the nub on the stage. It pushes the tail against the stop pin.",
             "Turn the stage over. Line the ring slot of the cradle with self-adhesive felt on both sides until the ring slides in with light friction, then drop the cradle into its pocket in the deck.",
-            "Press the 3 x 24 mm dowel pin into the stem of the slider. Put the slider into its slot behind the cradle and push the pin forwards through the guide and the cradle. In the rear position the pin clears the ring slot, in the front position it crosses it; in both positions it keeps the cradle captive.",
+            "Put the slider into its slot behind the cradle. Push the 3 x 25 mm dowel pin in from behind, through the hole in the rear wall of the stage and into the guide under the deck. It slides in the guide and in the cradle and is a press fit in the stem of the slider, which it takes along to the front end of the slot. Press it in against the edge of the table until it is flush with the rear wall, then push it on with the 2.5 mm hex key until its tip has crossed the ring slot and stops in the hole of the far wall. Do not force it further. Now move the slider: in the rear position the pin clears the ring slot and stands about 1 mm out of the back of its guide, in the front position it crosses the slot; in both positions it keeps the cradle captive.",
         ],
         "views": [
-            {"file": "step_09a.png", "show": ["stage"], "new": ["pawl", "pawl_screw", "pawl_spring"], "lift": {"pawl": (0, 0, -16), "pawl_screw": (0, 0, -30), "pawl_spring": (0, 0, -16)}, "az": 25, "el": -42},
-            {"file": "step_09b.png", "show": ["stage", "pawl", "pawl_screw", "pawl_spring"], "new": ["cradle", "lock_pin", "slider"], "lift": {"cradle": (0, 0, 18), "slider": (0, 0, 26), "lock_pin": (-34, 0, 0)}, "az": 150, "el": 40},
+            {"file": "step_09a.png", "show": ["stage"], "new": ["pawl", "pawl_cap", "pawl_screw", "pawl_spring"], "lift": {"pawl": (0, 0, -16), "pawl_cap": (0, 0, -24), "pawl_screw": (0, 0, -32), "pawl_spring": (0, 0, -16)}, "az": 25, "el": -42},
+            {"file": "step_09b.png", "show": ["stage", "pawl", "pawl_cap", "pawl_screw", "pawl_spring"], "new": ["cradle", "lock_pin", "slider"], "lift": {"cradle": (0, 0, 18), "slider": (0, 0, 26), "lock_pin": (-34, 0, 0)}, "az": 150, "el": 40},
         ],
     },
     {
@@ -167,13 +167,18 @@ STEPS = [
         "title": "Hinge the lid to the stage",
         "parts": LID,
         "text": [
-            "Slip the printed sleeve into the torsion spring. Hold the spring between the two ribs of the lid so that one leg lies up along the inside of the lid's back wall and the other points forwards.",
-            "Hold the lid about 90° open behind the stage, bring its ribs between the two hinge towers and push the 2 x 20 mm pin through tower, rib, sleeve, rib and tower. It is a press fit in the ribs.",
-            "Lift the forward-pointing spring leg onto the yoke between the towers. The coil must tighten when you close the lid; if it opens instead, take the spring out and use the one with the other winding direction (order both L and R).",
+            f"Press one 2 x 8 mm pin into each hinge tower of the stage from outside, with flat pliers or against the table, until its tip is flush with the inner face of the tower. Both pins now stand {P.HINGE_PIN_L - (P.HINGE_W / 2 - (P.SPRING_SLOT / 2 + P.LID_RIB_T + 0.2)):.0f} mm out of their towers and wait there. They must go in under firm pressure and then sit fast; if a pin does not go in, open the bore of the tower with a 2 mm drill.",
+            "Slip the printed sleeve into the torsion spring and check its winding direction now: hold the spring as it will sit, one leg pointing up and the other forwards, and push the upper leg down towards the front one, as the closing lid will do. The coil must wind tighter. If it opens instead, use the spring with the other winding direction (order both L and R). Once the pins are in, the spring can only be changed by cutting the sleeve.",
+            "Hold the spring between the two ribs of the lid so that one leg lies up along the inside of the lid's back wall and the other points forwards.",
+            f"Hold the lid about {P.HINGE_MOUNT_DEG:.0f}° open behind the stage and slide it forwards until its two ribs lie between the hinge towers and their round ends line up with the round ends of the towers. The two waiting pins pass through the shallow channels inside the wall of the lid.",
+            "Squeeze the two pins towards each other with long-nose pliers, coming from above, one jaw on the end of each pin. The pins pass through the ribs and catch the sleeve at both ends. Stop when the jaws lie on the towers. The pins sit fast in the towers; lid and sleeve turn on them.",
+            "Lift the forward-pointing spring leg onto the yoke between the towers.",
             "Close and open the lid by hand a few times. It must swing freely from closed to the end stop at about 95° and the spring must throw it open.",
+            "One long pin cannot be used in this hinge: the wall of the lid closes the hinge axis at both ends. To take the lid off again, cut the sleeve open with side cutters, take out sleeve and spring, and push each pin outwards with a small screwdriver until it has left the rib. Then print a new sleeve.",
         ],
         "views": [
-            {"file": "step_10.png", "pose": "open", "show": STAGE, "new": LID, "lift": {"lid": (-34, 0, 6), "hinge_pin": (0, 36, 0), "sleeve": (0, 0, 22), "spring": (0, 0, 36)}, "az": 62, "el": 32},
+            {"file": "step_10a.png", "pose": "hinging", "show": STAGE, "new": ["hinge_pin"], "az": 152, "el": 30},
+            {"file": "step_10b.png", "pose": "hinging", "show": STAGE + ["hinge_pin"], "new": ["lid", "sleeve", "spring"], "ghost": ["lid"], "lift": {"lid": (-30, 0, 0), "sleeve": (-30, 0, 0), "spring": (-30, 0, 0)}, "az": 152, "el": 30},
         ],
     },
     {
@@ -206,9 +211,9 @@ STEPS = [
 # key -> (what to buy / what it is, reference into research/)
 BOM_NOTES = {
     "reader": ("The common blue PN5180 module, about 70 x 39 mm, silkscreen \"PN5180-NFC\" (AliExpress, Amazon, eBay, AZ-Delivery). Prefer a listing whose pin header is supplied loose. The bag usually holds two test tags as well.", "research/02 §1A, 08"),
-    "hall": ("TI DRV5032FB hall switch in TO-92 (4.0 x 3.15 x 1.52 mm). Buy two: the second can go on the spare wire if one does not catch the magnets.", "research/04 §5, 09 §7, 10 C5"),
+    "hall": ("TI DRV5032FB hall switch in TO-92 (4.0 x 3.15 x 1.52 mm). If it cannot be had: AH3661UA in the same package (Conrad order number 1569221, TRU COMPONENTS), which needs a 1 MOhm pull-up resistor; see `docs/electronics.md`. Buy three or four: fit the one that answers to a magnet from furthest away, and keep one for the spare wire in case one switch does not catch the magnets.", "research/04 §5, 09 §7, 10 C5"),
     "harness": ("Two pre-wired 6-pin wire-to-wire pairs with 1.25 mm pitch and at least 15 cm of 28 AWG wire on each half. Sold as \"Micro JST 1.25 mm 6-pin male and female with wire\"; the original parts are Molex PicoBlade 51021-0600 and 51047-0600. One half goes to reader and hall switch, the other to the core.", "research/10 C1"),
-    "turf_screws": ("Self-tapping screws 2.2 x 6 with pan head, ISO 7049 (head 4.0 x 1.6 mm).", "research/06 §4.2, 10 C4"),
+    "turf_screws": ("M2 x 6 machine screws with a cylindrical head and hex socket, ISO 4762 / DIN 912. Any head up to Ø4.0 x 2.0 mm fits; a countersunk head does not. They form their own thread in the printed pilot holes.", "research/06 §4.2, §4.3"),
     "base_screws": ("M3 x 16 countersunk screws with hexagon socket, ISO 10642 or DIN 7991.", "research/10 C2"),
     "mcu": ("Seeed XIAO ESP32-S3 Plus (16 MB flash, 8 MB PSRAM) with its U.FL antenna. Fallback: Unexpected Maker TinyS3 (needs a longer pocket).", "research/04 §1, 07 §11"),
     "amp": ("MAX98357A I2S class-D amplifier breakout (Adafruit #3006 or clone), terminal block not fitted.", "research/04 §2"),
@@ -224,11 +229,11 @@ BOM_NOTES = {
     "inserts": ("M3 heat-set inserts, Ø4.6 x 5.7 mm (ruthex / CNC Kitchen).", "research/06 §4.1"),
     "stack_screws": ("M3 x 16 socket head cap screws, ISO 4762.", "research/06 §4.3"),
     "servo_screws": ("Supplied with the servo.", "research/05 §8.1"),
-    "clamp_screws": ("Self-tapping screws 2.2 x 8.", "research/06 §4.2"),
-    "pawl_screw": ("Self-tapping screw 2.2 x 6 and an M2 washer.", "research/06 §4.2"),
+    "clamp_screws": ("M2 x 8 machine screws with a cylindrical head and hex socket, ISO 4762 / DIN 912. It has to be a hex socket here: the two screws lie deep in the core, where only a hex key reaches them.", "research/06 §4.2, §4.3"),
+    "pawl_screw": ("M2 x 6 machine screw, the same as for the grass top. The washer under it is printed.", "research/06 §4.2, §4.3"),
     "pawl_spring": ("Soft compression spring about Ø3.5-4.5 x 8 mm, for example a piece of a ball-pen spring.", "research/06 §2.2"),
-    "hinge_pin": ("Stainless pin Ø2 x 20 mm: dowel pin ISO 2338, or a cut bicycle spoke.", "research/06 §3"),
-    "lock_pin": ("Hardened dowel pin Ø3 x 24 mm, ISO 2338.", "research/06 §3"),
+    "hinge_pin": ("Two steel dowel pins (parallel pins) Ø2 x 8 mm, ISO 2338 / DIN 7 or hardened ISO 8734 / DIN 6325. Two pieces of a 2 mm bicycle spoke, 8 mm long with rounded ends, do as well.", "research/06 §3"),
+    "lock_pin": ("Steel dowel pin (parallel pin) Ø3 x 25 mm. A 24 mm pin of the ISO 2338 series fits as well; a 20 mm pin is too short: only half as much of it would sit in the slider.", "research/06 §3"),
     "ring": ("The engagement ring. Measure it and adjust the RING_* values in `params.py`, then reprint the cradle.", "research/06 §1"),
 }
 
@@ -236,6 +241,7 @@ SMALL_PARTS = [
     ("Electrolytic capacitor 470-1000 µF / 10 V", "1", "across the 5 V output of the boost converter, close to the servo"),
     ("Resistors 2 MOhm and 1 MOhm, capacitor 100 nF", "1 each", "battery voltage divider at the ADC pin"),
     ("Resistors 100 kOhm", "3", "pull-downs on boost enable, amplifier SD and reader RST"),
+    ("Resistor 1 MOhm, capacitor 100 nF", "1 each, only with the AH3661UA hall switch", "pull-up from the wake pad to 3.3 V at the controller; capacitor across the supply legs of the switch"),
     ("Diode 1N4148", "1", "in series with the LED's 5 V supply, so that 3.3 V data is in spec"),
     ("Silicone wire 26-28 AWG, heat-shrink tube", "", "all point-to-point wiring"),
     ("Self-adhesive felt or velour, 0.5-1 mm", "", "ring slot lining; optional curtain behind the band pocket; optional dots under the ball's flat and the tongue"),
@@ -247,7 +253,8 @@ SMALL_PARTS = [
 TOOLS = [
     "FDM printer with a 0.4 mm nozzle; PETG in red, white, black, natural (clear) and a light green, and any colour for the inner parts",
     "Soldering iron with a fine tip (also used to set the heat-set inserts)",
-    "Hex keys 2 and 2.5 mm, small cross-head screwdriver, side cutters, tweezers",
+    "Hex keys 1.5, 2 and 2.5 mm, long-nose pliers, small cross-head screwdriver, side cutters, tweezers",
+    "Drill bits of 1.7 or 1.8 mm and of 2.0 mm, only if a pilot hole for an M2 screw or the bore for a hinge pin prints too tight",
     "Multimeter; a USB-C cable and charger",
     "Calipers, to measure the ring, the reader board and the other delivered boards",
 ]
@@ -336,7 +343,7 @@ def manual_markdown(items, nums, printed) -> str:
     a(f"2. **Metal under the tongue.** Repeat test 1 with a baking tray {TABLE_MM:.0f} mm under the board: that is a metal table under the tongue. The distance is a little more than the 10 mm that the antenna guides ask for [research/08 §8], so the figures should still read. If they do not, lay the ferrite sheet from the list of small parts 5 mm under the board, where the floor of the pocket will be, and repeat on both surfaces.")
     a(f"3. **The magnets.** The pocket is laid out for the magnets of the classic Tonies, which the Pokémon figures should share because they work on the first Toniebox: cylinders of {P.TONIE_MAGNET_D:.0f} x {P.TONIE_MAGNET_H:.0f} mm, one in the middle of the foot or one in each of two feet [research/09 §7]. Find them with a steel pin or a compass needle. Then fix the hall switch under the middle of the antenna with its printed face {HALL_MM - P.TURF_T:.0f} mm below the plastic sheet (a stack of cardboard does it): that is where it lies in the tongue. It must switch when a figure stands on the sheet, in every rotation of the figure, and release when the figure is lifted away. Then slide the figure off the middle and note how far it can stand off before the switch lets go and before the read fails. Nothing marks the place on the tongue, so this distance is the reserve for a figure that is put down by eye; about {P.GRASS_GAP:.0f} mm is what the layout counts on. If the switch does not answer at all, read \"Wake, if the magnet is not where the switch is\" in `docs/electronics.md` before you go on.")
     a("4. **Servo and supply.** Run the servo from the boost converter on the real cell while the amplifier plays. The board must not reset. Measure the stall current.")
-    a("5. **Lid spring.** Print the lid, the stage and the band first, hinge them and check that the spring throws the lid open and that it rests on the end stop.")
+    a("5. **Lid spring and hinge pins.** Print the lid, the stage and the band first. Try a hinge pin in a tower: it must go in under firm pressure and then sit fast (step 10). Hinge the lid and check that the spring throws it open and that it rests on the end stop.")
     a("")
     a(f"Also measure the delivered parts against the values marked `MEASURE` in `params.py`: outline of the reader board ({P.BLUE_L} x {P.BLUE_W} mm assumed; it sets the length of the tongue) and position of its antenna, the foot of a figure ({P.TONIE_BASE_D:.0f} mm assumed; the width of the tongue follows it), height of the XIAO, length of the charger and position of its USB-C socket, and the ring itself.")
     a("")
@@ -357,7 +364,8 @@ def manual_markdown(items, nums, printed) -> str:
     a("- Grass tongue (tray): light green, sole on the bed, no supports, 4 perimeters, 40 % infill. The rim round its top overhangs inwards at the tip by less than 40°; it prints without support.")
     a(f"- Grass top: the same light green, one file (`grass_top.stl`): underside on the bed, tufts up, no supports, 5 perimeters so that the blades print solid. Slow down above the turf surface and keep a minimum layer time of about 8 s, so that the blunt tips do not melt. Its edge leans like the walls of its frame, and its lowest {P.TURF_FOOT} mm stand back a little for a first layer that is squeezed wide. If it still does not drop into the frame, scrape its bottom edge with a knife.")
     a("- A green that comes close to the grass of the games: Bambu PETG HF Green [research/10 A.4]. Tray and grass top should come from the same spool.")
-    a("- Print pawl, slider, sleeve and cradle first. They are small and show whether your printer's clearances suit: the slider must move in the stage with light friction and the pawl must turn freely on its boss.")
+    a("- Print pawl, pivot washer, slider, sleeve and cradle first. They are small and show whether your printer's clearances suit: the slider must move in the stage with light friction and the pawl must turn freely on its boss.")
+    a(f"- M2 pilot holes. The seven M2 screws form their own thread in printed holes: {P.M2_PILOT_FLAT} mm where the mouth of the hole lies parallel to the print bed (grass top, stage) and {P.M2_PILOT_SIDE} mm where it lies in an upright wall (chassis) [research/06 §4.2]. How such small holes come out depends on printer and filament, so print `export/stl/m2_test_coupon.stl` first, flat as it comes, in the PETG you will use. It has three holes from the top ({P.M2_PILOT_FLAT - 0.1:.2f}, {P.M2_PILOT_FLAT:.2f}, {P.M2_PILOT_FLAT + 0.1:.2f} mm) and three through its side ({P.M2_PILOT_SIDE - 0.1:.2f}, {P.M2_PILOT_SIDE:.2f}, {P.M2_PILOT_SIDE + 0.1:.2f} mm), the smallest of each three next to the cut-off corner. An M2 screw should turn into the middle one with light, even resistance and then hold firmly. If a neighbour fits better, change `M2_PILOT_FLAT` or `M2_PILOT_SIDE` in `params.py` and export again. A hole that is only a little tight can be opened with a 1.7 or 1.8 mm drill.")
     a("")
 
     # --------------------------------------------------------------- wiring
@@ -447,7 +455,7 @@ def manual_markdown(items, nums, printed) -> str:
     a("| --- | --- |")
     a("| ![hinge closed](img/hinge_closed.png) | ![hinge open](img/hinge_open.png) |")
     a("")
-    a("The hinge pin sits inside the lid. While the lid opens, its rear rim dips into a shallow pocket in the top edge of the black band. That pocket is the only trace of the hinge on the outside; it is black, lies under the overhanging lid and can be closed with the felt strip from step 8.")
+    a("The hinge lies inside the lid, on two short pins in the towers of the stage. While the lid opens, its rear rim dips into a shallow pocket in the top edge of the black band. That pocket is the only trace of the hinge on the outside; it is black, lies under the overhanging lid and can be closed with the felt strip from step 8.")
     a("")
 
     # -------------------------------------------------------------- service
