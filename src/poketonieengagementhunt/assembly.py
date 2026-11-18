@@ -90,10 +90,10 @@ def build(
     add(Item("bowl", "Bowl (white lower half)", "printed", _col(S.bowl(), "white"), step=1, explode=(0, 0, -118), material="PETG white"))
     ins: Bodies = []
     for x, y in screw_positions():
-        ins += _place(C.insert_m3(), ("move", x, y, -P.HB))
+        ins += _place(C.insert_m3(P.M3_INSERT_L, P.M3_INSERT_D), ("move", x, y, -P.HB))
     for x, y in B.base_screw_xy():
-        ins += _place(C.insert_m3(), ("move", x, y, P.Z_BASE_BOSS))
-    add(Item("inserts", "Heat-set insert M3 x 5.7", "hardware", ins, step=1, explode=(0, 0, -92), qty=8))
+        ins += _place(C.insert_m3(P.BASE_INSERT_L, P.M3_INSERT_D), ("move", x, y, P.Z_BASE_BOSS))
+    add(Item("inserts", f"Heat-set insert M3, Ø{P.M3_INSERT_D:.0f} (four x {P.M3_INSERT_L:.0f} mm, four x {P.BASE_INSERT_L:.0f} mm)", "hardware", ins, step=1, explode=(0, 0, -92), qty=8))
 
     # ----------------------------------------------- step 2: the grass tongue
     add(Item("grass_base", "Grass tongue (tray)", "printed", _col(B.grass_base(), "grass"), step=2, explode=(0, 0, -218), material="PETG light green"))
@@ -266,4 +266,5 @@ def extra_prints() -> dict[str, tuple[cq.Shape, str, str]]:
     """Printable files that are not parts of the device."""
     return {
         "m2_test_coupon": (K.m2_coupon(), "the PETG of the part to be tested", "as it comes, flat on the bed"),
+        "insert_test_boss": (K.insert_test(), "the PETG of the bowl", "as it comes, plate on the bed"),
     }

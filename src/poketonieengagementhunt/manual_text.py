@@ -32,7 +32,7 @@ STEPS = [
         "title": "Prepare the bowl",
         "parts": ["bowl", "inserts"],
         "text": [
-            "Press eight M3 heat-set inserts into the bowl with a soldering iron (about 230 °C for PETG): four into the bosses at the rim, four into the bosses low on the front wall, below the notch for the button. Push straight down and stop when the insert is flush with the top of its boss; let it cool before you touch it.",
+            "Press eight M3 heat-set inserts into the bowl with a soldering iron (about 230 °C for PETG): the four 6 mm ones into the bosses at the rim, the four 5 mm ones into the bosses low on the front wall, below the notch for the button. Push straight down and stop when the insert is flush with the top of its boss; let it cool before you touch it.",
             "The four lower bosses take the screws of the grass tongue. Check from outside that an M3 screw passes freely through the hole below each of them.",
         ],
         "views": [
@@ -226,7 +226,7 @@ BOM_NOTES = {
     "charger": ("TP4056 USB-C charger module with DW01A protection, 28 x 17 mm. Change R_PROG to 2.0-2.4 kOhm for about 0.5 A.", "research/05 §4.1"),
     "boost": ("Adafruit MiniBoost 5V @ 1A (TPS61023), #4654, with enable pin.", "research/05 §4.3"),
     "spring": ("Gutekunst T-16324L and T-16324R (order one of each).", "research/06 §2.1"),
-    "inserts": ("M3 heat-set inserts, Ø4.6 x 5.7 mm (ruthex / CNC Kitchen).", "research/06 §4.1"),
+    "inserts": (f"M3 heat-set inserts that measure {P.M3_INSERT_D} mm over the knurl: four of {P.M3_INSERT_L:.0f} mm for the rim, four of {P.BASE_INSERT_L:.0f} mm for the lower bosses. The holes are {P.M3_INSERT_HOLE} mm. Inserts of 4.6 mm (ruthex / CNC Kitchen M3 x 5.7) need 4.0 mm holes: set `M3_INSERT_HOLE` in `params.py` and export the bowl again.", "research/06 §4.1"),
     "stack_screws": ("M3 x 16 socket head cap screws, ISO 4762.", "research/06 §4.3"),
     "servo_screws": ("Supplied with the servo.", "research/05 §8.1"),
     "clamp_screws": ("M2 x 8 machine screws with a cylindrical head and hex socket, ISO 4762 / DIN 912. It has to be a hex socket here: the two screws lie deep in the core, where only a hex key reaches them.", "research/06 §4.2, §4.3"),
@@ -366,6 +366,7 @@ def manual_markdown(items, nums, printed) -> str:
     a("- A green that comes close to the grass of the games: Bambu PETG HF Green [research/10 A.4]. Tray and grass top should come from the same spool.")
     a("- Print pawl, pivot washer, slider, sleeve and cradle first. They are small and show whether your printer's clearances suit: the slider must move in the stage with light friction and the pawl must turn freely on its boss.")
     a(f"- M2 pilot holes. The seven M2 screws form their own thread in printed holes: {P.M2_PILOT_FLAT} mm where the mouth of the hole lies parallel to the print bed (grass top, stage) and {P.M2_PILOT_SIDE} mm where it lies in an upright wall (chassis) [research/06 §4.2]. How such small holes come out depends on printer and filament, so print `export/stl/m2_test_coupon.stl` first, flat as it comes, in the PETG you will use. It has three holes from the top ({P.M2_PILOT_FLAT - 0.1:.2f}, {P.M2_PILOT_FLAT:.2f}, {P.M2_PILOT_FLAT + 0.1:.2f} mm) and three through its side ({P.M2_PILOT_SIDE - 0.1:.2f}, {P.M2_PILOT_SIDE:.2f}, {P.M2_PILOT_SIDE + 0.1:.2f} mm), the smallest of each three next to the cut-off corner. An M2 screw should turn into the middle one with light, even resistance and then hold firmly. If a neighbour fits better, change `M2_PILOT_FLAT` or `M2_PILOT_SIDE` in `params.py` and export again. A hole that is only a little tight can be opened with a 1.7 or 1.8 mm drill.")
+    a(f"- Heat-set inserts. Print `export/stl/insert_test_boss.stl` in the PETG of the bowl and set one insert of each length in it before you print the bowl. The insert must sink in under light pressure at about 230 °C, end flush, and afterwards not turn when a screw is tightened in it. The holes are {P.M3_INSERT_HOLE} mm for inserts of {P.M3_INSERT_D} mm; change `M3_INSERT_HOLE` in `params.py` if yours differ.")
     a("")
 
     # --------------------------------------------------------------- wiring

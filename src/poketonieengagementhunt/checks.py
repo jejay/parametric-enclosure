@@ -26,7 +26,7 @@ from . import parts_shell as S
 # Pairs that overlap ON PURPOSE (threads cut by screws, press fits).  The value
 # is the largest overlap volume in mm^3 that is still considered intended.
 INTENDED_OVERLAP: dict[frozenset[str], tuple[float, str]] = {
-    frozenset(("inserts", "bowl")): (220.0, "heat-set inserts melt into Ø4.0 holes"),
+    frozenset(("inserts", "bowl")): (220.0, "heat-set inserts melt into their holes"),
     frozenset(("stack_screws", "inserts")): (60.0, "M3 thread in the inserts"),
     frozenset(("base_screws", "inserts")): (70.0, "M3 thread in the inserts"),
     frozenset(("turf_screws", "grass_top")): (3.0, "M2 thread formed in a Ø1.95 pilot"),
@@ -367,7 +367,7 @@ DENSITY = {"printed": 1.27e-3}   # g / mm^3 (PETG)
 MASS_G = {
     "reader": 9.0, "mcu": 3.0, "amp": 1.5, "charger": 2.0, "boost": 1.5, "servo": 9.0, "horn": 0.5,
     "speaker": 10.0, "led": 0.4, "cell": 48.0, "contacts": 1.5, "hall": 0.2, "ring": 3.5,
-    "spring": 0.4, "hinge_pin": 0.4, "lock_pin": 1.4, "stack_screws": 4.4, "inserts": 2.1,
+    "spring": 0.4, "hinge_pin": 0.4, "lock_pin": 1.4, "stack_screws": 4.4, "inserts": 2.6,
     "harness": 6.0, "turf_screws": 1.6, "base_screws": 2.0,
 }
 BASE_KEYS = ("grass_base", "grass_top", "reader", "hall", "harness", "turf_screws", "base_screws")
@@ -533,9 +533,9 @@ def check_grass_base() -> list[Result]:
             bad.append((dz, "bowl", "blades", 0.0))
     out.append(Result("base:ball lowers onto the tongue", not bad, f"ball lifted 0.5..30 mm, {len(bad)} collisions with tray, turf, turf screws or blades", {"collisions": bad}))
     tip = P.Z_SOLE + P.CSK_RECESS + P.BASE_SCREW_L
-    grip = tip - (P.Z_BASE_BOSS - 5.7)
+    grip = tip - (P.Z_BASE_BOSS - P.BASE_INSERT_L)
     wedge = min(-math.sqrt((P.R + P.CUP_GAP) ** 2 - P.BASE_SCREW_RHO**2) - P.Z_SOLE for _ in screws)
-    out.append(Result("base:screws engage the inserts", 3.0 <= grip <= 5.7 and tip <= P.Z_BASE_BOSS + 0.01 and wedge >= 5.0, f"{len(screws)} x M3 x {P.BASE_SCREW_L:.0f} countersunk through {wedge:.1f} mm of tongue: {grip:.1f} mm of thread in the 5.7 mm insert, tip {P.Z_BASE_BOSS - tip:.1f} mm below the top of the boss", {"grip": grip}))
+    out.append(Result("base:screws engage the inserts", 3.0 <= grip <= P.BASE_INSERT_L and tip <= P.Z_BASE_BOSS + 0.01 and wedge >= 5.0, f"{len(screws)} x M3 x {P.BASE_SCREW_L:.0f} countersunk through {wedge:.1f} mm of tongue: {grip:.1f} mm of thread in the {P.BASE_INSERT_L:.0f} mm insert, tip {P.Z_BASE_BOSS - tip:.1f} mm below the top of the boss", {"grip": grip}))
 
     # 4. reader pocket, grass top and its frame.  The plate goes in along the slope of the frame
     #    walls: forwards and down.  Lifted straight up it has to collide with the rim at the tip.
@@ -736,6 +736,15 @@ def check_fasteners() -> list[Result]:
         tool = cq.Solid.makeCylinder(1.5, 90.0, o, d).fuse(cq.Solid.makeCylinder(8.0, 60.0, o + d * 60.0, d))
         tilted |= {i.key for i in core if g.common_volume(tool, i.shape()) > TOL_VOLUME}
     out.append(Result("screws:a hex key reaches the speaker clamp screws", not blocked and min(sweeps) >= 90 and not tilted, f"with the core on the bench (steps 4 to 6) the long arm of a 1.5 mm hex key ({key_long:.0f} mm) lies free behind each of the two screws: blocked by {blocked or 'nothing'}; its short arm can swing through {min(sweeps)}° (60° are enough to take a new grip). A screwdriver in line with the screw meets {', '.join(sorted(straight)) or 'nothing'}; held 20° upwards, as a ball-end hex driver allows, it meets {', '.join(sorted(tilted)) or 'nothing'}. A cross-head screw cannot be driven here: these two screws need a hex socket", {"sweeps": sweeps, "blocked": blocked}))
+    # heat-set inserts: wall of the bosses, room under the inserts, thread for the screws
+    wall = min(P.BOSS_R, P.BASE_BOSS_R) - P.M3_INSERT_HOLE / 2
+    bite = (P.M3_INSERT_D - P.M3_INSERT_HOLE) / 2
+    under_rim, under_base = P.M3_INSERT_DEPTH - P.M3_INSERT_L, P.BASE_INSERT_DEPTH - P.BASE_INSERT_L
+    stack = [sol for body, _ in A.by_key(A.build())["stack_screws"].bodies for sol in body.Solids()]
+    tip_stack = min(sol.BoundingBox().zmin for sol in stack)
+    grip_rim = min(P.M3_INSERT_L, -P.HB - tip_stack)
+    grip_base = (P.Z_SOLE + P.CSK_RECESS + P.BASE_SCREW_L) - (P.Z_BASE_BOSS - P.BASE_INSERT_L)
+    out.append(Result("screws:heat-set inserts fit their bosses", wall >= P.M3_INSERT_WALL and 0.2 <= bite <= 0.35 and under_rim >= 0.7 and under_base >= 0.7 and grip_rim >= 4.5 and grip_base >= 3.0, f"eight M3 inserts of Ø{P.M3_INSERT_D} in holes of Ø{P.M3_INSERT_HOLE}: {bite:.2f} mm of plastic to melt per side, {wall:.1f} mm of wall round the hole (at least {P.M3_INSERT_WALL} mm, research/06 section 4.1). At the rim: {P.M3_INSERT_L:.0f} mm inserts, {under_rim:.1f} mm free under them, {grip_rim:.1f} mm of thread for the stack screws. Low on the front wall: {P.BASE_INSERT_L:.0f} mm inserts, {under_base:.1f} mm free under them, {grip_base:.1f} mm of thread for the screws of the tongue", {"wall": wall, "grip_rim": grip_rim, "grip_base": grip_base}))
     return out
 
 

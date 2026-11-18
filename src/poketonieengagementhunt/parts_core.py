@@ -519,3 +519,16 @@ def m2_coupon() -> cq.Shape:
         d = P.M2_PILOT_SIDE + (i - 1) * M2_COUPON_STEP
         body = body.cut(g.cyl_y(d / 2, -1.0, 13.0, x, 4.0))
     return g.clean(body)
+
+
+@lru_cache(maxsize=None)
+def insert_test() -> cq.Shape:
+    """Test piece for the heat-set inserts, in its own coordinates and print
+    orientation: one boss as at the rim of the bowl and one as low on its
+    front wall, each with the hole of the bowl, on a small plate."""
+    body = g.box(0.0, 24.0, 0.0, 12.0, 0.0, 1.2)
+    for x, depth in ((6.5, P.M3_INSERT_DEPTH), (17.5, P.BASE_INSERT_DEPTH)):
+        top = 1.2 + depth + 1.0
+        body = body.fuse(g.cyl_z(P.BOSS_R, 0.0, top, x, 6.0))
+        body = body.cut(g.cyl_z(P.M3_INSERT_HOLE / 2, top - depth, top + 1.0, x, 6.0))
+    return g.clean(body)

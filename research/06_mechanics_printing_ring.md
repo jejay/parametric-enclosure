@@ -285,6 +285,7 @@ CNC Kitchen and ruthex publish the same geometry family; the two tables agree li
 | M3 | CNC Kitchen standard / ruthex RX-M3x5.7 | 5.7 | 4.6 | 3.9 | **4.0** | 1.6 | [V2+] |
 | M3 | CNC Kitchen short | 3.0 | 4.6 | 3.9 | **4.0** | 1.6 | [S1] |
 | M3 | CNC Kitchen "Voron" | 4.0 | 5.0 | 4.25 | 4.4 | 1.3 | [S1] |
+| M3 | the owner's stock, make unknown (2026-11-18) | 5.0 and 6.0 | 5.0 (owner's measurement) | not measured | **4.4**, taken from the row above for the same insert Ø | 1.3 | [INF] |
 
 Sources: https://www.3djake.com/cnc-kitchen/threaded-inserts-set-standard (column headings there: length, insert diameter, centre tip, hole diameter, wall thickness min.), https://www.3djake.ch/de-CH/ruthex/m2-m3-m4-m5-gewindeeinsatz-sortimentskasten , https://www.3djake.ch/de-CH/ruthex/gewindeeinsatz-m25-70-stueck . The ruthex pages label the columns only D1/D2/D3/L/W; mapping them to the CNC Kitchen headings is safe because the numbers are identical, and ruthex's own drill set is 3.2 mm for M2 and 4.0 mm for M2.5.
 
@@ -296,6 +297,7 @@ Derived for CAD:
 | M2.5 | 4.0 | 5.0 / 6.7 | 7.2 | 8.0 |
 | M3 | 4.0 | 6.7 (std) / 4.0 (short) | 7.2 | 8.0 |
 
+- **Since revision 6 the bowl is cut for the owner's inserts**: holes of 4.4 mm for inserts of 5.0 mm, 7.0 mm deep at the rim (6 mm inserts, stack screws from above) and 6.2 mm deep low on the front wall (5 mm inserts; the screws of the tongue come from below and pull these inserts into their holes). The hole size is the published one for another insert of the same diameter, not one given for these inserts; `export/stl/insert_test_boss.stl` is there to try it [INF].
 - Depth = insert length + 1 mm, straight (not tapered) hole [V2+]: https://www.cnckitchen.com/blog/tipps-amp-tricks-fr-gewindeeinstze-im-3d-druck-3awey , https://make.epfl.ch/wiki/public/spot_-_3d_printing/how_to_use_threaded_inserts . Hackaday suggests +50 % of insert length instead — more generous, also fine.
 - Chamfer: CNC Kitchen says none needed; EPFL says 0.3–0.5 mm. Disagreement; a 0.3 mm lead-in does no harm.
 - Install at print temperature + 10…20 °C; melt in ≈ 90 % with the iron and seat the rest flat with a cold tool [S1] 3DJake / Prusa listing.

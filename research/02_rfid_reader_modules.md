@@ -208,6 +208,54 @@ writePassword(...); enablePrivacy(...);
 
 ---
 
+### 5.4 Sourcing check of 2026-11-18: no blue board from German stock; MikroE NFC 3 Click as a PN5180 board that ships at once
+
+The owner found every offer of the blue PN5180 board with about two weeks of delivery, one week before the device is needed. Checked that day:
+
+| Source | Finding | Status |
+|---|---|---|
+| BerryBase, PN5180-MOD (10.80 EUR, with card and fob) | "Currently not available" | **[single]** shop page read directly |
+| Roboter-Bausatz | no PN5180 product | **[single]** shop search read directly |
+| Amazon.de (RAKSTORE, Onmancy, ARCELI, Quata, Fhdpeebu and others) | several listings "currently unavailable"; stock of the rest not readable (the site refuses automated access) | **[single]** search copies |
+| eBay.de | mostly sellers in Shenzhen with delivery in one to two weeks; German sellers not verifiable (the site refuses automated access) | **[single]** search copies |
+| **DigiKey.de, MikroElektronika MIKROE-5538 "NFC 3 Click"** | **12 in stock**, 41.72 EUR without VAT, "typically delivered to Germany within 48 hours"; shipping 25 EUR below an order of 75 EUR | **[single]** DigiKey page read directly |
+| DigiKey.de, Visaton K 40 8 Ohm / TI DRV5032FBLPG | 690 / 710 in stock, 7.14 / 0.72 EUR | **[single]** DigiKey pages read directly |
+
+**NFC 3 Click (MIKROE-5538)** [product sheet saved in `research/downloads/rfid_reader/mikroe_nfc3_click/`; DigiKey product highlight]: PN5180A0HN, the chip of the blue board, so libraries and the privacy unlock apply unchanged **[inference]**. Board 57.15 x 25.4 mm (mikroBUS size L). Supply 3.3 V and 5 V. Pins as printed on the board: AUX, RST, CS, SCK, SDO, SDI, 3V3, GND on one row and BSY, IRQ, four unused, 5V, GND on the other: every signal of the present harness is there. Two rows of pin headers are fitted at the factory.
+
+Its antenna is etched on the half of the board away from the pins and measures about 23 x 31 mm over the copper (read off the product picture, +-1.5 mm) **[inference]**. The blue board's loop measures 40.9 x 37.7 mm (note 08). The mean loop area is therefore about 45 % of the blue board's, and at the height of a Tonie's tag (20 to 50 mm above the foot in classic figures, note 09) the field of a loop falls roughly with its area: expect about half the field, i.e. clearly less reserve than with the blue board **[inference]**. No report of a Tonie read with this board was found. It has to be tried with the figures before it is relied on.
+
+What the board would need in this design **[inference]**: a printed carrier that fills the reader pocket (cut for 69.6 x 38.6 mm) and holds the smaller board with the centre of its antenna under the standing spot; the pin headers removed or cut short, because only 5 mm are free under the board; the same twelve wires.
+
+Not available quickly and therefore not pursued: the Elechouse boards (ship from China), ST25R3916 boards (another chip, no Tonie code).
+
+Sources: https://www.digikey.de/en/products/detail/mikroelektronika/MIKROE-5538/18110732 · https://www.digikey.hu/en/product-highlight/m/mikroelektronika/mikroe-5538-nfc-3-click-board · https://doc.7-el.ru/n/nfc_3_click.pdf (copy of MikroElektronika's product sheet) · https://www.berrybase.de/en/pn5180-nfc-und-rfid-modul-iso15693-iso14443-spi-inkl.-karte-dongle · https://www.digikey.de/en/products/detail/visaton-gmbh-co-kg/K-40-8-OHM/9842363 · https://www.digikey.de/en/products/detail/texas-instruments/DRV5032FBLPG/12165120
+
+---
+
+### 5.5 M5Stack Unit NFC (U216, ST25R3916) looked at again, 2026-11-18
+
+The owner asked whether the M5Stack unit, which costs about a quarter of the NFC 3 Click and can be had by next-day delivery, would do, and what the "SYN513R variant" is.
+
+| Fact | Value | Status |
+|---|---|---|
+| Chip, interface | ST25R3916-AQWT, I2C at 0x50 only (I2C_EN tied high); IRQ is not brought out | **[VERIFIED >=2]** M5 documentation + schematic read directly (saved in `research/downloads/rfid_reader/m5stack_unit_nfc/`) |
+| Protocols | reader/writer for NFC-A/B, NFC-F and **NFC-V (ISO 15693)** | **[VERIFIED >=2]** M5 documentation, library README |
+| Supply | 5 V on the Grove plug into a 3.3 V regulator (TPAP7343D-33); **every supply pin of the chip, the transmitter driver included, is on 3.3 V** | **[single]** schematic |
+| Current | 67.65 mA at 5 V while reading, 19 µA asleep | **[single]** M5 documentation |
+| Stated range | "<= 40 mm", no tag type named | **[single]** M5 documentation |
+| Size | housing 48.0 x 24.0 x 8.0 mm, 5.9 g; the antenna field in the dimension drawing measures about 17 x 28 mm (scaled from the drawing, +-1.5 mm) | **[single]** documentation; **[inference]** antenna |
+| Library | `m5stack/M5Unit-NFC` (Arduino and ESP-IDF 5.x; needs M5UnitUnified, M5Utility, M5HAL). NFC-V layer with detect, read, write, dump for ICODE SLI/SLIX/SLIX2. No function for the SLIX password or privacy commands. `nfcvTransceive()` in `src/unit/unit_ST25R3916_nfcv.cpp` sends any frame once `configure_nfc_v()` has switched the field on, with no inventory needed first; the public NFC-V layer does not expose it | **[single]** README and two source files read directly |
+| Price, stock | not verified here (Amazon refuses automated access); owner's statement: about a quarter of the Click, next-day delivery | owner |
+
+Assessment **[inference]**: it can do what a Tonie needs, ISO 15693 plus raw frames before any inventory, but the unlock (GET RANDOM, SET PASSWORD) has to be written on top of M5's driver. Its weak side is reach. Loop area about 30 % of the blue board's (17 x 28 against 40.9 x 37.7 mm over the copper) and a transmitter fed from 3.3 V instead of 5 V. With equal ampere-turns a loop of that size gives about half the blue board's field 20 mm above the antenna and about a third at 35 to 50 mm; the lower drive comes on top. A rod tag that sits in the 15 mm foot of a figure would be reached, one that sits 20 to 50 mm up in the body, as in classic Tonies, probably not. The design of the tongue can save one or two millimetres between antenna and foot, no more: the rest of the distance lies inside the figure.
+
+Do not confuse: **Unit RFID 2 (WS1850S)** reads ISO 14443A only. The **"SYN513R"** unit is M5Stack's 433 MHz radio receiver (Unit RF433R; the documentation spells the chip SYN531R) and has nothing to do with NFC.
+
+Sources: https://docs.m5stack.com/en/unit/Unit_NFC · https://m5stack-doc.oss-cn-shenzhen.aliyuncs.com/1229/SCH_Unit_NFC_V0.1_2025_11_28_12_15_35.pdf · https://m5stack-doc.oss-cn-shenzhen.aliyuncs.com/1229/u216unitnfc-model-size.pdf · https://github.com/m5stack/M5Unit-NFC · https://docs.m5stack.com/en/unit/rf433_r
+
+---
+
 ## 6. Risks & open items
 
 1. **Hole-position numbers for the blue board are from an AI-assisted parametric model ("estimate") — ±1 mm.** I could NOT find a dimensioned manufacturer drawing for the generic blue board. **Buy the board first and measure the 4 holes + outline before finalising the CAD pocket.** [open]

@@ -46,7 +46,7 @@ Before you start: read `research/README.md` for why each part was chosen, `docs/
 
 | Pos. | Qty | Part | Note | Research |
 | --- | --- | --- | --- | --- |
-| 2 | 8 | Heat-set insert M3 x 5.7 | M3 heat-set inserts, Ø4.6 x 5.7 mm (ruthex / CNC Kitchen). | research/06 §4.1 |
+| 2 | 8 | Heat-set insert M3, Ø5 (four x 6 mm, four x 5 mm) | M3 heat-set inserts that measure 5.0 mm over the knurl: four of 6 mm for the rim, four of 5 mm for the lower bosses. The holes are 4.4 mm. Inserts of 4.6 mm (ruthex / CNC Kitchen M3 x 5.7) need 4.0 mm holes: set `M3_INSERT_HOLE` in `params.py` and export the bowl again. | research/06 §4.1 |
 | 8 | 4 | Screw M2 x 6 (grass top to tray) | M2 x 6 machine screws with a cylindrical head and hex socket, ISO 4762 / DIN 912. Any head up to Ø4.0 x 2.0 mm fits; a countersunk head does not. They form their own thread in the printed pilot holes. | research/06 §4.2, §4.3 |
 | 9 | 4 | Screw M3 x 16 countersunk ISO 10642 (tongue to bowl) | M3 x 16 countersunk screws with hexagon socket, ISO 10642 or DIN 7991. | research/10 C2 |
 | 18 | 2 | Servo mounting screw 2 x 8 (supplied with servo) | Supplied with the servo. | research/05 §8.1 |
@@ -131,6 +131,7 @@ Also measure the delivered parts against the values marked `MEASURE` in `params.
 - A green that comes close to the grass of the games: Bambu PETG HF Green [research/10 A.4]. Tray and grass top should come from the same spool.
 - Print pawl, pivot washer, slider, sleeve and cradle first. They are small and show whether your printer's clearances suit: the slider must move in the stage with light friction and the pawl must turn freely on its boss.
 - M2 pilot holes. The seven M2 screws form their own thread in printed holes: 1.95 mm where the mouth of the hole lies parallel to the print bed (grass top, stage) and 1.7 mm where it lies in an upright wall (chassis) [research/06 §4.2]. How such small holes come out depends on printer and filament, so print `export/stl/m2_test_coupon.stl` first, flat as it comes, in the PETG you will use. It has three holes from the top (1.85, 1.95, 2.05 mm) and three through its side (1.60, 1.70, 1.80 mm), the smallest of each three next to the cut-off corner. An M2 screw should turn into the middle one with light, even resistance and then hold firmly. If a neighbour fits better, change `M2_PILOT_FLAT` or `M2_PILOT_SIDE` in `params.py` and export again. A hole that is only a little tight can be opened with a 1.7 or 1.8 mm drill.
+- Heat-set inserts. Print `export/stl/insert_test_boss.stl` in the PETG of the bowl and set one insert of each length in it before you print the bowl. The insert must sink in under light pressure at about 230 °C, end flush, and afterwards not turn when a screw is tightened in it. The holes are 4.4 mm for inserts of 5.0 mm; change `M3_INSERT_HOLE` in `params.py` if yours differ.
 
 ## 4. Wire the electronics
 
@@ -140,11 +141,11 @@ Wire and test everything on the bench, outside the ball, following the net list 
 
 ### Step 1: Prepare the bowl
 
-Parts: **1** Bowl (white lower half), **2** Heat-set insert M3 x 5.7
+Parts: **1** Bowl (white lower half), **2** Heat-set insert M3, Ø5 (four x 6 mm, four x 5 mm)
 
 ![step 1](img/step_01.png)
 
-1. Press eight M3 heat-set inserts into the bowl with a soldering iron (about 230 °C for PETG): four into the bosses at the rim, four into the bosses low on the front wall, below the notch for the button. Push straight down and stop when the insert is flush with the top of its boss; let it cool before you touch it.
+1. Press eight M3 heat-set inserts into the bowl with a soldering iron (about 230 °C for PETG): the four 6 mm ones into the bosses at the rim, the four 5 mm ones into the bosses low on the front wall, below the notch for the button. Push straight down and stop when the insert is flush with the top of its boss; let it cool before you touch it.
 2. The four lower bosses take the screws of the grass tongue. Check from outside that an M3 screw passes freely through the hole below each of them.
 
 ### Step 2: Build the grass tongue
@@ -363,7 +364,7 @@ To take out the whole core, also lift off the band and separate the two 6-pin pl
 | Pos. | Part | Qty | Kind |
 | --- | --- | --- | --- |
 | 1 | Bowl (white lower half) | 1 | printed |
-| 2 | Heat-set insert M3 x 5.7 | 8 | hardware |
+| 2 | Heat-set insert M3, Ø5 (four x 6 mm, four x 5 mm) | 8 | hardware |
 | 3 | Grass tongue (tray) | 1 | printed |
 | 4 | PN5180 NFC reader (blue board, 70 x 39 mm) | 1 | purchased |
 | 5 | Hall switch, TO-92 (DRV5032FB or AH3661UA) | 1 | purchased |

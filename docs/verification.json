@@ -2,10 +2,10 @@
  {
   "name": "watertight:bowl",
   "ok": true,
-  "detail": "solids=1 valid=True watertight=True winding=True V_cad=32128 V_mesh=32055 mm3 tris=18628",
+  "detail": "solids=1 valid=True watertight=True winding=True V_cad=31983 V_mesh=31910 mm3 tris=18628",
   "data": {
-   "volume_mm3": 32127.7335877156,
-   "mass_g_petg": 40.802221656398814,
+   "volume_mm3": 31982.968978475197,
+   "mass_g_petg": 40.618370602663504,
    "bbox": [
     96.90925128165767,
     99.86032772227264,
@@ -265,19 +265,19 @@
     [
      "bowl",
      "inserts",
-     184.80104625476602,
-     "heat-set inserts melt into \u00d84.0 holes"
+     194.9044082287105,
+     "heat-set inserts melt into their holes"
     ],
     [
      "inserts",
      "base_screws",
-     38.87720908817366,
+     32.82964323001325,
      "M3 thread in the inserts"
     ],
     [
      "inserts",
      "stack_screws",
-     49.24446484502009,
+     51.83627878423164,
      "M3 thread in the inserts"
     ],
     [
@@ -645,6 +645,17 @@
   }
  },
  {
+  "name": "screws:heat-set inserts fit their bosses",
+  "ok": true,
+  "detail": "eight M3 inserts of \u00d85.0 in holes of \u00d84.4: 0.30 mm of plastic to melt per side, 2.0 mm of wall round the hole (at least 1.3 mm, research/06 section 4.1). At the rim: 6 mm inserts, 1.0 mm free under them, 6.0 mm of thread for the stack screws. Low on the front wall: 5 mm inserts, 1.2 mm free under them, 3.8 mm of thread for the screws of the tongue",
+  "data": {
+   "wall": 2.0,
+   "grip_rim": 6.0,
+   "grip_base": 3.799999999999997,
+   "section": "Small screws"
+  }
+ },
+ {
   "name": "pins:two hinge pins carry lid and spring",
   "ok": true,
   "detail": "each \u00d82 x 8 pin is pressed into 2.9 mm of its hinge tower (bore \u00d81.95), carries one rib of the lid over its full 3.4 mm (bore \u00d82.3) and reaches 1.35 mm into the spring sleeve; its outer end lies 0.2 mm inside the outer face of the tower",
@@ -758,9 +769,9 @@
  {
   "name": "base:screws engage the inserts",
   "ok": true,
-  "detail": "4 x M3 x 16 countersunk through 7.1 mm of tongue: 4.5 mm of thread in the 5.7 mm insert, tip 1.2 mm below the top of the boss",
+  "detail": "4 x M3 x 16 countersunk through 7.1 mm of tongue: 3.8 mm of thread in the 5 mm insert, tip 1.2 mm below the top of the boss",
   "data": {
-   "grip": 4.5,
+   "grip": 3.799999999999997,
    "section": "Grass tongue and figure"
   }
  },
@@ -916,7 +927,7 @@
    "near": {
     "turf_screws": 13.094151046483702,
     "base_screws": 39.13453306722901,
-    "inserts": 38.334533067229,
+    "inserts": 38.140595331688026,
     "speaker": 35.31631917400227,
     "cell": 64.99321907146035,
     "servo": 55.85358001059556,
@@ -940,11 +951,11 @@
   "ok": true,
   "detail": "mass 268 g, CoG x=1.4 y=-0.3 z=-3.9 mm (below the ball centre: self-righting)",
   "data": {
-   "mass": 268.169232174318,
+   "mass": 268.4853811205827,
    "cg": [
-    1.3911886075358835,
-    -0.27502008508694364,
-    -3.9026473534337476
+    1.402284201394911,
+    -0.2746962415605065,
+    -3.9090898741039743
    ],
    "section": "Physics and function"
   }
@@ -955,34 +966,34 @@
   "detail": "CoG with open lid x=-6.8 y=-0.3; flat radius 17.1 mm -> tipping margin 10.3 mm",
   "data": {
    "cg_open": [
-    -6.780188697176875,
-    -0.2721381924619256,
-    -0.6131038929022335
+    -6.759471081017661,
+    -0.2718177424435925,
+    -0.6234199417861693
    ],
-   "margin": 10.273074169269172,
+   "margin": 10.293787949890797,
    "section": "Physics and function"
   }
  },
  {
   "name": "physics:device stands on the ball's flat and the tongue",
   "ok": true,
-  "detail": "mass 377 g; CoG closed x=18.7, open x=12.9, with a 50 g figure x=26.7 mm; distance of the CoG from the edge of the standing area (flat of the ball and underside of the tongue together): closed 28 mm, lid open 24 mm, closed with a figure on the spot 32 mm",
+  "detail": "mass 378 g; CoG closed x=18.7, open x=12.9, with a 50 g figure x=26.7 mm; distance of the CoG from the edge of the standing area (flat of the ball and underside of the tongue together): closed 28 mm, lid open 24 mm, closed with a figure on the spot 32 mm",
   "data": {
-   "mass": 377.20069579308665,
+   "mass": 377.51684473935137,
    "cg": [
-    18.693030216320118,
-    -0.2193529824593137,
-    -14.16462931336574
+    18.686431956449688,
+    -0.21916928692957,
+    -14.160617327710526
    ],
    "cg_open": [
-    12.883624236821309,
-    -0.21730411314099235,
-    -11.82594236540027
+    12.881891024973068,
+    -0.21712213342309927,
+    -11.82388889742326
    ],
    "margins": {
-    "closed": 27.52487498761301,
-    "lid open": 24.21744331664736,
-    "closed with a figure on the spot": 32.09987412789422
+    "closed": 27.521267511875095,
+    "lid open": 24.216605627349935,
+    "closed with a figure on the spot": 32.09330534809063
    },
    "section": "Physics and function"
   }
@@ -1020,14 +1031,14 @@
  {
   "name": "print:bowl",
   "ok": true,
-  "detail": "97 x 100 x 44 mm, PETG white; overhang area needing support ~3531 mm2; rim on the bed (dome up), tree supports inside only",
+  "detail": "97 x 100 x 44 mm, PETG white; overhang area needing support ~3542 mm2; rim on the bed (dome up), tree supports inside only",
   "data": {
    "extents": [
     96.68863339252371,
     99.52981214999922,
     43.50000000000001
    ],
-   "support_area": 3531.472764979563,
+   "support_area": 3541.9891872809544,
    "section": "Printability"
   }
  },

@@ -280,9 +280,9 @@ def screw_csk_up(d: float, length: float, head_d: float, head_h: float) -> Bodie
     return [(head.fuse(shank).cut(socket), "metal_dark")]
 
 
-def insert_m3() -> Bodies:
-    """M3 heat-set insert (Ø4.6 knurl x 5.7).  Top face at z = 0, body below."""
-    body = g.cyl_z(2.3, -5.7, 0.0).cut(g.cyl_z(1.25, -6, 1))
+def insert_m3(length: float, od: float) -> Bodies:
+    """M3 heat-set insert, ``od`` over the knurl.  Top face at z = 0, body below."""
+    body = g.cyl_z(od / 2, -length, 0.0).cut(g.cyl_z(1.25, -length - 1, 1))
     return [(body, "brass")]
 
 

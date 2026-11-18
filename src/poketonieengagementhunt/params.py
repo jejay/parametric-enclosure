@@ -74,8 +74,13 @@ SCREW_AZ = (55.0, 100.0, 260.0, 305.0)   # azimuths (deg from +X) of the screws
 M3_CLEAR = 3.4
 M3_HEAD_D = 6.2               # ISO 4762 head Ø5.5 + clearance
 M3_HEAD_H = 3.0
-M3_INSERT_HOLE = 4.0          # heat-set insert M3 (ruthex / CNC Kitchen): Ø4.0
-M3_INSERT_DEPTH = 6.7         # 5.7 mm insert + 1 mm
+# Heat-set inserts M3 from the owner's stock: 5.0 mm over the knurl, 6 mm long at the rim and 5 mm long in
+# the lower bosses.  Inserts of 4.6 mm (ruthex / CNC Kitchen M3 x 5.7) need M3_INSERT_HOLE = 4.0 instead.
+M3_INSERT_D = 5.0
+M3_INSERT_HOLE = 4.4          # hole for an insert of Ø5.0 (research/06 section 4.1)
+M3_INSERT_WALL = 1.3          # least wall round that hole (same source)
+M3_INSERT_L = 6.0             # inserts at the rim of the bowl, for the stack screws
+M3_INSERT_DEPTH = M3_INSERT_L + 1.0
 STACK_SCREW_L = 16.0          # M3 x 16 ISO 4762
 BOSS_R = 4.2                  # radius of the insert bosses in the bowl
 BOSS_DEPTH = 11.0             # boss height below the bowl rim
@@ -389,7 +394,8 @@ CSK_D, CSK_H = 6.0, 1.7       # M3 countersunk head ISO 10642 / DIN 7991 (resear
 CSK_RECESS = 0.3              # head sits this far below the sole
 BASE_BOSS_R = 4.2             # bosses for the four inserts inside the bowl
 Z_BASE_BOSS = -29.5           # top of those bosses, 1 mm under the chassis plate
-BASE_INSERT_DEPTH = 6.2
+BASE_INSERT_L = 5.0           # inserts in the lower bosses, for the screws of the tongue
+BASE_INSERT_DEPTH = 6.2       # that insert + 1.2 mm; the screw comes from below and ends 1.2 mm under the top of the boss
 
 WINDOW_R0, WINDOW_R1 = 26.0, 36.0     # cable window in the bowl wall, hidden behind the tongue
 WINDOW_HALF_DEG = 19.0
