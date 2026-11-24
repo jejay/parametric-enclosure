@@ -98,16 +98,16 @@
  {
   "name": "watertight:stage",
   "ok": true,
-  "detail": "solids=1 valid=True watertight=True winding=True V_cad=24133 V_mesh=24107 mm3 tris=20644",
+  "detail": "solids=1 valid=True watertight=True winding=True V_cad=23723 V_mesh=23697 mm3 tris=22358",
   "data": {
-   "volume_mm3": 24133.38248711355,
-   "mass_g_petg": 30.649395758634213,
+   "volume_mm3": 23722.801887992893,
+   "mass_g_petg": 30.127958397750977,
    "bbox": [
-    88.86005635730692,
+    90.4758668860644,
     94.1383918386673,
     28.069512717425198
    ],
-   "triangles": 20644,
+   "triangles": 22358,
    "section": "Watertight printable solids"
   }
  },
@@ -194,16 +194,16 @@
  {
   "name": "watertight:sleeve",
   "ok": true,
-  "detail": "solids=1 valid=True watertight=True winding=True V_cad=73 V_mesh=73 mm3 tris=2016",
+  "detail": "solids=1 valid=True watertight=True winding=True V_cad=67 V_mesh=67 mm3 tris=2768",
   "data": {
-   "volume_mm3": 72.73560947991592,
-   "mass_g_petg": 0.09237422403949323,
+   "volume_mm3": 66.6201335090436,
+   "mass_g_petg": 0.08460756955648538,
    "bbox": [
-    4.500000200000002,
-    6.307430366195248,
-    4.501398880996337
+    4.000000200000009,
+    6.307583309391502,
+    4.001243471996748
    ],
-   "triangles": 2016,
+   "triangles": 2768,
    "section": "Watertight printable solids"
   }
  },
@@ -258,7 +258,7 @@
  {
   "name": "fit:closed assembly",
   "ok": true,
-  "detail": "41 items, 0 collisions, 9 intended overlaps",
+  "detail": "42 items, 0 collisions, 9 intended overlaps",
   "data": {
    "collisions": [],
    "intended": [
@@ -305,16 +305,16 @@
      "M2 thread formed in a \u00d81.95 pilot"
     ],
     [
-     "stage",
-     "hinge_pin",
-     0.533936247193491,
-     "\u00d82 pins pressed into \u00d81.95 bores"
-    ],
-    [
      "lock_pin",
      "slider",
      2.316924582022466,
      "\u00d83 pin pressed into \u00d82.9 bore"
+    ],
+    [
+     "hinge_pin",
+     "sleeve",
+     0.42200686866436987,
+     "\u00d82 pins pressed into the \u00d81.95 blind holes of the sleeve"
     ]
    ],
    "section": "Static fit (closed)"
@@ -422,16 +422,16 @@
  {
   "name": "clearance:spring coil - sleeve",
   "ok": true,
-  "detail": "0.40 mm (need >= 0.2)",
+  "detail": "0.65 mm (need >= 0.2)",
   "data": {
-   "distance": 0.39999999999999764,
+   "distance": 0.6499999999999977,
    "section": "Clearances"
   }
  },
  {
-  "name": "clearance:spring body leg on the stage yoke",
+  "name": "clearance:spring body leg on the yoke wire",
   "ok": true,
-  "detail": "0.00 mm gap (seat, need <= 0.3)",
+  "detail": "0.00 mm gap between leg and wire (seat, need <= 0.3); the wire lies in the holes of the two tower feet without overlap (0.000 mm3)",
   "data": {
    "distance": 0.0,
    "section": "Clearances"
@@ -656,30 +656,52 @@
   }
  },
  {
+  "name": "pins:towers enclose the hinge pins",
+  "ok": true,
+  "detail": "round the \u00d82.15 bore of each tower the stage is solid over at least 1.6 mm, at every angle and over the whole thickness of the tower (2.2 mm). Half of each knuckle stands out of the dome of the stage; it keeps 0.51 mm from the wall of the lid with the lid closed, 30\u00b0 and 65\u00b0 open and at the stop",
+  "data": {
+   "wall": 1.6,
+   "gap": 0.5124134344940261,
+   "section": "Pins"
+  }
+ },
+ {
   "name": "pins:two hinge pins carry lid and spring",
   "ok": true,
-  "detail": "each \u00d82 x 8 pin is pressed into 2.9 mm of its hinge tower (bore \u00d81.95), carries one rib of the lid over its full 3.4 mm (bore \u00d82.3) and reaches 1.35 mm into the spring sleeve; its outer end lies 0.2 mm inside the outer face of the tower",
+  "detail": "each \u00d82 x 8 pin slides in 2.2 mm of its hinge tower (bore \u00d82.15), carries one rib of the lid over its full 3.4 mm (bore \u00d82.3) and stands on the floor of a blind hole 1.80 mm deep in the spring sleeve, of which 1.35 mm are a press fit (\u00d81.95) and the rest a funnel; its outer end then stands 0.25 mm out of the tower, so that pliers can press home a pin that is a little shorter as well",
   "data": {
-   "tower": 2.9000000000000012,
+   "tower": 2.2,
    "rib": 3.3999999999999995,
-   "sleeve": 1.3499999999999992,
+   "sleeve": 1.8,
+   "press": 1.35,
+   "section": "Pins"
+  }
+ },
+ {
+  "name": "pins:the sleeve keeps the hinge pins",
+  "ok": true,
+  "detail": "the sleeve (\u00d84.0 x 6.3) lies between the ribs of the lid with 0.15 mm of play at each end and does not pass their \u00d82.3 bores: pushed 0.55 mm along the axis it meets a rib (2.9 mm3). A pin cannot go further in, because 2.7 mm of sleeve lie between the two blind holes. To free the lid it would have to move 5.35 mm outwards, so it has to be pulled out of its hole in the sleeve first. That press fit is the only thing that holds it: no check here can show how firmly",
+  "data": {
+   "held": 2.905903549931085,
+   "web": 2.6999999999999997,
+   "travel": 5.35,
    "section": "Pins"
   }
  },
  {
   "name": "pins:why the hinge has two pins",
   "ok": true,
-  "detail": "the hinge axis lies inside the lid and meets its wall 16.8 mm from the middle; beside a hinge tower a \u00d82 pin has 4.0 mm of room before it touches the wall. A pin that goes through both ribs cannot be put in, at any length. A waiting pin stands 4.9 mm out of its tower",
+  "detail": "the hinge axis lies inside the lid and meets its wall 16.8 mm from the middle; beside a hinge tower a \u00d82 pin has 4.9 mm of room before it touches the wall. A pin that goes through both ribs cannot be put in, at any length. A waiting pin stands 5.8 mm out of its tower",
   "data": {
    "wall_y": 16.76780413272328,
-   "room": 3.957161434090988,
+   "room": 4.8571614340909885,
    "section": "Pins"
   }
  },
  {
   "name": "pins:waiting pins clear the lid",
   "ok": true,
-  "detail": "with the pins waiting in the towers (flush with the towers' inner faces) the lid keeps 0.25 mm from them; the relief inside the lid wall that makes this room leaves 1.3 mm of wall (measured: 100.0 % of that shell is solid), so nothing shows outside. The wall behind the knuckles is 1.0 mm as before",
+  "detail": "with the pins waiting in the towers (flush with the inner faces of the towers) the lid keeps 0.25 mm from them; the relief inside the lid wall that makes this room leaves 1.3 mm of wall (measured: 100.0 % of that shell is solid), so nothing shows outside. The wall behind the knuckles is 1.0 mm as before",
   "data": {
    "gap": 0.24999999999999375,
    "kept": 1.0,
@@ -696,21 +718,42 @@
   }
  },
  {
-  "name": "pins:pliers reach the waiting pins",
+  "name": "pins:tools reach the hinge pins",
   "ok": true,
-  "detail": "two jaws of 2.5 x 1.5 mm reach the ends of both waiting pins and can follow them to the towers, coming from above: lid 65\u00b0 open from 90\u00b0; lid 90\u00b0 open from 90, 105, 120\u00b0 (directions round the hinge, 90\u00b0 is straight from above, tried in steps of 15\u00b0). The jaws stop on the faces of the towers, which sets the depth",
+  "detail": "without force: a screwdriver blade of 2.5 x 0.8 mm reaches the end of each waiting pin with the lid 65\u00b0 open and follows it until the pin has passed its rib, 3.6 mm further in, coming from 75, 90, 105\u00b0 (directions round the hinge, 90\u00b0 is straight from above, tried in steps of 15\u00b0). With force: from there the pins slide 0.6 mm more and are then pressed 1.35 mm into the sleeve; plier jaws of 4.0 x 3.0 mm reach both pin ends over that last part, lid 90\u00b0 open from 90, 105, 120, 135\u00b0; lid 95\u00b0 open from 90, 105, 120, 135\u00b0. The jaws start 21.4 mm apart. They stop when both pins stand on the floors of their holes",
   "data": {
-   "directions": {
-    "65.0": [
-     15,
-     90
-    ],
+   "blade": [
+    75,
+    90,
+    105
+   ],
+   "jaws": {
     "90.0": [
      90,
      105,
-     120
+     120,
+     135
+    ],
+    "95.0": [
+     90,
+     105,
+     120,
+     135
     ]
    },
+   "opening": 21.4,
+   "section": "Pins"
+  }
+ },
+ {
+  "name": "pins:spring leg is lifted onto a wire",
+  "ok": true,
+  "detail": "with the pins in and the lid at its stop the forward leg lies on the inner edge of the rim of the lid, 8.5\u00b0 below its seat. From there up to 6\u00b0 above the seat its way is free (0 collisions with stage or lid). A leg lifted that far leaves 1.21 mm for the \u00d81 wire to pass under it. The wire goes in from the side through holes of \u00d81.4 in the two tower feet (1.0 mm of foot before and behind them): its straight part of 18.6 mm has a free way beside the foot (in the way: nothing)",
+  "data": {
+   "rest": -8.541047252578664,
+   "collisions": [],
+   "blockers": [],
+   "lifted": 1.2123451637265865,
    "section": "Pins"
   }
  },
@@ -951,11 +994,11 @@
   "ok": true,
   "detail": "mass 268 g, CoG x=1.4 y=-0.3 z=-3.9 mm (below the ball centre: self-righting)",
   "data": {
-   "mass": 268.4853811205827,
+   "mass": 268.15617710521644,
    "cg": [
-    1.402284201394911,
-    -0.2746962415605065,
-    -3.9090898741039743
+    1.4466944864505595,
+    -0.2736977879164657,
+    -3.9340154815688595
    ],
    "section": "Physics and function"
   }
@@ -963,37 +1006,37 @@
  {
   "name": "physics:ball alone stands on its flat with the lid open",
   "ok": true,
-  "detail": "CoG with open lid x=-6.8 y=-0.3; flat radius 17.1 mm -> tipping margin 10.3 mm",
+  "detail": "CoG with open lid x=-6.7 y=-0.3; flat radius 17.1 mm -> tipping margin 10.3 mm",
   "data": {
    "cg_open": [
-    -6.759471081017661,
-    -0.2718177424435925,
-    -0.6234199417861693
+    -6.725080638280812,
+    -0.2708157549877344,
+    -0.6443118710171089
    ],
-   "margin": 10.293787949890797,
+   "margin": 10.328190869832742,
    "section": "Physics and function"
   }
  },
  {
   "name": "physics:device stands on the ball's flat and the tongue",
   "ok": true,
-  "detail": "mass 378 g; CoG closed x=18.7, open x=12.9, with a 50 g figure x=26.7 mm; distance of the CoG from the edge of the standing area (flat of the ball and underside of the tongue together): closed 28 mm, lid open 24 mm, closed with a figure on the spot 32 mm",
+  "detail": "mass 377 g; CoG closed x=18.7, open x=12.9, with a 50 g figure x=26.7 mm; distance of the CoG from the edge of the standing area (flat of the ball and underside of the tongue together): closed 28 mm, lid open 24 mm, closed with a figure on the spot 32 mm",
   "data": {
-   "mass": 377.51684473935137,
+   "mass": 377.18764072398517,
    "cg": [
-    18.686431956449688,
-    -0.21916928692957,
-    -14.160617327710526
+    18.73309017429066,
+    -0.21841098740501683,
+    -14.187285220624155
    ],
    "cg_open": [
-    12.881891024973068,
-    -0.21712213342309927,
-    -11.82388889742326
+    12.923483121934968,
+    -0.2163620471720428,
+    -11.84851732695311
    ],
    "margins": {
-    "closed": 27.521267511875095,
-    "lid open": 24.216605627349935,
-    "closed with a figure on the spot": 32.09330534809063
+    "closed": 27.548467915383917,
+    "lid open": 24.24092176890435,
+    "closed with a figure on the spot": 32.12084544550633
    },
    "section": "Physics and function"
   }
@@ -1115,14 +1158,14 @@
  {
   "name": "print:stage",
   "ok": true,
-  "detail": "89 x 94 x 28 mm, PETG black; overhang area needing support ~298 mm2; upside down: deck on the bed, supports for the hinge yoke only",
+  "detail": "90 x 94 x 28 mm, PETG black; overhang area needing support ~304 mm2; upside down: deck on the bed, supports under the stop beam of the hinge and the screw pads only",
   "data": {
    "extents": [
-    88.82586771529472,
+    90.44833277963158,
     94.09145474133425,
     28.00000000000001
    ],
-   "support_area": 298.0857831211986,
+   "support_area": 303.6997645969126,
    "section": "Printability"
   }
  },
@@ -1199,14 +1242,14 @@
  {
   "name": "print:sleeve",
   "ok": true,
-  "detail": "4 x 4 x 6 mm, PETG any colour; overhang area needing support ~0 mm2; standing on one end",
+  "detail": "4 x 4 x 6 mm, PETG any colour; overhang area needing support ~4 mm2; standing on one end; 100 % infill",
   "data": {
    "extents": [
-    4.48741708731531,
-    4.5,
-    6.300000000000001
+    3.9888151887247205,
+    4.0,
+    6.3
    ],
-   "support_area": 0.0,
+   "support_area": 4.059430686871146,
    "section": "Printability"
   }
  },

@@ -9,6 +9,6 @@ sources:
 ---
 # Verification suite and report
 
-checks.py implements the checks in 13 sections and writes docs/verification.md and docs/verification.json. Overlaps that are intended, threads and press fits, are declared in one table with their largest allowed volume; anything else above 0.05 mm³ fails.
+checks.py implements the checks in 12 sections and writes docs/verification.md and docs/verification.json. Overlaps that are intended, threads and press fits, are declared in one table with their largest allowed volume; anything else above 0.05 mm³ fails.
 
-State when written (revision six): 100 of 100 checks pass.
+State on 2026-11-24, after the hinge was reworked: 103 of 103 checks pass.

@@ -81,7 +81,11 @@ def build(
     with_ring: bool = True,
     with_tonie: bool = False,
     hinge_parked: bool = False,
+    spring_seated: bool = True,
 ) -> list[Item]:
+    """``hinge_parked``: the two hinge pins wait in their towers, as while the lid is put on.
+    ``spring_seated``: False shows the spring before its forward leg has been lifted onto the yoke wire: the
+    leg then lies on the inner edge of the lid's rim, and the wire is not in yet."""
     horn = P.HORN_REST_DEG if horn_deg is None else horn_deg
     items: list[Item] = []
     add = items.append
@@ -186,8 +190,11 @@ def build(
     add(Item("hinge_pin", "Dowel pin 2 x 8 (hinge)", "hardware", hp, step=10, explode=(0, 0, 122), qty=2))
     add(Item("sleeve", "Spring sleeve", "printed", _col(K.sleeve(), "sleeve"), step=10, explode=(-14, 0, 136), material="PETG any colour"))
     lid_leg = 180.0 - P.SPRING_DEFL_CLOSED + lid_deg
-    spring = _place(C.torsion_spring(lid_leg, 0.0), ("move", P.HINGE_X, 0, P.HINGE_Z))
-    add(Item("spring", "Torsion spring Gutekunst T-16324 (0.7 x 6.7, 7 coils)", "purchased", spring, step=10, explode=(-26, 0, 136), check=False))
+    body_leg = 0.0 if spring_seated else spring_rest_deg(lid_deg)
+    spring = _place(C.torsion_spring(lid_leg, body_leg), ("move", P.HINGE_X, 0, P.HINGE_Z))
+    add(Item("spring", "Torsion spring T028-180-140 (0.71 x 6.32 mm, 6 turns, 180°)", "purchased", spring, step=10, explode=(-26, 0, 136), check=False))
+    if spring_seated:
+        add(Item("yoke_wire", f"Steel wire Ø{P.YOKE_WIRE_D:.0f} x {yoke_wire_length():.0f} (seat of the spring leg)", "hardware", _col(K.yoke_wire(), "metal"), step=10, explode=(-26, 30, 112)))
 
     # --------------------------------------------------------------- step 11
     st: Bodies = []
@@ -205,6 +212,24 @@ def build(
 
 def by_key(items: list[Item]) -> dict[str, Item]:
     return {it.key: it for it in items}
+
+
+def spring_rest_deg(lid_deg: float) -> float:
+    """Direction of the spring's forward leg while it is not on its seat: it then lies on the inner edge of
+    the lid's rim, which carries it along as the lid opens (0 = on the seat, negative = below it)."""
+    rm, rw = (P.SPRING_OD - P.SPRING_WIRE) / 2, P.SPRING_WIRE / 2
+    y = P.SPRING_BODY / 2 - rw
+    cx = -math.sqrt((P.R - P.LID_WALL_AT_HINGE) ** 2 - y**2 - P.HB**2) - P.HINGE_X     # inner edge of the rim, from the axis
+    cz = P.HB - P.HINGE_Z
+    rho = math.hypot(cx, cz)
+    a = math.degrees(math.atan2(cz, cx)) + lid_deg + math.degrees(math.asin((rm + rw) / rho))
+    return min((a + 180.0) % 360.0 - 180.0, 0.0)
+
+
+def yoke_wire_length() -> float:
+    """Length of wire to cut for the yoke: the straight part and the end that is bent over."""
+    y0, y1 = K.yoke_wire_span()
+    return math.ceil(round(y1 - y0 + P.YOKE_END + 1.0, 6))
 
 
 # rotation that brings each printed part from assembly orientation into its
@@ -249,13 +274,13 @@ def printed_parts() -> dict[str, tuple[cq.Shape, str, str]]:
         "bezel": (S.bezel(), "PETG black", "face down on the bed, no supports"),
         "lens": (S.lens(), "PETG natural / clear", "flange on the bed, button up, 100 % infill"),
         "cone": (S.cone(), "PETG white", "large end on the bed"),
-        "stage": (K.stage(), "PETG black", "upside down: deck on the bed, supports for the hinge yoke only"),
+        "stage": (K.stage(), "PETG black", "upside down: deck on the bed, supports under the stop beam of the hinge and the screw pads only"),
         "chassis": (K.chassis(), "PETG any colour", "plate on the bed, supports under the baffle disc and shelf"),
         "pawl": (K.pawl(), "PETG any colour", "upside down: top face on the bed"),
         "pawl_cap": (K.pawl_cap(), "PETG any colour", "flange on the bed, hub up; 100 % infill"),
         "cradle": (K.cradle(), "PETG red or black", "as assembled, no supports"),
         "slider": (K.slider(), "PETG any colour", "cap on the bed (upside down)"),
-        "sleeve": (K.sleeve(), "PETG any colour", "standing on one end"),
+        "sleeve": (K.sleeve(), "PETG any colour", "standing on one end; 100 % infill"),
         "spk_clamp": (K.spk_clamp(), "PETG any colour", "flat on the bed"),
         "grass_base": (B.grass_base(), "PETG light green", "sole on the bed, no supports"),
         "grass_top": (B.grass_top(), "PETG light green", "underside on the bed, tufts up, no supports"),
@@ -267,4 +292,6 @@ def extra_prints() -> dict[str, tuple[cq.Shape, str, str]]:
     return {
         "m2_test_coupon": (K.m2_coupon(), "the PETG of the part to be tested", "as it comes, flat on the bed"),
         "insert_test_boss": (K.insert_test(), "the PETG of the bowl", "as it comes, plate on the bed"),
+        "pin_test_coupon": (K.pin_coupon(), "the PETG of stage and sleeve", "as it comes, plate on the bed"),
+        "sleeve_4_5": (g.rot(K.sleeve(4.5), "x", 90.0, (P.HINGE_X, 0.0, P.HINGE_Z)), "PETG any colour", "standing on one end; for springs with an inner diameter of 5.3 to 5.6 mm"),
     }

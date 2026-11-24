@@ -18,7 +18,7 @@ from . import parts_base as B
 from . import parts_core as K
 from . import parts_shell as S
 from . import render as R
-from .manual_text import BOM_NOTES, STEPS, manual_markdown
+from .manual_text import BOM_NOTES, STEPS, WIRE_LEN, manual_markdown
 
 SIZE = (1600, 1200)
 
@@ -95,7 +95,7 @@ def render_overview(img: Path) -> list[Path]:
     keep = g.box(-200, 200, 0.0, 200, -200, 200)
     nums = numbers(items)
     sc, anchors = scene(items, keep=keep)
-    for k in ("mcu", "amp", "charger", "boost", "contacts", "inserts", "stack_screws", "servo_screws", "clamp_screws", "pawl_spring", "pawl_screw", "sleeve", "hinge_pin", "turf_screws"):
+    for k in ("mcu", "amp", "charger", "boost", "contacts", "inserts", "stack_screws", "servo_screws", "clamp_screws", "pawl_spring", "pawl_screw", "sleeve", "hinge_pin", "yoke_wire", "turf_screws"):
         anchors.pop(k, None)
     for k in list(anchors):
         x, y, z = anchors[k]
@@ -134,22 +134,29 @@ def render_steps(img: Path) -> list[Path]:
     nums = numbers(items)
     opened = A.build(lid_deg=P.LID_OPEN_DEG, pawl_deg=P.PAWL_RELEASE_DEG, horn_deg=P.HORN_RELEASE_DEG)
     unlocked = A.build(lid_deg=P.LID_OPEN_DEG, pawl_deg=P.PAWL_RELEASE_DEG, horn_deg=P.HORN_RELEASE_DEG, locked=False)
-    # the lid as it is slid onto the hinge: partly open, the two hinge pins waiting in their towers
-    hinging = A.build(lid_deg=P.HINGE_MOUNT_DEG, pawl_deg=P.PAWL_RELEASE_DEG, horn_deg=P.HORN_RELEASE_DEG, hinge_parked=True)
+    # the lid as it is slid onto the hinge: partly open, the two hinge pins waiting in their towers, the
+    # forward leg of the spring not yet on its wire
+    hinging = A.build(lid_deg=P.HINGE_MOUNT_DEG, pawl_deg=P.PAWL_RELEASE_DEG, horn_deg=P.HORN_RELEASE_DEG, hinge_parked=True, spring_seated=False)
     pools = {"closed": items, "open": opened, "unlocked": unlocked, "hinging": hinging}
     for st in STEPS:
         for view in st["views"]:
-            pool = pools[view.get("pose", "closed")]
-            keys = set(view["show"])
-            new = [k for k in view.get("new", [])]
-            lift = dict(view.get("lift", {}))
-            sc, anchors = scene(pool, keys=keys | set(new), lift=lift, ghost=view.get("ghost", ()))
-            cam = R.Camera(azimuth=view["az"], elevation=view["el"], zoom=view.get("zoom", 1.0))
-            p = img / view["file"]
-            labelled = view.get("label", new)
-            shot(p, sc, cam, anchors, {k: nums[k] for k in labelled if k in nums})
-            out.append(p)
+            out.append(render_step_view(img, pools[view.get("pose", "closed")], view, nums))
     return out
+
+
+def render_step_view(img: Path, pool: list[A.Item], view: dict, nums: dict[str, int]) -> Path:
+    """One picture of an assembly step.  ``keep`` (six extents of a box) shows only what lies inside that box,
+    for a close view of one place."""
+    keys = set(view["show"])
+    new = [k for k in view.get("new", [])]
+    lift = dict(view.get("lift", {}))
+    keep = g.box(*view["keep"]) if "keep" in view else None
+    sc, anchors = scene(pool, keys=keys | set(new), lift=lift, ghost=view.get("ghost", ()), keep=keep)
+    cam = R.Camera(azimuth=view["az"], elevation=view["el"], zoom=view.get("zoom", 1.0))
+    p = img / view["file"]
+    labelled = view.get("label", new)
+    shot(p, sc, cam, anchors, {k: nums[k] for k in labelled if k in nums})
+    return p
 
 
 def _zoomed(sc: R.Scene, p: Path, az: float, el: float, zoom: float, size=(1400, 1050)) -> None:
@@ -203,7 +210,7 @@ def render_details(img: Path) -> list[Path]:
         it = A.by_key(items)
         keep = g.box(-75, -22, 0.0, 30, -12, 34)
         sc = R.Scene()
-        for key in ("stage", "lid", "band", "bowl", "chassis", "hinge_pin", "sleeve", "spring", "charger", "boost"):
+        for key in ("stage", "lid", "band", "bowl", "chassis", "hinge_pin", "sleeve", "spring", "yoke_wire", "charger", "boost"):
             sc.add(R.clip(it[key].bodies, keep))
         p = img / name
         _zoomed(sc, p, -90, 0, 1.0)
@@ -217,7 +224,7 @@ def render_details(img: Path) -> list[Path]:
     keep = g.box(-60, 140, 0.0, 200, -60, 8.0)
     sc = R.Scene()
     for item in items:
-        if item.key in ("lid", "stage", "cradle", "ring", "slider", "lock_pin", "pawl", "pawl_screw", "pawl_spring", "stack_screws", "spring", "sleeve", "hinge_pin"):
+        if item.key in ("lid", "stage", "cradle", "ring", "slider", "lock_pin", "pawl", "pawl_screw", "pawl_spring", "stack_screws", "spring", "sleeve", "hinge_pin", "yoke_wire"):
             continue
         sc.add(R.clip(item.bodies, keep))
     p = img / "grass_section.png"
@@ -257,6 +264,7 @@ def build_manual(root: Path) -> list[Path]:
     files += render_print_plate(img)
     items = A.build()
     nums = numbers(items)
+    assert WIRE_LEN == A.yoke_wire_length(), "manual_text.WIRE_LEN and assembly.yoke_wire_length() differ"
     md = manual_markdown(items, nums, A.printed_parts())
     p = docs / "building_manual.md"
     p.write_text(md, encoding="utf-8")

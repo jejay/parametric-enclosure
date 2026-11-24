@@ -5,7 +5,7 @@ chassis       bucket carrying battery, servo, boards and the speaker baffle
 pawl          latch pawl released by the servo
 cradle        ring seat (exchangeable, fitted to the actual ring)
 slider        knob of the ring lock pin
-sleeve        mandrel sleeve between hinge pin and torsion spring
+sleeve        mandrel of the torsion spring; the two hinge pins are pressed into its ends
 spk_clamp     ring that clamps the speaker against the baffle
 
 All parts are returned in assembly coordinates.
@@ -24,7 +24,10 @@ from . import parts_shell as S
 
 HX, HZ = P.HINGE_X, P.HINGE_Z
 TOWER_Y0 = P.SPRING_SLOT / 2 + P.LID_RIB_T + 0.2      # inner face of a hinge tower
-TOWER_Y1 = P.HINGE_W / 2                               # outer face of a hinge tower
+TOWER_Y1 = TOWER_Y0 + P.TOWER_T                        # outer face of a hinge tower
+SLEEVE_HALF = P.SPRING_SLOT / 2 - P.SLEEVE_PLAY        # half the length of the spring sleeve
+YOKE_SEAT_Z = HZ - (P.SPRING_OD - P.SPRING_WIRE) / 2 - P.SPRING_WIRE / 2   # the spring's forward leg lies on this height
+YOKE_HOLE_Z = YOKE_SEAT_Z + P.YOKE_HOLE / 2 - P.YOKE_WIRE_D              # the wire lies on the bottom of its holes
 DECK_BOTTOM = P.Z_DECK - P.DECK_T
 
 
@@ -99,21 +102,35 @@ def _screw_pads() -> cq.Shape:
     return g.inter(out, g.sphere(P.R_STAGE - 0.01))
 
 
+def tower_knuckle(y0: float, y1: float) -> cq.Shape:
+    """Knuckle of a hinge tower, without its bore: a closed ring round the hinge pin.
+
+    The hinge axis lies almost on the sphere of the stage's dome, so half of the ring stands out of the dome,
+    into the room that the thinned wall of the lid leaves behind the hinge.  The ring is a solid of revolution
+    about the hinge axis: its distance from the lid's wall is the same at every opening angle.
+
+    The stage is printed upside down.  The quarter of the ring that lies behind and above the pin would then
+    hang in the air; a roof at 45 degrees, from the ring up to the tower, carries it instead."""
+    r = P.TOWER_KNUCKLE_R
+    c = r * math.sqrt(0.5)
+    reach = 2.0                                  # the roof ends this far in front of the axis, inside the tower
+    ring = g.cyl_y(r, y0, y1, HX, HZ)
+    roof = g.prism_xz([(HX - c, HZ + c), (HX + reach, HZ + c + (reach + c)), (HX + reach, HZ), (HX, HZ)], y0, y1)
+    return ring.fuse(roof)
+
+
 def _hinge_towers() -> cq.Shape:
     out = None
     inside = g.inter(g.sphere(P.R_STAGE - 0.01), g.slab(0, P.Z_DECK - 0.01))
+    fx0, fx1 = P.YOKE_FOOT_X
     for sy in (1, -1):
         y0, y1 = (TOWER_Y0, TOWER_Y1) if sy > 0 else (-TOWER_Y1, -TOWER_Y0)
-        knuckle = g.cyl_y(P.KNUCKLE_R, y0, y1, HX, HZ)
-        arm = g.box(HX, HX + 13.5, y0, y1, HZ - P.KNUCKLE_R, P.Z_DECK)
-        # the spring's body leg rests on a yoke between the towers; each tower
-        # carries one end of it
-        foot = g.box(HX + 10.6, HX + 13.5, y0, y1, 4.4, HZ)
-        tower = g.inter(knuckle.fuse(arm).fuse(foot), inside)
+        arm = g.box(HX, HX + fx1, y0, y1, HZ - P.TOWER_KNUCKLE_R, P.Z_DECK)      # the foot is flush with its front
+        # the wire on which the spring's forward leg rests passes through a foot under each tower
+        foot = g.box(HX + fx0, HX + fx1, y0, y1, P.YOKE_FOOT_Z, HZ)
+        # arm and foot end at the dome of the stage; the knuckle does not: it has to enclose the pin
+        tower = g.inter(arm.fuse(foot), inside).fuse(tower_knuckle(y0, y1))
         out = tower if out is None else out.fuse(tower)
-    rm = (P.SPRING_OD - P.SPRING_WIRE) / 2
-    seat_z = HZ - rm - P.SPRING_WIRE / 2
-    yoke = g.box(HX + 10.6, HX + 13.5, -TOWER_Y0, TOWER_Y0, 4.4, seat_z)
     # end stop: the lid's stop tabs land on this beam at LID_OPEN_DEG
     a_open = math.radians(P.LID_TAB_DEG + P.LID_OPEN_DEG)
     ux, uz = math.cos(a_open), math.sin(a_open)          # tab direction when open
@@ -121,7 +138,23 @@ def _hinge_towers() -> cq.Shape:
     p1 = (HX + 4.5 * ux + 1.5 * nx, HZ + 4.5 * uz + 1.5 * nz)
     p2 = (HX + (P.LID_TAB_LEN + 0.5) * ux + 1.5 * nx, HZ + (P.LID_TAB_LEN + 0.5) * uz + 1.5 * nz)
     stop = g.prism_xz([p1, p2, (p2[0], p2[1] + 1.2), (HX + 1.0, p2[1] + 1.2), (HX + 1.0, p1[1] + 0.7)], -TOWER_Y0, TOWER_Y0)
-    return out.fuse(yoke).fuse(stop)
+    return out.fuse(stop)
+
+
+def yoke_wire_span() -> tuple[float, float]:
+    """Where the straight part of the yoke wire begins and ends along y.  It is pushed in from the +y side:
+    its far end stays just inside the outer face of the far foot, its near end is bent over beside the near foot."""
+    return (-(TOWER_Y1 - 0.3), TOWER_Y1 + 0.2 + P.YOKE_WIRE_D / 2)
+
+
+def yoke_wire() -> cq.Shape:
+    """The wire on which the spring's forward leg rests.  One end is bent over before the wire goes in; that
+    end stops it at the foot."""
+    r = P.YOKE_WIRE_D / 2
+    x, z = HX + P.YOKE_X, YOKE_SEAT_Z - r
+    y0, y1 = yoke_wire_span()
+    body = g.cyl_y(r, y0, y1, x, z).fuse(g.cyl_z(r, z, z + P.YOKE_END, x, y1)).fuse(g.sphere(r, (x, y1, z)))
+    return g.clean(body)
 
 
 def stop_contact_ok() -> float:
@@ -144,7 +177,9 @@ def stage() -> cq.Shape:
     behind = g.box(-60, HX, -P.BACK_RELIEF_Y, P.BACK_RELIEF_Y, -1, HZ)
     body = body.cut(relief).cut(behind)
     body = body.fuse(_hinge_towers())
-    body = body.cut(g.cyl_y(P.HINGE_PRESS / 2, -30, 30, HX, HZ))    # the two hinge pins are pressed into the towers
+    body = body.cut(g.cyl_y(P.HINGE_SLIDE / 2, -30, 30, HX, HZ))    # the two hinge pins slide in the towers
+    y_w = TOWER_Y1 + 1.0
+    body = body.cut(g.cyl_y(P.YOKE_HOLE / 2, -y_w, y_w, HX + P.YOKE_X, YOKE_HOLE_Z))   # the wire under the spring's leg
 
     # ring cradle pocket and the guide of the lock pin behind it
     guide = g.box(P.LOCK_STEM_X[0] - P.LOCK_TRAVEL - 1.5, P.CRADLE_X0 - 0.2, -4.0, 4.0, P.LOCK_Z - 3.2, DECK_BOTTOM + 0.01)
@@ -451,13 +486,15 @@ def slider() -> cq.Shape:
 
 
 @lru_cache(maxsize=None)
-def sleeve() -> cq.Shape:
-    half = P.SPRING_SLOT / 2 - 0.15
-    body = g.cyl_y(P.SLEEVE_OD / 2, -half, half, HX, HZ).cut(g.cyl_y(P.HINGE_BORE / 2, -10, 10, HX, HZ))
-    # each end catches the tip of one hinge pin: a funnel leads it in
-    r, lead = P.HINGE_BORE / 2, 0.4
-    body = body.cut(g.cone_y(r + lead, r, -half - 0.001, -half + lead, HX, HZ))
-    body = body.cut(g.cone_y(r, r + lead, half - lead, half + 0.001, HX, HZ))
+def sleeve(od: float = P.SLEEVE_OD) -> cq.Shape:
+    """Mandrel of the torsion spring, and what keeps the two hinge pins: each pin is pressed into a blind hole
+    at one end and stands on its floor.  The sleeve is as long as the gap between the ribs of the lid lets it
+    be, so it cannot leave that gap and the pins cannot leave the hinge.  A funnel leads each pin in."""
+    half, r = SLEEVE_HALF, P.HINGE_PRESS / 2
+    body = g.cyl_y(od / 2, -half, half, HX, HZ)
+    body = body.cut(g.cyl_y(r, half - P.SLEEVE_BLIND, half + 1.0, HX, HZ)).cut(g.cyl_y(r, -half - 1.0, -half + P.SLEEVE_BLIND, HX, HZ))
+    body = body.cut(g.cone_y(r + P.SLEEVE_LEAD_R, r, -half - 0.001, -half + P.SLEEVE_LEAD, HX, HZ))
+    body = body.cut(g.cone_y(r, r + P.SLEEVE_LEAD_R, half - P.SLEEVE_LEAD, half + 0.001, HX, HZ))
     return g.clean(body)
 
 
@@ -518,6 +555,36 @@ def m2_coupon() -> cq.Shape:
     for i, x in enumerate((23.0, 28.0, 33.0)):
         d = P.M2_PILOT_SIDE + (i - 1) * M2_COUPON_STEP
         body = body.cut(g.cyl_y(d / 2, -1.0, 13.0, x, 4.0))
+    return g.clean(body)
+
+
+PIN_COUPON_PRESS = (-0.05, 0.0, 0.05, 0.10)       # the upright test holes, as differences from HINGE_PRESS
+PIN_COUPON_SLIDE = (-0.10, 0.0, 0.10)             # the level test holes, as differences from HINGE_SLIDE
+
+
+@lru_cache(maxsize=None)
+def pin_coupon() -> cq.Shape:
+    """Test piece for the two fits of the Ø2 hinge pins, in its own coordinates and print orientation.
+
+    Four posts as thick as the spring sleeve, each with a blind hole from the top like those of the sleeve
+    (upright in the print, with the same funnel and depth): the press fit.  One wall as thick as a hinge
+    tower with three holes through it (level in the print, as in the stage): the sliding fit.  The holes grow
+    from the cut-off corner onwards; the second post and the middle hole of the wall have the model's values."""
+    plate = 1.6
+    body = g.box(0.0, 42.0, 0.0, 13.0, 0.0, plate)
+    body = body.cut(g.prism_xy([(-1.0, -1.0), (3.5, -1.0), (-1.0, 3.5)], -1.0, 20.0))
+    top = plate + 4.4
+    for i, dd in enumerate(PIN_COUPON_PRESS):
+        x, r = 5.5 + 5.5 * i, (P.HINGE_PRESS + dd) / 2
+        body = body.fuse(g.cyl_z(P.SLEEVE_OD / 2, plate - 0.01, top, x, 4.5))
+        body = body.cut(g.cyl_z(r, top - P.SLEEVE_BLIND, top + 1.0, x, 4.5))
+        body = body.cut(g.cone_z(r, r + P.SLEEVE_LEAD_R, top - P.SLEEVE_LEAD, top + 0.001, x, 4.5))
+    z_hole = plate + 4.0
+    y0 = 8.5
+    body = body.fuse(g.box(26.5, 41.0, y0, y0 + P.TOWER_T, plate - 0.01, z_hole + 3.0))
+    for i, dd in enumerate(PIN_COUPON_SLIDE):
+        x = 29.5 + 4.25 * i
+        body = body.cut(g.cyl_y((P.HINGE_SLIDE + dd) / 2, y0 - 1.0, y0 + P.TOWER_T + 1.0, x, z_hole))
     return g.clean(body)
 
 

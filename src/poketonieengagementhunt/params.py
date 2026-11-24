@@ -122,35 +122,57 @@ COLLAR_AZ = 115.0             # the collar only exists within +-this azimuth of 
 HINGE_E = 7.0                 # hinge axis height above the seam plane
 HINGE_Z = HB + HINGE_E
 # The hinge axis lies inside the lid, and the lid's wall closes it at both ends: beside each hinge tower a
-# Ø2 pin has only 4 mm of room, so one long pin cannot be put in.  Two short pins are used.  Each is pressed
+# Ø2 pin has only 4 mm of room, so one long pin cannot be put in.  Two short pins are used.  Each is put
 # into its tower from outside until it is flush with the tower's inner face and waits there, standing out of
-# the tower, while the lid is put on; then both are pressed in the rest of the way.
+# the tower, while the lid is put on; then both are pushed in the rest of the way.
+# The pins slide in the towers, which enclose them all round, and are pressed into the two blind holes of the
+# spring sleeve.  The sleeve cannot leave the gap between the ribs of the lid, so a pin can only come out by
+# being pulled out of the sleeve; the web between the two blind holes stops it on its way in.
 HINGE_PIN_D = 2.0             # two steel dowel pins Ø2 x 8 (ISO 2338)
-HINGE_W = 20.0                # width over the two hinge towers; it sets how far back the hinge can sit
+HINGE_W = 20.0                # width of the hinge as the lid is laid out for it; it sets how far back the hinge can sit
 HINGE_PIN_L = 8.0
-HINGE_PIN_Y1 = HINGE_W / 2 - 0.2            # outer end of a mounted pin: flush with the outer face of its tower
-HINGE_PIN_Y0 = HINGE_PIN_Y1 - HINGE_PIN_L   # inner end, inside the spring sleeve
-HINGE_BORE = 2.3              # rotating bore for the Ø2 pin (ribs of the lid, spring sleeve)
-HINGE_PRESS = 1.95            # press-fit bore for the Ø2 pin (hinge towers)
+HINGE_BORE = 2.3              # rotating bore for the Ø2 pin (ribs of the lid)
+HINGE_SLIDE = 2.15            # sliding bore for the Ø2 pin (hinge towers); the bore lies level in the print
+HINGE_PRESS = 1.95            # press-fit bore for the Ø2 pin (blind holes of the spring sleeve); upright in the print
+SLEEVE_PLAY = 0.15            # the sleeve is this much shorter than the gap between the ribs, at each end
+SLEEVE_BLIND = 1.8            # depth of each blind hole of the sleeve; the pin stands on its floor
+SLEEVE_LEAD = 0.45            # depth of the funnel at the mouth of each blind hole ...
+SLEEVE_LEAD_R = 0.55          # ... and how much wider than the hole it is at the mouth, on each side
+TOWER_T = 2.2                 # thickness of each hinge tower: a pin that stands on the floor of its hole ends a quarter of a
+                              # millimetre outside it, so that pliers can press home a pin that is a little short as well
+TOWER_KNUCKLE_R = 2.7         # outer radius of the knuckle of a hinge tower: a closed ring round the pin
 HINGE_RECESS_Y = 16.5         # the inside of the lid wall is relieved up to this distance from the middle ...
 HINGE_RECESS_WALL = 1.3       # ... down to this wall thickness: room for the two waiting pins
 HINGE_RECESS_TOP = 2.5        # the relief ends this far above the hinge axis; below, it runs out through the rim
 HINGE_MOUNT_DEG = 65.0        # the lid is held about this far open while it is slid onto the hinge
 KNUCKLE_R = 2.7               # outer radius of the printed knuckles
 LID_WALL_AT_HINGE = 1.0       # the lid wall is locally thinned behind the hinge
-SPRING_OD = 6.7               # Gutekunst T-16324: d 0.7, Di 5.3, De 6.7, 7 coils
+SPRING_OD = 6.7               # laid out for Gutekunst T-16324: d 0.7, Di 5.3, De 6.7, 7 coils.  A spring of 0.7 mm wire with
+                              # De 6.5 to 7.0 and 6 or 7 turns takes its place (research/06 section 2.1)
 SPRING_ID = 5.3
 SPRING_WIRE = 0.7
 SPRING_BODY = 5.6
 SPRING_LEG = 14.0             # legs trimmed from 35 mm
 SPRING_SLOT = 6.6             # axial room for the coil
-SLEEVE_OD = 4.5               # mandrel sleeve on the pin (catalogue 4.3-4.7)
+SLEEVE_OD = 4.0               # mandrel sleeve.  4.0 for the spring that is ordered, T028-180-140: inner Ø 4.90, about
+                              # 4.65 with the lid closed.  A spring with the 5.3 mm of the layout takes a sleeve of 4.5
 LID_RIB_T = 3.4               # each lid knuckle rib
 LID_TAB_LEN = 8.5             # stop tab on each rib
 LID_TAB_DEG = -60.0           # tab direction when the lid is closed
-STAGE_KNUCKLE_T = 3.0         # each stage knuckle
 LID_OPEN_DEG = 95.0           # opening angle at the end stop
 SPRING_DEFL_CLOSED = 115.0    # spring wind-up with the lid closed (<= 80 % Mn)
+# position of a mounted hinge pin, measured from the middle of the hinge
+HINGE_PIN_Y0 = SPRING_SLOT / 2 - SLEEVE_PLAY - SLEEVE_BLIND   # inner end, on the floor of its hole in the sleeve
+HINGE_PIN_Y1 = HINGE_PIN_Y0 + HINGE_PIN_L                     # outer end
+# The seat of the spring's forward leg is a piece of wire that is pushed through the feet of the two towers
+# after the leg has been lifted: once the pins hold the coil on the axis, the leg can no longer be brought
+# onto a fixed seat from below.
+YOKE_WIRE_D = 1.0             # steel wire, for example from a paper clip (0.8 to 1.2 mm will do)
+YOKE_HOLE = 1.4               # its holes in the two feet; they lie level in the print
+YOKE_X = 11.8                 # the wire lies this far in front of the hinge axis
+YOKE_FOOT_X = (9.9, 13.5)     # each tower's foot, in front of the hinge axis; its front is flush with the tower
+YOKE_FOOT_Z = 4.4             # underside of the feet
+YOKE_END = 3.0                # each end of the wire is bent over by this much
 
 # Hinge axis x: as far back as possible.  Two limits apply inside the locally
 # thinned lid wall: the knuckles at the pin ends and the spring coil at the

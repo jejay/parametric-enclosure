@@ -39,8 +39,8 @@ Before you start: read `research/README.md` for why each part was chosen, `docs/
 | 19 | 1 | Speaker Visaton K 40 (8 ohm) | Visaton K 40, 8 ohm, art. no. 2840 (Ø40 x 4.3 mm, 83 dB). | research/04 §3 |
 | 22 | 1 | RGB LED WS2812B on 10 mm PCB | One WS2812B or SK6812 on a round Ø10 mm mini PCB. | research/04 §4 |
 | 26 | 1 | 18650 Li-ion cell (unprotected flat top) | Unprotected flat-top 18650, e.g. Samsung INR18650-35E or Molicel M35A. | research/05 §2 |
-| 39 | 1 | Torsion spring Gutekunst T-16324 (0.7 x 6.7, 7 coils) | Gutekunst T-16324L and T-16324R (order one of each). | research/06 §2.1 |
-| 41 | 1 | Engagement ring (EU 49) | The engagement ring. Measure it and adjust the RING_* values in `params.py`, then reprint the cradle. | research/06 §1 |
+| 39 | 1 | Torsion spring T028-180-140 (0.71 x 6.32 mm, 6 turns, 180°) | Stainless torsion spring T028-180-140, L or R: 0.71 mm wire, 6.32 mm outside, 6 turns, legs in one line (180°) and 25.4 mm long. Sodemann sells it to private customers as T028-180-140L / T028-180-140R, Febrotec lists the same spring as 0T028-180-140L / 0T028-180-140. Either winding direction fits; order a few. Its legs are cut to 14 mm (step 10). The sleeve (`sleeve.stl`, 4.0 mm) is printed for this spring. Two springs of the same family as second guesses, both on the thicker sleeve `sleeve_4_5.stl`: 0T023-180-156 (0.58 mm wire, 6.58 mm outside, 4 turns) if the lid opens too hard, about 26 N mm instead of about 40, and 0T030-180-172 (0.76 mm wire, 6.91 mm outside, 6 turns) if it opens too weakly, about 50 N mm. Any other spring of 0.7 mm wire with 6 or 7 turns and 6.3 to 7.0 mm outside fits the lid and the stage as well, but wants a sleeve about 0.6 mm thinner than its inner diameter with the lid closed (`SLEEVE_OD` in `params.py`). | research/06 §2.1 |
+| 42 | 1 | Engagement ring (EU 49) | The engagement ring. Measure it and adjust the RING_* values in `params.py`, then reprint the cradle. | research/06 §1 |
 
 ### Hardware
 
@@ -54,8 +54,9 @@ Before you start: read `research/README.md` for why each part was chosen, `docs/
 | 31 | 1 | Screw M2 x 6 (pawl pivot) | M2 x 6 machine screw, the same as for the grass top. The washer under it is printed. | research/06 §4.2, §4.3 |
 | 32 | 1 | Compression spring 3.5 x 8 (pawl return) | Soft compression spring about Ø3.5-4.5 x 8 mm, for example a piece of a ball-pen spring. | research/06 §2.2 |
 | 34 | 1 | Dowel pin 3 x 25 (ring lock) | Steel dowel pin (parallel pin) Ø3 x 25 mm. A 24 mm pin of the ISO 2338 series fits as well; a 20 mm pin is too short: only half as much of it would sit in the slider. | research/06 §3 |
-| 37 | 2 | Dowel pin 2 x 8 (hinge) | Two steel dowel pins (parallel pins) Ø2 x 8 mm, ISO 2338 / DIN 7 or hardened ISO 8734 / DIN 6325. Two pieces of a 2 mm bicycle spoke, 8 mm long with rounded ends, do as well. | research/06 §3 |
-| 40 | 4 | Screw M3 x 16 ISO 4762 (stack) | M3 x 16 socket head cap screws, ISO 4762. | research/06 §4.3 |
+| 37 | 2 | Dowel pin 2 x 8 (hinge) | Two steel dowel pins (parallel pins) Ø2 x 8 mm, ISO 2338 / DIN 7 or hardened ISO 8734 / DIN 6325. Two pieces of a 2 mm bicycle spoke, 8 mm long with rounded ends, do as well. They slide in the towers of the stage and are pressed into the spring sleeve; try them in the test piece first (section 3). | research/06 §3 |
+| 40 | 1 | Steel wire Ø1 x 23 (seat of the spring leg) | Steel wire of 0.8 to 1.2 mm, 23 mm of it: a straightened paper clip does. The forward leg of the lid spring rests on it; it goes in last (step 10). | research/06 §3 |
+| 41 | 4 | Screw M3 x 16 ISO 4762 (stack) | M3 x 16 socket head cap screws, ISO 4762. | research/06 §4.3 |
 
 ### Small parts without a position number
 
@@ -68,7 +69,7 @@ Before you start: read `research/README.md` for why each part was chosen, `docs/
 | Diode 1N4148 | 1 | in series with the LED's 5 V supply, so that 3.3 V data is in spec |
 | Silicone wire 26-28 AWG, heat-shrink tube |  | all point-to-point wiring |
 | Self-adhesive felt or velour, 0.5-1 mm |  | ring slot lining; optional curtain behind the band pocket; optional dots under the ball's flat and the tongue |
-| Hot glue or epoxy; cyanoacrylate |  | boards, bezel, hall switch, reader |
+| Hot glue or epoxy; cyanoacrylate |  | boards, bezel, hall switch, reader, the bent end of the wire under the lid spring |
 | Flexible ferrite sheet 0.1-0.2 mm, about 45 x 42 mm (Würth WE-FSFS 364004 or 364005) | 1, only if needed | on the floor of the pocket under the antenna, if the bench test fails on a metal surface |
 | Schottky diodes BAT43 or 1N5817 | 2, only if needed | supply of the reader in sleep, if the ball is woken by card detection instead of the hall switch |
 
@@ -85,19 +86,19 @@ Before you start: read `research/README.md` for why each part was chosen, `docs/
 | 24 | Button lens | `export/stl/lens.stl` | PETG natural / clear | 1.5 g | flange on the bed, button up, 100 % infill |
 | 25 | Button bezel (black ring with sound slits) | `export/stl/bezel.stl` | PETG black | 3.4 g | face down on the bed, no supports |
 | 27 | Band (black equator ring) | `export/stl/band.stl` | PETG black | 5.9 g | upside down: lid seat on the bed, no supports |
-| 28 | Stage (inner dome with ring deck) | `export/stl/stage.stl` | PETG black | 31 g | upside down: deck on the bed, supports for the hinge yoke only |
+| 28 | Stage (inner dome with ring deck) | `export/stl/stage.stl` | PETG black | 30 g | upside down: deck on the bed, supports under the stop beam of the hinge and the screw pads only |
 | 29 | Latch pawl | `export/stl/pawl.stl` | PETG any colour | 0.5 g | upside down: top face on the bed |
 | 30 | Pivot washer for the pawl | `export/stl/pawl_cap.stl` | PETG any colour | 0.0 g | flange on the bed, hub up; 100 % infill |
 | 33 | Ring cradle | `export/stl/cradle.stl` | PETG red or black | 4.1 g | as assembled, no supports |
 | 35 | Ring lock slider | `export/stl/slider.stl` | PETG any colour | 0.4 g | cap on the bed (upside down) |
 | 36 | Lid (red upper half) | `export/stl/lid.stl` | PETG red | 35 g | rim on the bed (dome up), supports inside only (hook, pole) |
-| 38 | Spring sleeve | `export/stl/sleeve.stl` | PETG any colour | 0.1 g | standing on one end |
+| 38 | Spring sleeve | `export/stl/sleeve.stl` | PETG any colour | 0.1 g | standing on one end; 100 % infill |
 
 ### Tools
 
 - FDM printer with a 0.4 mm nozzle; PETG in red, white, black, natural (clear) and a light green, and any colour for the inner parts
 - Soldering iron with a fine tip (also used to set the heat-set inserts)
-- Hex keys 1.5, 2 and 2.5 mm, long-nose pliers, small cross-head screwdriver, side cutters, tweezers
+- Hex keys 1.5, 2 and 2.5 mm, long-nose pliers, small cross-head screwdriver, small flat screwdriver (blade 2 to 2.5 mm wide), side cutters, tweezers, a toothpick
 - Drill bits of 1.7 or 1.8 mm and of 2.0 mm, only if a pilot hole for an M2 screw or the bore for a hinge pin prints too tight
 - Multimeter; a USB-C cable and charger
 - Calipers, to measure the ring, the reader board and the other delivered boards
@@ -110,7 +111,7 @@ Five things decide whether the design works, and none of them can be proven by C
 2. **Metal under the tongue.** Repeat test 1 with a baking tray 12 mm under the board: that is a metal table under the tongue. The distance is a little more than the 10 mm that the antenna guides ask for [research/08 §8], so the figures should still read. If they do not, lay the ferrite sheet from the list of small parts 5 mm under the board, where the floor of the pocket will be, and repeat on both surfaces.
 3. **The magnets.** The pocket is laid out for the magnets of the classic Tonies, which the Pokémon figures should share because they work on the first Toniebox: cylinders of 6 x 6 mm, one in the middle of the foot or one in each of two feet [research/09 §7]. Find them with a steel pin or a compass needle. Then fix the hall switch under the middle of the antenna with its printed face 5 mm below the plastic sheet (a stack of cardboard does it): that is where it lies in the tongue. It must switch when a figure stands on the sheet, in every rotation of the figure, and release when the figure is lifted away. Then slide the figure off the middle and note how far it can stand off before the switch lets go and before the read fails. Nothing marks the place on the tongue, so this distance is the reserve for a figure that is put down by eye; about 8 mm is what the layout counts on. If the switch does not answer at all, read "Wake, if the magnet is not where the switch is" in `docs/electronics.md` before you go on.
 4. **Servo and supply.** Run the servo from the boost converter on the real cell while the amplifier plays. The board must not reset. Measure the stall current.
-5. **Lid spring and hinge pins.** Print the lid, the stage and the band first. Try a hinge pin in a tower: it must go in under firm pressure and then sit fast (step 10). Hinge the lid and check that the spring throws it open and that it rests on the end stop.
+5. **Lid spring and hinge pins.** Print the test piece for the hinge pins and try the pins in it (section 3). Then print the lid, the stage, the sleeve and the band, hinge the lid (step 10) and check that the spring throws it open and that it rests on the end stop.
 
 Also measure the delivered parts against the values marked `MEASURE` in `params.py`: outline of the reader board (69.6 x 38.6 mm assumed; it sets the length of the tongue) and position of its antenna, the foot of a figure (45 mm assumed; the width of the tongue follows it), height of the XIAO, length of the charger and position of its USB-C socket, and the ring itself.
 
@@ -129,8 +130,22 @@ Also measure the delivered parts against the values marked `MEASURE` in `params.
 - Grass tongue (tray): light green, sole on the bed, no supports, 4 perimeters, 40 % infill. The rim round its top overhangs inwards at the tip by less than 40°; it prints without support.
 - Grass top: the same light green, one file (`grass_top.stl`): underside on the bed, tufts up, no supports, 5 perimeters so that the blades print solid. Slow down above the turf surface and keep a minimum layer time of about 8 s, so that the blunt tips do not melt. Its edge leans like the walls of its frame, and its lowest 0.3 mm stand back a little for a first layer that is squeezed wide. If it still does not drop into the frame, scrape its bottom edge with a knife.
 - A green that comes close to the grass of the games: Bambu PETG HF Green [research/10 A.4]. Tray and grass top should come from the same spool.
+
+**Supports.** The slicer makes them; nothing about them is built into the files. In Bambu Studio (or any other slicer) choose tree supports with a threshold angle of 30° and, with PETG on PETG, a top Z distance of one layer (0.2 mm), so that they break off. Look at the sliced preview before printing. Where they are needed, measured on the exported files with `research/scripts/print_supports/overhang.py`:
+
+| Part | Supports | Setting |
+| --- | --- | --- |
+| Bowl | inside: under the floor (about 50 x 50 mm, 37 to 42 mm above the bed) and under the four bosses low on the front wall | on build plate only |
+| Lid | inside: under the top of the dome (about 50 x 50 mm, 37 to 45 mm above the bed) | on build plate only |
+| Stage | under the stop beam between the hinge towers (about 7 x 14 mm) and under the four screw pads; none in the bores and none under the knuckles of the hinge, which slope at 45° | on build plate only |
+| Chassis | under the two shelves at the back, where they stand on the part itself, and under the lugs of the flange | everywhere, not only from the build plate |
+| Lens | optional, under its front (19 mm across, 1.5 mm above the bed); without them it is bridged | - |
+| Band | optional, under the shallow pocket at the back (2 mm high) | - |
+| All other parts | none | supports off |
+
 - Print pawl, pivot washer, slider, sleeve and cradle first. They are small and show whether your printer's clearances suit: the slider must move in the stage with light friction and the pawl must turn freely on its boss.
 - M2 pilot holes. The seven M2 screws form their own thread in printed holes: 1.95 mm where the mouth of the hole lies parallel to the print bed (grass top, stage) and 1.7 mm where it lies in an upright wall (chassis) [research/06 §4.2]. How such small holes come out depends on printer and filament, so print `export/stl/m2_test_coupon.stl` first, flat as it comes, in the PETG you will use. It has three holes from the top (1.85, 1.95, 2.05 mm) and three through its side (1.60, 1.70, 1.80 mm), the smallest of each three next to the cut-off corner. An M2 screw should turn into the middle one with light, even resistance and then hold firmly. If a neighbour fits better, change `M2_PILOT_FLAT` or `M2_PILOT_SIDE` in `params.py` and export again. A hole that is only a little tight can be opened with a 1.7 or 1.8 mm drill.
+- Hinge pins. The two Ø2 pins slide in the towers of the stage and are pressed into the two ends of the spring sleeve; that press fit is all that keeps them in the hinge. Both fits depend on printer and filament, so print `export/stl/pin_test_coupon.stl` first, flat as it comes, with 100 % infill, in the PETG of stage and sleeve. Its four posts have blind holes of 1.90, 1.95, 2.00 and 2.05 mm, upright like those of the sleeve; its wall has three holes of 2.05, 2.15 and 2.25 mm, level like those of the towers. The smallest of each kind is next to the cut-off corner. In the wall, take the hole in which a pin moves under the push of a finger and stays where it is left; the model has 2.15 mm. Among the posts, take the largest hole into which a pin goes only under firm pressure from pliers, down to its bottom (1.8 mm), and from which you cannot pull it with your fingers; the model has 1.95 mm. If other holes fit than those of the model, change `HINGE_SLIDE` or `HINGE_PRESS` in `params.py` and export again. A tower bore that is only a little tight can be opened with a 2 mm drill; a sleeve is printed anew in a few minutes, so print two or three.
 - Heat-set inserts. Print `export/stl/insert_test_boss.stl` in the PETG of the bowl and set one insert of each length in it before you print the bowl. The insert must sink in under light pressure at about 230 °C, end flush, and afterwards not turn when a screw is tightened in it. The holes are 4.4 mm for inserts of 5.0 mm; change `M3_INSERT_HOLE` in `params.py` if yours differ.
 
 ## 4. Wire the electronics
@@ -244,24 +259,28 @@ Parts: **28** Stage (inner dome with ring deck), **29** Latch pawl, **30** Pivot
 
 ### Step 10: Hinge the lid to the stage
 
-Parts: **36** Lid (red upper half), **37** Dowel pin 2 x 8 (hinge), **38** Spring sleeve, **39** Torsion spring Gutekunst T-16324 (0.7 x 6.7, 7 coils)
+Parts: **36** Lid (red upper half), **37** Dowel pin 2 x 8 (hinge), **38** Spring sleeve, **39** Torsion spring T028-180-140 (0.71 x 6.32 mm, 6 turns, 180°), **40** Steel wire Ø1 x 23 (seat of the spring leg)
 
 ![step 10](img/step_10a.png)
 
 ![step 10](img/step_10b.png)
 
-1. Press one 2 x 8 mm pin into each hinge tower of the stage from outside, with flat pliers or against the table, until its tip is flush with the inner face of the tower. Both pins now stand 5 mm out of their towers and wait there. They must go in under firm pressure and then sit fast; if a pin does not go in, open the bore of the tower with a 2 mm drill.
-2. Slip the printed sleeve into the torsion spring and check its winding direction now: hold the spring as it will sit, one leg pointing up and the other forwards, and push the upper leg down towards the front one, as the closing lid will do. The coil must wind tighter. If it opens instead, use the spring with the other winding direction (order both L and R). Once the pins are in, the spring can only be changed by cutting the sleeve.
-3. Hold the spring between the two ribs of the lid so that one leg lies up along the inside of the lid's back wall and the other points forwards.
-4. Hold the lid about 65° open behind the stage and slide it forwards until its two ribs lie between the hinge towers and their round ends line up with the round ends of the towers. The two waiting pins pass through the shallow channels inside the wall of the lid.
-5. Squeeze the two pins towards each other with long-nose pliers, coming from above, one jaw on the end of each pin. The pins pass through the ribs and catch the sleeve at both ends. Stop when the jaws lie on the towers. The pins sit fast in the towers; lid and sleeve turn on them.
-6. Lift the forward-pointing spring leg onto the yoke between the towers.
-7. Close and open the lid by hand a few times. It must swing freely from closed to the end stop at about 95° and the spring must throw it open.
-8. One long pin cannot be used in this hinge: the wall of the lid closes the hinge axis at both ends. To take the lid off again, cut the sleeve open with side cutters, take out sleeve and spring, and push each pin outwards with a small screwdriver until it has left the rib. Then print a new sleeve.
+![step 10](img/step_10c.png)
+
+1. Prepare the small parts. Cut both legs of the torsion spring to 14 mm, measured from where they leave the coil, and take the burr off the cut ends. Straighten a paper clip, or take other steel wire of 0.8 to 1.2 mm, cut 23 mm of it and bend 3 mm at one end over at a right angle.
+2. Put one 2 x 8 mm pin into each hinge tower of the stage from outside until its tip is flush with the inner face of the tower. The pins slide in the towers: the push of a finger moves them, and they stay where they are left. If a pin is tight, open the bore of the tower with a 2 mm drill. Both pins now stand 5.8 mm out of their towers and wait there.
+3. Slip the printed sleeve into the torsion spring and find out now which way round the spring goes. Lay it down so that both legs leave the coil at its underside, one pointing forwards and one backwards. Hold the forward leg and swing the rear leg up and over towards the front, as the closing lid will do: the coil must wind tighter. If it opens instead, turn the spring upside down. Either winding direction fits, because the hinge is the same on its left and its right. Once the pins are in, spring and sleeve can only be cut out.
+4. Hold the spring between the two ribs of the lid so that one leg lies up along the inside of the back wall of the lid and the other leaves the lid over the inner edge of its rim.
+5. Let the back of the stage stand out over the edge of the table, so that the leg of the spring has room below it. Hold the lid about 65° open behind the stage and slide it forwards until its two ribs lie between the hinge towers and their round ends line up with the round ends of the towers. The two waiting pins pass through the shallow channels inside the wall of the lid.
+6. Push the pins in, one after the other, with a small flat screwdriver that comes from above and gets behind the end of the pin. After 3.6 mm a pin is through its rib and meets the end of the sleeve. Move the coil with a toothpick until the tip of the pin slips into the funnel of the sleeve. No force is needed so far. The lid now hangs on the two pins.
+7. Open the lid as far as it goes. Put long-nose pliers over the hinge from above, one jaw on the end of each pin, and squeeze the pins towards each other until they stop. That takes firm pressure: each pin is pressed 1.35 mm into the sleeve and then stands on the bottom of its hole, its outer end about level with the outer face of the tower. The sleeve now holds both pins, and the ribs of the lid hold the sleeve.
+8. Seat the spring. Its forward leg lies on the rim of the lid, just beside the two holes in the feet of the towers, on the side away from the deck. Hold the stage so that you look into it from below. Push the tip of the leg 3 mm towards the deck with the screwdriver and push the wire through the hole of one foot, past the leg and into the hole of the other foot, so that the leg lies between the wire and the deck. Push the wire on until its bent end lies against the first foot, and let the leg go: it now rests on the wire. Turn the bent end towards the deck and fix it to the foot with a drop of glue.
+9. Close and open the lid by hand a few times. It must swing freely from closed to the end stop at about 95° and the spring must throw it open.
+10. One long pin cannot be used in this hinge: the wall of the lid closes the hinge axis at both ends. To take the lid off again, pull out the wire and cut through the coil of the spring and the sleeve inside it, between the ribs, with strong side cutters. The halves of the sleeve then come off the pins, and each pin can be pushed outwards with a small screwdriver until it has left the rib. Spring and sleeve are lost; fit new ones.
 
 ### Step 11: Screw the stage onto the core
 
-Parts: **40** Screw M3 x 16 ISO 4762 (stack)
+Parts: **41** Screw M3 x 16 ISO 4762 (stack)
 
 ![step 11](img/step_11.png)
 
@@ -270,7 +289,7 @@ Parts: **40** Screw M3 x 16 ISO 4762 (stack)
 
 ### Step 12: Seat and lock the ring, close the lid
 
-Parts: **41** Engagement ring (EU 49)
+Parts: **42** Engagement ring (EU 49)
 
 ![step 12](img/step_12.png)
 
@@ -401,7 +420,8 @@ To take out the whole core, also lift off the band and separate the two 6-pin pl
 | 36 | Lid (red upper half) | 1 | printed |
 | 37 | Dowel pin 2 x 8 (hinge) | 2 | hardware |
 | 38 | Spring sleeve | 1 | printed |
-| 39 | Torsion spring Gutekunst T-16324 (0.7 x 6.7, 7 coils) | 1 | purchased |
-| 40 | Screw M3 x 16 ISO 4762 (stack) | 4 | hardware |
-| 41 | Engagement ring (EU 49) | 1 | purchased |
+| 39 | Torsion spring T028-180-140 (0.71 x 6.32 mm, 6 turns, 180°) | 1 | purchased |
+| 40 | Steel wire Ø1 x 23 (seat of the spring leg) | 1 | hardware |
+| 41 | Screw M3 x 16 ISO 4762 (stack) | 4 | hardware |
+| 42 | Engagement ring (EU 49) | 1 | purchased |
 

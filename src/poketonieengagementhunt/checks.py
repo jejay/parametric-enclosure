@@ -33,7 +33,7 @@ INTENDED_OVERLAP: dict[frozenset[str], tuple[float, str]] = {
     frozenset(("servo_screws", "chassis")): (25.0, "servo screws in Ø1.6 pilot"),
     frozenset(("clamp_screws", "chassis")): (12.0, "M2 thread formed in a Ø1.70 pilot"),
     frozenset(("pawl_screw", "stage")): (3.0, "M2 thread formed in a Ø1.95 pilot"),
-    frozenset(("hinge_pin", "stage")): (2.0, "Ø2 pins pressed into Ø1.95 bores"),
+    frozenset(("hinge_pin", "sleeve")): (1.0, f"Ø2 pins pressed into the Ø{P.HINGE_PRESS} blind holes of the sleeve"),
     frozenset(("lock_pin", "slider")): (4.0, "Ø3 pin pressed into Ø2.9 bore"),
 }
 TOL_VOLUME = 0.05      # mm^3: anything below is numerical noise / touching faces
@@ -173,8 +173,9 @@ def check_clearances() -> list[Result]:
     for name, key in (("spring coil - lid", "lid"), ("spring coil - stage", "stage"), ("spring coil - sleeve", "sleeve")):
         d = g.min_distance(coil, it[key].shape())
         out.append(Result(f"clearance:{name}", d >= 0.2, f"{d:.2f} mm (need >= 0.2)", {"distance": d}))
-    d = g.min_distance(legs, it["stage"].shape())
-    out.append(Result("clearance:spring body leg on the stage yoke", d <= 0.3, f"{d:.2f} mm gap (seat, need <= 0.3)", {"distance": d}))
+    d = g.min_distance(legs, it["yoke_wire"].shape())
+    v = g.common_volume(it["yoke_wire"].shape(), it["stage"].shape())
+    out.append(Result("clearance:spring body leg on the yoke wire", d <= 0.3 and v <= TOL_VOLUME, f"{d:.2f} mm gap between leg and wire (seat, need <= 0.3); the wire lies in the holes of the two tower feet without overlap ({v:.3f} mm3)", {"distance": d}))
     # the lid leg must lie along the lid's back wall: measure at its far end
     import math as _m
     a = _m.radians(180.0 - P.SPRING_DEFL_CLOSED)
@@ -334,7 +335,7 @@ def check_assembly_paths() -> list[Result]:
                 bad.append((dz, key, v))
     out.append(Result("assembly:band lowers over the core", not bad, f"band lifted 1..25 mm, {len(bad)} collisions", {"collisions": bad}))
     bad = []
-    top_keys = ["stage", "pawl", "pawl_screw", "cradle", "lock_pin", "slider", "lid", "hinge_pin", "sleeve"]
+    top_keys = ["stage", "pawl", "pawl_screw", "cradle", "lock_pin", "slider", "lid", "hinge_pin", "sleeve", "yoke_wire"]
     for dz in (1.0, 3.0, 6.0, 12.0, 25.0, 40.0):
         for tk in top_keys:
             moved = g.move(it[tk].shape(), dz=dz)
@@ -367,7 +368,7 @@ DENSITY = {"printed": 1.27e-3}   # g / mm^3 (PETG)
 MASS_G = {
     "reader": 9.0, "mcu": 3.0, "amp": 1.5, "charger": 2.0, "boost": 1.5, "servo": 9.0, "horn": 0.5,
     "speaker": 10.0, "led": 0.4, "cell": 48.0, "contacts": 1.5, "hall": 0.2, "ring": 3.5,
-    "spring": 0.4, "hinge_pin": 0.4, "lock_pin": 1.4, "stack_screws": 4.4, "inserts": 2.6,
+    "spring": 0.4, "hinge_pin": 0.4, "yoke_wire": 0.2, "lock_pin": 1.4, "stack_screws": 4.4, "inserts": 2.6,
     "harness": 6.0, "turf_screws": 1.6, "base_screws": 2.0,
 }
 BASE_KEYS = ("grass_base", "grass_top", "reader", "hall", "harness", "turf_screws", "base_screws")
@@ -748,21 +749,67 @@ def check_fasteners() -> list[Result]:
     return out
 
 
+def _tool_bar(ya: float, yb: float, width: float, ang: float) -> cq.Shape:
+    """A straight tool beside a hinge tower: a bar that reaches the hinge axis from the direction ``ang``
+    (degrees round the axis, 90 = straight from above) and takes up ``ya``..``yb`` along the axis."""
+    return g.move(g.rot(g.box(-0.6, 40.0, ya, yb, -width / 2, width / 2), "y", -ang, (0, 0, 0)), dx=P.HINGE_X, dz=P.HINGE_Z)
+
+
+def _tool_directions(ya: float, yb: float, width: float, lid_shape: cq.Shape, stage: cq.Shape) -> list[int]:
+    """Directions from which such a tool reaches both pin ends without meeting lid or stage."""
+    free = []
+    for ang in range(0, 360, 15):
+        bars = [_tool_bar(*sorted((sgn * ya, sgn * yb)), width, ang) for sgn in (1, -1)]
+        if all(g.common_volume(bar, lid_shape) <= TOL_VOLUME and g.common_volume(bar, stage) <= TOL_VOLUME for bar in bars):
+            free.append(ang)
+    return free
+
+
 def check_pins() -> list[Result]:
-    """The two hinge pins and the pin of the ring lock: do they hold, and can they be put in?"""
+    """The two hinge pins, the wire under the spring leg and the pin of the ring lock: do they hold, and can they be put in?"""
     out = []
     hx, hz = P.HINGE_X, P.HINGE_Z
     y_in, y_out = K.hinge_pin_span()
     w_in, w_out = K.hinge_pin_span(parked=True)
     rib0, rib1 = P.SPRING_SLOT / 2, P.SPRING_SLOT / 2 + P.LID_RIB_T
-    half = P.SPRING_SLOT / 2 - 0.15
+    half = K.SLEEVE_HALF
+    stage, lid = K.stage(), S.lid()
+
+    # the towers enclose the pins: how thick is the wall that is solid all round the bore?
+    rb = P.HINGE_SLIDE / 2
+    wall = 0.0
+    for w in (0.6, 0.8, 1.0, 1.2, 1.4, 1.6):
+        shell = None
+        for sgn in (1, -1):
+            ya, yb = sorted((sgn * (K.TOWER_Y0 + 0.01), sgn * (K.TOWER_Y1 - 0.01)))
+            one = g.cyl_y(rb + w, ya, yb, hx, hz).cut(g.cyl_y(rb + 0.001, ya - 1.0, yb + 1.0, hx, hz))
+            shell = one if shell is None else shell.fuse(one)
+        if g.common_volume(shell, stage) / g.volume(shell) < 0.9995:
+            break
+        wall = w
+    # the knuckles stand out of the dome of the stage: what they keep from the lid, wherever the lid stands
+    proud = g.inter(stage, g.box(hx - 8.0, hx + 4.0, -K.TOWER_Y1, K.TOWER_Y1, hz - 6.0, hz + 8.0)).cut(g.sphere(P.R_STAGE - 0.01))
+    beside = g.box(-80.0, 80.0, rib1 + 0.1, 40.0, -40.0, 80.0)
+    walls = g.inter(lid, beside.fuse(g.mirror_y(beside)))               # the lid without its ribs, which lie beside the towers
+    gap_k = min(g.min_distance(proud, S.open_lid(walls, deg)) for deg in (0.0, 30.0, P.HINGE_MOUNT_DEG, P.LID_OPEN_DEG))
+    out.append(Result("pins:towers enclose the hinge pins", wall >= 1.2 and gap_k >= 0.3, f"round the Ø{P.HINGE_SLIDE} bore of each tower the stage is solid over at least {wall:.1f} mm, at every angle and over the whole thickness of the tower ({P.TOWER_T} mm). Half of each knuckle stands out of the dome of the stage; it keeps {gap_k:.2f} mm from the wall of the lid with the lid closed, 30° and {P.HINGE_MOUNT_DEG:.0f}° open and at the stop", {"wall": wall, "gap": gap_k}))
+
     in_tower = min(y_out, K.TOWER_Y1) - K.TOWER_Y0
     in_rib = min(y_out, rib1) - max(y_in, rib0)
     in_sleeve = half - y_in
-    out.append(Result("pins:two hinge pins carry lid and spring", in_tower >= 2.5 and in_rib >= P.LID_RIB_T - 1e-9 and in_sleeve >= 1.0 and y_out <= K.TOWER_Y1, f"each Ø{P.HINGE_PIN_D:.0f} x {P.HINGE_PIN_L:.0f} pin is pressed into {in_tower:.1f} mm of its hinge tower (bore Ø{P.HINGE_PRESS}), carries one rib of the lid over its full {in_rib:.1f} mm (bore Ø{P.HINGE_BORE}) and reaches {in_sleeve:.2f} mm into the spring sleeve; its outer end lies {K.TOWER_Y1 - y_out:.1f} mm inside the outer face of the tower", {"tower": in_tower, "rib": in_rib, "sleeve": in_sleeve}))
+    press = in_sleeve - P.SLEEVE_LEAD
+    stands_out = y_out - K.TOWER_Y1
+    on_floor = abs(y_in - (half - P.SLEEVE_BLIND)) < 1e-6
+    out.append(Result("pins:two hinge pins carry lid and spring", in_tower >= 2.0 and in_rib >= P.LID_RIB_T - 1e-9 and press >= 1.2 and on_floor and 0.1 <= stands_out <= 0.4, f"each Ø{P.HINGE_PIN_D:.0f} x {P.HINGE_PIN_L:.0f} pin slides in {in_tower:.1f} mm of its hinge tower (bore Ø{P.HINGE_SLIDE}), carries one rib of the lid over its full {in_rib:.1f} mm (bore Ø{P.HINGE_BORE}) and stands on the floor of a blind hole {in_sleeve:.2f} mm deep in the spring sleeve, of which {press:.2f} mm are a press fit (Ø{P.HINGE_PRESS}) and the rest a funnel; its outer end then stands {stands_out:.2f} mm out of the tower, so that pliers can press home a pin that is a little shorter as well", {"tower": in_tower, "rib": in_rib, "sleeve": in_sleeve, "press": press}))
 
-    # one long pin cannot be mounted: the lid's own wall closes the hinge axis
-    lid = S.lid()
+    # what keeps the pins: the sleeve cannot leave the gap between the ribs
+    sleeve = K.sleeve()
+    held = min(g.common_volume(g.move(sleeve, dy=sgn * (P.SLEEVE_PLAY + 0.4)), lid) for sgn in (1, -1))
+    web = 2 * y_in
+    travel = rib1 - y_in
+    out.append(Result("pins:the sleeve keeps the hinge pins", held > 0.5 and P.SLEEVE_OD - P.HINGE_BORE >= 1.0 and web >= 1.5 and travel > in_sleeve, f"the sleeve (Ø{P.SLEEVE_OD} x {2 * half:.1f}) lies between the ribs of the lid with {P.SLEEVE_PLAY} mm of play at each end and does not pass their Ø{P.HINGE_BORE} bores: pushed {P.SLEEVE_PLAY + 0.4:.2f} mm along the axis it meets a rib ({held:.1f} mm3). A pin cannot go further in, because {web:.1f} mm of sleeve lie between the two blind holes. To free the lid it would have to move {travel:.2f} mm outwards, so it has to be pulled out of its hole in the sleeve first. That press fit is the only thing that holds it: no check here can show how firmly", {"held": held, "web": web, "travel": travel}))
+
+    # one long pin cannot be mounted: the wall of the lid closes the hinge axis
     axis = g.inter(g.cyl_y(0.05, 0.0, 60.0, hx, hz), lid)
     wall_y = min(sol.BoundingBox().ymin for sol in axis.Solids() if sol.BoundingBox().ymin > rib1 + 0.5)
     room = math.sqrt((P.R - P.T_LID) ** 2 - (math.hypot(hx, hz) + P.HINGE_PIN_D / 2) ** 2) - K.TOWER_Y1
@@ -770,12 +817,12 @@ def check_pins() -> list[Result]:
 
     # the pins wait in the towers while the lid is put on
     asm = P.HINGE_MOUNT_DEG                                   # the lid is held about this far open
-    parked = A.by_key(A.build(lid_deg=asm, hinge_parked=True))
-    lid_a, pins, stage = parked["lid"].shape(), parked["hinge_pin"].shape(), parked["stage"].shape()
+    parked = A.by_key(A.build(lid_deg=asm, hinge_parked=True, spring_seated=False))
+    lid_a, pins = parked["lid"].shape(), parked["hinge_pin"].shape()
     gap = g.min_distance(pins, lid_a)
     shell = g.inter(g.ball_zone(P.R, P.R - P.HINGE_RECESS_WALL + 0.02, P.HB, hz + 6.0), g.box(-70, -30, 11.6, P.HINGE_RECESS_Y + 2.0, 0, 30))
     kept = g.common_volume(shell, lid) / g.volume(shell)
-    out.append(Result("pins:waiting pins clear the lid", gap >= 0.15 and kept > 0.999 and P.HINGE_RECESS_WALL >= 1.2, f"with the pins waiting in the towers (flush with the towers' inner faces) the lid keeps {gap:.2f} mm from them; the relief inside the lid wall that makes this room leaves {P.HINGE_RECESS_WALL} mm of wall (measured: {kept * 100:.1f} % of that shell is solid), so nothing shows outside. The wall behind the knuckles is {P.LID_WALL_AT_HINGE} mm as before", {"gap": gap, "kept": kept}))
+    out.append(Result("pins:waiting pins clear the lid", gap >= 0.15 and kept > 0.999 and P.HINGE_RECESS_WALL >= 1.2, f"with the pins waiting in the towers (flush with the inner faces of the towers) the lid keeps {gap:.2f} mm from them; the relief inside the lid wall that makes this room leaves {P.HINGE_RECESS_WALL} mm of wall (measured: {kept * 100:.1f} % of that shell is solid), so nothing shows outside. The wall behind the knuckles is {P.LID_WALL_AT_HINGE} mm as before", {"gap": gap, "kept": kept}))
     bad = []
     steps = (0.6, 1.2, 2.0, 3.0, 4.5, 6.5, 9.0, 12.0, 16.0)
     for ang in (180.0, 190.0, 200.0):
@@ -786,25 +833,51 @@ def check_pins() -> list[Result]:
             if v_s > TOL_VOLUME or v_p > TOL_VOLUME:
                 bad.append((ang, d, round(v_s, 2), round(v_p, 2)))
     out.append(Result("pins:lid slides onto the hinge from behind", not bad, f"lid held {asm:.0f}° open and brought forwards from {steps[-1]:.0f} mm behind its seat, level and up to 20° from below: {len(bad)} collisions with the stage or the waiting pins", {"collisions": bad}))
-    # long-nose pliers press both pins in at once: one jaw on each pin end
-    jaw_t, jaw_w = 1.5, 2.5
-    reach = {}
-    for deg in (asm, 90.0):
-        lid_j = A.by_key(A.build(lid_deg=deg, hinge_parked=True))["lid"].shape()
-        free = []
-        for ang in range(0, 360, 15):
-            ok = True
-            for sgn in (1, -1):
-                ya, yb = sorted((sgn * (K.TOWER_Y1 + 0.05), sgn * (w_out + jaw_t)))
-                bar = g.move(g.rot(g.box(-0.6, 40.0, ya, yb, -jaw_w / 2, jaw_w / 2), "y", -ang, (0, 0, 0)), dx=hx, dz=hz)
-                if g.common_volume(bar, lid_j) > TOL_VOLUME or g.common_volume(bar, stage) > TOL_VOLUME:
-                    ok = False
-                    break
-            if ok:
-                free.append(ang)
-        reach[deg] = free
-    above = {deg: [a for a in fr if 45 <= a <= 135] for deg, fr in reach.items()}
-    out.append(Result("pins:pliers reach the waiting pins", all(above.values()) and len(above[90.0]) >= 2, "two jaws of " + f"{jaw_w} x {jaw_t} mm reach the ends of both waiting pins and can follow them to the towers, coming from above: " + "; ".join(f"lid {deg:.0f}° open from {', '.join(str(a) for a in fr)}°" for deg, fr in above.items()) + " (directions round the hinge, 90° is straight from above, tried in steps of 15°). The jaws stop on the faces of the towers, which sets the depth", {"directions": {str(k): v for k, v in reach.items()}}))
+
+    # The pins are pushed in in two stages.  First, without force: a small screwdriver behind each waiting pin
+    # pushes it through its rib; the lid then hangs on the pins.
+    through = rib0 + P.HINGE_PIN_L                            # where a pin ends when its tip has passed the rib
+    blade_w, blade_t = 2.5, 0.8
+    blade = [a for a in _tool_directions(through, w_out + blade_t, blade_w, lid_a, stage) if 45 <= a <= 135]
+    # Then with force: pliers press both pins into the sleeve.  By then the pin ends lie further in, and the
+    # lid can be opened as far as it goes.
+    press0 = half - P.SLEEVE_LEAD + P.HINGE_PIN_L             # where a pin ends when its tip reaches the press fit
+    jaw_w, jaw_t = 4.0, 3.0
+    jaws = {}
+    for deg in (90.0, P.LID_OPEN_DEG):
+        jaws[deg] = [a for a in _tool_directions(y_out + 0.02, press0 + jaw_t, jaw_w, S.open_lid(lid, deg), stage) if 45 <= a <= 135]
+    out.append(Result("pins:tools reach the hinge pins", bool(blade) and all(len(v) >= 2 for v in jaws.values()), f"without force: a screwdriver blade of {blade_w} x {blade_t} mm reaches the end of each waiting pin with the lid {asm:.0f}° open and follows it until the pin has passed its rib, {w_out - through:.1f} mm further in, coming from {', '.join(str(a) for a in blade)}° (directions round the hinge, 90° is straight from above, tried in steps of 15°). With force: from there the pins slide {through - press0:.1f} mm more and are then pressed {press0 - y_out:.2f} mm into the sleeve; plier jaws of {jaw_w} x {jaw_t} mm reach both pin ends over that last part, " + "; ".join(f"lid {deg:.0f}° open from {', '.join(str(a) for a in fr)}°" for deg, fr in jaws.items()) + f". The jaws start {2 * press0:.1f} mm apart. They stop when both pins stand on the floors of their holes", {"blade": blade, "jaws": {str(k): v for k, v in jaws.items()}, "opening": 2 * press0}))
+
+    # The forward leg of the spring and its seat.  With the pins in, the leg lies on the rim of the lid, below
+    # its seat.  It is lifted and the wire is pushed through the two tower feet under it.
+    opened = A.by_key(A.build(lid_deg=P.LID_OPEN_DEG, pawl_deg=P.PAWL_RELEASE_DEG, horn_deg=P.HORN_RELEASE_DEG, spring_seated=False))
+    lid_o = opened["lid"].shape()
+    rest = A.spring_rest_deg(P.LID_OPEN_DEG)
+    rm, rw = (P.SPRING_OD - P.SPRING_WIRE) / 2, P.SPRING_WIRE / 2
+    y_leg = -P.SPRING_BODY / 2 + rw
+
+    def leg(a_deg: float) -> cq.Shape:
+        a = math.radians(a_deg)
+        return cq.Solid.makeCylinder(rw, P.SPRING_LEG, cq.Vector(hx + rm * math.sin(a), y_leg, hz - rm * math.cos(a)), cq.Vector(math.cos(a), 0, math.sin(a)))
+
+    lift = 6.0                                                # the leg is lifted this far above its seat
+    blocked = []
+    a = rest
+    while a <= lift + 1e-9:
+        v = g.common_volume(leg(a), stage) + g.common_volume(leg(a), lid_o)
+        if v > TOL_VOLUME:
+            blocked.append((round(a, 1), round(v, 3)))
+        a += 1.0
+    below = g.common_volume(leg(rest - 3.0), lid_o)             # the rim really carries the leg: a little lower it is inside the lid
+    y0, y1 = K.yoke_wire_span()
+    straight = y1 - y0
+    x_w = hx + P.YOKE_X
+    path = g.cyl_y(P.YOKE_WIRE_D / 2 + 0.1, y0, K.TOWER_Y1 + straight, x_w, K.YOKE_HOLE_Z)
+    in_way = [(k, round(g.common_volume(path, opened[k].shape()), 3)) for k in ("stage", "lid", "pawl", "pawl_cap", "pawl_screw", "cradle", "lock_pin", "slider", "hinge_pin", "sleeve")]
+    in_way = [(k, v) for k, v in in_way if v > TOL_VOLUME]
+    lifted = g.min_distance(leg(lift), g.cyl_y(P.YOKE_WIRE_D / 2, -K.TOWER_Y0, K.TOWER_Y0, x_w, K.YOKE_SEAT_Z - P.YOKE_WIRE_D / 2))
+    foot_wall = min(P.YOKE_X - P.YOKE_FOOT_X[0], P.YOKE_FOOT_X[1] - P.YOKE_X) - P.YOKE_HOLE / 2
+    out.append(Result("pins:spring leg is lifted onto a wire", not blocked and below > TOL_VOLUME and not in_way and lifted >= 0.3 and foot_wall >= 0.7, f"with the pins in and the lid at its stop the forward leg lies on the inner edge of the rim of the lid, {-rest:.1f}° below its seat. From there up to {lift:.0f}° above the seat its way is free ({len(blocked)} collisions with stage or lid). A leg lifted that far leaves {lifted:.2f} mm for the Ø{P.YOKE_WIRE_D:.0f} wire to pass under it. The wire goes in from the side through holes of Ø{P.YOKE_HOLE} in the two tower feet ({foot_wall:.1f} mm of foot before and behind them): its straight part of {straight:.1f} mm has a free way beside the foot (in the way: {in_way or 'nothing'})", {"rest": rest, "collisions": blocked, "blockers": in_way, "lifted": lifted}))
 
     # ring lock
     stem = P.LOCK_STEM_X[1] - max(P.LOCK_STEM_X[0], P.LOCK_TIP_X - P.LOCK_PIN_L)

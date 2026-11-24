@@ -14,7 +14,7 @@ This repository holds the hardware design: research, a parametric CAD model, a g
 | `docs/electronics.md` | block diagram, power rails, net list, pin map, harness to the grass tongue, behaviour the firmware must respect |
 | `docs/verification.md` | result of every geometry check (watertightness, fit, clearances, motion, grass tongue, physics) |
 | `research/` | ten research notes with sources, including the candidates that were rejected; start with `research/README.md` |
-| `export/stl/` | the 16 printed parts, already in print orientation, and a test piece for the M2 pilot holes |
+| `export/stl/` | the 16 printed parts, already in print orientation, and test pieces for the M2 pilot holes, the heat-set inserts and the two fits of the hinge pins |
 | `export/step/` | the same parts, the dummy models of all purchased components and the full coloured assembly |
 | `src/poketonieengagementhunt/` | the CAD model as Python (CadQuery); `params.py` holds every dimension |
 | `.specspec/` | the specification graph: owner intentions, design conclusions and the artifacts that realise them |
@@ -70,10 +70,19 @@ Change a value in `src/poketonieengagementhunt/params.py` (for example the ring 
 - The bowl takes the M3 heat-set inserts you have: 5.0 mm over the knurl, 6 mm long at the rim and 5 mm long low on the front wall, in holes of 4.4 mm. `export/stl/insert_test_boss.stl` is a test piece for them.
 - Nothing else on the list of parts to buy has changed.
 
+**Revision 7.** A hinge that holds its pins and can be put together, after the first print of lid, stage and band:
+
+- That print showed that the hinge towers did not enclose their pins: the dome of the stage had cut each knuckle in half, bore included, so a pin lay in an open groove. Each tower now ends in a closed ring round its pin. Half of that ring stands out of the dome, into the room behind the hinge, and keeps 0.5 mm from the wall of the lid at every opening angle.
+- The pins slide in the towers and are pressed into the two ends of the spring sleeve. The sleeve cannot leave the gap between the ribs of the lid, so a pin can only come out by being pulled out of the sleeve. `export/stl/pin_test_coupon.stl` shows which hole sizes suit the printer.
+- The pins are pushed through the ribs with a small screwdriver, without force, and pressed home with ordinary long-nose pliers. The earlier way needed plier jaws 1.5 mm thin, opened 30 mm, to make a press fit.
+- The forward leg of the lid spring rests on a piece of steel wire, pushed through the feet of the towers after the leg has been lifted. The printed yoke of revisions 1 to 6 could not have been reached by the leg once the pins were in.
+- The manual now says that the legs of the spring are cut to 14 mm.
+- Only the stage and the sleeve have changed; the lid, the band and every other printed part are as they were. New on the list of parts: 23 mm of steel wire of about 1 mm, for which a paper clip does.
+
 ## State of the design
 
-- 100 of 100 geometry checks pass. All 16 printed parts are valid and watertight; the closed assembly of 41 items has no collisions; the lid has been swept through its 95° travel in 39 positions without contact; latch, ring lock, emergency opening and the assembly sequence are checked the same way, including the paths of the hinge pins and the lock pin and the reach of the hex key for the screws inside the core.
+- 103 of 103 geometry checks pass. All 16 printed parts are valid and watertight; the closed assembly of 42 items has no collisions; the lid has been swept through its 95° travel in 39 positions without contact; latch, ring lock, emergency opening and the assembly sequence are checked the same way, including the paths of the hinge pins and the lock pin, the reach of screwdriver and pliers at the hinge and of the hex key for the screws inside the core. The checks also confirm that the hinge towers enclose their pins all round, that the sleeve keeps the pins, and that the spring's forward leg can be lifted onto its wire.
 - For the grass tongue the checks cover the seat of the ball on four pads, the flush underside, the reader pocket, the frame that holds the grass top, the hidden cable path, the clearance between a figure and the ball, the plain standing surface, where the grass stands and that it is not mirrored, the hidden ends of the turf screws, and the stance: the centre of gravity stays at least 24 mm inside the edge of the area on which ball and tongue stand.
 - Not provable in CAD, and therefore the first thing to do (building manual, section 2): read all four Pokémon Tonies with the blue PN5180 board under a 1.6 mm sheet, on wood and on metal, find the magnets in their feet, and see how far off the middle a figure may stand. The tag is a small rod somewhere above the foot. The magnets are assumed to be those of the classic Tonies; `docs/electronics.md` says what to do if they are not.
-- Also not provable in CAD: how the pilot holes for the M2 screws and the bores for the hinge pins come out of the printer. Print the test piece first and try a pin in a hinge tower before the lid goes on (building manual, sections 2 and 3).
+- Also not provable in CAD: how the pilot holes for the M2 screws and the bores for the hinge pins come out of the printer, and how firmly a hinge pin holds in the sleeve, which is all that keeps it in the hinge. Print the test pieces first (building manual, sections 2 and 3). Of the whole device only lid, stage and band of revision 6 have been printed so far.
 - Dimensions of some delivered parts, of the figures and of the ring are still assumptions. They are marked `MEASURE` in `params.py`. The foot of a figure (45 mm, measured on pictures) sets the width of the tongue beside a figure and the ground that is kept free of grass; the reader board sets the length of the tongue.
