@@ -194,7 +194,7 @@ STEPS = [
             f"One long pin cannot be used in this hinge: the wall of the lid closes the hinge axis at both ends. To take the lid off again, push the pin under the spring leg out sideways and cut through the coil of the spring and the sleeve inside it, between the ribs, with strong side cutters. The halves of the sleeve then come off the pins, and each pin can be pushed outwards with a small screwdriver until it has left the rib. Spring and sleeve are lost; fit new ones.",
         ],
         "views": [
-            {"file": "step_10a.png", "pose": "hinging", "show": STAGE, "new": ["hinge_pin"], "az": 152, "el": 30},
+            {"file": "step_10a.png", "pose": "hinging", "show": STAGE, "new": ["hinge_pin"], "keep": (-60, -24, -22, 22, -2, 30), "az": 152, "el": 30},
             {"file": "step_10b.png", "pose": "hinging", "show": STAGE + ["hinge_pin"], "new": ["lid", "sleeve", "spring"], "ghost": ["lid"], "lift": {"lid": (-30, 0, 0), "sleeve": (-30, 0, 0), "spring": (-30, 0, 0)}, "az": 152, "el": 30},
             {"file": "step_10c.png", "pose": "open", "show": ["stage", "lid", "hinge_pin", "sleeve", "spring"], "new": ["yoke_pin"], "ghost": ["lid"], "lift": {"yoke_pin": (0, 19, 0)}, "keep": (-58, -20, -34, 34, -6, 30), "az": 35, "el": -28, "zoom": 1.1},
         ],
