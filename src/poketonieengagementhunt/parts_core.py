@@ -23,11 +23,13 @@ from . import params as P
 from . import parts_shell as S
 
 HX, HZ = P.HINGE_X, P.HINGE_Z
-TOWER_Y0 = P.SPRING_SLOT / 2 + P.LID_RIB_T + 0.2      # inner face of a hinge tower
+TOWER_Y0 = P.SPRING_SLOT / 2 + P.LID_RIB_T + P.TOWER_GAP   # inner face of a hinge tower
 TOWER_Y1 = TOWER_Y0 + P.TOWER_T                        # outer face of a hinge tower
 SLEEVE_HALF = P.SPRING_SLOT / 2 - P.SLEEVE_PLAY        # half the length of the spring sleeve
 YOKE_SEAT_Z = HZ - (P.SPRING_OD - P.SPRING_WIRE) / 2 - P.SPRING_WIRE / 2   # the spring's forward leg lies on this height
-YOKE_HOLE_Z = YOKE_SEAT_Z + P.YOKE_HOLE / 2 - P.YOKE_WIRE_D              # the wire lies on the bottom of its holes
+YOKE_PIN_Z = YOKE_SEAT_Z - P.YOKE_PIN_D / 2                                # axis of the pin under that leg
+PAWL_SPRING_Z = P.PAWL_Z0 + 1.0                                            # axis of the pawl's return spring
+PAWL_SPRING_X = P.PAWL_PIVOT[0] - P.PAWL_TAIL_X + 1.75                     # ... and where its seat under the deck lies
 DECK_BOTTOM = P.Z_DECK - P.DECK_T
 
 
@@ -49,8 +51,14 @@ def band_lug(az: float, grow: float = 0.0) -> cq.Shape:
     return _sector(profile, az, P.LUG_HALF_DEG + (0.6 if c else 0.0))
 
 
-def hook_sweep(grow: float) -> cq.Shape:
-    """Ring sector about the hinge axis swept by the lid hook while opening."""
+def hook_slot() -> cq.Shape:
+    """What is cut out of the stage for the hook of the lid.
+
+    The ring sector about the hinge axis that the hook sweeps while the lid opens, with room round it: little
+    beside the stem, more beside the tooth.  At the top of the deck the slot widens to a funnel on both sides,
+    for a hook that comes down beside its place.  Under the deck its edge beside the tooth is sloped, for a
+    tooth that comes up beside its place: a square edge would catch it there."""
+    grow = P.CL_MOVE + 0.1
     r0 = math.hypot(P.HOOK_X0 - HX, P.PAWL_Z0 - 4.0 - HZ) - grow - 0.3
     r1 = math.hypot(P.HOOK_X1 - HX, 40.0 - HZ) + grow
     a0 = math.degrees(math.atan2(P.PAWL_Z0 - 5.5 - HZ, P.HOOK_X1 - HX))
@@ -62,29 +70,73 @@ def hook_sweep(grow: float) -> cq.Shape:
     for i in range(n, -1, -1):
         a = math.radians(a0 + (40.0 * i) / n)
         pts.append((HX + r0 * math.cos(a), HZ + r0 * math.sin(a)))
-    y0 = P.HOOK_Y - P.HOOK_W / 2 - P.TOOTH_REACH - grow
-    y1 = P.HOOK_Y + P.HOOK_W / 2 + grow
-    return g.prism_xz(pts, y0, y1)
+    y0, y1 = hook_slot_y()
+    slot = g.prism_xz(pts, y0, y1)
+    xa = HX + math.sqrt(r0**2 - (P.Z_DECK - HZ) ** 2) - 0.2        # rear end of the slot at the top of the deck
+    xb = P.R_STAGE
+    top = P.Z_DECK + 0.1
+
+    def lead(y_wall: float, sgn: int, size: float) -> cq.Shape:
+        """Slope at 45 degrees on the top edge of the slot: ``size`` wide at the top of the deck and as deep."""
+        return g.prism_yz([(y_wall - sgn * 0.01, P.Z_DECK - size), (y_wall - sgn * 0.01, top), (y_wall + sgn * (size + 0.1), top)], xa, xb)
+
+    funnel = lead(y1, 1, P.HOOK_SLOT_LEAD_STEM).fuse(lead(y0, -1, P.HOOK_SLOT_LEAD))
+    uw, uh = P.HOOK_SLOT_UNDER
+    under = g.prism_yz([(y0 + 0.01, DECK_BOTTOM + uh), (y0 + 0.01, DECK_BOTTOM - 0.1), (y0 - uw * (uh + 0.1) / uh, DECK_BOTTOM - 0.1)], xa, xb)
+    # room for the front end of the tooth beside the slot, below the deck: only as far out as the tooth reaches,
+    # so that the dome stays closed outside
+    r_front = math.hypot(P.HOOK_X1 - HX, P.TOOTH_TOP_Z - HZ) + grow + 0.2
+    arc = [(HX + r_front * math.cos(math.radians(a0 + 40.0 * i / n)), HZ + r_front * math.sin(math.radians(a0 + 40.0 * i / n))) for i in range(n + 1)]
+    room = g.prism_xz(arc + pts[n + 1 :], y0 - P.HOOK_SLOT_ROOM, y0 + 0.01)
+    room = g.inter(room, g.box(0.0, 60.0, y0 - P.HOOK_SLOT_ROOM - 1.0, y0 + 1.0, 0.0, DECK_BOTTOM + 0.01))
+    return slot.fuse(funnel).fuse(under).fuse(room)
+
+
+def hook_slot_y() -> tuple[float, float]:
+    """The two walls of the hook's slot: beside the tip of the tooth and beside the stem."""
+    return (P.HOOK_Y - P.HOOK_W / 2 - P.TOOTH_REACH - P.HOOK_SLOT_TOOTH, P.HOOK_Y + P.HOOK_W / 2 + P.HOOK_SLOT_STEM)
+
+
+def hook_guide() -> cq.Shape:
+    """Rib under the deck beside the stem of the hook.  It makes the deck thick enough there for a deep funnel
+    and, below the funnel, an upright wall that guides the stem.  The slot is cut out of it afterwards."""
+    _, y1 = hook_slot_y()
+    rib = g.box(P.HOOK_GUIDE_X, P.R_STAGE, y1 - 1.0, y1 + P.HOOK_SLOT_LEAD_STEM + 0.8, DECK_BOTTOM - P.HOOK_GUIDE_T, DECK_BOTTOM + 0.01)
+    return g.inter(rib, g.sphere(P.R_STAGE - 0.01))
 
 
 # --------------------------------------------------------------------------
 # stage
 # --------------------------------------------------------------------------
+COLLAR_R_TOP = 45.4                                    # the slopes above collar and base ring end on this radius
+COLLAR_Z0 = 0.4                                        # the base ring steps in to the collar this far below the seam, so
+                                                       # that its corner does not lie beside the lip of the lid
+
+
 def _stage_shell() -> cq.Shape:
+    """Dome, deck and the base ring inside the band; the collar comes on top (see stage)."""
     r_deck = math.sqrt(P.R_STAGE**2 - P.Z_DECK**2)
     dome = g.ball_zone(P.R_STAGE, P.RI_STAGE, P.HB, P.Z_DECK)
     deck = g.cyl_z(r_deck, DECK_BOTTOM, P.Z_DECK)
-    z_ch = P.HB + P.COLLAR_H
-    r_top = 45.4
+    r_top = COLLAR_R_TOP
+    z0 = P.HB - COLLAR_Z0
     ring_back = g.revolve_z(
-        [(44.4, 0.0), (P.R_CORE, 0.0), (P.R_CORE, P.HB), (r_top, P.HB + (P.R_CORE - r_top)), (44.4, P.HB + (P.R_CORE - r_top))]
+        [(44.4, 0.0), (P.R_CORE, 0.0), (P.R_CORE, z0 - (P.R_CORE - P.R_COLLAR)), (P.R_COLLAR, z0), (r_top, z0 + (P.R_COLLAR - r_top)), (44.4, z0 + (P.R_COLLAR - r_top))]
     )
-    collar = _sector(
-        [(44.4, 0.0), (P.R_CORE, 0.0), (P.R_CORE, P.HB), (P.R_COLLAR, P.HB), (P.R_COLLAR, z_ch), (r_top, z_ch + (P.R_COLLAR - r_top)), (44.4, z_ch + (P.R_COLLAR - r_top))],
+    return dome.fuse(deck).fuse(ring_back)
+
+
+def _collar() -> cq.Shape:
+    """The collar that centres the lid: an upright wall inside the lip of the lid, with a slope above it that
+    leads a lid in which comes down beside its place."""
+    z_ch = P.HB + P.COLLAR_H
+    r_top = COLLAR_R_TOP
+    z0 = P.HB - COLLAR_Z0
+    return _sector(
+        [(44.4, 0.0), (P.R_CORE, 0.0), (P.R_CORE, z0 - (P.R_CORE - P.R_COLLAR)), (P.R_COLLAR, z0), (P.R_COLLAR, z_ch), (r_top, z_ch + (P.R_COLLAR - r_top)), (44.4, z_ch + (P.R_COLLAR - r_top))],
         0.0,
         P.COLLAR_AZ,
     )
-    return dome.fuse(deck).fuse(ring_back).fuse(collar)
 
 
 def _screw_pads() -> cq.Shape:
@@ -126,10 +178,13 @@ def _hinge_towers() -> cq.Shape:
     for sy in (1, -1):
         y0, y1 = (TOWER_Y0, TOWER_Y1) if sy > 0 else (-TOWER_Y1, -TOWER_Y0)
         arm = g.box(HX, HX + fx1, y0, y1, HZ - P.TOWER_KNUCKLE_R, P.Z_DECK)      # the foot is flush with its front
-        # the wire on which the spring's forward leg rests passes through a foot under each tower
+        # the pin on which the spring's forward leg rests passes through a foot under each tower
         foot = g.box(HX + fx0, HX + fx1, y0, y1, P.YOKE_FOOT_Z, HZ)
-        # arm and foot end at the dome of the stage; the knuckle does not: it has to enclose the pin
-        tower = g.inter(arm.fuse(foot), inside).fuse(tower_knuckle(y0, y1))
+        # a buttress on the outside ties the thin tower to the deck.  It begins in front of the hinge axis, so
+        # that the room beside the knuckle, where the pins wait and the tools come in, stays free
+        brace = g.prism_yz([(sy * TOWER_Y1, HZ + 1.0), (sy * (TOWER_Y1 + P.TOWER_BRACE_W), P.Z_DECK), (sy * TOWER_Y1, P.Z_DECK)], HX + P.TOWER_BRACE_X, HX + fx1)
+        # arm, foot and buttress end at the dome of the stage; the knuckle does not: it has to enclose the pin
+        tower = g.inter(arm.fuse(foot).fuse(brace), inside).fuse(tower_knuckle(y0, y1))
         out = tower if out is None else out.fuse(tower)
     # end stop: the lid's stop tabs land on this beam at LID_OPEN_DEG
     a_open = math.radians(P.LID_TAB_DEG + P.LID_OPEN_DEG)
@@ -141,20 +196,9 @@ def _hinge_towers() -> cq.Shape:
     return out.fuse(stop)
 
 
-def yoke_wire_span() -> tuple[float, float]:
-    """Where the straight part of the yoke wire begins and ends along y.  It is pushed in from the +y side:
-    its far end stays just inside the outer face of the far foot, its near end is bent over beside the near foot."""
-    return (-(TOWER_Y1 - 0.3), TOWER_Y1 + 0.2 + P.YOKE_WIRE_D / 2)
-
-
-def yoke_wire() -> cq.Shape:
-    """The wire on which the spring's forward leg rests.  One end is bent over before the wire goes in; that
-    end stops it at the foot."""
-    r = P.YOKE_WIRE_D / 2
-    x, z = HX + P.YOKE_X, YOKE_SEAT_Z - r
-    y0, y1 = yoke_wire_span()
-    body = g.cyl_y(r, y0, y1, x, z).fuse(g.cyl_z(r, z, z + P.YOKE_END, x, y1)).fuse(g.sphere(r, (x, y1, z)))
-    return g.clean(body)
+def yoke_pin() -> cq.Shape:
+    """The steel pin on which the spring's forward leg rests."""
+    return g.cyl_y(P.YOKE_PIN_D / 2, -P.YOKE_PIN_L / 2, P.YOKE_PIN_L / 2, HX + P.YOKE_X, YOKE_PIN_Z)
 
 
 def stop_contact_ok() -> float:
@@ -168,42 +212,60 @@ def lock_pin_span(locked: bool) -> tuple[float, float]:
     return (tip - P.LOCK_PIN_L, tip)
 
 
+def pawl_spring_cup() -> cq.Shape:
+    """Seat of the pawl's return spring under the deck: a cup that holds the end of the spring on all sides.
+    The stage is printed upside down; the cup then stands on the deck and its floor is a short bridge."""
+    x, z, y0 = PAWL_SPRING_X, PAWL_SPRING_Z, P.PAWL_SPRING_SEAT_Y
+    depth, r, wall = 3.0, 2.6, 1.0                     # how far the spring reaches into the cup; room for a spring of up to 4.6 mm
+    outer = g.box(x - r - wall, x + r + wall, y0 - depth, y0 + 2.0, z - r - wall, DECK_BOTTOM + 0.01)
+    inner = g.box(x - r, x + r, y0 - depth - 0.01, y0, z - r, DECK_BOTTOM + 0.02)
+    return outer.cut(inner)
+
+
 @lru_cache(maxsize=None)
 def stage() -> cq.Shape:
     body = _stage_shell()
     body = body.fuse(_screw_pads())
-    # room for the lid's rear rim, which swings inwards about the hinge
+    # Room for the rim of the lid at the back, which swings forwards about the hinge before it rises: round the
+    # hinge a cylinder, and beside it whatever the lip of the lid sweeps, for a lid that stands as far to one
+    # side as the play of its hinge lets it
     relief = g.cyl_y(P.BACK_RELIEF_R, -P.BACK_RELIEF_Y, P.BACK_RELIEF_Y, HX, HZ)
+    relief = relief.fuse(S.lip_swing_tool(P.LIP_SWING_CL, P.LID_SIDE_PLAY, P.R_CORE + 0.1))
     behind = g.box(-60, HX, -P.BACK_RELIEF_Y, P.BACK_RELIEF_Y, -1, HZ)
-    body = body.cut(relief).cut(behind)
+    # under that cylinder the base ring would be left as two thin blades that run out to nothing: they go as well
+    blades = g.box(-60, HX + P.BACK_RELIEF_R + 1.5, -P.BACK_RELIEF_Y, P.BACK_RELIEF_Y, -1, P.HB + 0.1)
+    body = body.cut(relief).cut(behind).cut(blades)
+    # the collar is not relieved: it is the guide.  It ends where the lip begins to swing inwards
+    body = body.fuse(_collar())
+    body = body.fuse(hook_guide())
     body = body.fuse(_hinge_towers())
     body = body.cut(g.cyl_y(P.HINGE_SLIDE / 2, -30, 30, HX, HZ))    # the two hinge pins slide in the towers
     y_w = TOWER_Y1 + 1.0
-    body = body.cut(g.cyl_y(P.YOKE_HOLE / 2, -y_w, y_w, HX + P.YOKE_X, YOKE_HOLE_Z))   # the wire under the spring's leg
+    body = body.cut(g.cyl_y(P.YOKE_HOLE / 2, -y_w, y_w, HX + P.YOKE_X, YOKE_PIN_Z))    # the pin under the spring's leg
 
     # ring cradle pocket and the guide of the lock pin behind it
     guide = g.box(P.LOCK_STEM_X[0] - P.LOCK_TRAVEL - 1.5, P.CRADLE_X0 - 0.2, -4.0, 4.0, P.LOCK_Z - 3.2, DECK_BOTTOM + 0.01)
     body = body.fuse(guide)
     body = body.cut(g.box(P.CRADLE_X0 - 0.2, P.CRADLE_X1 + 0.2, -P.CRADLE_Y - 0.2, P.CRADLE_Y + 0.2, 0, 60))
     # the lock pin is pushed in from behind: its bore runs out through the rear wall of the stage
-    body = body.cut(g.cyl_x(P.LOCK_PIN_D / 2 + 0.15, -60, P.CRADLE_X0, 0, P.LOCK_Z))
-    stem_slot = g.box(P.LOCK_STEM_X[0] - P.LOCK_TRAVEL - 0.3, P.LOCK_STEM_X[1] + 0.3, -1.7, 1.7, P.LOCK_Z - 2.3, 60)
+    body = body.cut(g.cyl_x(P.LOCK_BORE / 2, -60, P.CRADLE_X0, 0, P.LOCK_Z))
+    half_stem = 1.5 + P.LOCK_STEM_CL                   # the stem of the slider is 3 mm thick
+    stem_slot = g.box(P.LOCK_STEM_X[0] - P.LOCK_TRAVEL - 0.3, P.LOCK_STEM_X[1] + 0.3, -half_stem, half_stem, P.LOCK_Z - 2.3, 60)
     body = body.cut(stem_slot)
     # detent dimples for the slider cap (locked / released)
     for dx in (0.0, -P.LOCK_TRAVEL):
         body = body.cut(g.sphere(0.9, (P.LOCK_STEM_X[0] + 2.5 + dx, 4.2, P.Z_DECK + 0.45)))
 
-    # latch: pivot boss, stop pin and spring seat hang from the deck underside
+    # latch: pivot boss, stop pin and the seat of the return spring hang from the deck underside
     px, py = P.PAWL_PIVOT
-    boss = g.cyl_z(P.PAWL_BOSS_D / 2, P.PAWL_Z0 - 0.3, DECK_BOTTOM + 0.01, px, py)
+    z_cap = P.PAWL_Z0 - P.PAWL_PLAY                    # end of the boss; the washer under the pawl lies against it
+    boss = g.cyl_z(P.PAWL_BOSS_D / 2, z_cap, DECK_BOTTOM + 0.01, px, py)
     tail_x = px - P.PAWL_TAIL_X
-    stop_pin = g.cyl_z(1.5, P.PAWL_Z0 - 0.3, DECK_BOTTOM + 0.01, tail_x, -4.1)
-    seat = g.box(tail_x - 2.6, tail_x + 2.6, 9.3, 11.6, P.PAWL_Z0 - 0.5, DECK_BOTTOM + 0.01)
-    nub = g.cyl_y(1.1, 8.3, 9.4, tail_x, (P.PAWL_Z0 + P.PAWL_Z1) / 2)
-    body = body.fuse(boss).fuse(stop_pin).fuse(seat).fuse(nub)
+    stop_pin = g.cyl_z(1.5, z_cap, DECK_BOTTOM + 0.01, tail_x, -4.1)
+    body = body.fuse(boss).fuse(stop_pin).fuse(pawl_spring_cup())
     # the pivot screw forms its own thread in the boss; the mouth of the hole is at the top of the print
-    body = body.cut(g.cyl_z(P.M2_PILOT_FLAT / 2, P.PAWL_Z0 - 1, DECK_BOTTOM + 1.2, px, py))
-    body = body.cut(g.cone_z(P.M2_PILOT_FLAT / 2 + P.M2_LEAD, P.M2_PILOT_FLAT / 2, P.PAWL_Z0 - 0.301, P.PAWL_Z0 - 0.3 + P.M2_LEAD, px, py))
+    body = body.cut(g.cyl_z(P.M2_PILOT_FLAT / 2, z_cap - 1, DECK_BOTTOM + 1.2, px, py))
+    body = body.cut(g.cone_z(P.M2_PILOT_FLAT / 2 + P.M2_LEAD, P.M2_PILOT_FLAT / 2, z_cap - 0.001, z_cap + P.M2_LEAD, px, py))
 
     # openings: screws, lid hook, bezel tube, band lugs
     for az in P.SCREW_AZ:
@@ -211,7 +273,7 @@ def stage() -> cq.Shape:
         body = body.cut(g.cyl_z(P.M3_HEAD_D / 2, P.STAGE_PAD_Z, 60, bx, by))
         body = body.cut(g.cyl_z(P.M3_CLEAR / 2, -1, 60, bx, by))
         body = body.cut(band_lug(az, 0.15))
-    body = body.cut(hook_sweep(P.CL_MOVE + 0.1))
+    body = body.cut(hook_slot())
     body = body.cut(S._bezel_cut(P.CL))
     return g.clean(body)
 
@@ -386,30 +448,49 @@ def chassis() -> cq.Shape:
 # --------------------------------------------------------------------------
 # small parts
 # --------------------------------------------------------------------------
-def pawl_at(deg: float = 0.0) -> cq.Shape:
-    """The latch pawl, rotated by ``deg`` towards release (clockwise from above)."""
+def pawl_at(deg: float = 0.0, down: bool = False) -> cq.Shape:
+    """The latch pawl, rotated by ``deg`` towards release (clockwise from above).  ``down``: lying on its
+    washer, where it rests when nothing lifts it, instead of pushed up against the deck."""
     shape = pawl()
     px, py = P.PAWL_PIVOT
-    return g.rot(shape, "z", -deg, (px, py, 0)) if deg else shape
+    if deg:
+        shape = g.rot(shape, "z", -deg, (px, py, 0))
+    return g.move(shape, dz=-P.PAWL_PLAY) if down else shape
+
+
+def pawl_nose() -> tuple[float, float, float, float]:
+    """The nose of the pawl in plan: its rear and front end (x), the tip of the tooth it lies over (y) and its
+    edge that faces the stem of the hook (y)."""
+    y_stem = P.HOOK_Y - P.HOOK_W / 2
+    return (P.HOOK_X0 - 0.6, P.HOOK_X1 - 0.5, y_stem - P.TOOTH_REACH, y_stem - P.PAWL_NOSE_GAP)
 
 
 @lru_cache(maxsize=None)
 def pawl() -> cq.Shape:
+    """Latch pawl, drawn pushed up against the deck.
+
+    Its nose lies over the tooth of the lid hook.  The underside of the nose is the latch face: it is cut back
+    so far that it clears the tooth by LATCH_GAP when the lid is seated, and still clears it when the pawl has
+    dropped onto its washer.  The top of the nose slopes down towards the stem, so that a hook that comes down
+    beside its place pushes the nose aside instead of landing on it."""
     px, py = P.PAWL_PIVOT
     z0, z1 = P.PAWL_Z0, P.PAWL_Z1
     tail_x = px - P.PAWL_TAIL_X
-    y_stem = P.HOOK_Y - P.HOOK_W / 2          # -y face of the lid hook stem
-    nose_x1 = P.HOOK_X1 - 1.2
+    nx0, nx1, y_tip, y_edge = pawl_nose()
+    # While the lid closes, the hook comes down in an arc: when its lower end passes the pawl it stands up to
+    # 1.5 mm further back than when the lid is shut.  The edge of the nose, with its slope, therefore runs on
+    # behind the nose, and the flank behind it keeps out of the way of the stem at every angle of the pawl
+    x_flank = nx0 - 1.4
     plate = g.prism_xy(
         [
             (tail_x - 2.5, -2.5),
             (tail_x + 2.5, -2.5),
             (px - 2.0, -4.6),
-            (P.HOOK_X0 - 0.4, y_stem - P.TOOTH_REACH - 2.4),
-            (nose_x1, y_stem - P.TOOTH_REACH - 2.4),
-            (nose_x1, y_stem - 0.25),
-            (P.HOOK_X0 - 0.4, y_stem - 0.25),
-            (px + 3.4, 4.2),
+            (nx1 - 1.8, y_tip - 2.2),
+            (nx1, y_tip - 0.5),
+            (nx1, y_edge),
+            (x_flank, y_edge),
+            (px + 2.8, 4.0),
             (px - 3.4, 4.2),
             (tail_x + 2.5, 2.5),
             (tail_x - 2.5, 2.5),
@@ -419,22 +500,28 @@ def pawl() -> cq.Shape:
     )
     hub = g.cyl_z(P.PAWL_BOSS_D / 2 + 2.0, z0, z1, px, py)
     post = g.cyl_z(P.PAWL_POST_R, P.PAWL_POST_Z0, z0 + 0.01, tail_x, 0.0)
-    # lug pushed by the emergency paper clip (on the -y side of the pivot)
+    # lug pushed by the emergency paper clip (on the -y side of the pivot).  It is as high as the pawl, so that
+    # it stands on the bed when the pawl is printed upside down
     start, direction = S.emergency_axis()
     t = (start.x - (px + 4.6)) / -direction.x
     hit = start + direction * t
-    lug = g.box(px + 3.0, px + 6.2, hit.y - 2.2, hit.y + 2.2, hit.z - 1.6, z0 + 0.01)
-    body = plate.fuse(hub).fuse(post).fuse(lug)
+    lug = g.box(px + 3.0, px + 5.2, hit.y - 2.2, hit.y + 2.2, hit.z - 1.6, z1)       # it ends behind the path of the tooth
+    body = plate.fuse(hub).fuse(post)
     body = body.cut(g.cyl_z(P.PAWL_BORE / 2, z0 - 1, z1 + 1, px, py))
-    # chamfer on the nose so the closing lid can push the pawl aside
-    wedge = g.prism_yz(
-        [(y_stem - 0.25 + 0.01, z1 + 0.01), (y_stem - 0.25 + 0.01, z1 - 1.6), (y_stem - 0.25 - 1.6, z1 + 0.01)],
-        P.HOOK_X0 - 1.0,
-        nose_x1 + 1.0,
-    )
-    body = body.cut(wedge)
-    # seat for the return spring on the +y side of the tail
-    body = body.fuse(g.cyl_y(1.1, 2.4, 3.4, tail_x, (z0 + z1) / 2))
+    # the latch face: the underside of the nose
+    body = body.cut(g.box(x_flank - 0.2, nx1 + 1.0, y_tip - 4.0, y_edge + 1.0, P.PAWL_POST_Z0 - 1.0, P.PAWL_NOSE_Z0))
+    # slope on top of the nose
+    ch = P.PAWL_NOSE_CHAMFER
+    body = body.cut(g.prism_yz([(y_edge + 0.01, z1 + 0.01), (y_edge + 0.01, z1 - ch), (y_edge - ch, z1 + 0.01)], x_flank - 1.0, nx1 + 1.0))
+    # ... and a smaller one under its edge
+    ld, zn = P.PAWL_NOSE_LEAD, P.PAWL_NOSE_Z0
+    body = body.cut(g.prism_yz([(y_edge + 0.01, zn - 0.01), (y_edge + 0.01, zn + ld), (y_edge - ld, zn - 0.01)], x_flank - 1.0, nx1 + 1.0))
+    # ... and on its front, where it passes under the dome of the stage
+    body = body.cut(g.prism_xz([(nx1 + 0.01, z1 + 0.01), (nx1 + 0.01, z1 - 1.0), (nx1 - 1.0, z1 + 0.01)], y_tip - 4.0, y_edge + 1.0))
+    # the lug comes on after the latch face has been cut: that cut must not take its front away
+    body = body.fuse(lug)
+    # nub for the return spring on the +y side of the tail
+    body = body.fuse(g.cyl_y(1.1, 2.4, 4.0, tail_x, PAWL_SPRING_Z))
     return g.clean(body)
 
 
@@ -457,7 +544,7 @@ def cradle() -> cq.Shape:
     slot = g.cyl_x(r_out + 0.6, P.RING_X - P.RING_SLOT_W / 2, P.RING_X + P.RING_SLOT_W / 2, 0, zc)
     slot = slot.fuse(g.box(P.RING_X - P.RING_SLOT_W / 2, P.RING_X + P.RING_SLOT_W / 2, -r_out - 0.6, r_out + 0.6, zc, z1 + 5))
     body = body.cut(slot)
-    body = body.cut(g.cyl_x(P.LOCK_PIN_D / 2 + 0.15, x0 - 1, P.LOCK_TIP_X + 0.6, 0, P.LOCK_Z))
+    body = body.cut(g.cyl_x(P.LOCK_BORE / 2, x0 - 1, P.LOCK_TIP_X + 0.6, 0, P.LOCK_Z))
     # cushion look: a shallow valley towards the ring
     valley = g.prism_xz([(x0 + 1.2, z1 + 1), (P.RING_X, z1 - 1.3), (x1 - 1.2, z1 + 1)], -yh + 1.5, yh - 1.5)
     body = body.cut(valley)
@@ -530,7 +617,7 @@ def pawl_cap() -> cq.Shape:
     across and would slip through the pawl's bore.  Its hub fills the rest of
     the length of an M2 x 6 screw."""
     px, py = P.PAWL_PIVOT
-    z1 = P.PAWL_Z0 - 0.3                         # end of the pivot boss
+    z1 = P.PAWL_Z0 - P.PAWL_PLAY                 # end of the pivot boss
     z0 = z1 - P.PAWL_CAP_T
     body = g.cyl_z(P.PAWL_CAP_D / 2, z0, z1, px, py).fuse(g.cyl_z(P.PAWL_CAP_HUB_D / 2, z0 - P.PAWL_CAP_HUB_T, z0 + 0.01, px, py))
     return g.clean(body.cut(g.cyl_z(P.M2_CLEAR / 2, z0 - P.PAWL_CAP_HUB_T - 1, z1 + 1, px, py)))

@@ -48,14 +48,14 @@ Before you start: read `research/README.md` for why each part was chosen, `docs/
 | --- | --- | --- | --- | --- |
 | 2 | 8 | Heat-set insert M3, Ø5 (four x 6 mm, four x 5 mm) | M3 heat-set inserts that measure 5.0 mm over the knurl: four of 6 mm for the rim, four of 5 mm for the lower bosses. The holes are 4.4 mm. Inserts of 4.6 mm (ruthex / CNC Kitchen M3 x 5.7) need 4.0 mm holes: set `M3_INSERT_HOLE` in `params.py` and export the bowl again. | research/06 §4.1 |
 | 8 | 4 | Screw M2 x 6 (grass top to tray) | M2 x 6 machine screws with a cylindrical head and hex socket, ISO 4762 / DIN 912. Any head up to Ø4.0 x 2.0 mm fits; a countersunk head does not. They form their own thread in the printed pilot holes. | research/06 §4.2, §4.3 |
-| 9 | 4 | Screw M3 x 16 countersunk ISO 10642 (tongue to bowl) | M3 x 16 countersunk screws with hexagon socket, ISO 10642 or DIN 7991. | research/10 C2 |
+| 9 | 4 | Screw M3 x 16 countersunk ISO 10642 (tongue to bowl) | M3 x 16 countersunk screws with hexagon socket, ISO 10642 or DIN 7991. Cross-head countersunk screws M3 x 16 (DIN 965, head 5.5 to 6 mm) fit as well. | research/10 C2 |
 | 18 | 2 | Servo mounting screw 2 x 8 (supplied with servo) | Supplied with the servo. | research/05 §8.1 |
 | 21 | 2 | Screw M2 x 8 (speaker clamp) | M2 x 8 machine screws with a cylindrical head and hex socket, ISO 4762 / DIN 912. It has to be a hex socket here: the two screws lie deep in the core, where only a hex key reaches them. | research/06 §4.2, §4.3 |
 | 31 | 1 | Screw M2 x 6 (pawl pivot) | M2 x 6 machine screw, the same as for the grass top. The washer under it is printed. | research/06 §4.2, §4.3 |
-| 32 | 1 | Compression spring 3.5 x 8 (pawl return) | Soft compression spring about Ø3.5-4.5 x 8 mm, for example a piece of a ball-pen spring. | research/06 §2.2 |
+| 32 | 1 | Compression spring about 4 x 12 (pawl return) | Soft compression spring of 3.5 to 4.5 mm outside diameter, 12 mm long: 12 mm cut off the spring of a ball-pen. | research/06 §2.2 |
 | 34 | 1 | Dowel pin 3 x 25 (ring lock) | Steel dowel pin (parallel pin) Ø3 x 25 mm. A 24 mm pin of the ISO 2338 series fits as well; a 20 mm pin is too short: only half as much of it would sit in the slider. | research/06 §3 |
 | 37 | 2 | Dowel pin 2 x 8 (hinge) | Two steel dowel pins (parallel pins) Ø2 x 8 mm, ISO 2338 / DIN 7 or hardened ISO 8734 / DIN 6325. Two pieces of a 2 mm bicycle spoke, 8 mm long with rounded ends, do as well. They slide in the towers of the stage and are pressed into the spring sleeve; try them in the test piece first (section 3). | research/06 §3 |
-| 40 | 1 | Steel wire Ø1 x 23 (seat of the spring leg) | Steel wire of 0.8 to 1.2 mm, 23 mm of it: a straightened paper clip does. The forward leg of the lid spring rests on it; it goes in last (step 10). | research/06 §3 |
+| 40 | 1 | Dowel pin 2 x 18 (seat of the spring leg) | Steel dowel pin (parallel pin) Ø2 x 18 mm, of the same kind as the hinge pins. The forward leg of the lid spring rests on it; it goes in last (step 10). | research/06 §3 |
 | 41 | 4 | Screw M3 x 16 ISO 4762 (stack) | M3 x 16 socket head cap screws, ISO 4762. | research/06 §4.3 |
 
 ### Small parts without a position number
@@ -69,7 +69,7 @@ Before you start: read `research/README.md` for why each part was chosen, `docs/
 | Diode 1N4148 | 1 | in series with the LED's 5 V supply, so that 3.3 V data is in spec |
 | Silicone wire 26-28 AWG, heat-shrink tube |  | all point-to-point wiring |
 | Self-adhesive felt or velour, 0.5-1 mm |  | ring slot lining; optional curtain behind the band pocket; optional dots under the ball's flat and the tongue |
-| Hot glue or epoxy; cyanoacrylate |  | boards, bezel, hall switch, reader, the bent end of the wire under the lid spring |
+| Hot glue or epoxy; cyanoacrylate |  | boards, bezel, hall switch, reader |
 | Flexible ferrite sheet 0.1-0.2 mm, about 45 x 42 mm (Würth WE-FSFS 364004 or 364005) | 1, only if needed | on the floor of the pocket under the antenna, if the bench test fails on a metal surface |
 | Schottky diodes BAT43 or 1N5817 | 2, only if needed | supply of the reader in sleep, if the ball is woken by card detection instead of the hall switch |
 
@@ -84,7 +84,7 @@ Before you start: read `research/README.md` for why each part was chosen, `docs/
 | 20 | Speaker clamp ring | `export/stl/spk_clamp.stl` | PETG any colour | 1.1 g | flat on the bed |
 | 23 | Light cone | `export/stl/cone.stl` | PETG white | 1.4 g | large end on the bed |
 | 24 | Button lens | `export/stl/lens.stl` | PETG natural / clear | 1.5 g | flange on the bed, button up, 100 % infill |
-| 25 | Button bezel (black ring with sound slits) | `export/stl/bezel.stl` | PETG black | 3.4 g | face down on the bed, no supports |
+| 25 | Button bezel (black ring with sound slits) | `export/stl/bezel.stl` | PETG black | 3.1 g | face down on the bed, no supports |
 | 27 | Band (black equator ring) | `export/stl/band.stl` | PETG black | 5.9 g | upside down: lid seat on the bed, no supports |
 | 28 | Stage (inner dome with ring deck) | `export/stl/stage.stl` | PETG black | 30 g | upside down: deck on the bed, supports under the stop beam of the hinge and the screw pads only |
 | 29 | Latch pawl | `export/stl/pawl.stl` | PETG any colour | 0.5 g | upside down: top face on the bed |
@@ -99,7 +99,7 @@ Before you start: read `research/README.md` for why each part was chosen, `docs/
 - FDM printer with a 0.4 mm nozzle; PETG in red, white, black, natural (clear) and a light green, and any colour for the inner parts
 - Soldering iron with a fine tip (also used to set the heat-set inserts)
 - Hex keys 1.5, 2 and 2.5 mm, long-nose pliers, small cross-head screwdriver, small flat screwdriver (blade 2 to 2.5 mm wide), side cutters, tweezers, a toothpick
-- Drill bits of 1.7 or 1.8 mm and of 2.0 mm, only if a pilot hole for an M2 screw or the bore for a hinge pin prints too tight
+- Drill bits of 1.7 or 1.8 mm, of 2.0 mm and of 3.2 to 3.5 mm, only if a pilot hole for an M2 screw or a bore for one of the pins prints too tight
 - Multimeter; a USB-C cable and charger
 - Calipers, to measure the ring, the reader board and the other delivered boards
 
@@ -144,6 +144,7 @@ Also measure the delivered parts against the values marked `MEASURE` in `params.
 | All other parts | none | supports off |
 
 - Print pawl, pivot washer, slider, sleeve and cradle first. They are small and show whether your printer's clearances suit: the slider must move in the stage with light friction and the pawl must turn freely on its boss.
+- Play and tolerances. A printed surface may lie a few tenths of a millimetre beside where the model has it, and a printed hinge has play. The parts are laid out for both: every gap between the lid and what it passes is 0.5 mm or more (collar of the stage 0.6, ring of the button 0.6, ribs beside the hinge towers 0.5, hook in its slot 0.5 mm), so that two surfaces which both come out 0.2 mm fat still do not touch, and the lid may stand 1.7° askew in its hinge without meeting anything but its guides [`docs/verification.md`, section Play and tolerances]. What the model cannot know is your first layer. The lid stands on its rim while it is printed: if that rim comes out with a bulge (an elephant foot), scrape the inside of the rim clean with a knife, because the collar of the stage sits just inside it.
 - M2 pilot holes. The seven M2 screws form their own thread in printed holes: 1.95 mm where the mouth of the hole lies parallel to the print bed (grass top, stage) and 1.7 mm where it lies in an upright wall (chassis) [research/06 §4.2]. How such small holes come out depends on printer and filament, so print `export/stl/m2_test_coupon.stl` first, flat as it comes, in the PETG you will use. It has three holes from the top (1.85, 1.95, 2.05 mm) and three through its side (1.60, 1.70, 1.80 mm), the smallest of each three next to the cut-off corner. An M2 screw should turn into the middle one with light, even resistance and then hold firmly. If a neighbour fits better, change `M2_PILOT_FLAT` or `M2_PILOT_SIDE` in `params.py` and export again. A hole that is only a little tight can be opened with a 1.7 or 1.8 mm drill.
 - Hinge pins. The two Ø2 pins slide in the towers of the stage and are pressed into the two ends of the spring sleeve; that press fit is all that keeps them in the hinge. Both fits depend on printer and filament, so print `export/stl/pin_test_coupon.stl` first, flat as it comes, with 100 % infill, in the PETG of stage and sleeve. Its four posts have blind holes of 1.90, 1.95, 2.00 and 2.05 mm, upright like those of the sleeve; its wall has three holes of 2.05, 2.15 and 2.25 mm, level like those of the towers. The smallest of each kind is next to the cut-off corner. In the wall, take the hole in which a pin moves under the push of a finger and stays where it is left; the model has 2.15 mm. Among the posts, take the largest hole into which a pin goes only under firm pressure from pliers, down to its bottom (1.8 mm), and from which you cannot pull it with your fingers; the model has 1.95 mm. If other holes fit than those of the model, change `HINGE_SLIDE` or `HINGE_PRESS` in `params.py` and export again. A tower bore that is only a little tight can be opened with a 2 mm drill; a sleeve is printed anew in a few minutes, so print two or three.
 - Heat-set inserts. Print `export/stl/insert_test_boss.stl` in the PETG of the bowl and set one insert of each length in it before you print the bowl. The insert must sink in under light pressure at about 230 °C, end flush, and afterwards not turn when a screw is tightened in it. The holes are 4.4 mm for inserts of 5.0 mm; change `M3_INSERT_HOLE` in `params.py` if yours differ.
@@ -209,7 +210,7 @@ Parts: **16** 9 g micro servo (SG90 class), **17** Servo horn (stock single arm)
 
 ![step 5](img/step_05.png)
 
-1. Shorten the single-arm servo horn to 13 mm from the centre of the shaft with side cutters. A longer arm would hit the latch pivot.
+1. Shorten the single-arm servo horn to 13 mm from the centre of the shaft with side cutters, and measure it: not longer. The arm passes the pivot of the pawl at less than a millimetre, and one that is too long strikes it.
 2. Lower the servo into its bay with the output shaft towards the left (+Y) and the cable in the slot. Fix it with the two screws that came with it.
 3. Do not fit the horn yet: its angle is set during commissioning (section 6).
 
@@ -246,20 +247,21 @@ Parts: **27** Band (black equator ring)
 
 ### Step 9: Assemble the stage: latch and ring lock
 
-Parts: **28** Stage (inner dome with ring deck), **29** Latch pawl, **30** Pivot washer for the pawl, **31** Screw M2 x 6 (pawl pivot), **32** Compression spring 3.5 x 8 (pawl return), **33** Ring cradle, **34** Dowel pin 3 x 25 (ring lock), **35** Ring lock slider
+Parts: **28** Stage (inner dome with ring deck), **29** Latch pawl, **30** Pivot washer for the pawl, **31** Screw M2 x 6 (pawl pivot), **32** Compression spring about 4 x 12 (pawl return), **33** Ring cradle, **34** Dowel pin 3 x 25 (ring lock), **35** Ring lock slider
 
 ![step 9](img/step_09a.png)
 
 ![step 9](img/step_09b.png)
 
-1. Turn the stage upside down. Put the pawl on the pivot boss (post pointing away from the deck) then the printed pivot washer, flange towards the pawl, and the M2 x 6 screw. The screw forms its own thread in the boss: turn it in until the washer sits on the end of the boss, and no further. The pawl must swing freely; the washer only keeps it from slipping off.
-2. Put the short compression spring between the nub on the pawl's tail and the nub on the stage. It pushes the tail against the stop pin.
-3. Turn the stage over. Line the ring slot of the cradle with self-adhesive felt on both sides until the ring slides in with light friction, then drop the cradle into its pocket in the deck.
-4. Put the slider into its slot behind the cradle. Push the 3 x 25 mm dowel pin in from behind, through the hole in the rear wall of the stage and into the guide under the deck. It slides in the guide and in the cradle and is a press fit in the stem of the slider, which it takes along to the front end of the slot. Press it in against the edge of the table until it is flush with the rear wall, then push it on with the 2.5 mm hex key until its tip has crossed the ring slot and stops in the hole of the far wall. Do not force it further. Now move the slider: in the rear position the pin clears the ring slot and stands about 1 mm out of the back of its guide, in the front position it crosses the slot; in both positions it keeps the cradle captive.
+1. Turn the stage upside down. Put the pawl on the pivot boss (post pointing away from the deck) and turn it: it must swing without any friction and have a little play, 0.25 mm all round. A hole often comes out of the printer smaller than drawn; if the pawl is tight on the boss, scrape its bore with a knife or a drill of 5.5 mm held in the fingers. Then put on the printed pivot washer, flange towards the pawl, and the M2 x 6 screw. The screw forms its own thread in the boss: turn it in until the washer sits on the end of the boss, and no further. The pawl must still swing freely and be able to move 0.3 mm up and down between deck and washer; the washer only keeps it from slipping off.
+2. Cut 12 mm off the ball-pen spring. Push one end into the cup that stands on the underside of the deck beside the pawl and set the other end over the nub on the pawl's tail. It pushes the tail against the stop pin.
+3. Try the latch now, while you can see it. Push the nose of the pawl aside with a finger as far as it goes, about 54°, and let go, from several positions: each time it must snap back against its stop pin by itself. If it creeps or stops on the way, find out where it rubs before you go on; this is the part that has to let the lid go.
+4. Turn the stage over. Line the ring slot of the cradle with self-adhesive felt on both sides until the ring slides in with light friction, then drop the cradle into its pocket in the deck.
+5. Put the slider into its slot behind the cradle. Push the 3 x 25 mm dowel pin in from behind, through the hole in the rear wall of the stage and into the guide under the deck. It slides in the guide and in the cradle (bores of 3.4 mm; if the pin does not slide in them under the push of a finger, open them with a drill of 3.2 to 3.5 mm) and is a press fit in the stem of the slider, which it takes along to the front end of the slot. Press it in against the edge of the table until it is flush with the rear wall, then push it on with the 2.5 mm hex key until its tip has crossed the ring slot and stops in the hole of the far wall. Do not force it further. Now move the slider: in the rear position the pin clears the ring slot and stands about 1 mm out of the back of its guide, in the front position it crosses the slot; in both positions it keeps the cradle captive.
 
 ### Step 10: Hinge the lid to the stage
 
-Parts: **36** Lid (red upper half), **37** Dowel pin 2 x 8 (hinge), **38** Spring sleeve, **39** Torsion spring T028-180-140 (0.71 x 6.32 mm, 6 turns, 180°), **40** Steel wire Ø1 x 23 (seat of the spring leg)
+Parts: **36** Lid (red upper half), **37** Dowel pin 2 x 8 (hinge), **38** Spring sleeve, **39** Torsion spring T028-180-140 (0.71 x 6.32 mm, 6 turns, 180°), **40** Dowel pin 2 x 18 (seat of the spring leg)
 
 ![step 10](img/step_10a.png)
 
@@ -267,16 +269,18 @@ Parts: **36** Lid (red upper half), **37** Dowel pin 2 x 8 (hinge), **38** Sprin
 
 ![step 10](img/step_10c.png)
 
-1. Prepare the small parts. Cut both legs of the torsion spring to 14 mm, measured from where they leave the coil, and take the burr off the cut ends. Straighten a paper clip, or take other steel wire of 0.8 to 1.2 mm, cut 23 mm of it and bend 3 mm at one end over at a right angle.
-2. Put one 2 x 8 mm pin into each hinge tower of the stage from outside until its tip is flush with the inner face of the tower. The pins slide in the towers: the push of a finger moves them, and they stay where they are left. If a pin is tight, open the bore of the tower with a 2 mm drill. Both pins now stand 5.8 mm out of their towers and wait there.
-3. Slip the printed sleeve into the torsion spring and find out now which way round the spring goes. Lay it down so that both legs leave the coil at its underside, one pointing forwards and one backwards. Hold the forward leg and swing the rear leg up and over towards the front, as the closing lid will do: the coil must wind tighter. If it opens instead, turn the spring upside down. Either winding direction fits, because the hinge is the same on its left and its right. Once the pins are in, spring and sleeve can only be cut out.
-4. Hold the spring between the two ribs of the lid so that one leg lies up along the inside of the back wall of the lid and the other leaves the lid over the inner edge of its rim.
-5. Let the back of the stage stand out over the edge of the table, so that the leg of the spring has room below it. Hold the lid about 65° open behind the stage and slide it forwards until its two ribs lie between the hinge towers and their round ends line up with the round ends of the towers. The two waiting pins pass through the shallow channels inside the wall of the lid.
-6. Push the pins in, one after the other, with a small flat screwdriver that comes from above and gets behind the end of the pin. After 3.6 mm a pin is through its rib and meets the end of the sleeve. Move the coil with a toothpick until the tip of the pin slips into the funnel of the sleeve. No force is needed so far. The lid now hangs on the two pins.
-7. Open the lid as far as it goes. Put long-nose pliers over the hinge from above, one jaw on the end of each pin, and squeeze the pins towards each other until they stop. That takes firm pressure: each pin is pressed 1.35 mm into the sleeve and then stands on the bottom of its hole, its outer end about level with the outer face of the tower. The sleeve now holds both pins, and the ribs of the lid hold the sleeve.
-8. Seat the spring. Its forward leg lies on the rim of the lid, just beside the two holes in the feet of the towers, on the side away from the deck. Hold the stage so that you look into it from below. Push the tip of the leg 3 mm towards the deck with the screwdriver and push the wire through the hole of one foot, past the leg and into the hole of the other foot, so that the leg lies between the wire and the deck. Push the wire on until its bent end lies against the first foot, and let the leg go: it now rests on the wire. Turn the bent end towards the deck and fix it to the foot with a drop of glue.
-9. Close and open the lid by hand a few times. It must swing freely from closed to the end stop at about 95° and the spring must throw it open.
-10. One long pin cannot be used in this hinge: the wall of the lid closes the hinge axis at both ends. To take the lid off again, pull out the wire and cut through the coil of the spring and the sleeve inside it, between the ribs, with strong side cutters. The halves of the sleeve then come off the pins, and each pin can be pushed outwards with a small screwdriver until it has left the rib. Spring and sleeve are lost; fit new ones.
+1. Prepare the small parts. Cut both legs of the torsion spring to 14 mm, measured from where they leave the coil, and take the burr off the cut ends. Lay the third pin, 2 x 18 mm, within reach.
+2. Try the fits before anything is joined. A 2 mm pin must pass through the bore of each rib of the lid without force; these bores are 2.3 mm and may have come out smaller, and a 2 mm drill turned through by hand clears them. The sleeve must drop into the gap between the two ribs and rattle a little along it; if it is as long as the gap or longer, rub one of its ends on sandpaper. The ribs of the lid must go between the two hinge towers with visible room on both sides (0.5 mm each).
+3. Put one 2 x 8 mm pin into each hinge tower of the stage from outside until its tip is flush with the inner face of the tower. The pins slide in the towers: the push of a finger moves them, and they stay where they are left. If a pin is tight, open the bore of the tower with a 2 mm drill. Both pins now stand 6.0 mm out of their towers and wait there.
+4. Slip the printed sleeve into the torsion spring and find out now which way round the spring goes. Lay it down so that both legs leave the coil at its underside, one pointing forwards and one backwards. Hold the forward leg and swing the rear leg up and over towards the front, as the closing lid will do: the coil must wind tighter. If it opens instead, turn the spring upside down. Either winding direction fits, because the hinge is the same on its left and its right. Once the pins are in, spring and sleeve can only be cut out.
+5. Hold the spring between the two ribs of the lid so that one leg lies up along the inside of the back wall of the lid and the other leaves the lid over the inner edge of its rim.
+6. Let the back of the stage stand out over the edge of the table, so that the leg of the spring has room below it. Hold the lid about 65° open behind the stage and slide it forwards until its two ribs lie between the hinge towers and their round ends line up with the round ends of the towers. The two waiting pins pass through the shallow channels inside the wall of the lid.
+7. Push the pins in, one after the other, with a small flat screwdriver that comes from above and gets behind the end of the pin. After 3.9 mm a pin is through its rib and meets the end of the sleeve. Move the coil with a toothpick until the tip of the pin slips into the funnel of the sleeve. No force is needed so far. The lid now hangs on the two pins.
+8. Open the lid as far as it goes. Put long-nose pliers over the hinge from above, one jaw on the end of each pin, and squeeze the pins towards each other until they stop. That takes firm pressure: each pin is pressed 1.35 mm into the sleeve and then stands on the bottom of its hole, its outer end about level with the outer face of the tower. The sleeve now holds both pins, and the ribs of the lid hold the sleeve.
+9. Seat the spring. Its forward leg lies on the rim of the lid, just beside the two holes in the feet of the towers, on the side away from the deck. Hold the stage so that you look into it from below. Push the tip of the leg 3 mm towards the deck with the screwdriver and push the 2 x 18 mm pin from the side through the hole of one foot, past the leg and into the hole of the other foot, so that the leg lies between the pin and the deck. The holes hold the pin by a light press fit: push it with the flat of the screwdriver or with the pliers until it stands out of neither foot, and let the leg go. It now rests on the pin. A pin that sits loosely gets a drop of glue at one end.
+10. Close and open the lid by hand a few times. It must swing freely from closed to the end stop at about 95° and the spring must throw it open. When the lid is shut completely the latch catches it: push the post under the tail of the pawl aside from below, and the lid jumps open. That is what the servo will do.
+11. Now try its play, because no printed hinge runs on one line. The front of the lid can be moved about 2 mm to either side and tilted a little; everything it passes is laid out for that. Open and close it slowly while you push its front to the left, then to the right, then while you press one side of it down. Nowhere may it catch or need force, and the hook must drop into its slot from each of these positions: the funnel round the slot leads it in. From about 8° of opening on it must touch nothing at all. If it rubs, look for a blob or a remnant of support on the rim of the lid, on the collar of the stage inside that rim, or in the slot.
+12. One long pin cannot be used in this hinge: the wall of the lid closes the hinge axis at both ends. To take the lid off again, push the pin under the spring leg out sideways and cut through the coil of the spring and the sleeve inside it, between the ribs, with strong side cutters. The halves of the sleeve then come off the pins, and each pin can be pushed outwards with a small screwdriver until it has left the rib. Spring and sleeve are lost; fit new ones.
 
 ### Step 11: Screw the stage onto the core
 
@@ -284,8 +288,9 @@ Parts: **41** Screw M3 x 16 ISO 4762 (stack)
 
 ![step 11](img/step_11.png)
 
-1. Open the lid. Lower the stage onto the core: its notch goes over the bezel, the pawl post drops in beside the servo, and the four screw wells line up with the band lugs.
-2. Fasten the four M3 x 16 screws through the wells. They pass through stage, band lug and chassis flange into the inserts at the rim of the bowl and clamp the whole stack. Tighten gently.
+1. Open the lid. Lower the stage onto the core: its notch goes over the bezel, the pawl post drops in beside the servo, and the four screw wells line up with the band lugs. The stage must come to lie on the lugs by its own weight; if it rides on the bezel, the bezel sits too high in its socket.
+2. Fasten the four M3 x 16 screws through the wells, and before you tighten them push the stage towards the button as far as it goes. They pass through stage, band lug and chassis flange into the inserts at the rim of the bowl and clamp the whole stack. Tighten gently.
+3. Open and close the lid slowly by hand. Behind the hinge its rear rim dips into the shallow pocket of the band, with 0.4 mm of room; of all the gaps round the lid this is the smallest. If the rim scrapes there, undo the screws, push the stage further towards the button and try again; if it still scrapes, deepen the pocket by a few strokes with a knife or a file. The pocket is black and lies under the lid.
 
 ### Step 12: Seat and lock the ring, close the lid
 
@@ -294,7 +299,8 @@ Parts: **42** Engagement ring (EU 49)
 ![step 12](img/step_12.png)
 
 1. Pull the slider back, push the ring into the felt-lined slot until it sits on the bottom, and push the slider forwards until it clicks. The pin now passes through the ring below the deck: the ring cannot come out, however the ball is shaken or dropped.
-2. Check that the servo is in its rest position, then press the lid down until the latch clicks.
+2. Before the lid is closed for the first time, lower it by hand and look at the gap round the black ring of the button and at the seam above the band: the lid must come down onto the band all round without being pressed, and a strip of paper must pass between the lid and the ring (the gap is 0.6 mm). A lid that has to be pressed into its seat would stay there when the latch lets go.
+3. Check that the servo is in its rest position, then press the lid down until the latch clicks. Latched, the lid can be pressed down by a little less than a millimetre at the front and comes up again: the latch needs that room (0.75 mm), so that it also closes over a tooth that the printer has made a little too high.
 
 ## 6. Commissioning
 
@@ -306,9 +312,9 @@ Parts: **42** Engagement ring (EU 49)
 
 *Released: the servo arm has pushed the post, the pawl has turned and its nose has left the tooth.*
 
-1. **Set the horn.** With the stage off and the servo commanded to its rest pulse, push the trimmed horn onto the shaft pointing about 35° to the right of straight ahead (towards -Y), and fit its screw. At the release pulse it should point about 5° to the right of straight ahead. Store both pulse widths in the firmware; never command a position beyond them.
-2. **Test the latch with the stage on and the lid open.** Command release: the pawl nose must swing clear of the hook slot. Command rest: the pawl must return against its stop pin by its own spring.
-3. **Test the opening.** Close the lid (press until it clicks) and command release. The lid must open fully. Repeat twenty times.
+1. **Set the horn.** With the stage off and the servo commanded to its rest pulse, push the trimmed horn onto the shaft pointing about 35° to the right of straight ahead (towards -Y), and fit its screw. At the release pulse it should point about 6° to the left of straight ahead: it sweeps 41° and turns the pawl by about 44°. Store both pulse widths in the firmware; never command a position beyond them.
+2. **Test the latch with the stage on and the lid open.** Look down into the slot of the hook. At rest the nose of the pawl shows in one half of the slot, the half on the right-hand side of the ball (-Y). Command release: the nose must swing out of sight, well beyond the edge of the slot, and the pawl must not yet stand against anything: it could turn 10° further. A servo that stops a few degrees short still frees the hook; one that leaves part of the nose visible in the slot does not turn far enough. Command rest: the pawl must return against its stop pin by its own spring.
+3. **Test the opening.** Close the lid (press until it clicks) and command release. The lid must open fully. Repeat twenty times, and half of these times close the lid carelessly: pushed to one side, or pressed down at one edge only. It must latch and open all the same. Then tilt the device about 30° to the left and to the right and release it once in each position: the lid then hangs to one side in its hinge.
 4. **Test the emergency opening** described below, so that you know the feel of it.
 5. **Test the tongue.** Stand each figure at the front end, its foot about 2 mm short of the front edge: the ball must wake and read it, also when the figure stands 8 mm further back or to one side. Leave a figure standing: the ball must go back to sleep and stay asleep.
 6. **Register the four Tonies and upload the messages** once the firmware exists.
@@ -337,7 +343,7 @@ The USB-C socket sits in the black band at the back, 20° to the left of the hin
 
 *Section along the path of the paper clip (orange).*
 
-If the electronics fail, the lid can still be opened without leaving a mark. Straighten a paper clip (wire up to 1.2 mm). Looking at the button, insert it into the **upper left slit**, near the upper end of that slit, about 6 mm left of the vertical centre line. Aim 22° upwards. After about 17 mm the clip meets resistance; push 3 mm further. The clip leaves the bezel through a slot in its wall and pushes the pawl aside; the lid springs open. Nothing on the outside shows that this is possible.
+If the electronics fail, the lid can still be opened without leaving a mark. Straighten a paper clip (wire up to 1.2 mm). Looking at the button, insert it into the **upper left slit**, near the upper end of that slit, about 6 mm left of the vertical centre line. Aim 22° upwards. After about 16 mm the clip meets resistance; push it on, about 5 mm, until the lid springs open. The clip leaves the bezel through a slot in its wall and pushes the pawl aside. Nothing on the outside shows that this is possible.
 
 ### Closing the lid
 
@@ -413,7 +419,7 @@ To take out the whole core, also lift off the band and separate the two 6-pin pl
 | 29 | Latch pawl | 1 | printed |
 | 30 | Pivot washer for the pawl | 1 | printed |
 | 31 | Screw M2 x 6 (pawl pivot) | 1 | hardware |
-| 32 | Compression spring 3.5 x 8 (pawl return) | 1 | hardware |
+| 32 | Compression spring about 4 x 12 (pawl return) | 1 | hardware |
 | 33 | Ring cradle | 1 | printed |
 | 34 | Dowel pin 3 x 25 (ring lock) | 1 | hardware |
 | 35 | Ring lock slider | 1 | printed |
@@ -421,7 +427,7 @@ To take out the whole core, also lift off the band and separate the two 6-pin pl
 | 37 | Dowel pin 2 x 8 (hinge) | 2 | hardware |
 | 38 | Spring sleeve | 1 | printed |
 | 39 | Torsion spring T028-180-140 (0.71 x 6.32 mm, 6 turns, 180°) | 1 | purchased |
-| 40 | Steel wire Ø1 x 23 (seat of the spring leg) | 1 | hardware |
+| 40 | Dowel pin 2 x 18 (seat of the spring leg) | 1 | hardware |
 | 41 | Screw M3 x 16 ISO 4762 (stack) | 4 | hardware |
 | 42 | Engagement ring (EU 49) | 1 | purchased |
 

@@ -18,7 +18,7 @@ from . import parts_base as B
 from . import parts_core as K
 from . import parts_shell as S
 from . import render as R
-from .manual_text import BOM_NOTES, STEPS, WIRE_LEN, manual_markdown
+from .manual_text import BOM_NOTES, STEPS, manual_markdown
 
 SIZE = (1600, 1200)
 
@@ -95,7 +95,7 @@ def render_overview(img: Path) -> list[Path]:
     keep = g.box(-200, 200, 0.0, 200, -200, 200)
     nums = numbers(items)
     sc, anchors = scene(items, keep=keep)
-    for k in ("mcu", "amp", "charger", "boost", "contacts", "inserts", "stack_screws", "servo_screws", "clamp_screws", "pawl_spring", "pawl_screw", "sleeve", "hinge_pin", "yoke_wire", "turf_screws"):
+    for k in ("mcu", "amp", "charger", "boost", "contacts", "inserts", "stack_screws", "servo_screws", "clamp_screws", "pawl_spring", "pawl_screw", "sleeve", "hinge_pin", "yoke_pin", "turf_screws"):
         anchors.pop(k, None)
     for k in list(anchors):
         x, y, z = anchors[k]
@@ -210,7 +210,7 @@ def render_details(img: Path) -> list[Path]:
         it = A.by_key(items)
         keep = g.box(-75, -22, 0.0, 30, -12, 34)
         sc = R.Scene()
-        for key in ("stage", "lid", "band", "bowl", "chassis", "hinge_pin", "sleeve", "spring", "yoke_wire", "charger", "boost"):
+        for key in ("stage", "lid", "band", "bowl", "chassis", "hinge_pin", "sleeve", "spring", "yoke_pin", "charger", "boost"):
             sc.add(R.clip(it[key].bodies, keep))
         p = img / name
         _zoomed(sc, p, -90, 0, 1.0)
@@ -224,7 +224,7 @@ def render_details(img: Path) -> list[Path]:
     keep = g.box(-60, 140, 0.0, 200, -60, 8.0)
     sc = R.Scene()
     for item in items:
-        if item.key in ("lid", "stage", "cradle", "ring", "slider", "lock_pin", "pawl", "pawl_screw", "pawl_spring", "stack_screws", "spring", "sleeve", "hinge_pin", "yoke_wire"):
+        if item.key in ("lid", "stage", "cradle", "ring", "slider", "lock_pin", "pawl", "pawl_screw", "pawl_spring", "stack_screws", "spring", "sleeve", "hinge_pin", "yoke_pin"):
             continue
         sc.add(R.clip(item.bodies, keep))
     p = img / "grass_section.png"
@@ -264,7 +264,6 @@ def build_manual(root: Path) -> list[Path]:
     files += render_print_plate(img)
     items = A.build()
     nums = numbers(items)
-    assert WIRE_LEN == A.yoke_wire_length(), "manual_text.WIRE_LEN and assembly.yoke_wire_length() differ"
     md = manual_markdown(items, nums, A.printed_parts())
     p = docs / "building_manual.md"
     p.write_text(md, encoding="utf-8")

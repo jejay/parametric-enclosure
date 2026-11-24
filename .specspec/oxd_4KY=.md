@@ -14,7 +14,7 @@ Why no threaded inserts: the screws of the grass top end in the roots of grass t
 
 The two pilot diameters come from one source and from its printers; the research note had first read the two hole directions of that source the wrong way round. How small holes come out differs from printer to printer, so the model exports a test piece with three holes of each kind, and the manual has it printed first. A hole that is a little tight can be drilled open; one that is too loose cannot be mended, which is why the smaller of the source's figures were taken.
 
-The washer of the pawl pivot is printed: a flange of 7 mm that keeps the pawl on its boss, and a hub that takes up the rest of the length of an M2 x 6 screw. The list of parts had named an M2 washer. A standard one is 5 mm across and would have slipped through the 5.3 mm bore of the pawl, so the earlier entry could not have worked.
+The washer of the pawl pivot is printed: a flange of 7 mm that keeps the pawl on its boss, and a hub that takes up the rest of the length of an M2 x 6 screw. The list of parts had named an M2 washer. A standard one is 5 mm across and would have slipped through the bore of the pawl, 5.3 mm then and 5.5 mm now, so the earlier entry could not have worked.
 
 The pin of the ring lock is 3 x 25 mm. The extra millimetre over the earlier 24 mm lies at its rear end; where its tip stands when locked and when released is unchanged, and with the slider drawn back the pin stands 1 mm out of the back of its guide. A pin of 20 mm was not taken: only 2.5 mm of it would sit in the slider, half as much. The pin is pushed in from behind the stage; its bore now runs out through the rear wall, where a sliver had been left in its path.
 

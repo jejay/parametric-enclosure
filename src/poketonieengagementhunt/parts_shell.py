@@ -79,7 +79,7 @@ def bowl() -> cq.Shape:
 # --------------------------------------------------------------------------
 def _hook(c: float = 0.0) -> cq.Shape:
     ys0, ys1 = P.HOOK_Y - P.HOOK_W / 2 - c, P.HOOK_Y + P.HOOK_W / 2 + c
-    z_top = P.PAWL_Z0 - P.LATCH_GAP + c
+    z_top = P.TOOTH_TOP_Z + c
     stem_bottom = z_top - 1.0 - P.TOOTH_REACH - 2 * c
     stem = g.box(P.HOOK_X0 - c, P.HOOK_X1 + c, ys0, ys1, stem_bottom, P.R)
     tooth = g.prism_yz(
@@ -173,6 +173,30 @@ def rim_swing_tool(clearance: float) -> cq.Shape:
     return wp.val().translate(cq.Vector(0, 0, P.HINGE_Z))
 
 
+def lip_swing_radius(y: float) -> float:
+    """Distance from the hinge axis of the inner bottom edge of the lid's lip in the slice ``y``, at the back of
+    the lid.  Of everything the lid has in that slice near its rim, this edge lies furthest from the axis: it is
+    what swings into the stage when the lid opens."""
+    dx = -math.sqrt(max(P.LID_LIP_R**2 - y**2, 0.0)) - P.HINGE_X
+    return math.hypot(dx, P.HINGE_E)
+
+
+def lip_swing_tool(clearance: float, side_play: float, y_max: float) -> cq.Shape:
+    """Solid of revolution about the hinge axis that contains everything the lip of the lid sweeps at the back
+    of the ball while the lid opens, for a lid that may stand up to ``side_play`` to either side of its place,
+    with ``clearance`` round it."""
+    y_lip = P.LID_LIP_R - 0.5
+    n = 72
+    pts = [(P.HINGE_X, -y_max)]
+    for i in range(n + 1):
+        y = -y_max + 2 * y_max * i / n
+        near, far = max(abs(y) - side_play, 0.0), min(abs(y) + side_play, y_lip)
+        pts.append((P.HINGE_X + max(lip_swing_radius(near), lip_swing_radius(far)) + clearance, y))
+    pts.append((P.HINGE_X, y_max))
+    wp = cq.Workplane("XY").polyline(pts).close().revolve(360.0, (P.HINGE_X, 0, 0), (P.HINGE_X, 1, 0))
+    return wp.val().translate(cq.Vector(0, 0, P.HINGE_Z))
+
+
 # --------------------------------------------------------------------------
 # band
 # --------------------------------------------------------------------------
@@ -222,7 +246,7 @@ def band() -> cq.Shape:
     z_pcb_top = P.USB_Z - P.USB_H / 2
     body = body.cut(g.rot(g.box(40.0, 48.2, -P.TP_W / 2 - 0.7, P.TP_W / 2 + 0.7, -20, z_pcb_top + 0.1), "z", P.USB_AZ))
     # pocket for the lid rim, which dips behind the concealed hinge while opening
-    body = body.cut(rim_swing_tool(P.CL_MOVE))
+    body = body.cut(rim_swing_tool(P.BAND_POCKET_CL))
     return g.clean(body)
 
 
@@ -265,6 +289,13 @@ def emergency_channel(d: float, length: float = 30.0) -> cq.Shape:
 def bezel() -> cq.Shape:
     xf, xb = P.BEZEL_X_FACE, P.BEZEL_X_BACK
     tube = g.cyl_x(P.BEZEL_R, xb, xf).cut(g.cyl_x(P.BEZEL_R - P.BEZEL_WALL, xb - 1, xf - P.BEZEL_FACE_T))
+    # Band, stage and lid come down over the tube from above.  From the rim of the bowl upwards it is therefore
+    # smaller: the notch of the lid keeps BEZEL_LID_GAP from it, and band and stage have as much room.  The bowl
+    # below and the socket in the chassis behind hold the tube at its full size.  (This is cut from the plain tube
+    # on purpose: cut from the finished bezel, the kernel returned the body unchanged, without an error.)
+    x_r = P.BAFFLE_X1 + 0.3
+    skin = g.cyl_x(P.BEZEL_R + 1.0, x_r, xf + 1.0).cut(g.cyl_x(P.BEZEL_R - (P.BEZEL_LID_GAP - P.SEAM_GAP), x_r - 1.0, xf + 2.0))
+    tube = tube.cut(g.inter(skin, g.box(x_r - 1.0, xf + 2.0, -30.0, 30.0, P.Z_BOWL_RIM + 0.2, 30.0)))
     # lens opening, flange seat and the seat tube that also holds the light cone
     seat_tube = g.cyl_x(P.SEAT_R1, xf - 6.0, xf - P.BEZEL_FACE_T + 0.01).cut(g.cyl_x(P.SEAT_R0, xf - 7, xf))
     body = tube.fuse(seat_tube)

@@ -82,10 +82,12 @@ def build(
     with_tonie: bool = False,
     hinge_parked: bool = False,
     spring_seated: bool = True,
+    pawl_down: bool = False,
 ) -> list[Item]:
     """``hinge_parked``: the two hinge pins wait in their towers, as while the lid is put on.
-    ``spring_seated``: False shows the spring before its forward leg has been lifted onto the yoke wire: the
-    leg then lies on the inner edge of the lid's rim, and the wire is not in yet."""
+    ``spring_seated``: False shows the spring before its forward leg has been lifted onto the yoke pin: the
+    leg then lies on the inner edge of the lid's rim, and the pin is not in yet.
+    ``pawl_down``: the pawl lies on its washer instead of being pushed up against the deck."""
     horn = P.HORN_REST_DEG if horn_deg is None else horn_deg
     items: list[Item] = []
     add = items.append
@@ -165,16 +167,14 @@ def build(
 
     # ---------------------------------------------------------------- step 9
     add(Item("stage", "Stage (inner dome with ring deck)", "printed", _col(K.stage(), "stage"), step=9, explode=(0, 0, 84), material="PETG black"))
-    add(Item("pawl", "Latch pawl", "printed", _col(K.pawl_at(pawl_deg), "pawl"), group="pawl", step=9, explode=(0, 0, 62), material="PETG any colour"))
+    add(Item("pawl", "Latch pawl", "printed", _col(K.pawl_at(pawl_deg, down=pawl_down), "pawl"), group="pawl", step=9, explode=(0, 0, 62), material="PETG any colour"))
     px, py = P.PAWL_PIVOT
     add(Item("pawl_cap", "Pivot washer for the pawl", "printed", _col(K.pawl_cap(), "pawl"), step=9, explode=(0, 0, 56), material="PETG any colour"))
-    pv = _place(C.screw_up(2.0, P.PAWL_SCREW_L, P.M2_HEAD_D, P.M2_HEAD_H), ("move", px, py, P.PAWL_Z0 - 0.3 - P.PAWL_CAP_T - P.PAWL_CAP_HUB_T))
+    pv = _place(C.screw_up(2.0, P.PAWL_SCREW_L, P.M2_HEAD_D, P.M2_HEAD_H), ("move", px, py, P.PAWL_Z0 - P.PAWL_PLAY - P.PAWL_CAP_T - P.PAWL_CAP_HUB_T))
     add(Item("pawl_screw", "Screw M2 x 6 (pawl pivot)", "hardware", pv, step=9, explode=(0, 0, 50)))
-    tail_x = px - P.PAWL_TAIL_X
-    tail_shift = P.PAWL_TAIL_X * math.sin(math.radians(pawl_deg))
-    y_a, y_b = 3.4 + tail_shift, 9.3
-    sp = _place(C.compression_spring(3.5, max(y_b - y_a, 1.0)), ("rot", "z", 90.0), ("move", tail_x, y_a, (P.PAWL_Z0 + P.PAWL_Z1) / 2))
-    add(Item("pawl_spring", "Compression spring 3.5 x 8 (pawl return)", "hardware", sp, step=9, explode=(0, 10, 62), check=False))
+    y_a, y_b = pawl_spring_span(pawl_deg)
+    sp = _place(C.compression_spring(3.5, max(y_b - y_a, 1.0)), ("rot", "z", 90.0), ("move", K.PAWL_SPRING_X, y_a, K.PAWL_SPRING_Z))
+    add(Item("pawl_spring", f"Compression spring about 4 x {P.PAWL_SPRING_L:.0f} (pawl return)", "hardware", sp, step=9, explode=(0, 10, 62), check=False))
     add(Item("cradle", "Ring cradle", "printed", _col(K.cradle(), "cradle"), step=9, explode=(0, 0, 112), material="PETG red or black"))
     span = K.lock_pin_span(locked)
     add(Item("lock_pin", "Dowel pin 3 x 25 (ring lock)", "hardware", _place(C.pin_x(P.LOCK_PIN_D, P.LOCK_PIN_L), ("move", span[0], 0, P.LOCK_Z)), group="slider", step=9, explode=(-30, 0, 112)))
@@ -194,7 +194,7 @@ def build(
     spring = _place(C.torsion_spring(lid_leg, body_leg), ("move", P.HINGE_X, 0, P.HINGE_Z))
     add(Item("spring", "Torsion spring T028-180-140 (0.71 x 6.32 mm, 6 turns, 180°)", "purchased", spring, step=10, explode=(-26, 0, 136), check=False))
     if spring_seated:
-        add(Item("yoke_wire", f"Steel wire Ø{P.YOKE_WIRE_D:.0f} x {yoke_wire_length():.0f} (seat of the spring leg)", "hardware", _col(K.yoke_wire(), "metal"), step=10, explode=(-26, 30, 112)))
+        add(Item("yoke_pin", f"Dowel pin {P.YOKE_PIN_D:.0f} x {P.YOKE_PIN_L:.0f} (seat of the spring leg)", "hardware", _col(K.yoke_pin(), "metal"), step=10, explode=(-26, 30, 112)))
 
     # --------------------------------------------------------------- step 11
     st: Bodies = []
@@ -226,10 +226,13 @@ def spring_rest_deg(lid_deg: float) -> float:
     return min((a + 180.0) % 360.0 - 180.0, 0.0)
 
 
-def yoke_wire_length() -> float:
-    """Length of wire to cut for the yoke: the straight part and the end that is bent over."""
-    y0, y1 = K.yoke_wire_span()
-    return math.ceil(round(y1 - y0 + P.YOKE_END + 1.0, 6))
+def pawl_spring_span(pawl_deg: float = 0.0) -> tuple[float, float]:
+    """Where the pawl's return spring begins (on the tail of the pawl) and ends (on the floor of its cup)."""
+    px, _ = P.PAWL_PIVOT
+    a = math.radians(pawl_deg)
+    # the +y face of the tail, 2.5 mm beside the middle of the pawl, turns about the pivot with the pawl
+    y_tail = P.PAWL_TAIL_X * math.sin(a) + 2.5 * math.cos(a)
+    return (y_tail, P.PAWL_SPRING_SEAT_Y)
 
 
 # rotation that brings each printed part from assembly orientation into its

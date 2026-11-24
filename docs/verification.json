@@ -50,16 +50,16 @@
  {
   "name": "watertight:bezel",
   "ok": true,
-  "detail": "solids=1 valid=True watertight=True winding=True V_cad=2647 V_mesh=2646 mm3 tris=4326",
+  "detail": "solids=1 valid=True watertight=True winding=True V_cad=2441 V_mesh=2440 mm3 tris=4662",
   "data": {
-   "volume_mm3": 2646.8272108841315,
-   "mass_g_petg": 3.361470557822847,
+   "volume_mm3": 2441.1472679149297,
+   "mass_g_petg": 3.100257030251961,
    "bbox": [
-    11.937214595921226,
-    34.01319414129687,
-    35.20797150694321
+    11.93775285305989,
+    34.01479175301477,
+    35.20704370589654
    ],
-   "triangles": 4326,
+   "triangles": 4662,
    "section": "Watertight printable solids"
   }
  },
@@ -98,16 +98,16 @@
  {
   "name": "watertight:stage",
   "ok": true,
-  "detail": "solids=1 valid=True watertight=True winding=True V_cad=23723 V_mesh=23697 mm3 tris=22358",
+  "detail": "solids=1 valid=True watertight=True winding=True V_cad=23672 V_mesh=23667 mm3 tris=23674",
   "data": {
-   "volume_mm3": 23722.801887992893,
-   "mass_g_petg": 30.127958397750977,
+   "volume_mm3": 23672.309079311926,
+   "mass_g_petg": 30.06383253072615,
    "bbox": [
-    90.4758668860644,
-    94.1383918386673,
-    28.069512717425198
+    90.09215033341319,
+    93.92507041542305,
+    28.089642213252176
    ],
-   "triangles": 22358,
+   "triangles": 23674,
    "section": "Watertight printable solids"
   }
  },
@@ -130,16 +130,16 @@
  {
   "name": "watertight:pawl",
   "ok": true,
-  "detail": "solids=1 valid=True watertight=True winding=True V_cad=385 V_mesh=385 mm3 tris=1656",
+  "detail": "solids=1 valid=True watertight=True winding=True V_cad=422 V_mesh=422 mm3 tris=1780",
   "data": {
-   "volume_mm3": 385.1640381204488,
-   "mass_g_petg": 0.48915832841297,
+   "volume_mm3": 421.747444195032,
+   "mass_g_petg": 0.5356192541276907,
    "bbox": [
-    18.20000020000003,
-    12.900000200000024,
-    7.499542446538825
+    18.90000020000003,
+    12.900739377976464,
+    8.299555988977392
    ],
-   "triangles": 1656,
+   "triangles": 1780,
    "section": "Watertight printable solids"
   }
  },
@@ -162,10 +162,10 @@
  {
   "name": "watertight:cradle",
   "ok": true,
-  "detail": "solids=1 valid=True watertight=True winding=True V_cad=3248 V_mesh=3248 mm3 tris=2356",
+  "detail": "solids=1 valid=True watertight=True winding=True V_cad=3244 V_mesh=3244 mm3 tris=2356",
   "data": {
-   "volume_mm3": 3247.759864985151,
-   "mass_g_petg": 4.1246550285311425,
+   "volume_mm3": 3244.128969275764,
+   "mass_g_petg": 4.120043790980221,
    "bbox": [
     14.401204925215186,
     28.401204925215183,
@@ -323,9 +323,9 @@
  {
   "name": "clearance:lid inner wall - stage dome",
   "ok": true,
-  "detail": "0.20 mm (need >= 0.0)",
+  "detail": "0.50 mm (need >= 0.0)",
   "data": {
-   "distance": 0.19999999999999662,
+   "distance": 0.49999999999999645,
    "section": "Clearances"
   }
  },
@@ -415,7 +415,7 @@
   "ok": true,
   "detail": "1.22 mm (need >= 0.2)",
   "data": {
-   "distance": 1.2189315071404427,
+   "distance": 1.2189315071404414,
    "section": "Clearances"
   }
  },
@@ -429,9 +429,9 @@
   }
  },
  {
-  "name": "clearance:spring body leg on the yoke wire",
+  "name": "clearance:spring body leg on the yoke pin",
   "ok": true,
-  "detail": "0.00 mm gap between leg and wire (seat, need <= 0.3); the wire lies in the holes of the two tower feet without overlap (0.000 mm3)",
+  "detail": "0.00 mm gap between the leg and the pin under it (seat, need <= 0.3)",
   "data": {
    "distance": 0.0,
    "section": "Clearances"
@@ -485,16 +485,16 @@
  {
   "name": "latch:engaged pawl holds the lid",
   "ok": true,
-  "detail": "overlap when lid is forced to 1.5 deg: 8.83 mm3 (must be > 0)",
+  "detail": "overlap when lid is forced to 1.5 deg: 5.04 mm3 (must be > 0)",
   "data": {
-   "overlap": 8.830323261136842,
+   "overlap": 5.043081784284731,
    "section": "Latch"
   }
  },
  {
   "name": "latch:released pawl frees the lid",
   "ok": true,
-  "detail": "max overlap lid/pawl with pawl at 24 deg: 0.000 mm3",
+  "detail": "max overlap lid/pawl with pawl at 44 deg: 0.000 mm3",
   "data": {
    "overlap": 0.0,
    "section": "Latch"
@@ -503,7 +503,7 @@
  {
   "name": "latch:pawl travel",
   "ok": true,
-  "detail": "0..28 deg, 0 collisions",
+  "detail": "0..54 deg, pushed up against the deck and lying 0.3 mm lower on its washer: 0 collisions",
   "data": {
    "collisions": [],
    "section": "Latch"
@@ -512,7 +512,7 @@
  {
   "name": "latch:servo horn sweep",
   "ok": true,
-  "detail": "-50..5 deg, 0 collisions",
+  "detail": "-50..16 deg, 0 collisions",
   "data": {
    "collisions": [],
    "section": "Latch"
@@ -521,18 +521,43 @@
  {
   "name": "latch:horn drives pawl at release angle",
   "ok": true,
-  "detail": "gap horn/post with both at release pose: 0.00 mm (contact expected, < 0.8)",
+  "detail": "the arm of the servo stands at -35\u00b0 at rest and meets the post of the pawl at -25.3\u00b0; at 6\u00b0 it has turned the pawl by 43.6\u00b0 (model: 44\u00b0). A servo that stops 4\u00b0 short still turns it by 35.7\u00b0, one that goes 4\u00b0 too far by 51.1\u00b0; the pawl is free up to 54\u00b0",
   "data": {
-   "gap": 0.0,
+   "touch": -25.3216552734375,
+   "release": 43.55133056640625,
+   "short": 35.68341064453125,
+   "over": 51.07598876953125,
+   "section": "Latch"
+  }
+ },
+ {
+  "name": "latch:servo arm passes the pivot",
+  "ok": true,
+  "detail": "an arm trimmed to 13 mm passes the washer and the screw of the pawl pivot at 0.80 mm; one that was left 0.5 mm longer at 0.30 mm",
+  "data": {
+   "gap": 0.8003163233513167,
+   "gap_long": 0.3003661741807293,
    "section": "Latch"
   }
  },
  {
   "name": "latch:emergency clip path is free",
   "ok": true,
-  "detail": "blocked by nothing; path reaches the pawl lug: True",
+  "detail": "blocked by nothing; a 1.2 mm clip meets the lug of the pawl after 16.1 mm and has turned the pawl to its release angle after 20.7 mm. Pushed in 21 mm, as the manual says, it has turned the pawl by 46\u00b0",
   "data": {
    "blockers": [],
+   "first": 16.0845947265625,
+   "done": 20.7183837890625,
+   "section": "Latch"
+  }
+ },
+ {
+  "name": "latch:return spring has room",
+  "ok": true,
+  "detail": "a spring of 12 mm is 9.8 mm long with the pawl at rest (2.2 mm of preload) and 5.2 mm with the pawl turned as far as it goes; a piece of ball-pen spring of that length is solid at about 4 mm. Its end sits 3 mm deep in a cup under the deck",
+  "data": {
+   "rest": 9.8,
+   "full": 5.167417908644186,
    "section": "Latch"
   }
  },
@@ -623,9 +648,9 @@
  {
   "name": "screws:printed washer keeps the pawl on its pivot",
   "ok": true,
-  "detail": "the flange of the printed pivot washer (\u00d87.0) overlaps the pawl's bore (\u00d85.3) by 0.65 mm all round, however the washer sits on its screw; a standard M2 washer (\u00d85.0, ISO 7089) would be 0.15 mm smaller than the bore. The pawl keeps 0.30 mm of play above the washer, and the servo arm passes 0.90 mm from it at rest and at release",
+  "detail": "the flange of the printed pivot washer (\u00d87.0) overlaps the pawl's bore (\u00d85.5) by 0.55 mm all round, however the washer sits on its screw; a standard M2 washer (\u00d85.0, ISO 7089) would be 0.25 mm smaller than the bore. The pawl keeps 0.30 mm of play above the washer, and the servo arm passes 0.90 mm from it at rest and at release",
   "data": {
-   "lip": 0.6500000000000001,
+   "lip": 0.55,
    "pawl": 0.3000000000000007,
    "horn": 0.899999999999995,
    "section": "Small screws"
@@ -658,19 +683,19 @@
  {
   "name": "pins:towers enclose the hinge pins",
   "ok": true,
-  "detail": "round the \u00d82.15 bore of each tower the stage is solid over at least 1.6 mm, at every angle and over the whole thickness of the tower (2.2 mm). Half of each knuckle stands out of the dome of the stage; it keeps 0.51 mm from the wall of the lid with the lid closed, 30\u00b0 and 65\u00b0 open and at the stop",
+  "detail": "round the \u00d82.15 bore of each tower the stage is solid over at least 1.2 mm, at every angle and over the whole thickness of the tower (2.0 mm). Half of each knuckle stands out of the dome of the stage; it keeps 0.79 mm from the wall of the lid with the lid closed, 30\u00b0 and 65\u00b0 open and at the stop",
   "data": {
-   "wall": 1.6,
-   "gap": 0.5124134344940261,
+   "wall": 1.2,
+   "gap": 0.788067350028091,
    "section": "Pins"
   }
  },
  {
   "name": "pins:two hinge pins carry lid and spring",
   "ok": true,
-  "detail": "each \u00d82 x 8 pin slides in 2.2 mm of its hinge tower (bore \u00d82.15), carries one rib of the lid over its full 3.4 mm (bore \u00d82.3) and stands on the floor of a blind hole 1.80 mm deep in the spring sleeve, of which 1.35 mm are a press fit (\u00d81.95) and the rest a funnel; its outer end then stands 0.25 mm out of the tower, so that pliers can press home a pin that is a little shorter as well",
+  "detail": "each \u00d82 x 8 pin slides in 2.0 mm of its hinge tower (bore \u00d82.15), carries one rib of the lid over its full 3.4 mm (bore \u00d82.3) and stands on the floor of a blind hole 1.80 mm deep in the spring sleeve, of which 1.35 mm are a press fit (\u00d81.95) and the rest a funnel; its outer end then stands 0.15 mm out of the tower, so that pliers can press home a pin that is a little shorter as well",
   "data": {
-   "tower": 2.2,
+   "tower": 2.0,
    "rib": 3.3999999999999995,
    "sleeve": 1.8,
    "press": 1.35,
@@ -691,19 +716,19 @@
  {
   "name": "pins:why the hinge has two pins",
   "ok": true,
-  "detail": "the hinge axis lies inside the lid and meets its wall 16.8 mm from the middle; beside a hinge tower a \u00d82 pin has 4.9 mm of room before it touches the wall. A pin that goes through both ribs cannot be put in, at any length. A waiting pin stands 5.8 mm out of its tower",
+  "detail": "the hinge axis lies inside the lid and meets its wall 16.8 mm from the middle; beside a hinge tower a \u00d82 pin has 4.8 mm of room before it touches the wall. A pin that goes through both ribs cannot be put in, at any length. A waiting pin stands 6.0 mm out of its tower",
   "data": {
    "wall_y": 16.76780413272328,
-   "room": 4.8571614340909885,
+   "room": 4.757161434090989,
    "section": "Pins"
   }
  },
  {
   "name": "pins:waiting pins clear the lid",
   "ok": true,
-  "detail": "with the pins waiting in the towers (flush with the inner faces of the towers) the lid keeps 0.25 mm from them; the relief inside the lid wall that makes this room leaves 1.3 mm of wall (measured: 100.0 % of that shell is solid), so nothing shows outside. The wall behind the knuckles is 1.0 mm as before",
+  "detail": "with the pins waiting in the towers (flush with the inner faces of the towers) the lid keeps 0.32 mm from them; the relief inside the lid wall that makes this room leaves 1.3 mm of wall (measured: 100.0 % of that shell is solid), so nothing shows outside. The wall behind the knuckles is 1.0 mm as before",
   "data": {
-   "gap": 0.24999999999999375,
+   "gap": 0.3239972227683596,
    "kept": 1.0,
    "section": "Pins"
   }
@@ -720,7 +745,7 @@
  {
   "name": "pins:tools reach the hinge pins",
   "ok": true,
-  "detail": "without force: a screwdriver blade of 2.5 x 0.8 mm reaches the end of each waiting pin with the lid 65\u00b0 open and follows it until the pin has passed its rib, 3.6 mm further in, coming from 75, 90, 105\u00b0 (directions round the hinge, 90\u00b0 is straight from above, tried in steps of 15\u00b0). With force: from there the pins slide 0.6 mm more and are then pressed 1.35 mm into the sleeve; plier jaws of 4.0 x 3.0 mm reach both pin ends over that last part, lid 90\u00b0 open from 90, 105, 120, 135\u00b0; lid 95\u00b0 open from 90, 105, 120, 135\u00b0. The jaws start 21.4 mm apart. They stop when both pins stand on the floors of their holes",
+  "detail": "without force: a screwdriver blade of 2.5 x 0.8 mm reaches the end of each waiting pin with the lid 65\u00b0 open and follows it until the pin has passed its rib, 3.9 mm further in, coming from 75, 90, 105\u00b0 (directions round the hinge, 90\u00b0 is straight from above, tried in steps of 15\u00b0). With force: from there the pins slide 0.6 mm more and are then pressed 1.35 mm into the sleeve; plier jaws of 4.0 x 3.0 mm reach both pin ends over that last part, lid 90\u00b0 open from 90, 105, 120, 135\u00b0; lid 95\u00b0 open from 90, 105, 120, 135\u00b0. The jaws start 21.4 mm apart. They stop when both pins stand on the floors of their holes",
   "data": {
    "blade": [
     75,
@@ -746,14 +771,14 @@
   }
  },
  {
-  "name": "pins:spring leg is lifted onto a wire",
+  "name": "pins:spring leg is lifted onto a pin",
   "ok": true,
-  "detail": "with the pins in and the lid at its stop the forward leg lies on the inner edge of the rim of the lid, 8.5\u00b0 below its seat. From there up to 6\u00b0 above the seat its way is free (0 collisions with stage or lid). A leg lifted that far leaves 1.21 mm for the \u00d81 wire to pass under it. The wire goes in from the side through holes of \u00d81.4 in the two tower feet (1.0 mm of foot before and behind them): its straight part of 18.6 mm has a free way beside the foot (in the way: nothing)",
+  "detail": "with the hinge pins in and the lid at its stop the forward leg lies on the inner edge of the rim of the lid, 8.5\u00b0 below its seat. From there up to 8\u00b0 above the seat its way is free (0 collisions with stage or lid). A leg lifted that far leaves 1.70 mm for the pin to pass under it. The pin, \u00d82 x 18, goes in from the side through holes of \u00d82.05 in the two tower feet and sits 1.8 mm in each (1.1 mm of foot before and behind the hole); with 0.3 mm of room round it, its whole length has a free way beside the foot (in the way: nothing). The leg reaches 1.5 mm beyond the pin",
   "data": {
    "rest": -8.541047252578664,
    "collisions": [],
    "blockers": [],
-   "lifted": 1.2123451637265865,
+   "lifted": 1.6973298610266474,
    "section": "Pins"
   }
  },
@@ -765,6 +790,189 @@
    "stem": 5.0,
    "path": 0,
    "section": "Pins"
+  }
+ },
+ {
+  "name": "play:what the hinge lets the lid do",
+  "ok": true,
+  "detail": "a \u00d82 pin has 0.30 mm of room in each rib of the lid and 0.15 mm in each tower, and the ribs have 0.5 mm beside each tower. The lid can therefore stand askew by \u00b11.75\u00b0, about the vertical or about the fore-aft axis, and slide \u00b10.5 mm along the pins: its rim beside the ball moves up to 1.83 mm sideways, the hook of the latch up to 2.92 mm. The checks below take a lid that uses all of this, and whose surfaces lie 0.2 mm further out than drawn",
+  "data": {
+   "skew": 1.7498264914564798,
+   "rim": 1.8340509748285843,
+   "hook": 2.9151752447831587,
+   "section": "Play and tolerances"
+  }
+ },
+ {
+  "name": "play:gaps round the closed lid",
+  "ok": true,
+  "detail": "shut, the lid keeps 0.50 mm from the stage (collar 0.6, ribs beside the towers 0.5, stem of the hook in its slot 0.5), 0.60 mm from the bezel, and its tooth 0.45 mm from the nose of a pawl that lies on its washer. A lid grown by 0.4 mm, as if both surfaces of every gap had come out 0.2 mm fat, still lies down without being wedged: of stage, bezel, pawl, chassis, speaker, cradle, slider, ring and lens it meets nothing. The rim at the back runs in the pocket of the band with 0.39 mm: band and lid are printed, so this gap stays as it is, and it is the one to look at when the lid is first hinged (manual, step 11). The pawl has 0.25 mm of room round its pivot and 0.3 mm along it",
+  "data": {
+   "stage": 0.49999999999999645,
+   "bezel": 0.5999999989381589,
+   "pawl": 0.4499999999999993,
+   "pocket": 0.39483183335483035,
+   "collisions": [],
+   "section": "Play and tolerances"
+  }
+ },
+ {
+  "name": "play:first degrees, nothing closes in on the lid",
+  "ok": true,
+  "detail": "the lid, grown by 0.2 mm, turned about the vertical so that its hook stands between -2.92 and +2.92 mm beside its place: at each opening angle the hook positions at which the lid touches nothing (stage, bezel, band, released pawl) are 0.5\u00b0: -0.3 to +0.3; 1.5\u00b0: -0.6 to +0.3; 3\u00b0: -0.6 to +0.3; 4.5\u00b0: -0.6 to +0.3; 6\u00b0: -2.0 to +1.2; 7\u00b0: -2.9 to +2.0; 8\u00b0: -2.9 to +2.9 mm (tried: -2.9, -2.0, -1.2, -0.6, -0.3, +0.0, +0.3, +0.6, +1.2, +2.0, +2.9). A position that is free at one angle is free at every larger one (0 exceptions), the middle is free throughout (0 exceptions), and at 8\u00b0 every position is free: up to there collar, bezel and slot guide the lid, and none of them narrows as the lid rises",
+  "data": {
+   "collisions": [],
+   "table": {
+    "0.5": [
+     "SZ",
+     "SZ",
+     "Z",
+     "Z",
+     "",
+     "",
+     "",
+     "SZ",
+     "SZ",
+     "SZ",
+     "SZ"
+    ],
+    "1.5": [
+     "SZ",
+     "SZ",
+     "SZ",
+     "",
+     "",
+     "",
+     "",
+     "S",
+     "SZ",
+     "SZ",
+     "SZ"
+    ],
+    "3.0": [
+     "SZ",
+     "S",
+     "S",
+     "",
+     "",
+     "",
+     "",
+     "S",
+     "S",
+     "S",
+     "SZ"
+    ],
+    "4.5": [
+     "S",
+     "S",
+     "S",
+     "",
+     "",
+     "",
+     "",
+     "S",
+     "S",
+     "S",
+     "S"
+    ],
+    "6.0": [
+     "S",
+     "",
+     "",
+     "",
+     "",
+     "",
+     "",
+     "",
+     "",
+     "S",
+     "S"
+    ],
+    "7.0": [
+     "",
+     "",
+     "",
+     "",
+     "",
+     "",
+     "",
+     "",
+     "",
+     "",
+     "S"
+    ],
+    "8.0": [
+     "",
+     "",
+     "",
+     "",
+     "",
+     "",
+     "",
+     "",
+     "",
+     "",
+     ""
+    ]
+   },
+   "section": "Play and tolerances"
+  }
+ },
+ {
+  "name": "play:lid swings free however it stands",
+  "ok": true,
+  "detail": "from 8\u00b0 to the stop, with the lid grown by 0.2 mm, turned \u00b11.75\u00b0 about the vertical, or slid \u00b10.25 mm along its pins until its ribs lie against a tower: 0 contacts with stage, bezel, band or pawl. Turned \u00b11.75\u00b0 about the fore-aft axis it touches nothing from 30\u00b0 on; below that its lower side lies on the band (10\u00b0, 20\u00b0), which is the seat it rests on anyway and lets it go as it rises",
+  "data": {
+   "collisions": [],
+   "section": "Play and tolerances"
+  }
+ },
+ {
+  "name": "play:latch lets go of a hook beside its place",
+  "ok": true,
+  "detail": "while the lid is shut the collar keeps its rim within 0.6 mm of the middle, so the hook can stand up to 1.49 mm beside its place. The released pawl (44\u00b0) lets a hook pass that stands up to 6.00 mm towards it; with a servo that stops 4\u00b0 short (pawl at 36\u00b0) it is still 2.97 mm. Hook grown by 0.2 mm, pawl pushed up or lying on its washer, lid 0 to 6\u00b0 open",
+  "data": {
+   "guided": 1.491447717807665,
+   "window": 6.0,
+   "window_short": 2.970703125,
+   "section": "Play and tolerances"
+  }
+ },
+ {
+  "name": "play:latch holds a hook beside its place",
+  "ok": true,
+  "detail": "away from the pawl the hook can only go as far as the wall of its slot, 0.5 mm. The pawl at rest still holds a hook that stands 1.81 mm away from it",
+  "data": {
+   "hold": 1.8125,
+   "section": "Play and tolerances"
+  }
+ },
+ {
+  "name": "play:pawl swings back over a tooth that stands high",
+  "ok": true,
+  "detail": "the underside of the nose lies 0.75 mm above the tooth, 0.45 mm when the pawl lies on its washer. A tooth that stands 0.5 mm high (0.2 mm of print and a lid that lies 0.3 mm above its seat) still passes under the nose of a pawl that is pushed up: 0 contacts over the pawl's way back. A pawl that lies on its washer is lifted by it: the slope under the edge of its nose is 0.5 mm high, more than the 0.3 mm the pawl can lie low",
+  "data": {
+   "collisions": [],
+   "section": "Play and tolerances"
+  }
+ },
+ {
+  "name": "play:hook leaves its slot from wherever it stands",
+  "ok": true,
+  "detail": "lid opening in steps of 0.05\u00b0, hook grown by 0.2 mm and starting -2.9, -2.2, -1.5, -0.8, +0.0, +0.2 mm beside its place, pawl at 44\u00b0 and at 36\u00b0: 0 starts get stuck. Where the hook meets the deck it is pushed towards the middle, by 1.31 mm at most, and in no step further than twice its rise in that step: only slopes do that, a ledge would not. Beside the tooth the edge of the slot is sloped under the deck, and the inside of the dome is hollowed for the front end of the tooth",
+  "data": {
+   "collisions": [],
+   "pushed": 1.3112251378902298,
+   "section": "Play and tolerances"
+  }
+ },
+ {
+  "name": "play:hook finds its slot and latches",
+  "ok": true,
+  "detail": "lid closing in steps of 0.05\u00b0, pawl at rest and free to be pushed aside, hook coming down beside its place: start \u2192 end in mm -2.9 \u2192 -1.6, -1.5 \u2192 -1.5, +0.0 \u2192 +0.0, +1.5 \u2192 +0.3, +2.9 \u2192 +0.3; 0 starts do not end latched. Funnel at the top of the slot, slope on the nose of the pawl and slope under the tooth do the work; again nothing is pushed further in a step than twice the way the hook came down. The funnels take a hook that stands up to 3.5 mm (beside the stem) and 3.5 mm (beside the tooth) off; the play of the hinge gives it 2.92 mm",
+  "data": {
+   "collisions": [],
+   "section": "Play and tolerances"
   }
  },
  {
@@ -994,11 +1202,11 @@
   "ok": true,
   "detail": "mass 268 g, CoG x=1.4 y=-0.3 z=-3.9 mm (below the ball centre: self-righting)",
   "data": {
-   "mass": 268.15617710521644,
+   "mass": 268.12268739878454,
    "cg": [
-    1.4466944864505595,
-    -0.2736977879164657,
-    -3.9340154815688595
+    1.4138043892309045,
+    -0.26689146406282743,
+    -3.896585135058409
    ],
    "section": "Physics and function"
   }
@@ -1006,14 +1214,14 @@
  {
   "name": "physics:ball alone stands on its flat with the lid open",
   "ok": true,
-  "detail": "CoG with open lid x=-6.7 y=-0.3; flat radius 17.1 mm -> tipping margin 10.3 mm",
+  "detail": "CoG with open lid x=-6.8 y=-0.3; flat radius 17.1 mm -> tipping margin 10.3 mm",
   "data": {
    "cg_open": [
-    -6.725080638280812,
-    -0.2708157549877344,
-    -0.6443118710171089
+    -6.75960779958391,
+    -0.26117940793872424,
+    -0.6064706260137547
    ],
-   "margin": 10.328190869832742,
+   "margin": 10.294070433992015,
    "section": "Physics and function"
   }
  },
@@ -1022,21 +1230,21 @@
   "ok": true,
   "detail": "mass 377 g; CoG closed x=18.7, open x=12.9, with a 50 g figure x=26.7 mm; distance of the CoG from the edge of the standing area (flat of the ball and underside of the tongue together): closed 28 mm, lid open 24 mm, closed with a figure on the spot 32 mm",
   "data": {
-   "mass": 377.18764072398517,
+   "mass": 377.15415101755315,
    "cg": [
-    18.73309017429066,
-    -0.21841098740501683,
-    -14.187285220624155
+    18.71124323208876,
+    -0.21356739393870075,
+    -14.161586057359031
    ],
    "cg_open": [
-    12.923483121934968,
-    -0.2163620471720428,
-    -11.84851732695311
+    12.900682124991155,
+    -0.20950663566669125,
+    -11.822610490910263
    ],
    "margins": {
-    "closed": 27.548467915383917,
-    "lid open": 24.24092176890435,
-    "closed with a figure on the spot": 32.12084544550633
+    "closed": 27.540004614859004,
+    "lid open": 24.233568564849286,
+    "closed with a figure on the spot": 32.11373128932674
    },
    "section": "Physics and function"
   }
@@ -1116,14 +1324,14 @@
  {
   "name": "print:bezel",
   "ok": true,
-  "detail": "35 x 34 x 12 mm, PETG black; overhang area needing support ~4 mm2; face down on the bed, no supports",
+  "detail": "35 x 34 x 12 mm, PETG black; overhang area needing support ~26 mm2; face down on the bed, no supports",
   "data": {
    "extents": [
-    35.199999999999996,
-    33.99214555371158,
+    35.199642350430466,
+    33.99552628827714,
     11.921271782034989
    ],
-   "support_area": 3.681014812599674,
+   "support_area": 26.422505752074983,
    "section": "Printability"
   }
  },
@@ -1158,14 +1366,14 @@
  {
   "name": "print:stage",
   "ok": true,
-  "detail": "90 x 94 x 28 mm, PETG black; overhang area needing support ~304 mm2; upside down: deck on the bed, supports under the stop beam of the hinge and the screw pads only",
+  "detail": "90 x 94 x 28 mm, PETG black; overhang area needing support ~272 mm2; upside down: deck on the bed, supports under the stop beam of the hinge and the screw pads only",
   "data": {
    "extents": [
-    90.44833277963158,
-    94.09145474133425,
+    90.06667400396691,
+    93.8176337462828,
     28.00000000000001
    ],
-   "support_area": 303.6997645969126,
+   "support_area": 272.0417164716404,
    "section": "Printability"
   }
  },
@@ -1186,14 +1394,14 @@
  {
   "name": "print:pawl",
   "ok": true,
-  "detail": "18 x 13 x 7 mm, PETG any colour; overhang area needing support ~13 mm2; upside down: top face on the bed",
+  "detail": "19 x 13 x 8 mm, PETG any colour; overhang area needing support ~3 mm2; upside down: top face on the bed",
   "data": {
    "extents": [
-    18.199999999999996,
-    12.887869697974505,
-    7.4981938965756605
+    18.9,
+    12.89766051452865,
+    8.298193896575661
    ],
-   "support_area": 12.645773500070035,
+   "support_area": 2.8175806996343664,
    "section": "Printability"
   }
  },
@@ -1214,14 +1422,14 @@
  {
   "name": "print:cradle",
   "ok": true,
-  "detail": "14 x 28 x 13 mm, PETG red or black; overhang area needing support ~112 mm2; as assembled, no supports",
+  "detail": "14 x 28 x 13 mm, PETG red or black; overhang area needing support ~113 mm2; as assembled, no supports",
   "data": {
    "extents": [
     14.399999999999999,
     28.4,
     12.8
    ],
-   "support_area": 112.45516358315024,
+   "support_area": 112.97080122889656,
    "section": "Printability"
   }
  },

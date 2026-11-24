@@ -52,6 +52,8 @@ CL = 0.25                     # general sliding / mating clearance per side
 CL_TIGHT = 0.15               # locating fits
 CL_MOVE = 0.40                # clearance to moving parts
 SEAM_GAP = 0.20               # nominal visible gap lid <-> bezel / band features
+PRINT_TOL = 0.20              # how far a printed surface may lie from where the model has it.  The checks of play and
+                              # tolerances grow the lid by this much and still ask for room
 
 # ==========================================================================
 # 2. Core stack-up along Z (all printed, see parts.py)
@@ -110,11 +112,20 @@ Z_DECK = 28.0                 # top of the ring deck
 DECK_T = 2.4
 BACK_RELIEF_R = 10.0          # stage is cleared within this radius of the hinge axis
 BACK_RELIEF_Y = 30.0          # ... over this half width
+BAND_POCKET_CL = CL_MOVE      # room of the lid's rear rim in the pocket of the band.  It is the one gap round the lid
+                              # that is smaller than two printed surfaces can take up: band and lid were printed with it.
+                              # 0.7 would be the value for a band that is printed anew
+LIP_SWING_CL = 0.6            # beside that, the stage keeps this far from everything the lip of the lid sweeps as it
+                              # swings forwards, also for a lid that the play of its hinge has moved to one side
 LID_LIP_R = 47.4              # inner radius of the stiffening lip at the lid rim
 LID_LIP_H = 2.5
-R_COLLAR = LID_LIP_R - 0.35    # lid centring collar radius
-COLLAR_H = 1.6                # collar height above the seam
-COLLAR_AZ = 115.0             # the collar only exists within +-this azimuth of the front
+# The collar centres the lid on the stage and guides it while the hook of the latch rises out of its slot.
+COLLAR_GAP = 0.6              # the collar is this much smaller than the lip of the lid round it
+R_COLLAR = LID_LIP_R - COLLAR_GAP
+COLLAR_H = 3.0                # collar height above the seam: beside the ball the lip has left it when the lid is 4 degrees
+                              # open, and by then the tooth of the hook stands inside its slot
+COLLAR_AZ = 100.0             # the collar only exists within +-this azimuth of the front: further back the lip swings
+                              # inwards as it rises, and a wall there would not guide it but stand in its way
 
 # ==========================================================================
 # 3. Hinge (research/06 §2.1, §3)
@@ -138,9 +149,14 @@ SLEEVE_PLAY = 0.15            # the sleeve is this much shorter than the gap bet
 SLEEVE_BLIND = 1.8            # depth of each blind hole of the sleeve; the pin stands on its floor
 SLEEVE_LEAD = 0.45            # depth of the funnel at the mouth of each blind hole ...
 SLEEVE_LEAD_R = 0.55          # ... and how much wider than the hole it is at the mouth, on each side
-TOWER_T = 2.2                 # thickness of each hinge tower: a pin that stands on the floor of its hole ends a quarter of a
+TOWER_GAP = 0.5               # gap between each rib of the lid and the hinge tower beside it: more than two printed
+                              # faces can take up between them
+TOWER_T = 2.0                 # thickness of each hinge tower: a pin that stands on the floor of its hole ends a quarter of a
                               # millimetre outside it, so that pliers can press home a pin that is a little short as well
-TOWER_KNUCKLE_R = 2.7         # outer radius of the knuckle of a hinge tower: a closed ring round the pin
+TOWER_KNUCKLE_R = 2.4         # outer radius of the knuckle of a hinge tower: a closed ring round the pin.  It leaves the
+                              # wall of the lid 0.8 mm, more than the play of the hinge can take up
+TOWER_BRACE_X = 4.5           # a buttress outside each tower begins this far in front of the hinge axis ...
+TOWER_BRACE_W = 5.0           # ... and stands this far out at the deck
 HINGE_RECESS_Y = 16.5         # the inside of the lid wall is relieved up to this distance from the middle ...
 HINGE_RECESS_WALL = 1.3       # ... down to this wall thickness: room for the two waiting pins
 HINGE_RECESS_TOP = 2.5        # the relief ends this far above the hinge axis; below, it runs out through the rim
@@ -164,15 +180,16 @@ SPRING_DEFL_CLOSED = 115.0    # spring wind-up with the lid closed (<= 80 % Mn)
 # position of a mounted hinge pin, measured from the middle of the hinge
 HINGE_PIN_Y0 = SPRING_SLOT / 2 - SLEEVE_PLAY - SLEEVE_BLIND   # inner end, on the floor of its hole in the sleeve
 HINGE_PIN_Y1 = HINGE_PIN_Y0 + HINGE_PIN_L                     # outer end
-# The seat of the spring's forward leg is a piece of wire that is pushed through the feet of the two towers
-# after the leg has been lifted: once the pins hold the coil on the axis, the leg can no longer be brought
+# The seat of the spring's forward leg is a steel pin that is pushed through the feet of the two towers after
+# the leg has been lifted: once the hinge pins hold the coil on the axis, the leg can no longer be brought
 # onto a fixed seat from below.
-YOKE_WIRE_D = 1.0             # steel wire, for example from a paper clip (0.8 to 1.2 mm will do)
-YOKE_HOLE = 1.4               # its holes in the two feet; they lie level in the print
-YOKE_X = 11.8                 # the wire lies this far in front of the hinge axis
-YOKE_FOOT_X = (9.9, 13.5)     # each tower's foot, in front of the hinge axis; its front is flush with the tower
-YOKE_FOOT_Z = 4.4             # underside of the feet
-YOKE_END = 3.0                # each end of the wire is bent over by this much
+YOKE_PIN_D = 2.0              # a third dowel pin, Ø2 x 18
+YOKE_PIN_L = 18.0
+YOKE_HOLE = 2.05              # its holes in the two feet: a light press fit; they lie level in the print
+YOKE_X = 12.5                 # the pin lies this far in front of the hinge axis: as far as the 14 mm leg allows, because
+                              # the pin goes in from the side and the dome of the stage is wider further forward
+YOKE_FOOT_X = (10.4, 14.7)    # each tower's foot, in front of the hinge axis; its front is flush with the tower
+YOKE_FOOT_Z = 3.9             # underside of the feet
 
 # Hinge axis x: as far back as possible.  Two limits apply inside the locally
 # thinned lid wall: the knuckles at the pin ends and the spring coil at the
@@ -183,6 +200,18 @@ HINGE_X = -min(
     math.sqrt((_r_wall - KNUCKLE_R - 0.35) ** 2 - _w_half**2),
     _r_wall - SPRING_OD / 2 - 0.5,
 )
+
+# Play of the hinge.  A Ø2 pin has HINGE_BORE - 2 of room in each rib of the lid and HINGE_SLIDE - 2 in each
+# tower, and the ribs have TOWER_GAP of room beside each tower.  So the lid can stand askew by HINGE_SKEW_DEG,
+# about the vertical as well as about the fore-aft axis, and slide along the pins.  Together that moves its rim
+# sideways by LID_SIDE_PLAY.  Everything the lid passes is laid out for a lid that uses all of it.
+HINGE_SKEW_DEG = math.degrees(
+    (HINGE_BORE - HINGE_PIN_D) / (SPRING_SLOT + 2 * LID_RIB_T)
+    + (HINGE_SLIDE - HINGE_PIN_D) / (SPRING_SLOT + 2 * (LID_RIB_T + TOWER_GAP + TOWER_T))
+)
+LID_SIDE_PLAY = TOWER_GAP + abs(HINGE_X) * math.radians(HINGE_SKEW_DEG)
+LID_FREE_DEG = 8.0            # up to this opening angle collar, bezel and slot guide the lid; from there to the stop it
+                              # touches nothing, however it stands in its hinge (checked)
 
 # ==========================================================================
 # 4. Latch (servo-released pawl) and SG90 servo (research/05 §1, §8.1)
@@ -205,26 +234,57 @@ SG90_ARM_W = 5.0                      # arm width near r = 9 mm                 
 SERVO_X, SERVO_Y = 11.0, 0.0          # output-shaft axis position
 SERVO_BASE_Z = -9.5                   # bottom of the servo body
 HORN_REST_DEG = -35.0                 # horn arm direction, lid latched (from +X, CCW)
-HORN_RELEASE_DEG = -5.0               # horn arm direction that frees the lid
+HORN_RELEASE_DEG = 6.0                # horn arm direction that turns the pawl by PAWL_RELEASE_DEG (checked)
 
 PAWL_PIVOT = (27.0, 0.0)              # vertical pivot of the pawl
-PAWL_Z1 = Z_DECK - DECK_T - 0.8       # pawl plate top (just under the deck)
-PAWL_Z0 = PAWL_Z1 - 2.8               # pawl plate bottom = latch face
+PAWL_T = 3.6                          # thickness of the pawl at its hub
+PAWL_PLAY = 0.3                       # play of the pawl along its pivot, between the deck above it and its washer below
+PAWL_Z1 = Z_DECK - DECK_T             # pawl top.  The pawl is drawn pushed up against the deck: that is where the
+                                      # latched lid holds it.  Left to itself it lies PAWL_PLAY lower, on its washer
+PAWL_Z0 = PAWL_Z1 - PAWL_T            # pawl underside at the hub
 PAWL_NOSE_X = 9.2                     # nose reach in front of the pivot
 PAWL_TAIL_X = 7.0                     # tail post distance behind the pivot
 PAWL_POST_R = 1.5
 PAWL_POST_Z0 = SERVO_BASE_Z + SG90_ARM_Z0 - 0.5   # post spans the horn arm band
-PAWL_RELEASE_DEG = 24.0               # pawl rotation that frees the lid hook
+PAWL_RELEASE_DEG = 44.0               # pawl rotation at release.  A centred hook is free from about 14 deg on; the rest is
+                                      # there for a hook that stands beside its place and a servo that stops short
+PAWL_FREE_DEG = 54.0                  # the pawl has to be able to turn this far before it meets anything
 PAWL_BOSS_D = 5.0                     # printed pivot boss under the deck
-PAWL_BORE = 5.3
+PAWL_BORE = 5.5                       # 0.25 mm of room round the boss: a hole comes out of the printer smaller than drawn
 PAWL_CAP_D, PAWL_CAP_T = 7.0, 0.6     # printed pivot washer: its flange keeps the pawl on the boss ...
 PAWL_CAP_HUB_D, PAWL_CAP_HUB_T = 4.4, 0.9   # ... and its hub takes up the rest of the screw's length
 TOOTH_H = 3.0                         # lid hook tooth height at the stem
-TOOTH_REACH = 2.8                     # tooth overlap under the pawl nose (in -Y)
+TOOTH_REACH = 2.8                     # how far the tooth of the lid hook stands out of the stem (in -Y)
 HOOK_X0, HOOK_X1 = 33.9, 36.9         # lid hook stem, x range
 HOOK_W = 3.0                          # stem thickness in y
 HOOK_Y = 1.7                          # stem centre y (tooth points to -y)
-LATCH_GAP = 0.15                      # vertical play between tooth and pawl
+TOOTH_TOP_Z = 21.85                   # top of the tooth with the lid seated on the band.  Hook and tooth belong to the lid,
+                                      # which is printed: these five values stay as they are
+LATCH_GAP = 0.75                      # the underside of the pawl's nose lies this far above the tooth, pawl pushed up.  Lid,
+                                      # band, stage and pawl are four prints stacked on each other; with less, a tooth that
+                                      # comes out a little high would not let the pawl swing back over it
+PAWL_NOSE_Z0 = TOOTH_TOP_Z + LATCH_GAP    # underside of the nose
+PAWL_NOSE_GAP = 1.3                   # gap between the nose and the stem of the hook, lid centred.  The nose covers the outer
+                                      # 1.5 mm of the tooth.  The less it covers, the sooner the released pawl is out of the way;
+                                      # and a stem that comes down as far beside its place as the hinge lets it still lands on
+                                      # the slope of the nose, not on the flat behind it
+PAWL_NOSE_CHAMFER = 1.8               # slope on top of the nose that lets a hook pass which comes down beside its place
+PAWL_NOSE_LEAD = 0.5                  # slope under the edge of the nose: a pawl that lies on its washer rides up on a tooth
+                                      # that stands a little high, instead of stopping beside it
+PAWL_SPRING_SEAT_Y = 12.3             # face of the seat of the return spring under the deck
+PAWL_SPRING_L = 12.0                  # free length of the return spring
+PAWL_SPRING_SOLID = 4.0               # a piece of ball-pen spring of that length is solid at about this length
+HOOK_SLOT_STEM = 0.5                  # room of the hook in its slot through the stage beside the stem (+y) ...
+HOOK_SLOT_TOOTH = 1.2                 # ... and beside the tip of the tooth (-y)
+HOOK_SLOT_LEAD = 2.3                  # funnel at the top of the slot beside the tooth, at 45 degrees ...
+HOOK_SLOT_LEAD_STEM = 3.0             # ... and beside the stem, where the deck is thicker by a rib under it:
+HOOK_GUIDE_T = 1.2                    # that rib.  Below the funnel it leaves an upright wall that guides the stem
+HOOK_GUIDE_X = 32.6                   # the rib begins here, in front of everything the pawl sweeps
+HOOK_SLOT_UNDER = (2.0, 1.5)          # the edge of the slot under the deck, beside the tooth, is sloped: width, height
+HOOK_SLOT_ROOM = 2.2                  # ... and below it the inside of the dome is hollowed this far beside the slot, for the
+                                      # front end of a tooth that rises beside its place: the dome closes in above it there
+HOOK_SIDE_PLAY = TOWER_GAP + ((HOOK_X0 + HOOK_X1) / 2 - HINGE_X) * math.radians(HINGE_SKEW_DEG)   # how far the play of the
+                                      # hinge can move the hook sideways when nothing else guides the lid
 
 # ==========================================================================
 # 5. Ring (research/06 §1) and its lock
@@ -240,6 +300,8 @@ CRADLE_X0, CRADLE_X1 = RING_X - 6.0, RING_X + 6.0
 CRADLE_Y = 13.0               # cradle half length (y)
 CRADLE_DEPTH = 12.0           # cradle body below the deck top
 LOCK_PIN_D = 3.0              # steel dowel pin through the ring
+LOCK_BORE = 3.4               # its bore through stage and cradle.  The bore lies level in the print
+LOCK_STEM_CL = 0.3            # room of the slider's stem in its slot, on each side
 LOCK_PIN_DEPTH = 5.0          # pin axis below the deck top
 # The ring is sunk so far that the lock pin passes 0.3 mm above the inside of
 # the band: locked, the ring cannot be lifted more than that.
@@ -267,6 +329,9 @@ CHAMBER_X1 = SPK_X_FRONT + 2.0   # front chamber: SPK_X_FRONT .. CHAMBER_X1
 BEZEL_X_FACE = math.sqrt(R**2 - BEZEL_R**2) + BEZEL_PROUD   # flat face of the black ring
 BEZEL_X_BACK = CHAMBER_X1 + 0.4                     # rear end of the bezel tube
 BEZEL_WALL = 1.6              # bezel tube wall
+BEZEL_LID_GAP = 0.6           # above the rim of the bowl, where band, stage and lid close round it from above, the bezel
+                              # is so much smaller that the notch of the lid keeps this far from it.  With the SEAM_GAP of
+                              # the lid's notch alone, two printed surfaces that come out fat would wedge the lid on it
 BEZEL_FACE_T = 2.2            # thickness of the slotted face plate
 SLIT_W = 2.0                  # sound slit width in the black ring
 SEAT_R0 = LENS_R + 0.75       # lens seat tube: inner radius (lens flange pocket)
@@ -281,6 +346,8 @@ LENS_SEAT_X = BEZEL_X_FACE - 1.9   # flat seat for the lens flange
 LED_X = SPK_X_FRONT + 5.8     # x of the LED emitting face
 EMERGENCY_YZ = (-6.2, 12.55)  # where the paper clip enters the upper slit (on SLIT_R)
 EMERGENCY_SLOPE_DEG = 22.0    # the clip is pushed in rising by this angle
+EMERGENCY_REACH = 16.0        # the clip meets the pawl after this much of it has gone in (checked) ...
+EMERGENCY_PUSH = 5.0          # ... and has opened the latch when it is pushed this much further (checked)
 
 # ==========================================================================
 # 7. Electronics (research/02, 04, 05)

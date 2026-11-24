@@ -10,6 +10,7 @@ import json
 import math
 import time
 from dataclasses import dataclass, field
+from functools import lru_cache
 from pathlib import Path
 
 import cadquery as cq
@@ -34,6 +35,7 @@ INTENDED_OVERLAP: dict[frozenset[str], tuple[float, str]] = {
     frozenset(("clamp_screws", "chassis")): (12.0, "M2 thread formed in a Ø1.70 pilot"),
     frozenset(("pawl_screw", "stage")): (3.0, "M2 thread formed in a Ø1.95 pilot"),
     frozenset(("hinge_pin", "sleeve")): (1.0, f"Ø2 pins pressed into the Ø{P.HINGE_PRESS} blind holes of the sleeve"),
+    frozenset(("yoke_pin", "stage")): (0.5, f"Ø2 pin pressed into the Ø{P.YOKE_HOLE} holes of the two tower feet"),
     frozenset(("lock_pin", "slider")): (4.0, "Ø3 pin pressed into Ø2.9 bore"),
 }
 TOL_VOLUME = 0.05      # mm^3: anything below is numerical noise / touching faces
@@ -173,9 +175,8 @@ def check_clearances() -> list[Result]:
     for name, key in (("spring coil - lid", "lid"), ("spring coil - stage", "stage"), ("spring coil - sleeve", "sleeve")):
         d = g.min_distance(coil, it[key].shape())
         out.append(Result(f"clearance:{name}", d >= 0.2, f"{d:.2f} mm (need >= 0.2)", {"distance": d}))
-    d = g.min_distance(legs, it["yoke_wire"].shape())
-    v = g.common_volume(it["yoke_wire"].shape(), it["stage"].shape())
-    out.append(Result("clearance:spring body leg on the yoke wire", d <= 0.3 and v <= TOL_VOLUME, f"{d:.2f} mm gap between leg and wire (seat, need <= 0.3); the wire lies in the holes of the two tower feet without overlap ({v:.3f} mm3)", {"distance": d}))
+    d = g.min_distance(legs, it["yoke_pin"].shape())
+    out.append(Result("clearance:spring body leg on the yoke pin", d <= 0.3, f"{d:.2f} mm gap between the leg and the pin under it (seat, need <= 0.3)", {"distance": d}))
     # the lid leg must lie along the lid's back wall: measure at its far end
     import math as _m
     a = _m.radians(180.0 - P.SPRING_DEFL_CLOSED)
@@ -230,6 +231,39 @@ def check_lid_motion(step: float = 2.5) -> list[Result]:
     return res
 
 
+def _bisect(lo: float, hi: float, touches, steps: int = 16) -> float:
+    """Smallest value between lo (does not touch) and hi (touches) for which ``touches`` holds."""
+    for _ in range(steps):
+        mid = (lo + hi) / 2
+        if touches(mid):
+            hi = mid
+        else:
+            lo = mid
+    return hi
+
+
+def horn_angle_for(pawl_deg: float) -> float:
+    """Horn angle at which the arm of the servo has just turned the pawl to ``pawl_deg``."""
+    pawl = K.pawl_at(pawl_deg)
+    return _bisect(-60.0, 30.0, lambda h: g.common_volume(A.by_key(A.build(horn_deg=h))["horn"].shape(), pawl) > 1e-4)
+
+
+def pawl_angle_for(horn_deg: float) -> float:
+    """How far the horn at ``horn_deg`` has turned the pawl."""
+    horn = A.by_key(A.build(horn_deg=horn_deg))["horn"].shape()
+    if g.common_volume(horn, K.pawl_at(0.0)) <= 1e-4:
+        return 0.0
+    return _bisect(P.PAWL_FREE_DEG + 20.0, 0.0, lambda a: g.common_volume(horn, K.pawl_at(a)) > 1e-4)
+
+
+def clip_depth_for(pawl_deg: float) -> float | None:
+    """How far the emergency paper clip has to go in to turn the pawl to ``pawl_deg``."""
+    pawl = K.pawl_at(pawl_deg)
+    if g.common_volume(S.emergency_channel(1.2, 45.0), pawl) <= 1e-4:
+        return None
+    return _bisect(5.0, 45.0, lambda d: g.common_volume(S.emergency_channel(1.2, d), pawl) > 1e-4)
+
+
 def check_latch() -> list[Result]:
     out = []
     # 1. engaged pawl must block the lid: lifting the lid by 1.5 deg must collide
@@ -246,37 +280,65 @@ def check_latch() -> list[Result]:
         worst = max(worst, v)
         free = free and v <= TOL_VOLUME
     out.append(Result("latch:released pawl frees the lid", free, f"max overlap lid/pawl with pawl at {P.PAWL_RELEASE_DEG:.0f} deg: {worst:.3f} mm3", {"overlap": worst}))
-    # 3. pawl travel is collision free against everything that does not move with it
+    # 3. pawl travel is collision free against everything that does not move with it, as far as the pawl may
+    #    ever be turned, pushed up against the deck and lying on its washer
     bad = []
-    for deg in np.linspace(0.0, P.PAWL_RELEASE_DEG + 4.0, 8):
-        horn = P.HORN_REST_DEG if deg == 0 else P.HORN_RELEASE_DEG + 4.0
-        items = A.build(pawl_deg=float(deg), horn_deg=horn, lid_deg=(0.0 if deg == 0 else 12.0))
-        hits = interference(items, only_groups=({"pawl"}, {"fixed", "slider", "lid"}))
-        _, col = classify(hits)
-        bad += [(float(deg), a, b, v) for a, b, v in col]
-    out.append(Result("latch:pawl travel", not bad, f"0..{P.PAWL_RELEASE_DEG + 4:.0f} deg, {len(bad)} collisions", {"collisions": bad}))
+    for down in (False, True):
+        for deg in np.linspace(0.0, P.PAWL_FREE_DEG, 7):
+            horn = P.HORN_REST_DEG if deg == 0 else P.HORN_RELEASE_DEG + 4.0
+            items = A.build(pawl_deg=float(deg), horn_deg=horn, lid_deg=(0.0 if deg == 0 else 12.0), pawl_down=down)
+            hits = interference(items, only_groups=({"pawl"}, {"fixed", "slider", "lid"}))
+            _, col = classify(hits)
+            bad += [(float(deg), "down" if down else "up", a, b, v) for a, b, v in col]
+    out.append(Result("latch:pawl travel", not bad, f"0..{P.PAWL_FREE_DEG:.0f} deg, pushed up against the deck and lying {P.PAWL_PLAY} mm lower on its washer: {len(bad)} collisions", {"collisions": bad}))
     # 4. servo horn sweep: rest -> release (+ over-travel), must only ever touch the pawl post
     bad = []
     for hdeg in np.linspace(P.HORN_REST_DEG - 15.0, P.HORN_RELEASE_DEG + 10.0, 9):
-        items = A.build(horn_deg=float(hdeg), pawl_deg=P.PAWL_RELEASE_DEG + 4.0, lid_deg=12.0)
+        items = A.build(horn_deg=float(hdeg), pawl_deg=P.PAWL_FREE_DEG, lid_deg=12.0)
         hits = interference(items, only_groups=({"horn"}, {"fixed", "slider", "lid"}))
         _, col = classify(hits)
         bad += [(float(hdeg), a, b, v) for a, b, v in col]
     out.append(Result("latch:servo horn sweep", not bad, f"{P.HORN_REST_DEG - 15:.0f}..{P.HORN_RELEASE_DEG + 10:.0f} deg, {len(bad)} collisions", {"collisions": bad}))
-    # 5. horn reaches the post: at the release angle the horn must have pushed the pawl
-    it = A.by_key(A.build(horn_deg=P.HORN_RELEASE_DEG, pawl_deg=P.PAWL_RELEASE_DEG))
-    d = g.min_distance(it["horn"].shape(), it["pawl"].shape())
-    out.append(Result("latch:horn drives pawl at release angle", d < 0.8, f"gap horn/post with both at release pose: {d:.2f} mm (contact expected, < 0.8)", {"gap": d}))
-    # 6. emergency paper clip: straight path from the slit to the pawl lug
-    path = S.emergency_channel(1.2, 21.0)
+    # 5. what the horn does to the pawl: at rest it stands clear, at the release angle it has turned the pawl
+    #    as far as the model says, and a servo that is some degrees off still does enough and not too much
+    touch = horn_angle_for(0.0)
+    at_release = pawl_angle_for(P.HORN_RELEASE_DEG)
+    short, over = pawl_angle_for(P.HORN_RELEASE_DEG - 4.0), pawl_angle_for(P.HORN_RELEASE_DEG + 4.0)
+    out.append(Result("latch:horn drives pawl at release angle", abs(at_release - P.PAWL_RELEASE_DEG) <= 1.0 and touch - P.HORN_REST_DEG >= 6.0 and over <= P.PAWL_FREE_DEG - 2.0, f"the arm of the servo stands at {P.HORN_REST_DEG:.0f}° at rest and meets the post of the pawl at {touch:.1f}°; at {P.HORN_RELEASE_DEG:.0f}° it has turned the pawl by {at_release:.1f}° (model: {P.PAWL_RELEASE_DEG:.0f}°). A servo that stops 4° short still turns it by {short:.1f}°, one that goes 4° too far by {over:.1f}°; the pawl is free up to {P.PAWL_FREE_DEG:.0f}°", {"touch": touch, "release": at_release, "short": short, "over": over}))
+    # the arm passes the head of the pivot screw: how close, also when it was cut 0.5 mm too long
+    def pivot_gap() -> float:
+        d = 99.0
+        for hdeg in np.linspace(P.HORN_REST_DEG, P.HORN_RELEASE_DEG + 6.0, 9):
+            it = A.by_key(A.build(horn_deg=float(hdeg), pawl_deg=P.PAWL_FREE_DEG))
+            d = min(d, g.min_distance(it["horn"].shape(), it["pawl_screw"].shape()), g.min_distance(it["horn"].shape(), it["pawl_cap"].shape()))
+        return d
+
+    gap_nom = pivot_gap()
+    arm = P.SG90_ARM_LEN
+    P.SG90_ARM_LEN = arm + 0.5
+    try:
+        gap_long = pivot_gap()
+    finally:
+        P.SG90_ARM_LEN = arm
+    out.append(Result("latch:servo arm passes the pivot", gap_nom >= 0.7 and gap_long >= 0.25, f"an arm trimmed to {arm:.0f} mm passes the washer and the screw of the pawl pivot at {gap_nom:.2f} mm; one that was left 0.5 mm longer at {gap_long:.2f} mm", {"gap": gap_nom, "gap_long": gap_long}))
+    # 6. emergency paper clip: straight path from the slit to the pawl lug, and far enough to open the latch
+    first, done = clip_depth_for(0.0), clip_depth_for(P.PAWL_RELEASE_DEG)
     it = A.by_key(A.build())
     blockers = []
-    for key in ("bezel", "lens", "cone", "chassis", "stage", "lid", "band", "speaker", "led", "bowl", "spk_clamp"):
+    reach = P.EMERGENCY_REACH + P.EMERGENCY_PUSH
+    path = S.emergency_channel(1.2, reach + 0.5)
+    for key in ("bezel", "lens", "cone", "chassis", "stage", "lid", "band", "speaker", "led", "bowl", "spk_clamp", "pawl_cap", "pawl_screw", "servo"):
         v = g.common_volume(path, it[key].shape())
         if v > TOL_VOLUME:
             blockers.append((key, v))
-    reach = g.min_distance(S.emergency_channel(1.2, 24.0), it["pawl"].shape())
-    out.append(Result("latch:emergency clip path is free", not blockers and reach < 0.01, f"blocked by {blockers or 'nothing'}; path reaches the pawl lug: {reach < 0.01}", {"blockers": blockers}))
+    ok = first is not None and done is not None and abs(first - P.EMERGENCY_REACH) <= 0.7 and done <= reach - 0.2
+    turned = _bisect(P.PAWL_FREE_DEG + 20.0, 0.0, lambda a: g.common_volume(S.emergency_channel(1.2, reach), K.pawl_at(a)) > 1e-4) if ok else 0.0
+    out.append(Result("latch:emergency clip path is free", not blockers and ok and turned <= P.PAWL_FREE_DEG, f"blocked by {blockers or 'nothing'}; a 1.2 mm clip meets the lug of the pawl after {first:.1f} mm and has turned the pawl to its release angle after {done:.1f} mm. Pushed in {reach:.0f} mm, as the manual says, it has turned the pawl by {turned:.0f}°", {"blockers": blockers, "first": first, "done": done}))
+    # 7. the return spring of the pawl: preloaded at rest, not solid at the largest angle, and held in its cup
+    rest = A.pawl_spring_span(0.0)
+    full = A.pawl_spring_span(P.PAWL_FREE_DEG)
+    l_rest, l_full = rest[1] - rest[0], full[1] - full[0]
+    out.append(Result("latch:return spring has room", P.PAWL_SPRING_L - l_rest >= 1.0 and l_full >= P.PAWL_SPRING_SOLID + 0.8, f"a spring of {P.PAWL_SPRING_L:.0f} mm is {l_rest:.1f} mm long with the pawl at rest ({P.PAWL_SPRING_L - l_rest:.1f} mm of preload) and {l_full:.1f} mm with the pawl turned as far as it goes; a piece of ball-pen spring of that length is solid at about {P.PAWL_SPRING_SOLID:.0f} mm. Its end sits 3 mm deep in a cup under the deck", {"rest": l_rest, "full": l_full}))
     return out
 
 
@@ -335,7 +397,7 @@ def check_assembly_paths() -> list[Result]:
                 bad.append((dz, key, v))
     out.append(Result("assembly:band lowers over the core", not bad, f"band lifted 1..25 mm, {len(bad)} collisions", {"collisions": bad}))
     bad = []
-    top_keys = ["stage", "pawl", "pawl_screw", "cradle", "lock_pin", "slider", "lid", "hinge_pin", "sleeve", "yoke_wire"]
+    top_keys = ["stage", "pawl", "pawl_screw", "cradle", "lock_pin", "slider", "lid", "hinge_pin", "sleeve", "yoke_pin"]
     for dz in (1.0, 3.0, 6.0, 12.0, 25.0, 40.0):
         for tk in top_keys:
             moved = g.move(it[tk].shape(), dz=dz)
@@ -368,7 +430,7 @@ DENSITY = {"printed": 1.27e-3}   # g / mm^3 (PETG)
 MASS_G = {
     "reader": 9.0, "mcu": 3.0, "amp": 1.5, "charger": 2.0, "boost": 1.5, "servo": 9.0, "horn": 0.5,
     "speaker": 10.0, "led": 0.4, "cell": 48.0, "contacts": 1.5, "hall": 0.2, "ring": 3.5,
-    "spring": 0.4, "hinge_pin": 0.4, "yoke_wire": 0.2, "lock_pin": 1.4, "stack_screws": 4.4, "inserts": 2.6,
+    "spring": 0.4, "hinge_pin": 0.4, "yoke_pin": 0.45, "lock_pin": 1.4, "stack_screws": 4.4, "inserts": 2.6,
     "harness": 6.0, "turf_screws": 1.6, "base_screws": 2.0,
 }
 BASE_KEYS = ("grass_base", "grass_top", "reader", "hall", "harness", "turf_screws", "base_screws")
@@ -686,7 +748,7 @@ def check_fasteners() -> list[Result]:
     out = []
     lug = P.SPK_RIM_T + 2.0                                   # the clamp screw passes through this much of the clamp ring
     cap = P.PAWL_CAP_T + P.PAWL_CAP_HUB_T                     # ... and the pivot screw through the printed washer
-    boss = (P.Z_DECK - P.DECK_T) - (P.PAWL_Z0 - 0.3)          # length of the pivot boss
+    boss = (P.Z_DECK - P.DECK_T) - (P.PAWL_Z0 - P.PAWL_PLAY)  # length of the pivot boss
     # joint -> (screw length, length that is not thread in the print, depth of the pilot hole or None for a through hole,
     #           part with the pilot hole, axis of that hole in the assembly, pilot diameter used there)
     joints = {
@@ -766,7 +828,7 @@ def _tool_directions(ya: float, yb: float, width: float, lid_shape: cq.Shape, st
 
 
 def check_pins() -> list[Result]:
-    """The two hinge pins, the wire under the spring leg and the pin of the ring lock: do they hold, and can they be put in?"""
+    """The two hinge pins, the pin under the spring leg and the pin of the ring lock: do they hold, and can they be put in?"""
     out = []
     hx, hz = P.HINGE_X, P.HINGE_Z
     y_in, y_out = K.hinge_pin_span()
@@ -800,7 +862,7 @@ def check_pins() -> list[Result]:
     press = in_sleeve - P.SLEEVE_LEAD
     stands_out = y_out - K.TOWER_Y1
     on_floor = abs(y_in - (half - P.SLEEVE_BLIND)) < 1e-6
-    out.append(Result("pins:two hinge pins carry lid and spring", in_tower >= 2.0 and in_rib >= P.LID_RIB_T - 1e-9 and press >= 1.2 and on_floor and 0.1 <= stands_out <= 0.4, f"each Ø{P.HINGE_PIN_D:.0f} x {P.HINGE_PIN_L:.0f} pin slides in {in_tower:.1f} mm of its hinge tower (bore Ø{P.HINGE_SLIDE}), carries one rib of the lid over its full {in_rib:.1f} mm (bore Ø{P.HINGE_BORE}) and stands on the floor of a blind hole {in_sleeve:.2f} mm deep in the spring sleeve, of which {press:.2f} mm are a press fit (Ø{P.HINGE_PRESS}) and the rest a funnel; its outer end then stands {stands_out:.2f} mm out of the tower, so that pliers can press home a pin that is a little shorter as well", {"tower": in_tower, "rib": in_rib, "sleeve": in_sleeve, "press": press}))
+    out.append(Result("pins:two hinge pins carry lid and spring", in_tower >= 2.0 - 1e-9 and in_rib >= P.LID_RIB_T - 1e-9 and press >= 1.2 and on_floor and 0.1 <= stands_out <= 0.4, f"each Ø{P.HINGE_PIN_D:.0f} x {P.HINGE_PIN_L:.0f} pin slides in {in_tower:.1f} mm of its hinge tower (bore Ø{P.HINGE_SLIDE}), carries one rib of the lid over its full {in_rib:.1f} mm (bore Ø{P.HINGE_BORE}) and stands on the floor of a blind hole {in_sleeve:.2f} mm deep in the spring sleeve, of which {press:.2f} mm are a press fit (Ø{P.HINGE_PRESS}) and the rest a funnel; its outer end then stands {stands_out:.2f} mm out of the tower, so that pliers can press home a pin that is a little shorter as well", {"tower": in_tower, "rib": in_rib, "sleeve": in_sleeve, "press": press}))
 
     # what keeps the pins: the sleeve cannot leave the gap between the ribs
     sleeve = K.sleeve()
@@ -849,7 +911,7 @@ def check_pins() -> list[Result]:
     out.append(Result("pins:tools reach the hinge pins", bool(blade) and all(len(v) >= 2 for v in jaws.values()), f"without force: a screwdriver blade of {blade_w} x {blade_t} mm reaches the end of each waiting pin with the lid {asm:.0f}° open and follows it until the pin has passed its rib, {w_out - through:.1f} mm further in, coming from {', '.join(str(a) for a in blade)}° (directions round the hinge, 90° is straight from above, tried in steps of 15°). With force: from there the pins slide {through - press0:.1f} mm more and are then pressed {press0 - y_out:.2f} mm into the sleeve; plier jaws of {jaw_w} x {jaw_t} mm reach both pin ends over that last part, " + "; ".join(f"lid {deg:.0f}° open from {', '.join(str(a) for a in fr)}°" for deg, fr in jaws.items()) + f". The jaws start {2 * press0:.1f} mm apart. They stop when both pins stand on the floors of their holes", {"blade": blade, "jaws": {str(k): v for k, v in jaws.items()}, "opening": 2 * press0}))
 
     # The forward leg of the spring and its seat.  With the pins in, the leg lies on the rim of the lid, below
-    # its seat.  It is lifted and the wire is pushed through the two tower feet under it.
+    # its seat.  It is lifted and a pin is pushed through the two tower feet under it.
     opened = A.by_key(A.build(lid_deg=P.LID_OPEN_DEG, pawl_deg=P.PAWL_RELEASE_DEG, horn_deg=P.HORN_RELEASE_DEG, spring_seated=False))
     lid_o = opened["lid"].shape()
     rest = A.spring_rest_deg(P.LID_OPEN_DEG)
@@ -860,7 +922,7 @@ def check_pins() -> list[Result]:
         a = math.radians(a_deg)
         return cq.Solid.makeCylinder(rw, P.SPRING_LEG, cq.Vector(hx + rm * math.sin(a), y_leg, hz - rm * math.cos(a)), cq.Vector(math.cos(a), 0, math.sin(a)))
 
-    lift = 6.0                                                # the leg is lifted this far above its seat
+    lift = 8.0                                                # the leg is lifted this far above its seat
     blocked = []
     a = rest
     while a <= lift + 1e-9:
@@ -869,15 +931,18 @@ def check_pins() -> list[Result]:
             blocked.append((round(a, 1), round(v, 3)))
         a += 1.0
     below = g.common_volume(leg(rest - 3.0), lid_o)             # the rim really carries the leg: a little lower it is inside the lid
-    y0, y1 = K.yoke_wire_span()
-    straight = y1 - y0
-    x_w = hx + P.YOKE_X
-    path = g.cyl_y(P.YOKE_WIRE_D / 2 + 0.1, y0, K.TOWER_Y1 + straight, x_w, K.YOKE_HOLE_Z)
-    in_way = [(k, round(g.common_volume(path, opened[k].shape()), 3)) for k in ("stage", "lid", "pawl", "pawl_cap", "pawl_screw", "cradle", "lock_pin", "slider", "hinge_pin", "sleeve")]
+    half_pin = P.YOKE_PIN_L / 2
+    x_p = hx + P.YOKE_X
+    # the pin goes in from the side: when its tip enters the near foot, all of it still stands beside that foot
+    path = g.cyl_y(P.YOKE_PIN_D / 2 + 0.3, -half_pin, K.TOWER_Y1 + P.YOKE_PIN_L, x_p, K.YOKE_PIN_Z)
+    stage_open = stage.cut(g.cyl_y(P.YOKE_PIN_D / 2 + 0.35, -K.TOWER_Y1 - 1.0, K.TOWER_Y1 + 1.0, x_p, K.YOKE_PIN_Z))    # the holes themselves are a press fit
+    in_way = [(k, round(g.common_volume(path, stage_open if k == "stage" else opened[k].shape()), 3)) for k in ("stage", "lid", "pawl", "pawl_cap", "pawl_screw", "cradle", "lock_pin", "slider", "hinge_pin", "sleeve")]
     in_way = [(k, v) for k, v in in_way if v > TOL_VOLUME]
-    lifted = g.min_distance(leg(lift), g.cyl_y(P.YOKE_WIRE_D / 2, -K.TOWER_Y0, K.TOWER_Y0, x_w, K.YOKE_SEAT_Z - P.YOKE_WIRE_D / 2))
+    lifted = g.min_distance(leg(lift), K.yoke_pin())
+    in_foot = min(half_pin, K.TOWER_Y1) - K.TOWER_Y0
     foot_wall = min(P.YOKE_X - P.YOKE_FOOT_X[0], P.YOKE_FOOT_X[1] - P.YOKE_X) - P.YOKE_HOLE / 2
-    out.append(Result("pins:spring leg is lifted onto a wire", not blocked and below > TOL_VOLUME and not in_way and lifted >= 0.3 and foot_wall >= 0.7, f"with the pins in and the lid at its stop the forward leg lies on the inner edge of the rim of the lid, {-rest:.1f}° below its seat. From there up to {lift:.0f}° above the seat its way is free ({len(blocked)} collisions with stage or lid). A leg lifted that far leaves {lifted:.2f} mm for the Ø{P.YOKE_WIRE_D:.0f} wire to pass under it. The wire goes in from the side through holes of Ø{P.YOKE_HOLE} in the two tower feet ({foot_wall:.1f} mm of foot before and behind them): its straight part of {straight:.1f} mm has a free way beside the foot (in the way: {in_way or 'nothing'})", {"rest": rest, "collisions": blocked, "blockers": in_way, "lifted": lifted}))
+    over = P.SPRING_LEG - P.YOKE_X
+    out.append(Result("pins:spring leg is lifted onto a pin", not blocked and below > TOL_VOLUME and not in_way and lifted >= 0.3 and foot_wall >= 0.9 and in_foot >= 1.5 and over >= 1.2, f"with the hinge pins in and the lid at its stop the forward leg lies on the inner edge of the rim of the lid, {-rest:.1f}° below its seat. From there up to {lift:.0f}° above the seat its way is free ({len(blocked)} collisions with stage or lid). A leg lifted that far leaves {lifted:.2f} mm for the pin to pass under it. The pin, Ø{P.YOKE_PIN_D:.0f} x {P.YOKE_PIN_L:.0f}, goes in from the side through holes of Ø{P.YOKE_HOLE} in the two tower feet and sits {in_foot:.1f} mm in each ({foot_wall:.1f} mm of foot before and behind the hole); with 0.3 mm of room round it, its whole length has a free way beside the foot (in the way: {in_way or 'nothing'}). The leg reaches {over:.1f} mm beyond the pin", {"rest": rest, "collisions": blocked, "blockers": in_way, "lifted": lifted}))
 
     # ring lock
     stem = P.LOCK_STEM_X[1] - max(P.LOCK_STEM_X[0], P.LOCK_TIP_X - P.LOCK_PIN_L)
@@ -888,6 +953,252 @@ def check_pins() -> list[Result]:
     path = g.cyl_x(P.LOCK_PIN_D / 2, -80.0, P.LOCK_TIP_X, 0, P.LOCK_Z)
     v_stage, v_cradle = g.common_volume(path, it["stage"].shape()), g.common_volume(path, it["cradle"].shape())
     out.append(Result("pins:lock pin goes in from behind", stem >= 5.0 - 1e-9 and 0.0 <= behind <= 3.0 and v_stage <= TOL_VOLUME and v_cradle <= TOL_VOLUME and 0.0 <= proud <= 2.0, f"lock pin Ø{P.LOCK_PIN_D:.0f} x {P.LOCK_PIN_L:.0f}: {stem:.1f} mm in the stem of the slider, {behind:.1f} mm standing out behind it; its straight path from behind the stage to the locked position is free (stage {v_stage:.2f}, cradle {v_cradle:.2f} mm3). With the slider drawn back it stands {proud:.1f} mm out of the back of its guide", {"stem": stem, "path": v_stage + v_cradle}))
+    return out
+
+
+# --------------------------------------------------------------------------
+# play and tolerances
+# --------------------------------------------------------------------------
+HOOK_R = (P.HOOK_X0 + P.HOOK_X1) / 2 - P.HINGE_X          # distance of the latch hook from the hinge axis
+HOOK_RISE = math.radians(1.0) * HOOK_R                    # how far it rises per degree of lid
+FREE_FROM_DEG = P.LID_FREE_DEG                            # from this opening angle on nothing may touch the lid, however it stands
+TOUCH = 0.03                                              # mm3: a lid that shares less than this with a part does not touch it
+
+
+def skewed(shape: cq.Shape, deg: float, yaw: float = 0.0, roll: float = 0.0, dy: float = 0.0) -> cq.Shape:
+    """A lid-fixed shape, opened by ``deg`` and then moved within the play of the hinge: turned about the
+    vertical (yaw) or about the fore-aft axis (roll) through the middle of the hinge, and slid along the pins."""
+    out = S.open_lid(shape, deg)
+    if roll:
+        out = g.rot(out, "x", roll, S.HINGE)
+    if yaw:
+        out = g.rot(out, "z", yaw, S.HINGE)
+    return g.move(out, dy=dy) if dy else out
+
+
+@lru_cache(maxsize=None)
+def grown_lid(grow: float = P.PRINT_TOL) -> cq.Shape:
+    """The lid with every surface ``grow`` further out than drawn, except under its rim: there it lies on the
+    band, and that contact is no finding."""
+    return g.inter(S.lid(grow), g.box(-80.0, 80.0, -80.0, 80.0, P.HB + 0.002, 120.0))
+
+
+class LatchBench:
+    """Close-up of the latch for the checks of play: the hook of the lid, grown by the print tolerance, the
+    deck round its slot and the pawl.  The hook is moved sideways as a whole; turning it by the two degrees
+    that the play of the hinge allows changes nothing that these checks could see."""
+
+    COARSE, FINE = 0.25, 0.05                             # degrees of lid per step: while the hook is free, and while it is not
+
+    def __init__(self, grow: float = P.PRINT_TOL):
+        self.hook0 = S._hook(grow)
+        self.deck = g.inter(K.stage(), g.box(30.5, 47.0, -13.0, 13.0, 17.0, 29.0))
+        self._pawls: dict[tuple[float, bool], cq.Shape] = {}
+
+    def pawl(self, deg: float, down: bool = False) -> cq.Shape:
+        key = (round(deg, 3), down)
+        if key not in self._pawls:
+            self._pawls[key] = K.pawl_at(deg, down=down)
+        return self._pawls[key]
+
+    def hook(self, deg: float, dy: float = 0.0, dz: float = 0.0) -> cq.Shape:
+        out = S.open_lid(self.hook0, deg) if deg else self.hook0
+        return g.move(out, dy=dy, dz=dz) if (dy or dz) else out
+
+    @staticmethod
+    def meets(a: cq.Shape, b: cq.Shape, tol: float = 0.004) -> bool:
+        return g.common_volume(a, b) > tol
+
+    def free(self, deg: float, dy: float, phi: float) -> bool:
+        h = self.hook(deg, dy)
+        return not self.meets(h, self.pawl(phi)) and not self.meets(h, self.deck)
+
+    def window(self, phi: float, down: bool = False) -> float:
+        """How far towards the pawl the hook may stand and still rise past the pawl turned by ``phi`` (at most 6)."""
+        p, worst = self.pawl(phi, down), 6.0
+        for deg in (0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 4.0, 5.0, 6.0):
+            if self.meets(self.hook(deg), p):
+                return -1.0
+            if self.meets(self.hook(deg, -6.0), p):
+                worst = min(worst, -_bisect(-6.0, 0.0, lambda d: not self.meets(self.hook(deg, d), p), 10))
+        return worst
+
+    def hold(self, down: bool = False) -> float:
+        """How far away from the pawl the hook may stand and still be held by the pawl at rest."""
+        p = self.pawl(0.0, down)
+        return _bisect(4.0, 0.0, lambda d: self.meets(self.hook(2.0, d), p, 0.05), 10)
+
+    # The two simulations move the lid in small steps.  Where the hook meets something, a slope may push it
+    # towards the middle, or push the pawl round, but in one step never further than twice the way the hook
+    # travelled in that step.  A ledge or a ceiling asks for more at once and counts as stuck.
+    def _aside(self, deg: float, dy: float, phi: float, turns: tuple[float, ...]) -> tuple[float, float] | None:
+        reach = 2.0 * self.FINE * HOOK_RISE
+        for k in range(0, 5):
+            if k and not dy:
+                break
+            cand = dy - math.copysign(k * reach / 4, dy) if k else dy
+            for more in turns:
+                if (k or more) and self.free(deg, cand, phi + more):
+                    return cand, phi + more
+        return None
+
+    def _relax(self, deg: float, dy: float, phi: float) -> float:
+        """The return spring: the pawl comes back as far as the hook lets it."""
+        while phi > 0 and self.free(deg, dy, max(phi - 0.5, 0.0)):
+            phi = max(phi - 0.5, 0.0)
+        return phi
+
+    def opens(self, dy0: float, phi: float) -> tuple[bool, float]:
+        """Lid opening, pawl turned by ``phi``: does a hook that starts ``dy0`` beside its place get out?
+        Returns that, and how far it was pushed sideways on the way."""
+        dy, deg, pushed = dy0, 0.0, 0.0
+        while deg < 12.0 - 1e-9:
+            nxt = min(deg + self.COARSE, 12.0)
+            if self.free(nxt, dy, phi):
+                deg = nxt
+                continue
+            while deg < nxt - 1e-9:
+                deg = min(deg + self.FINE, nxt)
+                if self.free(deg, dy, phi):
+                    continue
+                moved = self._aside(deg, dy, phi, (0.0,))
+                if moved is None:
+                    return False, pushed
+                pushed += abs(moved[0] - dy)
+                dy = moved[0]
+        return True, pushed
+
+    def closes(self, dy0: float) -> tuple[bool, float, float, float]:
+        """Lid closing, pawl at rest and free to be pushed: does a hook that comes down ``dy0`` beside its place
+        end up latched?  Returns that, where it ends, how far the pawl was turned on the way, and where the
+        pawl comes to rest."""
+        turn = math.degrees(2.0 * self.FINE * HOOK_RISE / 8.0)        # the nose lies about 8 mm from the pivot
+        turns = (0.0, turn / 4, turn / 2, 3 * turn / 4, turn)
+        dy, deg, phi, phi_max = dy0, 12.0, 0.0, 0.0
+        if not self.free(deg, dy, phi):
+            return False, dy, 0.0, 0.0
+        while deg > 1e-9:
+            nxt = max(deg - self.COARSE, 0.0)
+            if self.free(nxt, dy, self._relax(nxt, dy, phi)):
+                deg, phi = nxt, self._relax(nxt, dy, phi)
+                continue
+            while deg > nxt + 1e-9:
+                deg = max(deg - self.FINE, nxt)
+                phi = self._relax(deg, dy, phi)
+                if self.free(deg, dy, phi):
+                    continue
+                moved = self._aside(deg, dy, phi, turns)
+                if moved is None:
+                    return False, dy, phi_max, phi
+                dy, phi = moved
+                phi_max = max(phi_max, phi)
+        phi = self._relax(0.0, dy, phi)
+        return self.meets(self.hook(2.0, dy), self.pawl(phi), 0.05), dy, phi_max, phi
+
+
+def _touched(lid_shape: cq.Shape, partners: dict[str, cq.Shape]) -> str:
+    return "".join(k for k, shape in partners.items() if g.common_volume(lid_shape, shape) > TOUCH)
+
+
+def check_play() -> list[Result]:
+    """Does everything still work when the lid stands as askew as its hinge lets it, and when the printed
+    surfaces lie beside where the model has them?"""
+    out = []
+    tol2 = 2 * P.PRINT_TOL
+    skew = P.HINGE_SKEW_DEG
+    it = A.by_key(A.build(pawl_deg=P.PAWL_RELEASE_DEG, horn_deg=P.HORN_RELEASE_DEG))
+    stage, bezel, band = it["stage"].shape(), it["bezel"].shape(), it["band"].shape()
+    lid = S.lid()
+
+    # 1. what the hinge allows
+    out.append(Result("play:what the hinge lets the lid do", skew <= 2.0 and P.HOOK_SIDE_PLAY <= 3.2, f"a Ø{P.HINGE_PIN_D:.0f} pin has {P.HINGE_BORE - P.HINGE_PIN_D:.2f} mm of room in each rib of the lid and {P.HINGE_SLIDE - P.HINGE_PIN_D:.2f} mm in each tower, and the ribs have {P.TOWER_GAP} mm beside each tower. The lid can therefore stand askew by ±{skew:.2f}°, about the vertical or about the fore-aft axis, and slide ±{P.TOWER_GAP} mm along the pins: its rim beside the ball moves up to {P.LID_SIDE_PLAY:.2f} mm sideways, the hook of the latch up to {P.HOOK_SIDE_PLAY:.2f} mm. The checks below take a lid that uses all of this, and whose surfaces lie {P.PRINT_TOL} mm further out than drawn", {"skew": skew, "rim": P.LID_SIDE_PLAY, "hook": P.HOOK_SIDE_PLAY}))
+
+    # 2. the gaps round the closed lid, and what is left of them when both surfaces come out fat
+    d_stage, d_bezel = g.min_distance(lid, stage), g.min_distance(lid, bezel)
+    d_pawl = min(g.min_distance(lid, K.pawl_at(0.0)), g.min_distance(lid, K.pawl_at(0.0, down=True)))
+    d_pocket = min(g.min_distance(S.open_lid(lid, deg), band) for deg in (20.0, 25.0))
+    fat = grown_lid(tol2)
+    closed = A.by_key(A.build())
+    rest = {"stage": stage, "bezel": bezel, "pawl": K.pawl_at(0.0), "pawl on its washer": K.pawl_at(0.0, down=True)}
+    rest.update({k: closed[k].shape() for k in ("chassis", "speaker", "cradle", "slider", "ring", "lens")})
+    wedged = [(k, round(g.common_volume(fat, shape), 3)) for k, shape in rest.items()]
+    wedged = [w for w in wedged if w[1] > TOUCH]
+    pivot_r, pivot_z = (P.PAWL_BORE - P.PAWL_BOSS_D) / 2, P.PAWL_PLAY
+    out.append(Result("play:gaps round the closed lid", min(d_stage, d_bezel) >= tol2 + 0.1 - 1e-6 and d_pawl >= tol2 and not wedged and d_pocket >= 0.3 and pivot_r >= P.CL - 1e-9 and pivot_z >= P.CL, f"shut, the lid keeps {d_stage:.2f} mm from the stage (collar {P.COLLAR_GAP}, ribs beside the towers {P.TOWER_GAP}, stem of the hook in its slot {P.HOOK_SLOT_STEM}), {d_bezel:.2f} mm from the bezel, and its tooth {d_pawl:.2f} mm from the nose of a pawl that lies on its washer. A lid grown by {tol2} mm, as if both surfaces of every gap had come out {P.PRINT_TOL} mm fat, still lies down without being wedged: of stage, bezel, pawl, chassis, speaker, cradle, slider, ring and lens it meets {wedged or 'nothing'}. The rim at the back runs in the pocket of the band with {d_pocket:.2f} mm: band and lid are printed, so this gap stays as it is, and it is the one to look at when the lid is first hinged (manual, step 11). The pawl has {pivot_r:.2f} mm of room round its pivot and {pivot_z} mm along it", {"stage": d_stage, "bezel": d_bezel, "pawl": d_pawl, "pocket": d_pocket, "collisions": wedged}))
+
+    # 3. the first degrees: the lid is guided.  Whatever is free at one angle has to stay free at every larger one
+    grown = grown_lid()
+    partners = {"S": stage, "Z": bezel, "B": band, "P": it["pawl"].shape()}
+    angles = (0.5, 1.5, 3.0, 4.5, 6.0, 7.0, FREE_FROM_DEG)
+    offsets = (-P.HOOK_SIDE_PLAY, -2.0, -1.2, -0.6, -0.3, 0.0, 0.3, 0.6, 1.2, 2.0, P.HOOK_SIDE_PLAY)
+    table = {deg: [_touched(skewed(grown, deg, yaw=math.degrees(off / HOOK_R)), partners) for off in offsets] for deg in angles}
+    closing_in = []
+    for j, off in enumerate(offsets):
+        was_free = False
+        for deg in angles:
+            if not table[deg][j]:
+                was_free = True
+            elif was_free:
+                closing_in.append((deg, round(off, 2), table[deg][j]))
+    centre = offsets.index(0.0)
+    blocked = [(deg, table[deg][centre]) for deg in angles if table[deg][centre]]
+    last = [(round(off, 2), hit) for off, hit in zip(offsets, table[FREE_FROM_DEG]) if hit]
+    span = []
+    for deg in angles:
+        free = [off for off, hit in zip(offsets, table[deg]) if not hit]
+        span.append(f"{deg:g}°: {min(free):+.1f} to {max(free):+.1f}" if free else f"{deg:g}°: none")
+    out.append(Result("play:first degrees, nothing closes in on the lid", not closing_in and not blocked and not last, f"the lid, grown by {P.PRINT_TOL} mm, turned about the vertical so that its hook stands between {offsets[0]:+.2f} and {offsets[-1]:+.2f} mm beside its place: at each opening angle the hook positions at which the lid touches nothing (stage, bezel, band, released pawl) are " + "; ".join(span) + f" mm (tried: {', '.join(f'{o:+.1f}' for o in offsets)}). A position that is free at one angle is free at every larger one ({len(closing_in)} exceptions), the middle is free throughout ({len(blocked)} exceptions), and at {FREE_FROM_DEG:g}° every position is free: up to there collar, bezel and slot guide the lid, and none of them narrows as the lid rises", {"collisions": closing_in + blocked + last, "table": {str(k): v for k, v in table.items()}}))
+
+    # 4. from there to the stop: nothing touches the lid, however it stands
+    bad = []
+    slide = P.TOWER_GAP - P.PRINT_TOL - 0.05              # as far as the grown ribs can go before they lie against a tower
+    for deg in (FREE_FROM_DEG, 10.0, 15.0, 25.0, 40.0, 60.0, 80.0, 90.0):
+        for sgn in (1, -1):
+            for name, pose in ((f"yaw {sgn * skew:+.2f}", dict(yaw=sgn * skew)), (f"slid {sgn * slide:+.2f}", dict(dy=sgn * slide))):
+                hit = _touched(skewed(grown, deg, **pose), partners)
+                if hit:
+                    bad.append((deg, name, hit))
+    floor = []
+    for deg in (10.0, 20.0, 30.0, 60.0, 90.0):
+        for sgn in (1, -1):
+            hit = _touched(skewed(grown, deg, roll=sgn * skew), partners)
+            if hit.replace("B", "") or (hit and deg >= 30.0):
+                bad.append((deg, f"roll {sgn * skew:+.2f}", hit))
+            elif hit:
+                floor.append(deg)
+    out.append(Result("play:lid swings free however it stands", not bad, f"from {FREE_FROM_DEG:g}° to the stop, with the lid grown by {P.PRINT_TOL} mm, turned ±{skew:.2f}° about the vertical, or slid ±{slide:.2f} mm along its pins until its ribs lie against a tower: {len([b for b in bad if not b[1].startswith('roll')])} contacts with stage, bezel, band or pawl. Turned ±{skew:.2f}° about the fore-aft axis it touches nothing from 30° on; below that its lower side lies on the band ({', '.join(f'{d:g}°' for d in sorted(set(floor))) or 'not found'}), which is the seat it rests on anyway and lets it go as it rises", {"collisions": bad}))
+
+    # 5. the latch, seen close up with a hook that stands beside its place
+    bench = LatchBench()
+    guided = P.TOWER_GAP * (HOOK_R / abs(P.HINGE_X) - 1) + P.COLLAR_GAP * HOOK_R / abs(P.HINGE_X)   # what the collar lets the hook do
+    short = pawl_angle_for(P.HORN_RELEASE_DEG - 4.0)
+    w_full = min(bench.window(P.PAWL_RELEASE_DEG), bench.window(P.PAWL_RELEASE_DEG, down=True))
+    w_short = min(bench.window(short), bench.window(short, down=True))
+    out.append(Result("play:latch lets go of a hook beside its place", w_short >= guided + 0.5 and w_full >= P.HOOK_SIDE_PLAY, f"while the lid is shut the collar keeps its rim within {P.COLLAR_GAP} mm of the middle, so the hook can stand up to {guided:.2f} mm beside its place. The released pawl ({P.PAWL_RELEASE_DEG:.0f}°) lets a hook pass that stands up to {w_full:.2f} mm towards it; with a servo that stops 4° short (pawl at {short:.0f}°) it is still {w_short:.2f} mm. Hook grown by {P.PRINT_TOL} mm, pawl pushed up or lying on its washer, lid 0 to 6° open", {"guided": guided, "window": w_full, "window_short": w_short}))
+    h_up, h_down = bench.hold(), bench.hold(down=True)
+    out.append(Result("play:latch holds a hook beside its place", min(h_up, h_down) >= P.HOOK_SLOT_STEM + tol2 + 0.5, f"away from the pawl the hook can only go as far as the wall of its slot, {P.HOOK_SLOT_STEM} mm. The pawl at rest still holds a hook that stands {min(h_up, h_down):.2f} mm away from it", {"hold": min(h_up, h_down)}))
+    # the pawl has to come back over the tooth, also over one that stands high
+    high = P.PRINT_TOL + 0.3
+    over = [(dy, phi) for dy in (-0.6, 0.0, 0.3) for phi in (0.0, 4.0, 8.0, 12.0, 16.0) if bench.meets(bench.hook(0.0, dy, 0.3), bench.pawl(phi))]
+    low = P.PAWL_NOSE_Z0 - P.PAWL_PLAY - (P.TOOTH_TOP_Z + P.PRINT_TOL)
+    out.append(Result("play:pawl swings back over a tooth that stands high", not over and P.PAWL_NOSE_LEAD >= P.PAWL_PLAY + 0.1 and low >= 0.2, f"the underside of the nose lies {P.LATCH_GAP} mm above the tooth, {P.LATCH_GAP - P.PAWL_PLAY:.2f} mm when the pawl lies on its washer. A tooth that stands {high:.1f} mm high ({P.PRINT_TOL} mm of print and a lid that lies 0.3 mm above its seat) still passes under the nose of a pawl that is pushed up: {len(over)} contacts over the pawl's way back. A pawl that lies on its washer is lifted by it: the slope under the edge of its nose is {P.PAWL_NOSE_LEAD} mm high, more than the {P.PAWL_PLAY} mm the pawl can lie low", {"collisions": over}))
+    # opening and closing, step by step
+    starts_open = [d for d in (-P.HOOK_SIDE_PLAY, -2.2, -1.5, -0.8, 0.0, 0.2) if bench.free(0.0, d, P.PAWL_RELEASE_DEG)]
+    stuck, pushed = [], 0.0
+    for phi in (P.PAWL_RELEASE_DEG, short):
+        for d in starts_open:
+            ok, side = bench.opens(d, phi)
+            pushed = max(pushed, side)
+            if not ok:
+                stuck.append((round(d, 2), round(phi, 1)))
+    out.append(Result("play:hook leaves its slot from wherever it stands", not stuck and len(starts_open) >= 5, f"lid opening in steps of {bench.FINE}°, hook grown by {P.PRINT_TOL} mm and starting {', '.join(f'{d:+.1f}' for d in starts_open)} mm beside its place, pawl at {P.PAWL_RELEASE_DEG:.0f}° and at {short:.0f}°: {len(stuck)} starts get stuck. Where the hook meets the deck it is pushed towards the middle, by {pushed:.2f} mm at most, and in no step further than twice its rise in that step: only slopes do that, a ledge would not. Beside the tooth the edge of the slot is sloped under the deck, and the inside of the dome is hollowed for the front end of the tooth", {"collisions": stuck, "pushed": pushed}))
+    fails, rows = [], []
+    for d in (-P.HOOK_SIDE_PLAY, -1.5, 0.0, 1.5, P.HOOK_SIDE_PLAY):
+        ok, end, turned, at_rest = bench.closes(d)
+        rows.append(f"{d:+.1f} → {end:+.1f}")
+        if not ok:
+            fails.append((round(d, 2), round(end, 2), round(turned, 1)))
+    out.append(Result("play:hook finds its slot and latches", not fails, f"lid closing in steps of {bench.FINE}°, pawl at rest and free to be pushed aside, hook coming down beside its place: start → end in mm " + ", ".join(rows) + f"; {len(fails)} starts do not end latched. Funnel at the top of the slot, slope on the nose of the pawl and slope under the tooth do the work; again nothing is pushed further in a step than twice the way the hook came down. The funnels take a hook that stands up to {P.HOOK_SLOT_STEM + P.HOOK_SLOT_LEAD_STEM:.1f} mm (beside the stem) and {P.HOOK_SLOT_TOOTH + P.HOOK_SLOT_LEAD:.1f} mm (beside the tooth) off; the play of the hinge gives it {P.HOOK_SIDE_PLAY:.2f} mm", {"collisions": fails}))
     return out
 
 
@@ -920,6 +1231,7 @@ def run_all(verbose: bool = True) -> list[Result]:
         ("Assembly paths", check_assembly_paths),
         ("Small screws", check_fasteners),
         ("Pins", check_pins),
+        ("Play and tolerances", check_play),
         ("Grass tongue and figure", check_grass_base),
         ("Physics and function", check_physics),
         ("Printability", check_printability),
