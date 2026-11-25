@@ -306,16 +306,27 @@ def printed_parts() -> dict[str, tuple[cq.Shape, str, str]]:
     }
 
 
-TIGHT_PRESS = P.HINGE_PRESS + K.PIN_COUPON_PRESS[0]       # the press fit of the hinge pins, one step of the test piece tighter
-TIGHT_SLEEVE = "sleeve_" + f"{TIGHT_PRESS:.2f}".replace(".", "_")
+TIGHT_PRESS = tuple(round(P.HINGE_PRESS + n * K.PIN_COUPON_PRESS[0], 2) for n in (1, 2))   # the press fit of the hinge pins, one
+                                                          # and two steps of the test piece tighter
+
+
+def tight_sleeve_name(press: float) -> str:
+    return "sleeve_" + f"{press:.2f}".replace(".", "_")
+
+
+def _on_the_bed(shape: cq.Shape) -> cq.Shape:
+    """A shape set down on z = 0 with its middle over the origin, as the printed parts are exported."""
+    bb = shape.BoundingBox()
+    return g.move(shape, -(bb.xmin + bb.xmax) / 2, -(bb.ymin + bb.ymax) / 2, -bb.zmin)
 
 
 def extra_prints() -> dict[str, tuple[cq.Shape, str, str]]:
-    """Printable files that are not parts of the device."""
+    """Printable files that are not parts of the device.  They are exported as they are given here, so each
+    stands on z = 0 the way it is printed."""
     return {
         "m2_test_coupon": (K.m2_coupon(), "the PETG of the part to be tested", "as it comes, flat on the bed"),
         "insert_test_boss": (K.insert_test(), "the PETG of the bowl", "as it comes, plate on the bed"),
         "pin_test_coupon": (K.pin_coupon(), "the PETG of stage and sleeve", "as it comes, plate on the bed"),
-        "sleeve_4_5": (g.rot(K.sleeve(4.5), "x", 90.0, (P.HINGE_X, 0.0, P.HINGE_Z)), "PETG any colour", "standing on one end; for springs with an inner diameter of 5.3 to 5.6 mm"),
-        TIGHT_SLEEVE: (g.rot(K.sleeve(press=TIGHT_PRESS), "x", 90.0, (P.HINGE_X, 0.0, P.HINGE_Z)), "PETG any colour", f"standing on one end; the sleeve with blind holes of {TIGHT_PRESS:.2f} mm, one step tighter than the model's {P.HINGE_PRESS:.2f} mm, like the first post of the test piece for the pins"),
+        "sleeve_4_5": (_on_the_bed(g.rot(K.sleeve(4.5), "x", 90.0, (P.HINGE_X, 0.0, P.HINGE_Z))), "PETG any colour", "standing on one end; for springs with an inner diameter of 5.3 to 5.6 mm"),
+        **{tight_sleeve_name(press): (_on_the_bed(g.rot(K.sleeve(press=press), "x", 90.0, (P.HINGE_X, 0.0, P.HINGE_Z))), "PETG any colour", f"standing on one end; the sleeve with blind holes of {press:.2f} mm instead of the model's {P.HINGE_PRESS:.2f} mm") for press in TIGHT_PRESS},
     }
