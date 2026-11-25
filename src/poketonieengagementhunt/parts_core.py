@@ -860,6 +860,8 @@ def m2_coupon() -> cq.Shape:
 
 PIN_COUPON_PRESS = (-0.05, 0.0, 0.05, 0.10)       # the upright test holes, as differences from HINGE_PRESS
 PIN_COUPON_SLIDE = (-0.10, 0.0, 0.10)             # the level test holes, as differences from HINGE_SLIDE
+SLEEVE_ALSO_PRESS = (1.85, 1.90, 2.00, 2.05)      # the sleeve is also exported with blind holes of these diameters.  On the
+                                                  # owner's printer no pin entered 1.95, 1.90 or 1.85 mm (2026-11-25)
 
 
 @lru_cache(maxsize=None)

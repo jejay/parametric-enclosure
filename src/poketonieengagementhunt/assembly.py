@@ -306,11 +306,8 @@ def printed_parts() -> dict[str, tuple[cq.Shape, str, str]]:
     }
 
 
-TIGHT_PRESS = tuple(round(P.HINGE_PRESS + n * K.PIN_COUPON_PRESS[0], 2) for n in (1, 2))   # the press fit of the hinge pins, one
-                                                          # and two steps of the test piece tighter
-
-
-def tight_sleeve_name(press: float) -> str:
+def sleeve_variant_name(press: float) -> str:
+    """File name of the sleeve with other blind holes than the model's: sleeve_2_05 for 2.05 mm."""
     return "sleeve_" + f"{press:.2f}".replace(".", "_")
 
 
@@ -328,5 +325,5 @@ def extra_prints() -> dict[str, tuple[cq.Shape, str, str]]:
         "insert_test_boss": (K.insert_test(), "the PETG of the bowl", "as it comes, plate on the bed"),
         "pin_test_coupon": (K.pin_coupon(), "the PETG of stage and sleeve", "as it comes, plate on the bed"),
         "sleeve_4_5": (_on_the_bed(g.rot(K.sleeve(4.5), "x", 90.0, (P.HINGE_X, 0.0, P.HINGE_Z))), "PETG any colour", "standing on one end; for springs with an inner diameter of 5.3 to 5.6 mm"),
-        **{tight_sleeve_name(press): (_on_the_bed(g.rot(K.sleeve(press=press), "x", 90.0, (P.HINGE_X, 0.0, P.HINGE_Z))), "PETG any colour", f"standing on one end; the sleeve with blind holes of {press:.2f} mm instead of the model's {P.HINGE_PRESS:.2f} mm") for press in TIGHT_PRESS},
+        **{sleeve_variant_name(press): (_on_the_bed(g.rot(K.sleeve(press=press), "x", 90.0, (P.HINGE_X, 0.0, P.HINGE_Z))), "PETG any colour", f"standing on one end; the sleeve with blind holes of {press:.2f} mm instead of the model's {P.HINGE_PRESS:.2f} mm") for press in K.SLEEVE_ALSO_PRESS},
     }

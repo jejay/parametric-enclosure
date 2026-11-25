@@ -131,7 +131,7 @@ Change a value in `src/poketonieengagementhunt/params.py` (for example the ring 
 - It is not balanced: its centre of mass lies 4.1 mm beside the pivot. By a hand estimate a blow of about 220 g on the back right of the ball starts to turn it against a spring that holds with 1 N, where revision 10 took about 90 g and the balanced pawl about 1900 g. A hard drop is taken to give 500 to 2000 g. For the ring to be lost it has to be thrown 13 mm upwards out of its slot in the same instant, against what it is bedded in.
 - `RPAWL_PIN` in `params.py` puts the pin back.
 - On the list of parts the dowel pin of 4 x 8 mm is gone again. To print: the ring pawl; the stage is as in revision 12.
-- Besides: the spring sleeve is also exported with blind holes of 1.90 and 1.85 mm (`sleeve_1_90.stl`, `sleeve_1_85.stl`); a sleeve is to be printed with others, because a single one stays too hot.
+- Besides: the spring sleeve is also exported with blind holes of 1.85, 1.90, 2.00 and 2.05 mm (`sleeve_1_85.stl` to `sleeve_2_05.stl`). Printed, the holes of 1.95, 1.90 and 1.85 mm took no pin; the model keeps 1.95 mm until a size is known to fit. A sleeve is to be printed with others, because a single one stays too hot.
 
 ## State of the design
 
