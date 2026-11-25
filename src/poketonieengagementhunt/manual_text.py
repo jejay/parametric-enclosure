@@ -15,6 +15,8 @@ PIN_PRESS = P.SLEEVE_BLIND - P.SLEEVE_LEAD                      # length of the 
 HORN_REST_SIDE = "right" if P.HORN_REST_DEG < 0 else "left"      # of straight ahead, seen from above with the button in front
 HORN_RELEASE_SIDE = "right" if P.HORN_RELEASE_DEG < 0 else "left"
 HOOK_PLAY_MM = math.floor(P.HOOK_SIDE_PLAY)                     # what the play of the hinge lets the front of the lid move, in round numbers
+RING_UNDER_MM = P.RING_SLOT_DEPTH - P.DECK_T - P.RPAWL_PLAY - P.RPAWL_T   # room under the finger of the ring pawl, above the bottom of the slot
+KNOB_PULL_MM = 2 * P.RPAWL_KNOB_R * math.sin(math.radians(P.RPAWL_RELEASE_DEG) / 2)   # how far the knob of the ring pawl is pulled to free the ring
 
 BOARDS = ["contacts", "mcu", "amp", "charger", "boost"]
 SERVO = ["servo", "horn", "servo_screws"]
@@ -25,7 +27,7 @@ GRASS_IN = ["reader", "hall", "harness"]
 TURF = ["grass_top"]
 GRASS = ["grass_base"] + GRASS_IN + TURF + ["turf_screws"]
 FOOT = BOWL + GRASS + ["base_screws"]          # everything below the core
-STAGE = ["stage", "pawl", "pawl_cap", "pawl_screw", "pawl_spring", "ring_pawl", "ring_pawl_washers", "ring_pawl_screw", "ring_pawl_spring"]
+STAGE = ["stage", "pawl", "pawl_cap", "pawl_screw", "pawl_spring", "ring_pawl", "ring_pawl_pin", "ring_pawl_washers", "ring_pawl_screw", "ring_pawl_spring"]
 LID = ["lid", "hinge_pin", "sleeve", "spring", "yoke_pin"]
 
 ANTENNA_MM = P.Z_TURF - P.Z_PCB_BOT            # antenna copper below the standing surface, at most
@@ -167,14 +169,15 @@ STEPS = [
             f"Turn the stage upside down. Put the pawl on the pivot boss (post pointing away from the deck) and turn it: it must swing without any friction and have a little play, {(P.PAWL_BORE - P.PAWL_BOSS_D) / 2:.2f} mm all round. A hole often comes out of the printer smaller than drawn; if the pawl is tight on the boss, scrape its bore with a knife or a drill of {P.PAWL_BORE:.1f} mm held in the fingers. Then put on the printed pivot washer, flange towards the pawl, and the M2 x 6 screw. The screw forms its own thread in the boss: turn it in until the washer sits on the end of the boss, and no further. The pawl must still swing freely and be able to move {P.PAWL_PLAY} mm up and down between deck and washer; the washer only keeps it from slipping off.",
             f"Cut {P.PAWL_SPRING_L:.0f} mm off the ball-pen spring. Push one end into the cup that stands on the underside of the deck beside the pawl and set the other end over the nub on the pawl's tail. It pushes the tail against the stop pin.",
             f"Try the latch now, while you can see it. Push the nose of the pawl aside with a finger as far as it goes, about {P.PAWL_FREE_DEG:.0f}°, and let go, from several positions: each time it must snap back against its stop pin by itself. If it creeps or stops on the way, find out where it rubs before you go on; this is the part that has to let the lid go.",
-            f"The ring pawl goes onto the second boss, beside the slot of the ring, in the same way, with its knob towards the deck. Under the windows the walls of the slot are closed, so its finger cannot come down into its window: hold the pawl turned about {P.RPAWL_MOUNT_DEG:.0f}° away from the slot, so that the end of the finger stands behind the wall, lower it onto the boss with the knob entering the far end of the curved slit, and let it turn back. The finger slides through the window and across the slot. The pawl must swing without friction and have a little play, like the latch pawl.",
+            f"Now the ring pawl. First its counterweight: press the {P.RPAWL_PIN_D:.0f} x {P.RPAWL_PIN_L:.0f} mm dowel pin into the hole beside the hub of the pawl, from the side of the knob, until its top is flush with the top face of the pawl; the rest of the pin stands out of the underside. It must not stand above the top face, where the deck is. If it does not hold by itself, fix it with a drop of glue: a pin that came out would fall among the electronics.",
+            f"The ring pawl goes onto the second boss, at the end of the slot of the ring, in the same way as the latch pawl, with its knob towards the deck. Under the windows the walls of the slot are closed, so its finger cannot come down into its window: hold the pawl turned about {P.RPAWL_MOUNT_DEG:.0f}° away, so that the end of the finger stands behind the wall of the slot, lower it onto the boss with the knob entering the far end of the curved slit, and let it turn back. The finger slides through the window and across the slot. The pawl must swing without friction and have a little play, like the latch pawl.",
             f"Slip an M2 washer and then an M3 washer onto an M2 x 6 screw and turn it into the boss until the washers sit on its end, and no further. The wide washer is what keeps the pawl on its boss: a standard M2 washer is {P.M2_WASHER_D:.0f} mm across, the bore of the pawl {P.PAWL_BORE} mm. Pull at the pawl: it must not come off over the washers, and it must still swing freely and move {P.RPAWL_PLAY} mm up and down between deck and washer.",
-            f"Take a compression spring of 4 x {P.RPAWL_SPRING_L:.0f} mm as it comes. Push one end into the cup that stands on the underside of the deck beyond the tail of the ring pawl and set the other end over the nub on the tail. It pushes the tail against its post, and the finger then lies across the slot.",
-            f"Turn the stage over and try the lock. Pull the knob back, away from the slot, as far as it goes, and let go, from several positions: each time it must snap back by itself and the finger must cross the slot again. With the knob pulled back {math.radians(P.RPAWL_RELEASE_DEG) * P.RPAWL_KNOB_R:.0f} mm the slot is free. Windows and slit are {P.RPAWL_CL:.0f} mm wider than finger and knob on each side; if the finger catches on the edge of a window, look for a blob or a thread of plastic there.",
+            f"Take a compression spring of 4 x {P.RPAWL_SPRING_L:.0f} mm as it comes. Push one end into the cup that stands on the underside of the deck in front of the tail of the ring pawl and set the other end over the nub beside the knob. It turns the pawl until its arm lies against the pad on the wall of the slot, and the finger then lies across the slot.",
+            f"Turn the stage over and try the lock. Pull the knob towards the middle line of the deck as far as it goes, and let go, from several positions: each time it must snap back by itself and the finger must cross the slot again. With the knob pulled {KNOB_PULL_MM:.0f} mm the slot is free. That takes a firm pull: the spring is pressed a good deal further than the one of the latch pawl. Windows and slit are {P.RPAWL_CL:.0f} mm wider than finger and knob on each side; if the finger catches on the edge of a window, look for a blob or a thread of plastic there.",
         ],
         "views": [
             {"file": "step_09a.png", "show": ["stage"], "new": ["pawl", "pawl_cap", "pawl_screw", "pawl_spring"], "lift": {"pawl": (0, 0, -16), "pawl_cap": (0, 0, -24), "pawl_screw": (0, 0, -32), "pawl_spring": (0, 0, -16)}, "az": 25, "el": -42},
-            {"file": "step_09b.png", "pose": "ring_mount", "show": ["stage", "pawl", "pawl_cap", "pawl_screw", "pawl_spring"], "new": ["ring_pawl", "ring_pawl_washers", "ring_pawl_screw", "ring_pawl_spring"], "lift": {"ring_pawl": (0, 0, -14), "ring_pawl_washers": (0, 0, -22), "ring_pawl_screw": (0, 0, -30), "ring_pawl_spring": (0, 0, -14)}, "keep": (-36, 22, -34, 40, -40, 30), "az": 160, "el": -48},
+            {"file": "step_09b.png", "pose": "ring_mount", "show": ["stage", "pawl", "pawl_cap", "pawl_screw", "pawl_spring"], "new": ["ring_pawl", "ring_pawl_pin", "ring_pawl_washers", "ring_pawl_screw", "ring_pawl_spring"], "lift": {"ring_pawl": (0, 0, -14), "ring_pawl_pin": (0, 0, -14), "ring_pawl_washers": (0, 0, -22), "ring_pawl_screw": (0, 0, -30), "ring_pawl_spring": (0, 0, -14)}, "keep": (-36, 24, -34, 40, -40, 30), "az": 160, "el": -48},
         ],
     },
     {
@@ -219,8 +222,8 @@ STEPS = [
         "title": "Seat and lock the ring, close the lid",
         "parts": ["ring"],
         "text": [
-            f"Wrap the lower half of the ring in a strip of soft cloth or paper. Pull the knob behind the slot back and hold it, push the ring with its wrapping into the slot until it sits on the bottom, and let the knob go: the finger of the ring pawl now passes through the ring below the deck. Fill what is left of the slot on both sides of the ring with more cloth or paper until the ring stands firm; keep it away from the middle, where the finger passes. The slot is {P.RING_SLOT_W} mm wide and {P.RING_SLOT_D:.0f} mm across, and under the finger it has {P.RING_UNDER_TIP} mm for the band of the ring.",
-            "Pull at the ring: it must not come out, however the ball is shaken or dropped. Then pull the knob back once more and see that the ring lifts out and goes in again easily.",
+            f"Wrap the lower half of the ring in a strip of soft cloth or paper. Pull the knob, which stands to the front left of the slot, towards the middle line of the deck and hold it, push the ring with its wrapping into the slot until it sits on the bottom, and let the knob go: the finger of the ring pawl now passes through the ring below the deck. Fill what is left of the slot on both sides of the ring with more cloth or paper until the ring stands firm; keep it away from the middle, where the finger passes. The slot is {P.RING_SLOT_W} mm wide, {P.RING_SLOT_D:.0f} mm across and {P.RING_SLOT_DEPTH:.0f} mm deep, and under the finger it has {RING_UNDER_MM:.1f} mm for the band of the ring and what lies under it.",
+            "Pull at the ring: it must not come out, however the ball is shaken or dropped. Then pull the knob once more and see that the ring lifts out and goes in again easily.",
             f"Before the lid is closed for the first time, lower it by hand and look at the gap round the black ring of the button and at the seam above the band: the lid must come down onto the band all round without being pressed, and a strip of paper must pass between the lid and the ring (the gap is {P.BEZEL_LID_GAP} mm). A lid that has to be pressed into its seat would stay there when the latch lets go.",
             f"Check that the servo is in its rest position, then press the lid down until the latch clicks. Latched, the lid can be pressed down by a little less than a millimetre at the front and comes up again: the latch needs that room ({P.LATCH_GAP} mm), so that it also closes over a tooth that the printer has made a little too high.",
         ],
@@ -256,11 +259,12 @@ BOM_NOTES = {
     "pawl_screw": ("M2 x 6 machine screw, the same as for the grass top. The washer under it is printed.", "research/06 §4.2, §4.3"),
     "ring_pawl_screw": ("M2 x 6 machine screw, the same as for the latch pawl.", "research/06 §4.2, §3"),
     "ring_pawl_washers": (f"One standard M2 washer (Ø{P.M2_WASHER_D:.0f} x {P.M2_WASHER_T} mm) under the head of the screw and one standard M3 washer (Ø{P.M3_WASHER_D:.0f} x {P.M3_WASHER_T} mm) between it and the pawl. The M3 washer keeps the pawl on its boss; the M2 washer alone is narrower than the pawl's bore.", "research/06 §3"),
+    "ring_pawl_pin": (f"Steel dowel pin (parallel pin) Ø{P.RPAWL_PIN_D:.0f} x {P.RPAWL_PIN_L:.0f} mm. It is the counterweight of the ring pawl: pressed into its tail, it brings the centre of mass of the pawl onto the pivot, so that a blow does not turn the pawl.", "research/06 §1.6"),
     "ring_pawl_spring": (f"Compression spring of 4 mm outside diameter and {P.RPAWL_SPRING_L:.0f} mm length, not cut: of the same kind as the one that is cut to {P.PAWL_SPRING_L:.0f} mm for the latch pawl.", "research/06 §3"),
     "pawl_spring": (f"Soft compression spring of 3.5 to 4.5 mm outside diameter, {P.PAWL_SPRING_L:.0f} mm long: {P.PAWL_SPRING_L:.0f} mm cut off the spring of a ball-pen.", "research/06 §2.2"),
     "hinge_pin": ("Two steel dowel pins (parallel pins) Ø2 x 8 mm, ISO 2338 / DIN 7 or hardened ISO 8734 / DIN 6325. Two pieces of a 2 mm bicycle spoke, 8 mm long with rounded ends, do as well. They slide in the towers of the stage and are pressed into the spring sleeve; try them in the test piece first (section 3).", "research/06 §3"),
     "yoke_pin": (f"Steel dowel pin (parallel pin) Ø{P.YOKE_PIN_D:.0f} x {P.YOKE_PIN_L:.0f} mm, of the same kind as the hinge pins. The forward leg of the lid spring rests on it; it goes in last (step 10).", "research/06 §3"),
-    "ring": (f"The engagement ring. Its slot in the stage is {P.RING_SLOT_W} mm wide and {P.RING_SLOT_D:.0f} mm across, with {P.RING_UNDER_TIP} mm under the lock for the band (`RING_SLOT_W`, `RING_SLOT_D`, `RING_UNDER_TIP` in `params.py`); what the ring leaves free is filled with paper or cloth.", "research/06 §1, §3"),
+    "ring": (f"The engagement ring. Its slot in the stage is {P.RING_SLOT_W} mm wide, {P.RING_SLOT_D:.0f} mm across and {P.RING_SLOT_DEPTH:.0f} mm deep (`RING_SLOT_W`, `RING_SLOT_D`, `RING_SLOT_DEPTH` in `params.py`); what the ring leaves free is filled with paper or cloth.", "research/06 §1, §1.6"),
 }
 
 SMALL_PARTS = [
@@ -496,15 +500,15 @@ def manual_markdown(items, nums, printed) -> str:
     a("| --- | --- |")
     a("| ![locked](img/ring_locked.png) | ![released](img/ring_released.png) |")
     a("")
-    a(f"*The ring in its slot, seen from behind and above. The knob of the ring pawl stands in its curved slit behind the ring; the finger of the pawl is seen inside the ring.*")
+    a("*The ring in its slot, seen from behind and above. The finger of the ring pawl is seen inside the ring, in its middle. The knob stands in its curved slit to the front left of the ring.*")
     a("")
-    a(f"Pull the knob behind the ring back by {math.radians(P.RPAWL_RELEASE_DEG) * P.RPAWL_KNOB_R:.0f} mm, away from the ring, and hold it. The finger leaves the ring and the ring lifts out with its wrapping. Let the knob go: a spring takes it back. Nothing but a hand moves this lock.")
+    a(f"Pull the knob towards the middle line of the deck by {KNOB_PULL_MM:.0f} mm and hold it. The finger leaves the ring and the ring lifts out with its wrapping. Let the knob go: a spring takes it back. Nothing but a hand moves this lock.")
     a("")
     a("| From below | Section along the finger |")
     a("| --- | --- |")
     a("| ![below](img/ring_below.png) | ![section](img/ring_section.png) |")
     a("")
-    a(f"*Left: the ring pawl under the deck with its pivot screw, its spring in the cup and the post on which its tail rests. Right: the finger passes through the ring {P.RING_UNDER_TIP} mm above the bottom of the slot and lies under the deck on both sides of it, so a pull at the ring presses it against the deck.*")
+    a(f"*Left: the ring pawl under the deck with its pivot screw, the counterweight pin beside it, the spring in its cup and the pad on the wall of the slot on which the arm rests. Right: the finger passes through the ring {RING_UNDER_MM:.1f} mm above the bottom of the slot and lies under the deck on both sides of it, so a pull at the ring presses it against the deck.*")
     a("")
     a("### The hinge")
     a("")

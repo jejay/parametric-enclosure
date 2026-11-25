@@ -95,7 +95,7 @@ def render_overview(img: Path) -> list[Path]:
     keep = g.box(-200, 200, 0.0, 200, -200, 200)
     nums = numbers(items)
     sc, anchors = scene(items, keep=keep)
-    for k in ("mcu", "amp", "charger", "boost", "contacts", "inserts", "stack_screws", "servo_screws", "clamp_screws", "pawl_spring", "pawl_screw", "ring_pawl_washers", "ring_pawl_screw", "ring_pawl_spring", "sleeve", "hinge_pin", "yoke_pin", "turf_screws"):
+    for k in ("mcu", "amp", "charger", "boost", "contacts", "inserts", "stack_screws", "servo_screws", "clamp_screws", "pawl_spring", "pawl_screw", "ring_pawl_pin", "ring_pawl_washers", "ring_pawl_screw", "ring_pawl_spring", "sleeve", "hinge_pin", "yoke_pin", "turf_screws"):
         anchors.pop(k, None)
     for k in list(anchors):
         x, y, z = anchors[k]
@@ -199,7 +199,7 @@ def render_details(img: Path) -> list[Path]:
     for name, locked in (("ring_locked.png", True), ("ring_released.png", False)):
         items = A.build(lid_deg=P.LID_OPEN_DEG, pawl_deg=P.PAWL_RELEASE_DEG, locked=locked)
         it = A.by_key(items)
-        keep = g.box(-34, 16, -30, 36, 10, 60)
+        keep = g.box(-34, 20, -30, 36, 10, 60)
         sc = R.Scene()
         for key in ("stage", "ring", "ring_pawl"):
             sc.add(R.clip(it[key].bodies, keep), colour="chassis" if key == "stage" else None)
@@ -209,8 +209,8 @@ def render_details(img: Path) -> list[Path]:
     # --- the same from below: pawl, spring, washers and screw under the deck, and a section along the finger ---
     it = A.by_key(A.build())
     sc = R.Scene()
-    for key in ("stage", "ring", "ring_pawl", "ring_pawl_washers", "ring_pawl_screw", "ring_pawl_spring"):
-        sc.add(R.clip(it[key].bodies, g.box(-34, 16, -30, 40, 10, 60)), colour="chassis" if key == "stage" else None)
+    for key in ("stage", "ring", "ring_pawl", "ring_pawl_pin", "ring_pawl_washers", "ring_pawl_screw", "ring_pawl_spring"):
+        sc.add(R.clip(it[key].bodies, g.box(-34, 20, -30, 40, 10, 60)), colour="chassis" if key == "stage" else None)
     p = img / "ring_below.png"
     _zoomed(sc, p, 180, -70, 1.0)
     out.append(p)
@@ -240,7 +240,7 @@ def render_details(img: Path) -> list[Path]:
     keep = g.box(-60, 140, 0.0, 200, -60, 8.0)
     sc = R.Scene()
     for item in items:
-        if item.key in ("lid", "stage", "ring", "ring_pawl", "ring_pawl_washers", "ring_pawl_screw", "ring_pawl_spring", "pawl", "pawl_screw", "pawl_spring", "stack_screws", "spring", "sleeve", "hinge_pin", "yoke_pin"):
+        if item.key in ("lid", "stage", "ring", "ring_pawl", "ring_pawl_pin", "ring_pawl_washers", "ring_pawl_screw", "ring_pawl_spring", "pawl", "pawl_screw", "pawl_spring", "stack_screws", "spring", "sleeve", "hinge_pin", "yoke_pin"):
             continue
         sc.add(R.clip(item.bodies, keep))
     p = img / "grass_section.png"

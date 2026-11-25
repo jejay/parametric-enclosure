@@ -98,16 +98,16 @@
  {
   "name": "watertight:stage",
   "ok": true,
-  "detail": "solids=1 valid=True watertight=True winding=True V_cad=24693 V_mesh=24687 mm3 tris=20482",
+  "detail": "solids=1 valid=True watertight=True winding=True V_cad=24942 V_mesh=24937 mm3 tris=20034",
   "data": {
-   "volume_mm3": 24692.550864502933,
-   "mass_g_petg": 31.359539597918726,
+   "volume_mm3": 24942.216122276386,
+   "mass_g_petg": 31.67661447529101,
    "bbox": [
     90.09215033341319,
     93.92507041542305,
     28.089642213252176
    ],
-   "triangles": 20482,
+   "triangles": 20034,
    "section": "Watertight printable solids"
   }
  },
@@ -162,16 +162,16 @@
  {
   "name": "watertight:ring_pawl",
   "ok": true,
-  "detail": "solids=1 valid=True watertight=True winding=True V_cad=1014 V_mesh=1014 mm3 tris=2766",
+  "detail": "solids=1 valid=True watertight=True winding=True V_cad=1765 V_mesh=1765 mm3 tris=3344",
   "data": {
-   "volume_mm3": 1013.650494207109,
-   "mass_g_petg": 1.2873361276430284,
+   "volume_mm3": 1764.752884011643,
+   "mass_g_petg": 2.2412361626947868,
    "bbox": [
-    15.84179288904366,
-    34.926698415815665,
-    11.526716894469601
+    28.084116289080306,
+    31.44704925260135,
+    11.524275079567758
    ],
-   "triangles": 2766,
+   "triangles": 3344,
    "section": "Watertight printable solids"
   }
  },
@@ -242,7 +242,7 @@
  {
   "name": "fit:closed assembly",
   "ok": true,
-  "detail": "43 items, 0 collisions, 9 intended overlaps",
+  "detail": "44 items, 0 collisions, 10 intended overlaps",
   "data": {
    "collisions": [],
    "intended": [
@@ -295,6 +295,12 @@
      "M2 thread formed in a \u00d81.95 pilot"
     ],
     [
+     "ring_pawl",
+     "ring_pawl_pin",
+     1.3424418107870597,
+     "\u00d84 pin pressed into the \u00d83.95 hole of the tail"
+    ],
+    [
      "hinge_pin",
      "sleeve",
      0.42200686866436987,
@@ -316,9 +322,9 @@
  {
   "name": "clearance:ring - lid",
   "ok": true,
-  "detail": "6.36 mm (need >= 1.0)",
+  "detail": "8.14 mm (need >= 1.0)",
   "data": {
-   "distance": 6.355287682588077,
+   "distance": 8.144234243964151,
    "section": "Clearances"
   }
  },
@@ -548,47 +554,49 @@
  {
   "name": "ring:slot as the owner gave it",
   "ok": true,
-  "detail": "the slot of the ring is cut into the stage itself. Measured on the solid: 3.10 and 3.10 mm wide between its walls (near the bottom and under the deck); its bottom lies on a circle of \u00d825 mm (five places, largest difference 0.005 mm); it is 24.8 mm long where it meets the surface of the deck and 11.2 mm deep in its middle. Below the deck it has walls of 2.0 mm before and behind it and a floor of 1.6 mm. The finger of the ring pawl passes 4.2 mm above the bottom of the slot when the pawl lies on its washer, 4.5 mm when it is pushed up; at their nearest, finger and floor keep 3.46 mm, because the floor rises to the sides. A ring of size 49 whose band is up to 4.2 mm high stands under the finger without touching it. The ring of the drawing (2.5 mm wide, 1.8 mm high) leaves 0.3 mm on each side of it and 2.9 mm round it for paper or cloth, which is not drawn",
+  "detail": "the slot of the ring is cut into the stage itself. Measured on the solid: 3.10 and 3.10 mm wide between its walls (near the bottom and under the deck); its bottom lies on a circle of \u00d825 mm (five places, largest difference 0.005 mm); it is 13.00 mm deep in its middle and 25.0 mm long where it meets the surface of the deck: a half-round bottom with 0.5 mm of upright wall above it. Below the deck it has walls of 2.0 mm before and behind it and a floor of 1.6 mm. The ring of the drawing (19.2 mm across, band 2.5 mm wide and 1.8 mm high) stands in it with 68 % of its height below the deck, and has 0.3 mm on each side and 2.9 mm round it for paper or cloth, which is not drawn. The finger of the ring pawl passes 6.0 mm above the bottom of the slot when the pawl lies on its washer; a ring of size 49 whose band is up to 6.0 mm high stands under it without touching it",
   "data": {
    "width": [
     3.0999999999999996,
     3.0999999999999996
    ],
-   "round": 0.005190507610087991,
-   "length": 24.842705166708388,
-   "fits": 4.183300781249999,
+   "round": 0.005190507610091544,
+   "depth": 12.999998999999958,
+   "length": 25.0,
+   "fits": 5.9991455078125,
    "section": "Ring lock"
   }
  },
  {
   "name": "ring:locked pawl keeps the ring",
   "ok": true,
-  "detail": "locked, the finger passes through the ring and ends 1.65 mm beyond the slot. The bare ring of the drawing keeps 2.35 mm from it and can be lifted 2.73 mm before its band meets the finger (overlap 9.7 mm3 when it is lifted 4.2 mm); what fills the slot under the ring takes from that. A pull at the ring presses the finger up against the underside of the deck, on 9 mm2 behind the slot and 7 mm2 before it: the load does not pass through the arm or the pivot. The ring comes free only when the pawl is turned 18\u00b0 against its spring",
+  "detail": "the pivot of the pawl lies in the plane of the ring, so the finger crosses the slot square: where it crosses, its middle lies 0.03 mm beside the middle of the ring, and the two windows in the walls of the slot reach from -3.20 to +3.60 mm. Locked, the finger passes through the ring and ends 1.65 mm beyond the slot. The bare ring of the drawing keeps 3.75 mm from it and can be lifted 4.54 mm before its band meets the finger (overlap 8.8 mm3 when it is lifted 6.0 mm); what fills the slot under the ring takes from that. A pull at the ring presses the finger up against the underside of the deck, on 9 mm2 behind the slot and 6 mm2 before it: the load does not pass through the arm or the pivot. The ring comes free only when the pawl is turned 17\u00b0 against its spring",
   "data": {
-   "lift": 2.72979736328125,
-   "overlap": 9.680259215684238,
+   "lift": 4.5364990234375,
+   "overlap": 8.827248040167031,
    "held": [
-    9.078553845469216,
-    6.669893179985176
+    8.877331166865964,
+    5.649695816537622
    ],
+   "off_middle": 0.03380718684733708,
    "section": "Ring lock"
   }
  },
  {
   "name": "ring:released ring lifts out freely",
   "ok": true,
-  "detail": "the finger is out of the slot when the pawl has turned 15.4\u00b0; at 18\u00b0 it stands 0.87 mm behind the slot. The ring then lifts straight out, 0 to 22 mm, lid at its stop: 0 collisions with pawl, stage or lid",
+  "detail": "the finger is out of the slot when the pawl has turned 13.8\u00b0; at 17\u00b0 it stands 0.99 mm behind the slot. The ring then lifts straight out, 0 to 22 mm, lid at its stop: 0 collisions with pawl, stage or lid",
   "data": {
    "collisions": [],
-   "out_from": 15.386962890625,
-   "behind": 0.8727641435017359,
+   "out_from": 13.80615234375,
+   "behind": 0.9939691005233016,
    "section": "Ring lock"
   }
  },
  {
   "name": "ring:pawl swings free with all its play",
   "ok": true,
-  "detail": "locked, the tail of the pawl rests against its post under the deck (0.00 mm). From there to 25\u00b0, the end of the slit, the pawl was turned in steps of 3\u00b0 and moved 0.65 mm in eight directions, which is the play of its pivot (0.25 mm) and 0.2 mm for each of two printed surfaces, lying on its washer and pushed up against the deck: 0 contacts with the stage (window of the finger, slit of the knob, walls of the slot, hinge towers). As drawn it meets nothing else either, lid shut and lid open: 0 collisions. Drawn room round finger and knob: 1.0 mm",
+  "detail": "locked, the arm of the pawl rests against a pad on the rear wall of the slot (0.00 mm). From there to 25\u00b0, the end of the slit, the pawl with its counterweight pin was turned in steps of 3\u00b0 and moved 0.65 mm in eight directions, which is the play of its pivot (0.25 mm) and 0.2 mm for each of two printed surfaces, lying on its washer and pushed up against the deck: 0 contacts with the stage (windows of the finger, slit of the knob, walls of the slot, cup of the spring, dome). As drawn it meets nothing else either, lid shut and lid open: 0 collisions. Drawn room round finger and knob: 1.0 mm",
   "data": {
    "collisions": [],
    "section": "Ring lock"
@@ -597,34 +605,50 @@
  {
   "name": "ring:knob stands up through the deck",
   "ok": true,
-  "detail": "the knob (\u00d85.0) stands 4.5 mm above the deck, 7.5 mm behind the plane of the ring and 0.0 mm beside its middle. To free the ring it is pulled 6.0 mm backwards, away from the ring; let go, the spring takes it back. Its slit in the deck is 7.0 mm wide and 15.3 mm long along its curve and ends 0.45 mm behind the rear wall of the slot. The shut lid keeps 13.2 mm from the knob; the lid's way over it is part of the lid opening sweep",
+  "detail": "the knob (\u00d85.0) stands on the tail of the pawl, 4.5 mm above the deck, 29 mm from the middle of the ring, to the front left of it (+13.9 mm forwards, +25.1 mm sideways): the ring does not stand in the way of a hand. To free the ring it is pulled 4.4 mm towards the middle line of the deck; let go, the spring takes it back. Its slit in the deck is 7.0 mm wide and 13.5 mm long along its curve. The shut lid keeps 4.3 mm from the knob, and 3.3 mm when it is grown by 0.2 mm and stands as askew as its hinge lets it (shut and 3, 8 and 20\u00b0 open); the lid's way over it is part of the lid opening sweep",
   "data": {
    "knob": 4.5056780486577495,
-   "lid": 13.214801998551168,
-   "travel": 5.969026041820607,
+   "lid": 4.287357505608169,
+   "lid_play": 3.2514614269104105,
+   "travel": 4.375158569436475,
    "section": "Ring lock"
   }
  },
  {
   "name": "ring:return spring works uncut",
   "ok": true,
-  "detail": "a compression spring of 4 x 15 mm, as it comes, lies between a nub on the tail of the pawl, 10 mm beyond the pivot, and a cup under the deck that takes 3 mm of it (room for \u00d84.0: 0.00 mm3 in the way). It is 12.5 mm long when the pawl is locked (2.5 mm of preload), 9.5 mm when the ring is free and 8.5 mm at the end of the slit. Its solid length is taken to be 5 mm, from the 4 mm of the 12 mm piece on the latch; it has not been measured. How strong the spring is, and whether a jolt can turn the pawl against it, is not in the model",
+  "detail": "a compression spring of 4 x 15 mm, as it comes, bears on a flat of the tail beside the knob, 15.2 mm from the pivot, and sits in a cup under the deck that takes 3 mm of it (room for \u00d84.0: 0.00 mm3 in the way). The cup is turned so that it opens along the way this point of the tail goes: the end of the spring then leaves the axis of the cup by 0.17 mm at most. The spring is 12.5 mm long when the pawl is locked (2.5 mm of preload), 8.0 mm when the ring is free and 5.9 mm at the end of the slit. Its solid length is taken to be 5 mm, from the 4 mm of the 12 mm piece on the latch; it has not been measured, and neither has its strength",
   "data": {
    "lengths": {
     "0.0": 12.5,
-    "18.0": 9.532188765512641,
-    "25.0": 8.50804791500138
+    "17.0": 7.997268247702118,
+    "25.0": 5.940472937303127
    },
+   "drift": 0.1667254141912226,
    "section": "Ring lock"
   }
  },
  {
   "name": "ring:pawl can be put onto its boss",
   "ok": true,
-  "detail": "under the windows the walls of the slot are closed, so the pawl cannot come up with its finger in a window. Turned 20.9\u00b0 or more, its finger stands behind the rear wall and the pawl rises straight onto its boss, the knob entering the slit from below (tried 12 mm of the way in seven steps); the slit lets it turn 25\u00b0, where the finger keeps 1.87 mm from that wall. Spring, washers and screw follow from below. In use the finger leaves the rear window in the last degrees of the slit and finds it again: its end is tapered to 2 mm, in a window with 1.0 mm of room on each side",
+  "detail": "under the windows the walls of the slot are closed, so the pawl cannot come up with its finger in a window. Turned 19.9\u00b0 or more, its finger stands behind the rear wall and the pawl, with the counterweight pin already in it, rises straight onto its boss, the knob entering the slit from below (tried 12 mm of the way in seven steps); the slit lets it turn 25\u00b0, where the finger keeps 2.07 mm from that wall. Spring, washers and screw follow from below. In use the finger leaves the rear window in the last degrees of the slit and finds it again: its end is tapered to 2 mm, in a window with 1.0 mm of room on each side",
   "data": {
-   "from_deg": 20.8740234375,
-   "wall": 1.8681947977677746,
+   "from_deg": 19.921875,
+   "wall": 2.074159325122986,
+   "section": "Ring lock"
+  }
+ },
+ {
+  "name": "ring:pawl is balanced about its pivot",
+  "ok": true,
+  "detail": "the printed pawl weighs 2.24 g and its centre of mass lies 2.48 mm beside the pivot. A steel dowel pin of 4 x 8 mm (0.79 g), pressed upright into the tail 7.0 mm from the pivot, brings the centre of mass of both to 0.00 mm from the pivot. A blow from any side then finds almost no lever to turn the pawl: if the centre of mass ended up 0.3 mm off, it would take about 1705 g against a spring that holds with 1 N (hand estimate; the strength of the spring is not known). The pin's top is flush with the top of the pawl, 0.3 mm under the deck, so it cannot leave upwards; it hangs 3.7 mm below the pawl and is held from falling by its press fit (hole \u00d83.95, upright in the print, 1.9 mm of plastic round it, 2.3 mm to the bore of the pivot) and, if that is loose, by a drop of glue",
+  "data": {
+   "bare": 2.4842563892993845,
+   "balanced": 0.0010191930122233931,
+   "mass": [
+    2.2412361626947868,
+    0.7941946228274998
+   ],
    "section": "Ring lock"
   }
  },
@@ -1249,13 +1273,13 @@
  {
   "name": "physics:ball alone, mass and centre of gravity",
   "ok": true,
-  "detail": "mass 266 g, CoG x=1.5 y=-0.1 z=-4.1 mm (below the ball centre: self-righting)",
+  "detail": "mass 268 g, CoG x=1.5 y=0.1 z=-3.9 mm (below the ball centre: self-righting)",
   "data": {
-   "mass": 266.317750052532,
+   "mass": 268.38872496495605,
    "cg": [
-    1.4918957444029814,
-    -0.06579957678471882,
-    -4.110559462620351
+    1.5243950299643556,
+    0.05661916775931771,
+    -3.9357586641491653
    ],
    "section": "Physics and function"
   }
@@ -1263,37 +1287,37 @@
  {
   "name": "physics:ball alone stands on its flat with the lid open",
   "ok": true,
-  "detail": "CoG with open lid x=-6.7 y=-0.1; flat radius 17.1 mm -> tipping margin 10.3 mm",
+  "detail": "CoG with open lid x=-6.6 y=0.1; flat radius 17.1 mm -> tipping margin 10.4 mm",
   "data": {
    "cg_open": [
-    -6.7369107878342955,
-    -0.06004880786952198,
-    -0.7981465879967956
+    -6.640915347992669,
+    0.06232556186647409,
+    -0.6489054473086684
    ],
-   "margin": 10.321543707069495,
+   "margin": 10.417514302299075,
    "section": "Physics and function"
   }
  },
  {
   "name": "physics:device stands on the ball's flat and the tongue",
   "ok": true,
-  "detail": "mass 375 g; CoG closed x=18.8, open x=13.0, with a 50 g figure x=26.9 mm; distance of the CoG from the edge of the standing area (flat of the ball and underside of the tongue together): closed 28 mm, lid open 24 mm, closed with a figure on the spot 32 mm",
+  "detail": "mass 377 g; CoG closed x=18.8, open x=13.0, with a 50 g figure x=26.8 mm; distance of the CoG from the edge of the standing area (flat of the ball and underside of the tongue together): closed 28 mm, lid open 24 mm, closed with a figure on the spot 32 mm",
   "data": {
-   "mass": 375.34921367130073,
+   "mass": 377.4201885837248,
    "cg": [
-    18.849828595998765,
-    -0.07063227212350709,
-    -14.362766297676261
+    18.77769307575733,
+    0.01644791103818374,
+    -14.182207258604603
    ],
    "cg_open": [
-    13.011326312090633,
-    -0.06655198693098653,
-    -12.012543326948787
+    12.971227741969642,
+    0.02050580694543327,
+    -11.844880399315269
    ],
    "margins": {
-    "closed": 27.736424895906175,
-    "lid open": 24.414089225776607,
-    "closed with a figure on the spot": 32.306470538610505
+    "closed": 27.739870351158128,
+    "lid open": 24.42909448338287,
+    "closed with a figure on the spot": 32.28736974337017
    },
    "section": "Physics and function"
   }
@@ -1415,14 +1439,14 @@
  {
   "name": "print:stage",
   "ok": true,
-  "detail": "90 x 94 x 28 mm, PETG black; overhang area needing support ~302 mm2; upside down: deck on the bed, supports under the stop beam of the hinge and the screw pads only",
+  "detail": "90 x 94 x 28 mm, PETG black; overhang area needing support ~296 mm2; upside down: deck on the bed, supports under the stop beam of the hinge and the screw pads only",
   "data": {
    "extents": [
     90.06667400396691,
     93.8176337462828,
     28.00000000000001
    ],
-   "support_area": 301.71689644694334,
+   "support_area": 295.5951407697444,
    "section": "Printability"
   }
  },
@@ -1471,14 +1495,14 @@
  {
   "name": "print:ring_pawl",
   "ok": true,
-  "detail": "16 x 35 x 12 mm, PETG any colour; overhang area needing support ~3 mm2; as it lies, knob up, no supports; 100 % infill",
+  "detail": "28 x 31 x 12 mm, PETG any colour; overhang area needing support ~1 mm2; as it lies, knob up, no supports; 100 % infill",
   "data": {
    "extents": [
-    15.81939857862817,
-    34.92669821581549,
+    28.081999999999994,
+    31.422735128868208,
     11.5
    ],
-   "support_area": 2.630499294242135,
+   "support_area": 0.9960873068365106,
    "section": "Printability"
   }
  },

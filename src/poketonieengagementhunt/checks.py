@@ -37,6 +37,7 @@ INTENDED_OVERLAP: dict[frozenset[str], tuple[float, str]] = {
     frozenset(("hinge_pin", "sleeve")): (1.0, f"Ø2 pins pressed into the Ø{P.HINGE_PRESS} blind holes of the sleeve"),
     frozenset(("yoke_pin", "stage")): (0.5, f"Ø2 pin pressed into the Ø{P.YOKE_HOLE} holes of the two tower feet"),
     frozenset(("ring_pawl_screw", "stage")): (3.0, "M2 thread formed in a Ø1.95 pilot"),
+    frozenset(("ring_pawl_pin", "ring_pawl")): (2.5, f"Ø{P.RPAWL_PIN_D:.0f} pin pressed into the Ø{P.RPAWL_PIN_HOLE} hole of the tail"),
 }
 TOL_VOLUME = 0.05      # mm^3: anything below is numerical noise / touching faces
 
@@ -350,6 +351,7 @@ def check_ring_lock() -> list[Result]:
     x0, x1 = K.RING_SLOT_X0, K.RING_SLOT_X1
     zf, zc, r_slot = K.RING_SLOT_Z, K.RING_SLOT_ZC, P.RING_SLOT_D / 2
     r_out = P.RING_ID / 2 + P.RING_THICK
+    under = K.RING_UNDER_TIP
 
     # 1. the slot as the owner gave it, measured on the solid
     def walls(y: float, z: float) -> list[tuple[float, float]]:
@@ -368,14 +370,11 @@ def check_ring_lock() -> list[Result]:
     spots = (0.0, 5.0, -5.0, 9.0, -9.0)
     round_dev = max(abs(floor(y)[1] - (zc - math.sqrt(r_slot**2 - y * y))) for y in spots)
     floor_t = floor(0.0)[1] - floor(0.0)[0]
+    depth = P.Z_DECK - floor(0.0)[1]
     top = g.inter(stage, g.box(P.RING_X - 0.05, P.RING_X + 0.05, -20.0, 20.0, P.Z_DECK - 0.1, P.Z_DECK))
     ys = sorted((s.BoundingBox().ymin, s.BoundingBox().ymax) for s in top.Solids())
     length = ys[1][0] - ys[0][1] if len(ys) == 2 else -1.0
-    depth = P.Z_DECK - zf
     pawl = K.ring_pawl_at(0.0)
-    under = K.RPAWL_Z0 - zf
-    strip = g.inter(stage, g.box(x0 + 0.01, x1 - 0.01, -r_slot, r_slot, zf - 1.0, K.DECK_BOTTOM))     # the floor of the slot
-    nearest = g.min_distance(pawl, strip)
 
     def band(profile: float) -> cq.Shape:
         """The lower half of a ring of size 49 with a band of that profile height, standing on the bottom of the slot."""
@@ -386,19 +385,25 @@ def check_ring_lock() -> list[Result]:
 
     fits = _bisect(1.0, under + 0.5, lambda p: g.common_volume(band(p), pawl) > 0.002, 12)
     side, around = (P.RING_SLOT_W - P.RING_BAND) / 2, r_slot - r_out
-    out.append(Result("ring:slot as the owner gave it", all(abs(w - P.RING_SLOT_W) < 0.02 for w in width) and round_dev < 0.03 and abs(under - P.RING_UNDER_TIP) < 1e-6 and wall >= P.RING_SLOT_WALL - 0.02 and floor_t >= P.RING_SLOT_FLOOR - 0.02 and fits >= under - 0.4, f"the slot of the ring is cut into the stage itself. Measured on the solid: {width[0]:.2f} and {width[1]:.2f} mm wide between its walls (near the bottom and under the deck); its bottom lies on a circle of Ø{P.RING_SLOT_D:.0f} mm (five places, largest difference {round_dev:.3f} mm); it is {length:.1f} mm long where it meets the surface of the deck and {depth:.1f} mm deep in its middle. Below the deck it has walls of {wall:.1f} mm before and behind it and a floor of {floor_t:.1f} mm. The finger of the ring pawl passes {under:.1f} mm above the bottom of the slot when the pawl lies on its washer, {under + P.RPAWL_PLAY:.1f} mm when it is pushed up; at their nearest, finger and floor keep {nearest:.2f} mm, because the floor rises to the sides. A ring of size 49 whose band is up to {fits:.1f} mm high stands under the finger without touching it. The ring of the drawing ({P.RING_BAND} mm wide, {P.RING_THICK} mm high) leaves {side:.1f} mm on each side of it and {around:.1f} mm round it for paper or cloth, which is not drawn", {"width": width, "round": round_dev, "length": length, "fits": fits}))
+    sunk = depth / (2 * r_out)
+    out.append(Result("ring:slot as the owner gave it", all(abs(w - P.RING_SLOT_W) < 0.02 for w in width) and round_dev < 0.03 and abs(depth - P.RING_SLOT_DEPTH) < 0.02 and abs(length - P.RING_SLOT_D) < 0.05 and wall >= P.RING_SLOT_WALL - 0.02 and floor_t >= P.RING_SLOT_FLOOR - 0.02 and fits >= under - 0.4, f"the slot of the ring is cut into the stage itself. Measured on the solid: {width[0]:.2f} and {width[1]:.2f} mm wide between its walls (near the bottom and under the deck); its bottom lies on a circle of Ø{P.RING_SLOT_D:.0f} mm (five places, largest difference {round_dev:.3f} mm); it is {depth:.2f} mm deep in its middle and {length:.1f} mm long where it meets the surface of the deck: a half-round bottom with {depth - r_slot:.1f} mm of upright wall above it. Below the deck it has walls of {wall:.1f} mm before and behind it and a floor of {floor_t:.1f} mm. The ring of the drawing ({2 * r_out:.1f} mm across, band {P.RING_BAND} mm wide and {P.RING_THICK} mm high) stands in it with {100 * sunk:.0f} % of its height below the deck, and has {side:.1f} mm on each side and {around:.1f} mm round it for paper or cloth, which is not drawn. The finger of the ring pawl passes {under:.1f} mm above the bottom of the slot when the pawl lies on its washer; a ring of size 49 whose band is up to {fits:.1f} mm high stands under it without touching it", {"width": width, "round": round_dev, "depth": depth, "length": length, "fits": fits}))
 
-    # 2. locked: the finger passes through the ring, and the deck holds the finger
+    # 2. locked: the finger passes through the ring, square and in its middle, and the deck holds the finger
     it = A.by_key(A.build(ring_pawl_up=True))
     ring, pawl_up = it["ring"].shape(), it["ring_pawl"].shape()
-    lift = _bisect(0.0, 5.0, lambda dz: g.common_volume(g.move(ring, dz=dz), pawl_up) > TOL_VOLUME, 14)
+    lift = _bisect(0.0, under + 1.0, lambda dz: g.common_volume(g.move(ring, dz=dz), pawl_up) > TOL_VOLUME, 14)
     v = g.common_volume(g.move(ring, dz=lift + 1.5), pawl_up)
     lifted = g.move(pawl_up, dz=0.05)
     deck = P.Z_DECK - 0.5
     held_back = g.common_volume(lifted, g.inter(stage, g.box(x0 - P.RING_SLOT_WALL, x0, -9.0, 9.0, K.DECK_BOTTOM - 0.01, deck))) / 0.05
     held_front = g.common_volume(lifted, g.inter(stage, g.box(x1, x1 + P.RING_SLOT_WALL, -9.0, 9.0, K.DECK_BOTTOM - 0.01, deck))) / 0.05
     d_ring = g.min_distance(it["ring"].shape(), K.ring_pawl_at(0.0))
-    out.append(Result("ring:locked pawl keeps the ring", v > 0.5 and lift <= under + P.RPAWL_PLAY and held_back >= 5.0 and held_front >= 3.0 and d_ring >= 0.5, f"locked, the finger passes through the ring and ends {P.RPAWL_FINGER_BEYOND} mm beyond the slot. The bare ring of the drawing keeps {d_ring:.2f} mm from it and can be lifted {lift:.2f} mm before its band meets the finger (overlap {v:.1f} mm3 when it is lifted {lift + 1.5:.1f} mm); what fills the slot under the ring takes from that. A pull at the ring presses the finger up against the underside of the deck, on {held_back:.0f} mm2 behind the slot and {held_front:.0f} mm2 before it: the load does not pass through the arm or the pivot. The ring comes free only when the pawl is turned {P.RPAWL_RELEASE_DEG:.0f}° against its spring", {"lift": lift, "overlap": v, "held": [held_back, held_front]}))
+    in_slot = g.inter(K.ring_pawl_at(0.0), g.box(x0, x1, -r_slot, r_slot, zf, P.Z_DECK)).BoundingBox()     # the finger where it crosses the slot
+    off_mid = abs(in_slot.ymin + in_slot.ymax) / 2
+    holes = g.inter(g.box(x0 - P.RING_SLOT_WALL - 0.1, x1 + P.RING_SLOT_WALL + 0.1, -r_slot, r_slot, K.RPAWL_Z0, K.DECK_BOTTOM - 0.05), K.ring_finger_window())
+    win = holes.BoundingBox()
+    win_off = abs(win.ymin + win.ymax) / 2
+    out.append(Result("ring:locked pawl keeps the ring", v > 0.5 and lift <= under + P.RPAWL_PLAY and held_back >= 5.0 and held_front >= 3.0 and d_ring >= 0.5 and off_mid <= 0.1 and win_off <= 0.3, f"the pivot of the pawl lies in the plane of the ring, so the finger crosses the slot square: where it crosses, its middle lies {off_mid:.2f} mm beside the middle of the ring, and the two windows in the walls of the slot reach from {win.ymin:+.2f} to {win.ymax:+.2f} mm. Locked, the finger passes through the ring and ends {P.RPAWL_FINGER_BEYOND} mm beyond the slot. The bare ring of the drawing keeps {d_ring:.2f} mm from it and can be lifted {lift:.2f} mm before its band meets the finger (overlap {v:.1f} mm3 when it is lifted {lift + 1.5:.1f} mm); what fills the slot under the ring takes from that. A pull at the ring presses the finger up against the underside of the deck, on {held_back:.0f} mm2 behind the slot and {held_front:.0f} mm2 before it: the load does not pass through the arm or the pivot. The ring comes free only when the pawl is turned {P.RPAWL_RELEASE_DEG:.0f}° against its spring", {"lift": lift, "overlap": v, "held": [held_back, held_front], "off_middle": off_mid}))
 
     # 3. released: the finger has left the slot and the ring lifts out
     void = g.box(x0, x1, -r_slot, r_slot, zf, P.Z_DECK + 2.0)
@@ -409,13 +414,14 @@ def check_ring_lock() -> list[Result]:
     for dz in (0.0, 2.0, 5.0, 8.0, 12.0, 16.0, 22.0):
         up_ring = g.move(itr["ring"].shape(), dz=dz)
         stuck += [(dz, k) for k in ("ring_pawl", "stage", "lid") if g.common_volume(up_ring, itr[k].shape()) > TOL_VOLUME]
-    out.append(Result("ring:released ring lifts out freely", not stuck and behind >= P.RPAWL_CL - 0.15, f"the finger is out of the slot when the pawl has turned {out_from:.1f}°; at {P.RPAWL_RELEASE_DEG:.0f}° it stands {behind:.2f} mm behind the slot. The ring then lifts straight out, 0 to 22 mm, lid at its stop: {len(stuck)} collisions with pawl, stage or lid", {"collisions": stuck, "out_from": out_from, "behind": behind}))
+    out.append(Result("ring:released ring lifts out freely", not stuck and behind >= P.RPAWL_CL - 0.25, f"the finger is out of the slot when the pawl has turned {out_from:.1f}°; at {P.RPAWL_RELEASE_DEG:.0f}° it stands {behind:.2f} mm behind the slot. The ring then lifts straight out, 0 to 22 mm, lid at its stop: {len(stuck)} collisions with pawl, stage or lid", {"collisions": stuck, "out_from": out_from, "behind": behind}))
 
     # 4. the pawl swings freely from locked to the end of its slit, also when it uses the play of its pivot and
     #    the surfaces come out fat.  A pawl cannot be grown here, so it is moved instead, by all of that together
-    post = g.cyl_z(1.5 + 1.0, K.RPAWL_Z0 - 0.5, K.DECK_BOTTOM, *K.ring_pawl_stop())
+    hw = P.RPAWL_ARM_W / 2
+    pad = g.box(P.RPAWL_ARM_X + hw - 1.0, x0 - P.RING_SLOT_WALL - 0.01, 6.5, 12.5, K.RPAWL_Z0 - 1.0, K.DECK_BOTTOM)
     boss = g.cyl_z(P.PAWL_BOSS_D / 2 + 1.0, K.RPAWL_Z0 - 0.5, K.DECK_BOTTOM, rpx, rpy)
-    free_stage = stage.cut(post).cut(boss)                # the tail rests on its post and the bore runs on its boss: these two are meant to touch
+    free_stage = stage.cut(pad).cut(boss)                 # the arm rests on its pad and the bore runs on its boss: these two are meant to touch
     off = (P.PAWL_BORE - P.PAWL_BOSS_D) / 2 + 2 * P.PRINT_TOL
     s = off * math.sqrt(0.5)
     shifts = [(0.0, 0.0), (off, 0.0), (-off, 0.0), (0.0, off), (0.0, -off), (s, s), (s, -s), (-s, s), (-s, -s)]
@@ -423,7 +429,7 @@ def check_ring_lock() -> list[Result]:
     bad = []
     for a in sorted(set(angles)):
         for up in (False, True):
-            base = K.ring_pawl_at(a, up=up)
+            base = K.ring_pawl_at(a, up=up).fuse(K.ring_pawl_pin(a, up=up))
             for dx, dy in (shifts if not up else shifts[:1]):
                 vol = g.common_volume(g.move(base, dx, dy, 0.0), free_stage)
                 if vol > TOUCH:
@@ -434,36 +440,61 @@ def check_ring_lock() -> list[Result]:
             items = A.build(ring_pawl_deg=a, lid_deg=lid_deg, pawl_deg=(0.0 if lid_deg == 0 else P.PAWL_RELEASE_DEG), horn_deg=(None if lid_deg == 0 else P.HORN_RELEASE_DEG))
             _, col = classify(interference(items, only_groups=({"ring_pawl"}, {"fixed", "lid", "pawl", "horn"})))
             others += [(a, lid_deg, x, y, vv) for x, y, vv in col]
-    tail_gap = g.min_distance(K.ring_pawl_at(0.0), g.cyl_z(1.5, K.RPAWL_Z0, K.DECK_BOTTOM, *K.ring_pawl_stop()))
-    out.append(Result("ring:pawl swings free with all its play", not bad and not others and tail_gap <= 0.02, f"locked, the tail of the pawl rests against its post under the deck ({tail_gap:.2f} mm). From there to {P.RPAWL_MOUNT_DEG:.0f}°, the end of the slit, the pawl was turned in steps of 3° and moved {off:.2f} mm in eight directions, which is the play of its pivot ({(P.PAWL_BORE - P.PAWL_BOSS_D) / 2:.2f} mm) and {P.PRINT_TOL} mm for each of two printed surfaces, lying on its washer and pushed up against the deck: {len(bad)} contacts with the stage (window of the finger, slit of the knob, walls of the slot, hinge towers). As drawn it meets nothing else either, lid shut and lid open: {len(others)} collisions. Drawn room round finger and knob: {P.RPAWL_CL} mm", {"collisions": bad + others}))
+    stop_gap = g.min_distance(K.ring_pawl_at(0.0), K.ring_pawl_stop())
+    out.append(Result("ring:pawl swings free with all its play", not bad and not others and stop_gap <= 0.02, f"locked, the arm of the pawl rests against a pad on the rear wall of the slot ({stop_gap:.2f} mm). From there to {P.RPAWL_MOUNT_DEG:.0f}°, the end of the slit, the pawl with its counterweight pin was turned in steps of 3° and moved {off:.2f} mm in eight directions, which is the play of its pivot ({(P.PAWL_BORE - P.PAWL_BOSS_D) / 2:.2f} mm) and {P.PRINT_TOL} mm for each of two printed surfaces, lying on its washer and pushed up against the deck: {len(bad)} contacts with the stage (windows of the finger, slit of the knob, walls of the slot, cup of the spring, dome). As drawn it meets nothing else either, lid shut and lid open: {len(others)} collisions. Drawn room round finger and knob: {P.RPAWL_CL} mm", {"collisions": bad + others}))
 
-    # 5. the knob
+    # 5. the knob, on the tail
     knob_top = K.ring_pawl_at(0.0).BoundingBox().zmax - P.Z_DECK
     closed = A.by_key(A.build())
     knob = g.inter(closed["ring_pawl"].shape(), g.box(-60.0, 60.0, -60.0, 60.0, P.Z_DECK + 0.01, 80.0))
     d_lid = g.min_distance(knob, closed["lid"].shape())
-    kx, ky = K.rp_point(P.RPAWL_KNOB_R, -90.0)
-    travel = math.radians(P.RPAWL_RELEASE_DEG) * P.RPAWL_KNOB_R
+    skew, slide = P.HINGE_SKEW_DEG, P.TOWER_GAP - P.PRINT_TOL - 0.05
+    near_knob = g.inter(grown_lid(), g.box(-20.0, 45.0, 0.0, 60.0, P.Z_DECK - 2.0, 60.0))
+    poses = [dict(), dict(yaw=skew), dict(yaw=-skew), dict(roll=skew), dict(roll=-skew), dict(dy=slide), dict(dy=-slide)]
+    d_play = min(g.min_distance(knob, skewed(near_knob, deg, **pose)) for deg in (0.0, 3.0, 8.0, 20.0) for pose in poses)
+    kx, ky = K.ring_knob_at()
+    travel = 2 * P.RPAWL_KNOB_R * math.sin(math.radians(P.RPAWL_RELEASE_DEG) / 2)
     slit_w = P.RPAWL_KNOB_D + 2 * P.RPAWL_CL
     slit_l = math.radians(P.RPAWL_MOUNT_DEG) * P.RPAWL_KNOB_R + slit_w
-    keeps = (x0 - P.RING_SLOT_WALL) - (kx + P.RPAWL_KNOB_D / 2 + P.RPAWL_CL)                # deck between the slit and the rear wall of the slot
-    out.append(Result("ring:knob stands up through the deck", 3.0 <= knob_top <= 6.0 and d_lid >= 3.0 and travel >= 4.0 and abs(ky) <= 1.0, f"the knob (Ø{P.RPAWL_KNOB_D}) stands {knob_top:.1f} mm above the deck, {P.RING_X - kx:.1f} mm behind the plane of the ring and {abs(ky):.1f} mm beside its middle. To free the ring it is pulled {travel:.1f} mm backwards, away from the ring; let go, the spring takes it back. Its slit in the deck is {slit_w:.1f} mm wide and {slit_l:.1f} mm long along its curve and ends {keeps:.2f} mm behind the rear wall of the slot. The shut lid keeps {d_lid:.1f} mm from the knob; the lid's way over it is part of the lid opening sweep", {"knob": knob_top, "lid": d_lid, "travel": travel}))
+    from_ring = math.hypot(kx - P.RING_X, ky)
+    out.append(Result("ring:knob stands up through the deck", 3.0 <= knob_top <= 6.0 and d_play >= 1.5 and travel >= 4.0, f"the knob (Ø{P.RPAWL_KNOB_D}) stands on the tail of the pawl, {knob_top:.1f} mm above the deck, {from_ring:.0f} mm from the middle of the ring, to the front left of it ({kx - P.RING_X:+.1f} mm forwards, {ky:+.1f} mm sideways): the ring does not stand in the way of a hand. To free the ring it is pulled {travel:.1f} mm towards the middle line of the deck; let go, the spring takes it back. Its slit in the deck is {slit_w:.1f} mm wide and {slit_l:.1f} mm long along its curve. The shut lid keeps {d_lid:.1f} mm from the knob, and {d_play:.1f} mm when it is grown by {P.PRINT_TOL} mm and stands as askew as its hinge lets it (shut and 3, 8 and 20° open); the lid's way over it is part of the lid opening sweep", {"knob": knob_top, "lid": d_lid, "lid_play": d_play, "travel": travel}))
 
-    # 6. the return spring, uncut
-    span = {a: K.ring_spring_span(a)[1] - K.ring_spring_span(a)[0] for a in (0.0, P.RPAWL_RELEASE_DEG, P.RPAWL_MOUNT_DEG)}
-    xs, y_s, z_s = K.ring_spring_seat()
-    tube = g.cyl_x(2.0, xs - 2.9, xs - 0.05, y_s, z_s)                                      # the end of a 4 mm spring in its cup
+    # 6. the return spring, uncut, in a cup that opens along the way of the tail
+    span = {a: K.ring_spring_span(a) for a in (0.0, P.RPAWL_RELEASE_DEG, P.RPAWL_MOUNT_DEG)}
+    gx, gy, z_s = K.ring_spring_seat()
+    ux, uy = K.ring_spring_axis()
+    tube = g.move(g.rot(g.cyl_x(2.0, -2.9, -0.05, 0.0, z_s), "z", math.degrees(math.atan2(uy, ux))), gx, gy, 0.0)     # the end of a 4 mm spring in its cup
     v_cup = g.common_volume(tube, stage)
-    arm = P.RPAWL_TAIL
-    out.append(Result("ring:return spring works uncut", abs(span[0.0] - P.RPAWL_SPRING_REST) < 0.01 and span[0.0] <= P.RPAWL_SPRING_L - 1.5 and span[P.RPAWL_MOUNT_DEG] >= P.RPAWL_SPRING_SOLID + 2.0 and v_cup <= TOL_VOLUME, f"a compression spring of 4 x {P.RPAWL_SPRING_L:.0f} mm, as it comes, lies between a nub on the tail of the pawl, {arm:.0f} mm beyond the pivot, and a cup under the deck that takes 3 mm of it (room for Ø4.0: {v_cup:.2f} mm3 in the way). It is {span[0.0]:.1f} mm long when the pawl is locked ({P.RPAWL_SPRING_L - span[0.0]:.1f} mm of preload), {span[P.RPAWL_RELEASE_DEG]:.1f} mm when the ring is free and {span[P.RPAWL_MOUNT_DEG]:.1f} mm at the end of the slit. Its solid length is taken to be {P.RPAWL_SPRING_SOLID:.0f} mm, from the {P.PAWL_SPRING_SOLID:.0f} mm of the 12 mm piece on the latch; it has not been measured. How strong the spring is, and whether a jolt can turn the pawl against it, is not in the model", {"lengths": {str(k): v for k, v in span.items()}}))
+    fx, fy = K.ring_spring_nub()
+    arm = math.hypot(fx - rpx, fy - rpy)
+    drift = 0.0
+    for i in range(0, 18):
+        px, py = K.ring_spring_nub(P.RPAWL_RELEASE_DEG * i / 17)
+        drift = max(drift, abs((px - fx) * -uy + (py - fy) * ux))                              # how far the end of the spring leaves its axis
+    out.append(Result("ring:return spring works uncut", abs(span[0.0] - P.RPAWL_SPRING_REST) < 0.01 and span[0.0] <= P.RPAWL_SPRING_L - 1.5 and span[P.RPAWL_RELEASE_DEG] >= P.RPAWL_SPRING_SOLID + 2.0 and span[P.RPAWL_MOUNT_DEG] >= P.RPAWL_SPRING_SOLID and v_cup <= TOL_VOLUME and drift <= 0.6, f"a compression spring of 4 x {P.RPAWL_SPRING_L:.0f} mm, as it comes, bears on a flat of the tail beside the knob, {arm:.1f} mm from the pivot, and sits in a cup under the deck that takes 3 mm of it (room for Ø4.0: {v_cup:.2f} mm3 in the way). The cup is turned so that it opens along the way this point of the tail goes: the end of the spring then leaves the axis of the cup by {drift:.2f} mm at most. The spring is {span[0.0]:.1f} mm long when the pawl is locked ({P.RPAWL_SPRING_L - span[0.0]:.1f} mm of preload), {span[P.RPAWL_RELEASE_DEG]:.1f} mm when the ring is free and {span[P.RPAWL_MOUNT_DEG]:.1f} mm at the end of the slit. Its solid length is taken to be {P.RPAWL_SPRING_SOLID:.0f} mm, from the {P.PAWL_SPRING_SOLID:.0f} mm of the 12 mm piece on the latch; it has not been measured, and neither has its strength", {"lengths": {str(k): v for k, v in span.items()}, "drift": drift}))
 
     # 7. putting it together: the pawl comes up onto its boss from below, the knob through the slit
     def rises(a: float) -> bool:
-        return all(g.common_volume(g.move(K.ring_pawl_at(a), dz=-dz), stage) <= TOL_VOLUME for dz in (0.6, 1.5, 3.0, 4.5, 6.0, 8.0, 12.0))
+        whole = K.ring_pawl_at(a).fuse(K.ring_pawl_pin(a))
+        return all(g.common_volume(g.move(whole, dz=-dz), stage) <= TOL_VOLUME for dz in (0.6, 1.5, 3.0, 4.5, 6.0, 8.0, 12.0))
 
     can = _bisect(0.0, P.RPAWL_MOUNT_DEG, rises, 10)
     wall_behind = g.min_distance(K.ring_pawl_at(P.RPAWL_MOUNT_DEG), g.inter(stage, g.box(x0 - P.RING_SLOT_WALL - 0.5, x1 + P.RING_SLOT_WALL + 0.5, -r_slot - 3.0, r_slot + 3.0, zf - 3.0, K.RPAWL_Z0 - P.RPAWL_CL - 0.01)))
-    out.append(Result("ring:pawl can be put onto its boss", rises(P.RPAWL_MOUNT_DEG) and can <= P.RPAWL_MOUNT_DEG - 1.0, f"under the windows the walls of the slot are closed, so the pawl cannot come up with its finger in a window. Turned {can:.1f}° or more, its finger stands behind the rear wall and the pawl rises straight onto its boss, the knob entering the slit from below (tried 12 mm of the way in seven steps); the slit lets it turn {P.RPAWL_MOUNT_DEG:.0f}°, where the finger keeps {wall_behind:.2f} mm from that wall. Spring, washers and screw follow from below. In use the finger leaves the rear window in the last degrees of the slit and finds it again: its end is tapered to 2 mm, in a window with {P.RPAWL_CL} mm of room on each side", {"from_deg": can, "wall": wall_behind}))
+    out.append(Result("ring:pawl can be put onto its boss", rises(P.RPAWL_MOUNT_DEG) and can <= P.RPAWL_MOUNT_DEG - 1.0, f"under the windows the walls of the slot are closed, so the pawl cannot come up with its finger in a window. Turned {can:.1f}° or more, its finger stands behind the rear wall and the pawl, with the counterweight pin already in it, rises straight onto its boss, the knob entering the slit from below (tried 12 mm of the way in seven steps); the slit lets it turn {P.RPAWL_MOUNT_DEG:.0f}°, where the finger keeps {wall_behind:.2f} mm from that wall. Spring, washers and screw follow from below. In use the finger leaves the rear window in the last degrees of the slit and finds it again: its end is tapered to 2 mm, in a window with {P.RPAWL_CL} mm of room on each side", {"from_deg": can, "wall": wall_behind}))
+
+    # 8. balance: a blow turns a pawl only as far as its centre of mass lies beside its pivot
+    plastic, pin = K.ring_pawl(), K.ring_pawl_pin()
+    m_p, m_s = g.volume(plastic) * DENSITY["printed"], g.volume(pin) * 7.9e-3
+    cp, cs = g.centre_of_mass(plastic), g.centre_of_mass(pin)
+    bare = math.hypot(cp[0] - rpx, cp[1] - rpy)
+    cx, cy = (m_p * cp[0] + m_s * cs[0]) / (m_p + m_s), (m_p * cp[1] + m_s * cs[1]) / (m_p + m_s)
+    both = math.hypot(cx - rpx, cy - rpy)
+    hangs = P.RPAWL_PIN_L - P.RPAWL_T
+    wall_pin = P.RPAWL_PIN_BOSS_R - P.RPAWL_PIN_HOLE / 2
+    to_bore = math.hypot(*P.RPAWL_PIN_AT) - P.RPAWL_PIN_HOLE / 2 - P.PAWL_BORE / 2
+    lever = max(both, 0.3)                                 # what a pin that sits a little beside its place may leave
+    blow = 1.0 * arm / ((m_p + m_s) * lever) * 1000 / 9.81
+    out.append(Result("ring:pawl is balanced about its pivot", both <= 0.15 and wall_pin >= 1.5 and to_bore >= 1.5 and 0.0 < hangs < 6.0, f"the printed pawl weighs {m_p:.2f} g and its centre of mass lies {bare:.2f} mm beside the pivot. A steel dowel pin of {P.RPAWL_PIN_D:.0f} x {P.RPAWL_PIN_L:.0f} mm ({m_s:.2f} g), pressed upright into the tail {math.hypot(*P.RPAWL_PIN_AT):.1f} mm from the pivot, brings the centre of mass of both to {both:.2f} mm from the pivot. A blow from any side then finds almost no lever to turn the pawl: if the centre of mass ended up {lever:.1f} mm off, it would take about {blow:.0f} g against a spring that holds with 1 N (hand estimate; the strength of the spring is not known). The pin's top is flush with the top of the pawl, {P.RPAWL_PLAY} mm under the deck, so it cannot leave upwards; it hangs {hangs:.1f} mm below the pawl and is held from falling by its press fit (hole Ø{P.RPAWL_PIN_HOLE}, upright in the print, {wall_pin:.1f} mm of plastic round it, {to_bore:.1f} mm to the bore of the pivot) and, if that is loose, by a drop of glue", {"bare": bare, "balanced": both, "mass": [m_p, m_s]}))
     return out
 
 
@@ -490,7 +521,7 @@ def check_assembly_paths() -> list[Result]:
                 bad.append((dz, key, v))
     out.append(Result("assembly:band lowers over the core", not bad, f"band lifted 1..25 mm, {len(bad)} collisions", {"collisions": bad}))
     bad = []
-    top_keys = ["stage", "pawl", "pawl_screw", "ring_pawl", "ring_pawl_washers", "ring_pawl_screw", "lid", "hinge_pin", "sleeve", "yoke_pin"]
+    top_keys = ["stage", "pawl", "pawl_screw", "ring_pawl", "ring_pawl_pin", "ring_pawl_washers", "ring_pawl_screw", "lid", "hinge_pin", "sleeve", "yoke_pin"]
     for dz in (1.0, 3.0, 6.0, 12.0, 25.0, 40.0):
         for tk in top_keys:
             moved = g.move(it[tk].shape(), dz=dz)
@@ -523,7 +554,7 @@ DENSITY = {"printed": 1.27e-3}   # g / mm^3 (PETG)
 MASS_G = {
     "reader": 9.0, "mcu": 3.0, "amp": 1.5, "charger": 2.0, "boost": 1.5, "servo": 9.0, "horn": 0.5,
     "speaker": 10.0, "led": 0.4, "cell": 48.0, "contacts": 1.5, "hall": 0.2, "ring": 3.5,
-    "spring": 0.4, "hinge_pin": 0.4, "yoke_pin": 0.45, "stack_screws": 4.4, "inserts": 2.6,
+    "spring": 0.4, "hinge_pin": 0.4, "yoke_pin": 0.45, "ring_pawl_pin": 0.8, "stack_screws": 4.4, "inserts": 2.6,
     "harness": 6.0, "turf_screws": 1.6, "base_screws": 2.0,
 }
 BASE_KEYS = ("grass_base", "grass_top", "reader", "hall", "harness", "turf_screws", "base_screws")

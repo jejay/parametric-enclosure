@@ -309,36 +309,50 @@ RING_X = -3.0                 # the ring plane (y-z) sits slightly behind centre
 # ring leaves free in it is filled with paper or cloth, which holds the ring and keeps it from being scratched.
 RING_SLOT_W = 3.1             # width of the slot
 RING_SLOT_D = 25.0            # diameter of its round bottom
-RING_UNDER_TIP = 4.2          # room under the tip of the ring pawl, for the profile height of the ring
+RING_SLOT_DEPTH = 13.0        # its depth in the middle, below the surface of the deck.  That is a half-round bottom with
+                              # half a millimetre of upright wall above it.  First the owner gave the room under the tip of
+                              # the pawl, 4.2 mm, which made 11.2 mm; then this depth, and the room under the tip follows
 RING_SLOT_WALL = 2.0          # below the deck the slot has walls of this thickness, before and behind it ...
 RING_SLOT_FLOOR = 1.6         # ... and a floor of this thickness under it
 
 # The ring pawl locks the ring.  It is a second pawl under the deck, like the one of the latch and on the same
 # kind of pivot, but it is moved by hand only: its knob stands up through a curved slit in the deck.  Its finger
-# passes through the ring, from behind, RING_UNDER_TIP above the bottom of the slot, as the steel pin of
-# revisions 1 to 9 did.  A compression spring holds it there.
+# passes through the ring, from behind, as the steel pin of revisions 1 to 9 did.  A compression spring holds it
+# there.
 M2_WASHER_D, M2_WASHER_T = 5.0, 0.3   # standard M2 washer (ISO 7089 / DIN 125 A)
 M3_WASHER_D, M3_WASHER_T = 7.0, 0.5   # standard M3 washer, hole 3.2.  It lies between the M2 washer and the pawl: the
                                       # M2 washer is no wider than the pivot boss and narrower than the bore of the pawl
-RPAWL_PIVOT = (-10.5, 19.0)   # vertical pivot of the ring pawl: beyond the end of the slot's walls, so that the finger
-                              # crosses the slot almost square (it is 20 mm long from here)
+RPAWL_PIVOT = (RING_X, 20.0)  # vertical pivot of the ring pawl: in the plane of the ring, beyond the end of the slot.  The
+                              # finger is a piece of a ring about it, so it crosses the slot square and in its middle
 RPAWL_T = 4.3                 # thickness of the ring pawl.  0.7 mm more than the latch pawl: under a washer of
                               # M2_WASHER_T an M2 x 6 screw reaches 5.7 mm into the boss, and with this thickness its hole
                               # can be 6.0 mm deep and still leave 1.0 mm of deck over it
 RPAWL_PLAY = PAWL_PLAY        # play of the ring pawl along its pivot, between the deck and its washer
 RPAWL_SCREW_L = PAWL_SCREW_L  # M2 x 6, as on the latch pawl
-RPAWL_ARM_W = 5.0             # width of the arm from the pivot to the finger, and of the tail beyond the pivot
+RPAWL_ARM_W = 5.0             # width of the arm that leads from the pivot round the end of the slot to the finger
+RPAWL_ARM_X = -10.5           # middle line of the arm where it runs behind the rear wall of the slot
 RPAWL_FINGER_W = 4.4          # width of the finger that passes through the ring
 RPAWL_FINGER_BEYOND = 1.65    # locked, the finger ends this far beyond the slot, in the window of the front wall
-RPAWL_FINGER_CHAMFER = 1.9    # slope on the two lower edges of the finger: the inside of a ring is round, and a band
-                              # as high as RING_UNDER_TIP has to stand under it
+RPAWL_FINGER_CHAMFER = 1.9    # slope on the two lower edges of the finger: the inside of a ring is round
 RPAWL_CL = 1.0                # room round the finger in its two windows and round the knob in its slit, on each side:
                               # more than the play of the pivot and two printed surfaces can take up (0.25 + 0.2 + 0.2)
-RPAWL_KNOB_D = 5.0            # the knob, a post on top of the arm ...
-RPAWL_KNOB_H = 4.5            # ... that stands this far above the deck ...
-RPAWL_KNOB_R = 19.0           # ... this far from the pivot: just behind the middle of the ring
-RPAWL_TAIL = 10.0             # the return spring pushes on the tail this far beyond the pivot
-RPAWL_RELEASE_DEG = 18.0      # turned this far the finger has left the slot by RPAWL_CL (checked)
+# Knob, spring and counterweight are on the tail, the part of the pawl on the far side of the pivot (owner, second
+# round).  The finger then needs no knob behind the ring, where the ring itself stands in the way of a hand.
+RPAWL_TAIL_DEG = 20.0         # direction of the tail, seen from the pivot (degrees from +X): to the front left, where the
+                              # lid stands high above the deck and the cup of the spring finds room beside the servo
+RPAWL_KNOB_R = 14.8           # the knob stands this far from the pivot, at the end of the tail.  The spring bears on the
+                              # tail beside it, 15.2 mm from the pivot: it is then pressed from 12.5 to 8.0 mm
+RPAWL_KNOB_D = 5.0            # the knob, a post on top of the tail ...
+RPAWL_KNOB_H = 4.5            # ... that stands this far above the deck
+RPAWL_TAIL_END_R = 3.6        # the tail ends in a round of this radius about the knob
+RPAWL_PIN_D, RPAWL_PIN_L = 4.0, 8.0   # counterweight: a steel dowel pin of 4 x 8, pressed upright into the tail, its top
+                              # flush with the top of the pawl; the rest of it hangs down
+RPAWL_PIN_HOLE = 3.95         # its hole: a press fit.  The hole stands upright in the print, the layers lie round the pin
+RPAWL_PIN_AT = (-4.56, 5.33)  # where the pin sits, from the pivot: where it brings the centre of mass of the pawl onto
+                              # the pivot (checked).  The tail with its knob already outweighs the arm to the front;
+                              # what is missing lies to the side of the hub that faces away from the finger
+RPAWL_PIN_BOSS_R = 3.9        # the tail is this wide round the pin
+RPAWL_RELEASE_DEG = 17.0      # turned this far the finger has left the slot by RPAWL_CL (checked)
 RPAWL_MOUNT_DEG = 25.0        # the slit lets the knob go this far.  Here the finger stands behind the wall of the slot:
                               # only so can the pawl be brought up onto its boss when the stage is put together
 RPAWL_SPRING_L = 15.0         # owner: a compression spring of 4 x 15 mm, not cut
