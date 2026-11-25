@@ -441,7 +441,7 @@ def check_ring_lock() -> list[Result]:
             _, col = classify(interference(items, only_groups=({"ring_pawl"}, {"fixed", "lid", "pawl", "horn"})))
             others += [(a, lid_deg, x, y, vv) for x, y, vv in col]
     stop_gap = g.min_distance(K.ring_pawl_at(0.0), K.ring_pawl_stop())
-    out.append(Result("ring:pawl swings free with all its play", not bad and not others and stop_gap <= 0.02, f"locked, the arm of the pawl rests against a pad on the rear wall of the slot ({stop_gap:.2f} mm). From there to {P.RPAWL_MOUNT_DEG:.0f}°, the end of the slit, the pawl with its counterweight pin was turned in steps of 3° and moved {off:.2f} mm in eight directions, which is the play of its pivot ({(P.PAWL_BORE - P.PAWL_BOSS_D) / 2:.2f} mm) and {P.PRINT_TOL} mm for each of two printed surfaces, lying on its washer and pushed up against the deck: {len(bad)} contacts with the stage (windows of the finger, slit of the knob, walls of the slot, cup of the spring, dome). As drawn it meets nothing else either, lid shut and lid open: {len(others)} collisions. Drawn room round finger and knob: {P.RPAWL_CL} mm", {"collisions": bad + others}))
+    out.append(Result("ring:pawl swings free with all its play", not bad and not others and stop_gap <= 0.02, f"locked, the arm of the pawl rests against a pad on the rear wall of the slot ({stop_gap:.2f} mm). From there to {P.RPAWL_MOUNT_DEG:.0f}°, the end of the slit, the pawl{' with its counterweight pin' if P.RPAWL_PIN else ''} was turned in steps of 3° and moved {off:.2f} mm in eight directions, which is the play of its pivot ({(P.PAWL_BORE - P.PAWL_BOSS_D) / 2:.2f} mm) and {P.PRINT_TOL} mm for each of two printed surfaces, lying on its washer and pushed up against the deck: {len(bad)} contacts with the stage (windows of the finger, slit of the knob, walls of the slot, cup of the spring, dome). As drawn it meets nothing else either, lid shut and lid open: {len(others)} collisions. Drawn room round finger and knob: {P.RPAWL_CL} mm", {"collisions": bad + others}))
 
     # 5. the knob, on the tail
     knob_top = K.ring_pawl_at(0.0).BoundingBox().zmax - P.Z_DECK
@@ -480,21 +480,31 @@ def check_ring_lock() -> list[Result]:
 
     can = _bisect(0.0, P.RPAWL_MOUNT_DEG, rises, 10)
     wall_behind = g.min_distance(K.ring_pawl_at(P.RPAWL_MOUNT_DEG), g.inter(stage, g.box(x0 - P.RING_SLOT_WALL - 0.5, x1 + P.RING_SLOT_WALL + 0.5, -r_slot - 3.0, r_slot + 3.0, zf - 3.0, K.RPAWL_Z0 - P.RPAWL_CL - 0.01)))
-    out.append(Result("ring:pawl can be put onto its boss", rises(P.RPAWL_MOUNT_DEG) and can <= P.RPAWL_MOUNT_DEG - 1.0, f"under the windows the walls of the slot are closed, so the pawl cannot come up with its finger in a window. Turned {can:.1f}° or more, its finger stands behind the rear wall and the pawl, with the counterweight pin already in it, rises straight onto its boss, the knob entering the slit from below (tried 12 mm of the way in seven steps); the slit lets it turn {P.RPAWL_MOUNT_DEG:.0f}°, where the finger keeps {wall_behind:.2f} mm from that wall. Spring, washers and screw follow from below. In use the finger leaves the rear window in the last degrees of the slit and finds it again: its end is tapered to 2 mm, in a window with {P.RPAWL_CL} mm of room on each side", {"from_deg": can, "wall": wall_behind}))
+    out.append(Result("ring:pawl can be put onto its boss", rises(P.RPAWL_MOUNT_DEG) and can <= P.RPAWL_MOUNT_DEG - 1.0, f"under the windows the walls of the slot are closed, so the pawl cannot come up with its finger in a window. Turned {can:.1f}° or more, its finger stands behind the rear wall and the pawl{', with the counterweight pin already in it,' if P.RPAWL_PIN else ''} rises straight onto its boss, the knob entering the slit from below (tried 12 mm of the way in seven steps); the slit lets it turn {P.RPAWL_MOUNT_DEG:.0f}°, where the finger keeps {wall_behind:.2f} mm from that wall. Spring, washers and screw follow from below. In use the finger leaves the rear window in the last degrees of the slit and finds it again: its end is tapered to 2 mm, in a window with {P.RPAWL_CL} mm of room on each side", {"from_deg": can, "wall": wall_behind}))
 
-    # 8. balance: a blow turns a pawl only as far as its centre of mass lies beside its pivot
-    plastic, pin = K.ring_pawl(), K.ring_pawl_pin()
-    m_p, m_s = g.volume(plastic) * DENSITY["printed"], g.volume(pin) * 7.9e-3
-    cp, cs = g.centre_of_mass(plastic), g.centre_of_mass(pin)
+    # 8. a blow turns a pawl only as far as its centre of mass lies beside its pivot
+    plastic = K.ring_pawl()
+    m_p = g.volume(plastic) * DENSITY["printed"]
+    cp = g.centre_of_mass(plastic)
     bare = math.hypot(cp[0] - rpx, cp[1] - rpy)
-    cx, cy = (m_p * cp[0] + m_s * cs[0]) / (m_p + m_s), (m_p * cp[1] + m_s * cs[1]) / (m_p + m_s)
-    both = math.hypot(cx - rpx, cy - rpy)
-    hangs = P.RPAWL_PIN_L - P.RPAWL_T
-    wall_pin = P.RPAWL_PIN_BOSS_R - P.RPAWL_PIN_HOLE / 2
-    to_bore = math.hypot(*P.RPAWL_PIN_AT) - P.RPAWL_PIN_HOLE / 2 - P.PAWL_BORE / 2
-    lever = max(both, 0.3)                                 # what a pin that sits a little beside its place may leave
-    blow = 1.0 * arm / ((m_p + m_s) * lever) * 1000 / 9.81
-    out.append(Result("ring:pawl is balanced about its pivot", both <= 0.15 and wall_pin >= 1.5 and to_bore >= 1.5 and 0.0 < hangs < 6.0, f"the printed pawl weighs {m_p:.2f} g and its centre of mass lies {bare:.2f} mm beside the pivot. A steel dowel pin of {P.RPAWL_PIN_D:.0f} x {P.RPAWL_PIN_L:.0f} mm ({m_s:.2f} g), pressed upright into the tail {math.hypot(*P.RPAWL_PIN_AT):.1f} mm from the pivot, brings the centre of mass of both to {both:.2f} mm from the pivot. A blow from any side then finds almost no lever to turn the pawl: if the centre of mass ended up {lever:.1f} mm off, it would take about {blow:.0f} g against a spring that holds with 1 N (hand estimate; the strength of the spring is not known). The pin's top is flush with the top of the pawl, {P.RPAWL_PLAY} mm under the deck, so it cannot leave upwards; it hangs {hangs:.1f} mm below the pawl and is held from falling by its press fit (hole Ø{P.RPAWL_PIN_HOLE}, upright in the print, {wall_pin:.1f} mm of plastic round it, {to_bore:.1f} mm to the bore of the pivot) and, if that is loose, by a drop of glue", {"bare": bare, "balanced": both, "mass": [m_p, m_s]}))
+    if P.RPAWL_PIN:
+        pin = K.ring_pawl_pin()
+        m_s = g.volume(pin) * 7.9e-3
+        cs = g.centre_of_mass(pin)
+        cx, cy = (m_p * cp[0] + m_s * cs[0]) / (m_p + m_s), (m_p * cp[1] + m_s * cs[1]) / (m_p + m_s)
+        both = math.hypot(cx - rpx, cy - rpy)
+        hangs = P.RPAWL_PIN_L - P.RPAWL_T
+        wall_pin = P.RPAWL_PIN_BOSS_R - P.RPAWL_PIN_HOLE / 2
+        to_bore = math.hypot(*P.RPAWL_PIN_AT) - P.RPAWL_PIN_HOLE / 2 - P.PAWL_BORE / 2
+        lever = max(both, 0.3)                             # what a pin that sits a little beside its place may leave
+        blow = 1.0 * arm / ((m_p + m_s) * lever) * 1000 / 9.81
+        out.append(Result("ring:pawl is balanced about its pivot", both <= 0.15 and wall_pin >= 1.5 and to_bore >= 1.5 and 0.0 < hangs < 6.0, f"the printed pawl weighs {m_p:.2f} g and its centre of mass lies {bare:.2f} mm beside the pivot. A steel dowel pin of {P.RPAWL_PIN_D:.0f} x {P.RPAWL_PIN_L:.0f} mm ({m_s:.2f} g), pressed upright into a round beside the hub {math.hypot(*P.RPAWL_PIN_AT):.1f} mm from the pivot, brings the centre of mass of both to {both:.2f} mm from the pivot. A blow from any side then finds almost no lever to turn the pawl: if the centre of mass ended up {lever:.1f} mm off, it would take about {blow:.0f} g against a spring that holds with 1 N (hand estimate; the strength of the spring is not known). The pin's top is flush with the top of the pawl, {P.RPAWL_PLAY} mm under the deck, so it cannot leave upwards; it hangs {hangs:.1f} mm below the pawl and is held from falling by its press fit (hole Ø{P.RPAWL_PIN_HOLE}, upright in the print, {wall_pin:.1f} mm of plastic round it, {to_bore:.1f} mm to the bore of the pivot) and, if that is loose, by a drop of glue", {"bare": bare, "balanced": both, "mass": [m_p, m_s]}))
+    else:
+        dx, dy = cp[0] - rpx, cp[1] - rpy
+        # turning towards free takes the centre of mass along (dy, -dx): a blow on that side of the ball does it
+        side = ("back" if dy < 0 else "front") + " " + ("right" if -dx < 0 else "left")
+        blow = 1.0 * arm / (m_p * bare) * 1000 / 9.81
+        out.append(Result("ring:what a blow does to the pawl", blow >= 200.0 and bare <= 4.5, f"the pawl has no counterweight: a steel pin in it could fall out one day, which the owner does not want. The printed pawl weighs {m_p:.2f} g and its centre of mass lies {bare:.2f} mm beside the pivot ({dx:+.2f} mm forwards, {dy:+.2f} mm sideways). By a hand estimate a blow of about {blow:.0f} g on the {side} of the ball starts to turn it towards free against a spring that holds with 1 N; a spring twice as strong takes twice the blow, and the strength of the spring is not known. A blow on the opposite side presses the arm onto its pad. A drop onto a hard floor is taken to give 500 to 2000 g (research/06, section 1.5), so a hard knock on that side can open the pawl for an instant. For the ring to be lost it has to be thrown {P.RING_SLOT_DEPTH:.0f} mm upwards out of its slot in that instant, against what it is bedded in. A pin of {P.RPAWL_PIN_D:.0f} x {P.RPAWL_PIN_L:.0f} mm beside the hub would bring the centre of mass onto the pivot (RPAWL_PIN)", {"off": bare, "blow": blow, "side": side}))
     return out
 
 
@@ -521,7 +531,7 @@ def check_assembly_paths() -> list[Result]:
                 bad.append((dz, key, v))
     out.append(Result("assembly:band lowers over the core", not bad, f"band lifted 1..25 mm, {len(bad)} collisions", {"collisions": bad}))
     bad = []
-    top_keys = ["stage", "pawl", "pawl_screw", "ring_pawl", "ring_pawl_pin", "ring_pawl_washers", "ring_pawl_screw", "lid", "hinge_pin", "sleeve", "yoke_pin"]
+    top_keys = [k for k in ("stage", "pawl", "pawl_screw", "ring_pawl", "ring_pawl_pin", "ring_pawl_washers", "ring_pawl_screw", "lid", "hinge_pin", "sleeve", "yoke_pin") if k in it]
     for dz in (1.0, 3.0, 6.0, 12.0, 25.0, 40.0):
         for tk in top_keys:
             moved = g.move(it[tk].shape(), dz=dz)

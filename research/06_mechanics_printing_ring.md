@@ -136,7 +136,9 @@ Not changed: the pivot with its washers, the 1 mm of room, the slit that reaches
 | Tail a bar of 6 mm, arm 4 mm, pin in a round of its own beside the hub (taken) | 1.87 g | 0.0 mm | about 1900 g with 0.3 mm left over |
 | The same without pin and round | 1.68 g | 4.1 mm | about 220 g |
 
-The plate had been part of the balance: without a pin it left 2.5 mm, the slim bar leaves 4.1 mm. Balancing with plastic in place of steel takes about six times the volume and brings the bulk back. The pin stays; `RPAWL_PIN` leaves it out.
+The plate had been part of the balance: without a pin it left 2.5 mm, the slim bar leaves 4.1 mm. Balancing with plastic in place of steel takes about six times the volume and brings the bulk back. The pin stayed in revision 12.
+
+**No pin (owner's final decision, the same day).** The owner does not want the risk that the pin falls out one day: it is held from falling by a press fit or by glue alone, and below it lie the electronics. The pawl is the third row of the table: 1.68 g, its centre of mass 4.1 mm beside the pivot, 2.3 mm forwards and 3.4 mm towards the finger. Turning towards free takes the centre of mass to the back and to the right, so it is a blow on the back right of the ball that opens the pawl, at about 220 g against 1 N; a blow on the front left presses the arm onto its pad [INF, hand estimate]. `RPAWL_PIN` puts the pin back.
 
 ---
 

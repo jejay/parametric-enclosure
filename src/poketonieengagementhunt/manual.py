@@ -210,6 +210,8 @@ def render_details(img: Path) -> list[Path]:
     it = A.by_key(A.build())
     sc = R.Scene()
     for key in ("stage", "ring", "ring_pawl", "ring_pawl_pin", "ring_pawl_washers", "ring_pawl_screw", "ring_pawl_spring"):
+        if key not in it:
+            continue
         sc.add(R.clip(it[key].bodies, g.box(-34, 20, -30, 40, 10, 60)), colour="chassis" if key == "stage" else None)
     p = img / "ring_below.png"
     _zoomed(sc, p, 180, -70, 1.0)

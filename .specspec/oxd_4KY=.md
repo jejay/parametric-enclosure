@@ -18,6 +18,6 @@ The washer of the pawl pivot is printed: a flange of 7 mm that keeps the pawl on
 
 The ring is no longer locked by a pin: the 3 x 25 mm dowel pin of revisions six to nine, its slider and its bores are gone, and the ring pawl has taken their place.
 
-On the list of material this changes: seven M2 screws for seven self-tapping ones and no M2 washer for the latch pawl; for the ring pawl a sixth M2 x 6 screw, an M2 washer, an M3 washer and a dowel pin of 4 x 8 mm as its counterweight, all of which the owner has. Tools: a 1.5 mm hex key; drills of 1.7 or 1.8 mm and of 2.0 mm only if a hole prints too tight.
+On the list of material this changes: seven M2 screws for seven self-tapping ones and no M2 washer for the latch pawl; for the ring pawl a sixth M2 x 6 screw, an M2 washer and an M3 washer, all of which the owner has. Tools: a 1.5 mm hex key; drills of 1.7 or 1.8 mm and of 2.0 mm only if a hole prints too tight.
 
 Origin: agent conclusion from research/06_mechanics_printing_ring.md, sections 3, 4.2 and 4.3.

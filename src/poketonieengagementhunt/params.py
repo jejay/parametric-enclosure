@@ -347,8 +347,10 @@ RPAWL_KNOB_D = 5.0            # the knob, a post on top of the tail ...
 RPAWL_KNOB_H = 4.5            # ... that stands this far above the deck
 RPAWL_TAIL_END_R = 3.0        # the tail is a bar from the hub to the knob, twice this wide, and ends in a round of this
                               # radius about the knob
-RPAWL_PIN = True              # whether the pawl has a counterweight pin.  Without it the pawl is the same but for the round
-                              # beside its hub that holds the pin
+RPAWL_PIN = False             # whether the pawl has a counterweight pin.  It has none: the owner does not want a pin that
+                              # could fall out one day (final decision after revision 12).  The pawl is then not balanced
+                              # about its pivot; the checks say what a blow does to it.  With True the pawl gets a round
+                              # beside its hub that holds the pin described by the next four values
 RPAWL_PIN_D, RPAWL_PIN_L = 4.0, 8.0   # counterweight: a steel dowel pin of 4 x 8, pressed upright into a round beside the hub,
                               # its top flush with the top of the pawl; the rest of it hangs down
 RPAWL_PIN_HOLE = 3.95         # its hole: a press fit.  The hole stands upright in the print, the layers lie round the pin
