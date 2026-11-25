@@ -1,10 +1,10 @@
 """Printed parts inside the ball.
 
-stage         black inner dome: ring deck, hinge towers, latch pivot, lid collar
+stage         black inner dome: ring deck with the slot of the ring, hinge towers, the pivots of the two pawls,
+              lid collar
 chassis       bucket carrying battery, servo, boards and the speaker baffle
 pawl          latch pawl released by the servo
-cradle        ring seat (exchangeable, fitted to the actual ring)
-slider        knob of the ring lock pin
+ring_pawl     pawl that locks the ring in its slot; its knob stands up through the deck
 sleeve        mandrel of the torsion spring; the two hinge pins are pressed into its ends
 spk_clamp     ring that clamps the speaker against the baffle
 
@@ -32,6 +32,17 @@ YOKE_PIN_Z = YOKE_SEAT_Z - P.YOKE_PIN_D / 2                                # axi
 PAWL_SPRING_Z = P.PAWL_Z0 + 1.0                                            # axis of the pawl's return spring
 PAWL_SPRING_X = P.PAWL_PIVOT[0] - P.PAWL_TAIL_X + 1.75                     # ... and where its seat under the deck lies
 DECK_BOTTOM = P.Z_DECK - P.DECK_T
+# the ring pawl and the slot of the ring
+RPX, RPY = P.RPAWL_PIVOT
+RPAWL_Z1 = DECK_BOTTOM - P.RPAWL_PLAY                  # top of the ring pawl where it lies by itself: on its washer
+RPAWL_Z0 = RPAWL_Z1 - P.RPAWL_T                        # its underside there, which is also the end of its pivot boss
+RPAWL_SPRING_Z = RPAWL_Z0 + P.RPAWL_T / 2              # axis of its return spring
+RING_SLOT_Z = RPAWL_Z0 - P.RING_UNDER_TIP              # bottom of the slot of the ring, in its middle
+RING_SLOT_ZC = RING_SLOT_Z + P.RING_SLOT_D / 2         # axis of its round bottom
+RING_SLOT_X0, RING_SLOT_X1 = P.RING_X - P.RING_SLOT_W / 2, P.RING_X + P.RING_SLOT_W / 2
+RPAWL_R = math.hypot(P.RING_X - RPX, RPY)              # radius of the middle line of the finger: it crosses the middle of
+                                                       # the slot (y = 0)
+RPAWL_AZ_ROOT = -92.0                                  # where the finger begins, on the arm: seen from the pivot, in degrees
 
 
 def _sector(profile, az: float, half_deg: float) -> cq.Shape:
@@ -212,9 +223,86 @@ def stop_contact_ok() -> float:
     return 4.5 * math.sin(a_open) + 1.5 * math.cos(a_open)
 
 
-def lock_pin_span(locked: bool) -> tuple[float, float]:
-    tip = P.LOCK_TIP_X if locked else P.LOCK_TIP_X - P.LOCK_TRAVEL
-    return (tip - P.LOCK_PIN_L, tip)
+def rp_point(r: float, az: float) -> tuple[float, float]:
+    """The point at distance ``r`` from the pivot of the ring pawl in the direction ``az`` (degrees from +X)."""
+    return (RPX + r * math.cos(math.radians(az)), RPY + r * math.sin(math.radians(az)))
+
+
+def rp_az(x: float) -> float:
+    """Direction, seen from the pivot of the ring pawl, in which the middle line of its finger crosses the
+    plane ``x``.  The finger lies on the -Y side of the pivot, so the angle is negative."""
+    return -math.degrees(math.acos((x - RPX) / RPAWL_R))
+
+
+def rp_az_end() -> float:
+    """Direction of the end of the finger when the pawl is locked."""
+    return rp_az(RING_SLOT_X1 + P.RPAWL_FINGER_BEYOND)
+
+
+def _rp_sector(profile, az0: float, az1: float) -> cq.Shape:
+    """Revolve an (r, z) profile about the pivot of the ring pawl, from direction ``az0`` to ``az1``."""
+    return g.move(_sector(profile, (az0 + az1) / 2, (az1 - az0) / 2), RPX, RPY, 0.0)
+
+
+def ring_finger_window() -> cq.Shape:
+    """What is cut out of the two walls of the slot for the finger of the ring pawl: the band that the finger
+    sweeps about its pivot, with RPAWL_CL of room on each side and below it.  Above, the windows end at the
+    deck, against which the finger is pressed when someone pulls at a locked ring."""
+    cl = P.RPAWL_CL
+    r0, r1 = RPAWL_R - P.RPAWL_FINGER_W / 2 - cl, RPAWL_R + P.RPAWL_FINGER_W / 2 + cl
+    x0, x1 = RING_SLOT_X0 - P.RING_SLOT_WALL - 0.5, RING_SLOT_X1 + P.RING_SLOT_WALL + 0.5
+    return _rp_sector([(r0, RPAWL_Z0 - cl), (r1, RPAWL_Z0 - cl), (r1, DECK_BOTTOM + 0.02), (r0, DECK_BOTTOM + 0.02)], rp_az(x0) - 2.0, rp_az(x1) + 2.0)
+
+
+def _ring_slot_walls() -> cq.Shape:
+    """What hangs under the deck round the slot of the ring: a wall before it, a wall behind it and a floor
+    under it, together a segment of a disc, with the two windows for the finger of the ring pawl.  The slot
+    itself is cut afterwards, through the deck as well.  The stage is printed upside down: the segment then
+    stands on the deck and closes like a dome, and the bottom of the slot is a bridge of RING_SLOT_W."""
+    x0, x1 = RING_SLOT_X0 - P.RING_SLOT_WALL, RING_SLOT_X1 + P.RING_SLOT_WALL
+    disc = g.cyl_x(P.RING_SLOT_D / 2 + P.RING_SLOT_FLOOR, x0, x1, 0.0, RING_SLOT_ZC)
+    walls = g.inter(disc, g.box(x0 - 1.0, x1 + 1.0, -40.0, 40.0, 0.0, DECK_BOTTOM + 0.01))
+    return walls.cut(ring_finger_window())
+
+
+def ring_knob_slit() -> cq.Shape:
+    """The curved slit in the deck through which the knob of the ring pawl stands up: the band that the knob
+    sweeps about the pivot from locked to RPAWL_MOUNT_DEG, with RPAWL_CL of room all round."""
+    rk = P.RPAWL_KNOB_D / 2 + P.RPAWL_CL
+    r0, r1 = P.RPAWL_KNOB_R - rk, P.RPAWL_KNOB_R + rk
+    z0, z1 = DECK_BOTTOM - 1.0, P.Z_DECK + 1.0
+    a0, a1 = -90.0 - P.RPAWL_MOUNT_DEG, -90.0
+    slit = _rp_sector([(r0, z0), (r1, z0), (r1, z1), (r0, z1)], a0, a1)
+    for a in (a0, a1):
+        x, y = rp_point(P.RPAWL_KNOB_R, a)
+        slit = slit.fuse(g.cyl_z(rk, z0, z1, x, y))
+    return slit
+
+
+def ring_pawl_stop() -> tuple[float, float]:
+    """Axis of the post under the deck against which the tail of the locked ring pawl rests."""
+    return (RPX - P.RPAWL_ARM_W / 2 - 1.5, RPY + P.RPAWL_TAIL - 2.0)
+
+
+def ring_spring_seat() -> tuple[float, float, float]:
+    """Floor of the cup of the ring pawl's return spring (x), and the axis of the spring (y, z)."""
+    return (RPX + P.RPAWL_ARM_W / 2 + P.RPAWL_SPRING_REST, RPY + P.RPAWL_TAIL, RPAWL_SPRING_Z)
+
+
+def ring_spring_cup() -> cq.Shape:
+    """Seat of the return spring of the ring pawl under the deck: a cup like that of the latch, open towards
+    the tail of the pawl.  In the print it stands on the deck and its floor is a short bridge."""
+    xs, y, z = ring_spring_seat()
+    depth, r, wall = 3.0, 2.6, 1.0                     # how far the spring reaches into the cup; room for a spring of up to 4.6 mm
+    outer = g.box(xs - depth, xs + 2.0, y - r - wall, y + r + wall, z - r - wall, DECK_BOTTOM + 0.01)
+    inner = g.box(xs - depth - 0.01, xs, y - r, y + r, z - r, DECK_BOTTOM + 0.02)
+    return outer.cut(inner)
+
+
+def ring_pilot_end() -> float:
+    """Height at which the pilot hole of the ring pawl's pivot screw ends: 0.3 mm above the end of the screw
+    under the thinnest washer."""
+    return RPAWL_Z0 - P.M2_WASHER_T + P.RPAWL_SCREW_L + 0.3
 
 
 def pawl_spring_cup() -> cq.Shape:
@@ -250,18 +338,19 @@ def stage() -> cq.Shape:
     # ... which the feet hold in the thickness of the towers only: in what the feet are thicker, the hole is wider
     body = body.cut(g.cyl_y(P.YOKE_FREE / 2, -TOWER_Y0, TOWER_Y0, HX + P.YOKE_X, YOKE_PIN_Z))
 
-    # ring cradle pocket and the guide of the lock pin behind it
-    guide = g.box(P.LOCK_STEM_X[0] - P.LOCK_TRAVEL - 1.5, P.CRADLE_X0 - 0.2, -4.0, 4.0, P.LOCK_Z - 3.2, DECK_BOTTOM + 0.01)
-    body = body.fuse(guide)
-    body = body.cut(g.box(P.CRADLE_X0 - 0.2, P.CRADLE_X1 + 0.2, -P.CRADLE_Y - 0.2, P.CRADLE_Y + 0.2, 0, 60))
-    # the lock pin is pushed in from behind: its bore runs out through the rear wall of the stage
-    body = body.cut(g.cyl_x(P.LOCK_BORE / 2, -60, P.CRADLE_X0, 0, P.LOCK_Z))
-    half_stem = 1.5 + P.LOCK_STEM_CL                   # the stem of the slider is 3 mm thick
-    stem_slot = g.box(P.LOCK_STEM_X[0] - P.LOCK_TRAVEL - 0.3, P.LOCK_STEM_X[1] + 0.3, -half_stem, half_stem, P.LOCK_Z - 2.3, 60)
-    body = body.cut(stem_slot)
-    # detent dimples for the slider cap (locked / released)
-    for dx in (0.0, -P.LOCK_TRAVEL):
-        body = body.cut(g.sphere(0.9, (P.LOCK_STEM_X[0] + 2.5 + dx, 4.2, P.Z_DECK + 0.45)))
+    # The slot of the ring is cut into the stage itself: through the deck, and below it between two walls and a
+    # floor that hang under the deck.  Its bottom is round
+    body = body.fuse(_ring_slot_walls())
+    body = body.cut(g.cyl_x(P.RING_SLOT_D / 2, RING_SLOT_X0, RING_SLOT_X1, 0.0, RING_SLOT_ZC))
+    # the ring pawl behind it: the slit for its knob through the deck, and under the deck its pivot boss, the
+    # post against which its tail rests when it is locked, and the cup of its return spring
+    body = body.cut(ring_knob_slit())
+    stop_x, stop_y = ring_pawl_stop()
+    body = body.fuse(g.cyl_z(P.PAWL_BOSS_D / 2, RPAWL_Z0, DECK_BOTTOM + 0.01, RPX, RPY))
+    body = body.fuse(g.cyl_z(1.5, RPAWL_Z0, DECK_BOTTOM + 0.01, stop_x, stop_y)).fuse(ring_spring_cup())
+    # its pivot screw forms its own thread in the boss, like that of the latch pawl
+    body = body.cut(g.cyl_z(P.M2_PILOT_FLAT / 2, RPAWL_Z0 - 1, ring_pilot_end(), RPX, RPY))
+    body = body.cut(g.cone_z(P.M2_PILOT_FLAT / 2 + P.M2_LEAD, P.M2_PILOT_FLAT / 2, RPAWL_Z0 - 0.001, RPAWL_Z0 + P.M2_LEAD, RPX, RPY))
 
     # latch: pivot boss, stop pin and the seat of the return spring hang from the deck underside
     px, py = P.PAWL_PIVOT
@@ -539,44 +628,59 @@ def emergency_hit_point() -> cq.Vector:
     return start + direction * t
 
 
-@lru_cache(maxsize=None)
-def cradle() -> cq.Shape:
-    """Exchangeable ring seat.  Reprint with the measured ring dimensions."""
-    x0, x1, yh = P.CRADLE_X0, P.CRADLE_X1, P.CRADLE_Y
-    z1 = P.Z_DECK
-    z0 = z1 - P.CRADLE_DEPTH
-    body = g.rbox(x0, x1, -yh, yh, z0, z1, 1.5)
-    r_out = P.RING_ID / 2 + P.RING_THICK
-    zc = P.Z_DECK - P.RING_SINK + r_out               # ring centre height
-    slot = g.cyl_x(r_out + 0.6, P.RING_X - P.RING_SLOT_W / 2, P.RING_X + P.RING_SLOT_W / 2, 0, zc)
-    slot = slot.fuse(g.box(P.RING_X - P.RING_SLOT_W / 2, P.RING_X + P.RING_SLOT_W / 2, -r_out - 0.6, r_out + 0.6, zc, z1 + 5))
-    body = body.cut(slot)
-    body = body.cut(g.cyl_x(P.LOCK_BORE / 2, x0 - 1, P.LOCK_TIP_X + 0.6, 0, P.LOCK_Z))
-    # cushion look: a shallow valley towards the ring
-    valley = g.prism_xz([(x0 + 1.2, z1 + 1), (P.RING_X, z1 - 1.3), (x1 - 1.2, z1 + 1)], -yh + 1.5, yh - 1.5)
-    body = body.cut(valley)
-    lip = g.rbox(x0 - 1.2, x1 + 1.2, -yh - 1.2, yh + 1.2, z1, z1 + 0.8, 2.0).cut(g.box(x0 + 1.0, x1 - 1.0, -yh + 1.0, yh - 1.0, z1 - 1, z1 + 2))
-    return g.clean(body.fuse(lip))
-
-
-def slider_at(locked: bool = True) -> cq.Shape:
-    return slider() if locked else g.move(slider(), dx=-P.LOCK_TRAVEL)
+def ring_pawl_at(deg: float = 0.0, up: bool = False) -> cq.Shape:
+    """The ring pawl, turned by ``deg`` towards release (clockwise from above).  ``up``: pushed up against the
+    deck, as when someone pulls at a locked ring, instead of lying on its washer."""
+    shape = ring_pawl()
+    if deg:
+        shape = g.rot(shape, "z", -deg, (RPX, RPY, 0))
+    return g.move(shape, dz=P.RPAWL_PLAY) if up else shape
 
 
 @lru_cache(maxsize=None)
-def slider() -> cq.Shape:
-    """Knob of the ring lock; the Ø3 steel pin is pressed into its stem."""
-    xs0, xs1 = P.LOCK_STEM_X
-    stem = g.box(xs0, xs1, -1.5, 1.5, P.LOCK_Z - 2.0, P.Z_DECK + 0.3)
-    cap = g.rbox(xs0 - 1.5, xs1 + 1.5, -5.5, 5.5, P.Z_DECK + 0.3, P.Z_DECK + 2.6, 1.6)
-    grip = None
-    for i in range(3):
-        rib = g.box(xs0 + 0.2 + i * 2.0, xs0 + 1.0 + i * 2.0, -4.5, 4.5, P.Z_DECK + 2.6, P.Z_DECK + 3.3)
-        grip = rib if grip is None else grip.fuse(rib)
-    bump = g.sphere(0.8, (xs0 + 2.5, 4.2, P.Z_DECK + 0.45))
-    body = stem.fuse(cap).fuse(grip).fuse(bump)
-    body = body.cut(g.cyl_x(P.LOCK_PIN_D / 2 - 0.05, xs0 - 5, xs1 + 5, 0, P.LOCK_Z))
+def ring_pawl() -> cq.Shape:
+    """The ring pawl, locked and lying on its washer.
+
+    A straight bar through the pivot, parallel to the slot of the ring: its arm reaches to the middle of the
+    slot and carries the finger and the knob, its tail carries the return spring.  The finger is a piece of a
+    ring about the pivot, so that it slides in its own track: it passes through the window of the rear wall,
+    across the slot and through the ring, and into the window of the front wall.  Its lower edges are sloped,
+    because the inside of a ring is round, and its end is tapered, so that it finds a window again that it
+    has left.  The knob is a post on the arm that stands up through the slit in the deck.
+
+    Everything on its underside lies in one plane: it is printed as it lies, knob up."""
+    z0, z1 = RPAWL_Z0, RPAWL_Z1
+    hw = P.RPAWL_ARM_W / 2
+    r0, r1 = RPAWL_R - P.RPAWL_FINGER_W / 2, RPAWL_R + P.RPAWL_FINGER_W / 2
+    c = P.RPAWL_FINGER_CHAMFER
+    az_end = rp_az_end()
+    hub = g.cyl_z(P.PAWL_BOSS_D / 2 + 2.0, z0, z1, RPX, RPY)
+    bar = g.box(RPX - hw, RPX + hw, RPY - r1 - 0.3, RPY + P.RPAWL_TAIL + 2.0, z0, z1)
+    finger = _rp_sector([(r0, z0 + c), (r0 + c, z0), (r1 - c, z0), (r1, z0 + c), (r1, z1), (r0, z1)], RPAWL_AZ_ROOT, az_end)
+    body = hub.fuse(bar).fuse(finger)
+    # taper of the finger's end, in plan: over its last 2 mm it narrows to 2 mm
+    back = math.degrees(2.0 / RPAWL_R)
+    side = (P.RPAWL_FINGER_W - 2.0) / 2
+    for r_edge, sgn in ((r0, 1.0), (r1, -1.0)):
+        wedge = [rp_point(r_edge - sgn * 0.2, az_end + 1.0), rp_point(r_edge - sgn * 0.2, az_end - back), rp_point(r_edge + sgn * side, az_end + 1.0)]
+        body = body.cut(g.prism_xy(wedge, z0 - 1.0, z1 + 1.0))
+    # the knob
+    kx, ky = rp_point(P.RPAWL_KNOB_R, -90.0)
+    rk, zk = P.RPAWL_KNOB_D / 2, P.Z_DECK + P.RPAWL_KNOB_H
+    body = body.fuse(g.cyl_z(rk, z1 - 0.01, zk - 0.6, kx, ky)).fuse(g.cone_z(rk, rk - 0.6, zk - 0.601, zk, kx, ky))
+    # nub for the return spring on the +x face of the tail
+    _, y_s, z_s = ring_spring_seat()
+    body = body.fuse(g.cyl_x(1.1, RPX + hw - 0.01, RPX + hw + 1.6, y_s, z_s))
+    body = body.cut(g.cyl_z(P.PAWL_BORE / 2, z0 - 1, z1 + 1, RPX, RPY))
     return g.clean(body)
+
+
+def ring_spring_span(deg: float = 0.0) -> tuple[float, float]:
+    """Where the return spring of the ring pawl begins (on the face of the tail) and ends (on the floor of its
+    cup), along X, with the pawl turned by ``deg`` towards release."""
+    a = math.radians(deg)
+    x_tail = RPX + P.RPAWL_ARM_W / 2 * math.cos(a) + P.RPAWL_TAIL * math.sin(a)
+    return (x_tail, ring_spring_seat()[0])
 
 
 @lru_cache(maxsize=None)

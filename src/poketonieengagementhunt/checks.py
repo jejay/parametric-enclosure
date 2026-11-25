@@ -36,7 +36,7 @@ INTENDED_OVERLAP: dict[frozenset[str], tuple[float, str]] = {
     frozenset(("pawl_screw", "stage")): (3.0, "M2 thread formed in a Ø1.95 pilot"),
     frozenset(("hinge_pin", "sleeve")): (1.0, f"Ø2 pins pressed into the Ø{P.HINGE_PRESS} blind holes of the sleeve"),
     frozenset(("yoke_pin", "stage")): (0.5, f"Ø2 pin pressed into the Ø{P.YOKE_HOLE} holes of the two tower feet"),
-    frozenset(("lock_pin", "slider")): (4.0, "Ø3 pin pressed into Ø2.9 bore"),
+    frozenset(("ring_pawl_screw", "stage")): (3.0, "M2 thread formed in a Ø1.95 pilot"),
 }
 TOL_VOLUME = 0.05      # mm^3: anything below is numerical noise / touching faces
 
@@ -210,7 +210,7 @@ def check_lid_motion(step: float = 2.5) -> list[Result]:
     for deg in angles:
         # the pawl is retracted as soon as the lid moves; at 0 deg it is engaged
         items = A.build(lid_deg=deg, pawl_deg=(0.0 if deg == 0 else P.PAWL_RELEASE_DEG), horn_deg=(None if deg == 0 else P.HORN_RELEASE_DEG))
-        hits = interference(items, only_groups=({"lid"}, {"fixed", "pawl", "horn", "slider"}))
+        hits = interference(items, only_groups=({"lid"}, {"fixed", "pawl", "horn", "ring_pawl"}))
         _, collisions = classify(hits)
         for a, b, v in collisions:
             worst.append((deg, a, b, v))
@@ -287,7 +287,7 @@ def check_latch() -> list[Result]:
         for deg in np.linspace(0.0, P.PAWL_FREE_DEG, 7):
             horn = P.HORN_REST_DEG if deg == 0 else P.HORN_RELEASE_DEG + 4.0
             items = A.build(pawl_deg=float(deg), horn_deg=horn, lid_deg=(0.0 if deg == 0 else 12.0), pawl_down=down)
-            hits = interference(items, only_groups=({"pawl"}, {"fixed", "slider", "lid"}))
+            hits = interference(items, only_groups=({"pawl"}, {"fixed", "ring_pawl", "lid"}))
             _, col = classify(hits)
             bad += [(float(deg), "down" if down else "up", a, b, v) for a, b, v in col]
     out.append(Result("latch:pawl travel", not bad, f"0..{P.PAWL_FREE_DEG:.0f} deg, pushed up against the deck and lying {P.PAWL_PLAY} mm lower on its washer: {len(bad)} collisions", {"collisions": bad}))
@@ -295,7 +295,7 @@ def check_latch() -> list[Result]:
     bad = []
     for hdeg in np.linspace(P.HORN_REST_DEG - 15.0, P.HORN_RELEASE_DEG + 10.0, 9):
         items = A.build(horn_deg=float(hdeg), pawl_deg=P.PAWL_FREE_DEG, lid_deg=12.0)
-        hits = interference(items, only_groups=({"horn"}, {"fixed", "slider", "lid"}))
+        hits = interference(items, only_groups=({"horn"}, {"fixed", "ring_pawl", "lid"}))
         _, col = classify(hits)
         bad += [(float(hdeg), a, b, v) for a, b, v in col]
     out.append(Result("latch:servo horn sweep", not bad, f"{P.HORN_REST_DEG - 15:.0f}..{P.HORN_RELEASE_DEG + 10:.0f} deg, {len(bad)} collisions", {"collisions": bad}))
@@ -343,34 +343,127 @@ def check_latch() -> list[Result]:
 
 
 def check_ring_lock() -> list[Result]:
+    """The slot of the ring in the stage, and the ring pawl that locks the ring in it."""
     out = []
-    # locked: lifting the ring by 2 mm must collide with the pin
-    it = A.by_key(A.build(locked=True))
-    lifted = g.move(it["ring"].shape(), dz=2.0)
-    v = g.common_volume(lifted, it["lock_pin"].shape())
-    out.append(Result("ring:locked pin retains the ring", v > 0.5, f"overlap pin/ring when the ring is lifted 2 mm: {v:.2f} mm3 (must be > 0)", {"overlap": v}))
-    # released: ring can be lifted out
-    it = A.by_key(A.build(locked=False))
-    free = True
-    for dz in (0.0, 2.0, 5.0, 10.0, 16.0):
-        ring = g.move(it["ring"].shape(), dz=dz)
-        for key in ("lock_pin", "cradle", "stage", "slider"):
-            if g.common_volume(ring, it[key].shape()) > TOL_VOLUME:
-                free = False
-    out.append(Result("ring:released ring lifts out freely", free, "ring lifted 0..16 mm with the pin retracted", {}))
-    # slider travel collision free
-    bad = []
-    for locked in (True, False):
-        items = A.build(locked=locked)
-        hits = interference(items, only_groups=({"slider"}, {"fixed", "lid", "pawl", "horn"}))
-        _, col = classify(hits)
-        bad += col
-    out.append(Result("ring:lock slider travel", not bad, f"{len(bad)} collisions in both end positions", {"collisions": bad}))
-    # snugness: play of the ring in its seat
+    stage = K.stage()
+    rpx, rpy = P.RPAWL_PIVOT
+    x0, x1 = K.RING_SLOT_X0, K.RING_SLOT_X1
+    zf, zc, r_slot = K.RING_SLOT_Z, K.RING_SLOT_ZC, P.RING_SLOT_D / 2
     r_out = P.RING_ID / 2 + P.RING_THICK
-    play_x = (P.RING_SLOT_W - P.RING_BAND) / 2
-    lift = (P.Z_DECK - P.LOCK_PIN_DEPTH - P.LOCK_PIN_D / 2) - (A.ring_centre_z() - P.RING_ID / 2)
-    out.append(Result("ring:seat play", lift < 1.5, f"side play {play_x:.2f} mm per side before felt lining; locked lift play {lift:.2f} mm; ring sunk {P.RING_SINK:.1f} of {2 * r_out:.1f} mm", {"lift_play": lift}))
+
+    # 1. the slot as the owner gave it, measured on the solid
+    def walls(y: float, z: float) -> list[tuple[float, float]]:
+        """The two walls of the slot at (y, z): where each begins and ends along x."""
+        probe = g.inter(stage, g.box(x0 - 4.0, x1 + 4.0, y - 0.05, y + 0.05, z - 0.05, z + 0.05))
+        return sorted((s.BoundingBox().xmin, s.BoundingBox().xmax) for s in probe.Solids())
+
+    def floor(y: float) -> tuple[float, float]:
+        """Underside and top of the floor of the slot at ``y``, in its middle plane."""
+        bb = g.inter(stage, g.box(P.RING_X - 0.05, P.RING_X + 0.05, y - 0.005, y + 0.005, zf - 6.0, K.DECK_BOTTOM - 0.5)).BoundingBox()
+        return bb.zmin, bb.zmax
+
+    w_low, w_high = walls(0.0, zf + 2.0), walls(8.0, K.DECK_BOTTOM - 1.5)
+    width = [w[1][0] - w[0][1] if len(w) == 2 else -1.0 for w in (w_low, w_high)]
+    wall = min(b - a for w in (w_low, w_high) for a, b in w) if all(len(w) == 2 for w in (w_low, w_high)) else 0.0
+    spots = (0.0, 5.0, -5.0, 9.0, -9.0)
+    round_dev = max(abs(floor(y)[1] - (zc - math.sqrt(r_slot**2 - y * y))) for y in spots)
+    floor_t = floor(0.0)[1] - floor(0.0)[0]
+    top = g.inter(stage, g.box(P.RING_X - 0.05, P.RING_X + 0.05, -20.0, 20.0, P.Z_DECK - 0.1, P.Z_DECK))
+    ys = sorted((s.BoundingBox().ymin, s.BoundingBox().ymax) for s in top.Solids())
+    length = ys[1][0] - ys[0][1] if len(ys) == 2 else -1.0
+    depth = P.Z_DECK - zf
+    pawl = K.ring_pawl_at(0.0)
+    under = K.RPAWL_Z0 - zf
+    strip = g.inter(stage, g.box(x0 + 0.01, x1 - 0.01, -r_slot, r_slot, zf - 1.0, K.DECK_BOTTOM))     # the floor of the slot
+    nearest = g.min_distance(pawl, strip)
+
+    def band(profile: float) -> cq.Shape:
+        """The lower half of a ring of size 49 with a band of that profile height, standing on the bottom of the slot."""
+        ri = P.RING_ID / 2
+        zr = zf + profile + ri
+        full = g.cyl_x(ri + profile, P.RING_X - P.RING_BAND / 2, P.RING_X + P.RING_BAND / 2, 0.0, zr).cut(g.cyl_x(ri, x0 - 1.0, x1 + 1.0, 0.0, zr))
+        return g.inter(full, g.box(x0 - 1.0, x1 + 1.0, -30.0, 30.0, zf - 1.0, zr))
+
+    fits = _bisect(1.0, under + 0.5, lambda p: g.common_volume(band(p), pawl) > 0.002, 12)
+    side, around = (P.RING_SLOT_W - P.RING_BAND) / 2, r_slot - r_out
+    out.append(Result("ring:slot as the owner gave it", all(abs(w - P.RING_SLOT_W) < 0.02 for w in width) and round_dev < 0.03 and abs(under - P.RING_UNDER_TIP) < 1e-6 and wall >= P.RING_SLOT_WALL - 0.02 and floor_t >= P.RING_SLOT_FLOOR - 0.02 and fits >= under - 0.4, f"the slot of the ring is cut into the stage itself. Measured on the solid: {width[0]:.2f} and {width[1]:.2f} mm wide between its walls (near the bottom and under the deck); its bottom lies on a circle of Ø{P.RING_SLOT_D:.0f} mm (five places, largest difference {round_dev:.3f} mm); it is {length:.1f} mm long where it meets the surface of the deck and {depth:.1f} mm deep in its middle. Below the deck it has walls of {wall:.1f} mm before and behind it and a floor of {floor_t:.1f} mm. The finger of the ring pawl passes {under:.1f} mm above the bottom of the slot when the pawl lies on its washer, {under + P.RPAWL_PLAY:.1f} mm when it is pushed up; at their nearest, finger and floor keep {nearest:.2f} mm, because the floor rises to the sides. A ring of size 49 whose band is up to {fits:.1f} mm high stands under the finger without touching it. The ring of the drawing ({P.RING_BAND} mm wide, {P.RING_THICK} mm high) leaves {side:.1f} mm on each side of it and {around:.1f} mm round it for paper or cloth, which is not drawn", {"width": width, "round": round_dev, "length": length, "fits": fits}))
+
+    # 2. locked: the finger passes through the ring, and the deck holds the finger
+    it = A.by_key(A.build(ring_pawl_up=True))
+    ring, pawl_up = it["ring"].shape(), it["ring_pawl"].shape()
+    lift = _bisect(0.0, 5.0, lambda dz: g.common_volume(g.move(ring, dz=dz), pawl_up) > TOL_VOLUME, 14)
+    v = g.common_volume(g.move(ring, dz=lift + 1.5), pawl_up)
+    lifted = g.move(pawl_up, dz=0.05)
+    deck = P.Z_DECK - 0.5
+    held_back = g.common_volume(lifted, g.inter(stage, g.box(x0 - P.RING_SLOT_WALL, x0, -9.0, 9.0, K.DECK_BOTTOM - 0.01, deck))) / 0.05
+    held_front = g.common_volume(lifted, g.inter(stage, g.box(x1, x1 + P.RING_SLOT_WALL, -9.0, 9.0, K.DECK_BOTTOM - 0.01, deck))) / 0.05
+    d_ring = g.min_distance(it["ring"].shape(), K.ring_pawl_at(0.0))
+    out.append(Result("ring:locked pawl keeps the ring", v > 0.5 and lift <= under + P.RPAWL_PLAY and held_back >= 5.0 and held_front >= 3.0 and d_ring >= 0.5, f"locked, the finger passes through the ring and ends {P.RPAWL_FINGER_BEYOND} mm beyond the slot. The bare ring of the drawing keeps {d_ring:.2f} mm from it and can be lifted {lift:.2f} mm before its band meets the finger (overlap {v:.1f} mm3 when it is lifted {lift + 1.5:.1f} mm); what fills the slot under the ring takes from that. A pull at the ring presses the finger up against the underside of the deck, on {held_back:.0f} mm2 behind the slot and {held_front:.0f} mm2 before it: the load does not pass through the arm or the pivot. The ring comes free only when the pawl is turned {P.RPAWL_RELEASE_DEG:.0f}° against its spring", {"lift": lift, "overlap": v, "held": [held_back, held_front]}))
+
+    # 3. released: the finger has left the slot and the ring lifts out
+    void = g.box(x0, x1, -r_slot, r_slot, zf, P.Z_DECK + 2.0)
+    out_from = _bisect(0.0, P.RPAWL_MOUNT_DEG, lambda a: g.common_volume(K.ring_pawl_at(a), void) <= TOL_VOLUME, 12)
+    behind = min(g.min_distance(K.ring_pawl_at(P.RPAWL_RELEASE_DEG, up=up), void) for up in (False, True))
+    itr = A.by_key(A.build(locked=False, lid_deg=P.LID_OPEN_DEG, pawl_deg=P.PAWL_RELEASE_DEG, horn_deg=P.HORN_RELEASE_DEG))
+    stuck = []
+    for dz in (0.0, 2.0, 5.0, 8.0, 12.0, 16.0, 22.0):
+        up_ring = g.move(itr["ring"].shape(), dz=dz)
+        stuck += [(dz, k) for k in ("ring_pawl", "stage", "lid") if g.common_volume(up_ring, itr[k].shape()) > TOL_VOLUME]
+    out.append(Result("ring:released ring lifts out freely", not stuck and behind >= P.RPAWL_CL - 0.15, f"the finger is out of the slot when the pawl has turned {out_from:.1f}°; at {P.RPAWL_RELEASE_DEG:.0f}° it stands {behind:.2f} mm behind the slot. The ring then lifts straight out, 0 to 22 mm, lid at its stop: {len(stuck)} collisions with pawl, stage or lid", {"collisions": stuck, "out_from": out_from, "behind": behind}))
+
+    # 4. the pawl swings freely from locked to the end of its slit, also when it uses the play of its pivot and
+    #    the surfaces come out fat.  A pawl cannot be grown here, so it is moved instead, by all of that together
+    post = g.cyl_z(1.5 + 1.0, K.RPAWL_Z0 - 0.5, K.DECK_BOTTOM, *K.ring_pawl_stop())
+    boss = g.cyl_z(P.PAWL_BOSS_D / 2 + 1.0, K.RPAWL_Z0 - 0.5, K.DECK_BOTTOM, rpx, rpy)
+    free_stage = stage.cut(post).cut(boss)                # the tail rests on its post and the bore runs on its boss: these two are meant to touch
+    off = (P.PAWL_BORE - P.PAWL_BOSS_D) / 2 + 2 * P.PRINT_TOL
+    s = off * math.sqrt(0.5)
+    shifts = [(0.0, 0.0), (off, 0.0), (-off, 0.0), (0.0, off), (0.0, -off), (s, s), (s, -s), (-s, s), (-s, -s)]
+    angles = [float(a) for a in range(0, int(P.RPAWL_MOUNT_DEG), 3)] + [P.RPAWL_RELEASE_DEG, P.RPAWL_MOUNT_DEG]
+    bad = []
+    for a in sorted(set(angles)):
+        for up in (False, True):
+            base = K.ring_pawl_at(a, up=up)
+            for dx, dy in (shifts if not up else shifts[:1]):
+                vol = g.common_volume(g.move(base, dx, dy, 0.0), free_stage)
+                if vol > TOUCH:
+                    bad.append((a, "up" if up else "down", round(dx, 2), round(dy, 2), round(vol, 3)))
+    others = []
+    for a in (0.0, P.RPAWL_RELEASE_DEG, P.RPAWL_MOUNT_DEG):
+        for lid_deg in (0.0, P.LID_OPEN_DEG):
+            items = A.build(ring_pawl_deg=a, lid_deg=lid_deg, pawl_deg=(0.0 if lid_deg == 0 else P.PAWL_RELEASE_DEG), horn_deg=(None if lid_deg == 0 else P.HORN_RELEASE_DEG))
+            _, col = classify(interference(items, only_groups=({"ring_pawl"}, {"fixed", "lid", "pawl", "horn"})))
+            others += [(a, lid_deg, x, y, vv) for x, y, vv in col]
+    tail_gap = g.min_distance(K.ring_pawl_at(0.0), g.cyl_z(1.5, K.RPAWL_Z0, K.DECK_BOTTOM, *K.ring_pawl_stop()))
+    out.append(Result("ring:pawl swings free with all its play", not bad and not others and tail_gap <= 0.02, f"locked, the tail of the pawl rests against its post under the deck ({tail_gap:.2f} mm). From there to {P.RPAWL_MOUNT_DEG:.0f}°, the end of the slit, the pawl was turned in steps of 3° and moved {off:.2f} mm in eight directions, which is the play of its pivot ({(P.PAWL_BORE - P.PAWL_BOSS_D) / 2:.2f} mm) and {P.PRINT_TOL} mm for each of two printed surfaces, lying on its washer and pushed up against the deck: {len(bad)} contacts with the stage (window of the finger, slit of the knob, walls of the slot, hinge towers). As drawn it meets nothing else either, lid shut and lid open: {len(others)} collisions. Drawn room round finger and knob: {P.RPAWL_CL} mm", {"collisions": bad + others}))
+
+    # 5. the knob
+    knob_top = K.ring_pawl_at(0.0).BoundingBox().zmax - P.Z_DECK
+    closed = A.by_key(A.build())
+    knob = g.inter(closed["ring_pawl"].shape(), g.box(-60.0, 60.0, -60.0, 60.0, P.Z_DECK + 0.01, 80.0))
+    d_lid = g.min_distance(knob, closed["lid"].shape())
+    kx, ky = K.rp_point(P.RPAWL_KNOB_R, -90.0)
+    travel = math.radians(P.RPAWL_RELEASE_DEG) * P.RPAWL_KNOB_R
+    slit_w = P.RPAWL_KNOB_D + 2 * P.RPAWL_CL
+    slit_l = math.radians(P.RPAWL_MOUNT_DEG) * P.RPAWL_KNOB_R + slit_w
+    keeps = (x0 - P.RING_SLOT_WALL) - (kx + P.RPAWL_KNOB_D / 2 + P.RPAWL_CL)                # deck between the slit and the rear wall of the slot
+    out.append(Result("ring:knob stands up through the deck", 3.0 <= knob_top <= 6.0 and d_lid >= 3.0 and travel >= 4.0 and abs(ky) <= 1.0, f"the knob (Ø{P.RPAWL_KNOB_D}) stands {knob_top:.1f} mm above the deck, {P.RING_X - kx:.1f} mm behind the plane of the ring and {abs(ky):.1f} mm beside its middle. To free the ring it is pulled {travel:.1f} mm backwards, away from the ring; let go, the spring takes it back. Its slit in the deck is {slit_w:.1f} mm wide and {slit_l:.1f} mm long along its curve and ends {keeps:.2f} mm behind the rear wall of the slot. The shut lid keeps {d_lid:.1f} mm from the knob; the lid's way over it is part of the lid opening sweep", {"knob": knob_top, "lid": d_lid, "travel": travel}))
+
+    # 6. the return spring, uncut
+    span = {a: K.ring_spring_span(a)[1] - K.ring_spring_span(a)[0] for a in (0.0, P.RPAWL_RELEASE_DEG, P.RPAWL_MOUNT_DEG)}
+    xs, y_s, z_s = K.ring_spring_seat()
+    tube = g.cyl_x(2.0, xs - 2.9, xs - 0.05, y_s, z_s)                                      # the end of a 4 mm spring in its cup
+    v_cup = g.common_volume(tube, stage)
+    arm = P.RPAWL_TAIL
+    out.append(Result("ring:return spring works uncut", abs(span[0.0] - P.RPAWL_SPRING_REST) < 0.01 and span[0.0] <= P.RPAWL_SPRING_L - 1.5 and span[P.RPAWL_MOUNT_DEG] >= P.RPAWL_SPRING_SOLID + 2.0 and v_cup <= TOL_VOLUME, f"a compression spring of 4 x {P.RPAWL_SPRING_L:.0f} mm, as it comes, lies between a nub on the tail of the pawl, {arm:.0f} mm beyond the pivot, and a cup under the deck that takes 3 mm of it (room for Ø4.0: {v_cup:.2f} mm3 in the way). It is {span[0.0]:.1f} mm long when the pawl is locked ({P.RPAWL_SPRING_L - span[0.0]:.1f} mm of preload), {span[P.RPAWL_RELEASE_DEG]:.1f} mm when the ring is free and {span[P.RPAWL_MOUNT_DEG]:.1f} mm at the end of the slit. Its solid length is taken to be {P.RPAWL_SPRING_SOLID:.0f} mm, from the {P.PAWL_SPRING_SOLID:.0f} mm of the 12 mm piece on the latch; it has not been measured. How strong the spring is, and whether a jolt can turn the pawl against it, is not in the model", {"lengths": {str(k): v for k, v in span.items()}}))
+
+    # 7. putting it together: the pawl comes up onto its boss from below, the knob through the slit
+    def rises(a: float) -> bool:
+        return all(g.common_volume(g.move(K.ring_pawl_at(a), dz=-dz), stage) <= TOL_VOLUME for dz in (0.6, 1.5, 3.0, 4.5, 6.0, 8.0, 12.0))
+
+    can = _bisect(0.0, P.RPAWL_MOUNT_DEG, rises, 10)
+    wall_behind = g.min_distance(K.ring_pawl_at(P.RPAWL_MOUNT_DEG), g.inter(stage, g.box(x0 - P.RING_SLOT_WALL - 0.5, x1 + P.RING_SLOT_WALL + 0.5, -r_slot - 3.0, r_slot + 3.0, zf - 3.0, K.RPAWL_Z0 - P.RPAWL_CL - 0.01)))
+    out.append(Result("ring:pawl can be put onto its boss", rises(P.RPAWL_MOUNT_DEG) and can <= P.RPAWL_MOUNT_DEG - 1.0, f"under the windows the walls of the slot are closed, so the pawl cannot come up with its finger in a window. Turned {can:.1f}° or more, its finger stands behind the rear wall and the pawl rises straight onto its boss, the knob entering the slit from below (tried 12 mm of the way in seven steps); the slit lets it turn {P.RPAWL_MOUNT_DEG:.0f}°, where the finger keeps {wall_behind:.2f} mm from that wall. Spring, washers and screw follow from below. In use the finger leaves the rear window in the last degrees of the slit and finds it again: its end is tapered to 2 mm, in a window with {P.RPAWL_CL} mm of room on each side", {"from_deg": can, "wall": wall_behind}))
     return out
 
 
@@ -397,7 +490,7 @@ def check_assembly_paths() -> list[Result]:
                 bad.append((dz, key, v))
     out.append(Result("assembly:band lowers over the core", not bad, f"band lifted 1..25 mm, {len(bad)} collisions", {"collisions": bad}))
     bad = []
-    top_keys = ["stage", "pawl", "pawl_screw", "cradle", "lock_pin", "slider", "lid", "hinge_pin", "sleeve", "yoke_pin"]
+    top_keys = ["stage", "pawl", "pawl_screw", "ring_pawl", "ring_pawl_washers", "ring_pawl_screw", "lid", "hinge_pin", "sleeve", "yoke_pin"]
     for dz in (1.0, 3.0, 6.0, 12.0, 25.0, 40.0):
         for tk in top_keys:
             moved = g.move(it[tk].shape(), dz=dz)
@@ -430,7 +523,7 @@ DENSITY = {"printed": 1.27e-3}   # g / mm^3 (PETG)
 MASS_G = {
     "reader": 9.0, "mcu": 3.0, "amp": 1.5, "charger": 2.0, "boost": 1.5, "servo": 9.0, "horn": 0.5,
     "speaker": 10.0, "led": 0.4, "cell": 48.0, "contacts": 1.5, "hall": 0.2, "ring": 3.5,
-    "spring": 0.4, "hinge_pin": 0.4, "yoke_pin": 0.45, "lock_pin": 1.4, "stack_screws": 4.4, "inserts": 2.6,
+    "spring": 0.4, "hinge_pin": 0.4, "yoke_pin": 0.45, "stack_screws": 4.4, "inserts": 2.6,
     "harness": 6.0, "turf_screws": 1.6, "base_screws": 2.0,
 }
 BASE_KEYS = ("grass_base", "grass_top", "reader", "hall", "harness", "turf_screws", "base_screws")
@@ -755,6 +848,7 @@ def check_fasteners() -> list[Result]:
         "grass top": (P.TURF_SCREW_L, P.TURF_SEAT, P.TURF_PILOT_DEPTH, "grass_top", "z", P.M2_PILOT_FLAT),
         "speaker clamp": (P.CLAMP_SCREW_L, lug, None, "chassis", "x", P.M2_PILOT_SIDE),
         "pawl pivot": (P.PAWL_SCREW_L, cap, boss + 1.2, "stage", "z", P.M2_PILOT_FLAT),
+        "ring pawl pivot": (P.RPAWL_SCREW_L, P.M2_WASHER_T + P.M3_WASHER_T, K.ring_pilot_end() - K.RPAWL_Z0, "stage", "z", P.M2_PILOT_FLAT),
     }
     ok, rows = True, []
     for name, (length, free, depth, key, axis, pilot) in joints.items():
@@ -766,14 +860,24 @@ def check_fasteners() -> list[Result]:
         ok = ok and engaged >= P.M2_ENGAGE - 1e-9 and fits and right_pilot
         rows.append(f"{name}: M2 x {length:.0f}, {engaged:.1f} mm of thread beyond the lead-in, pilot Ø{pilot} ({'mouth parallel to the bed' if upright else 'mouth in an upright wall'})" + ("" if depth is None else f", hole {depth - thread:.1f} mm deeper than the screw"))
     through = (P.BAFFLE_X1 - P.SPK_X_FRONT) - (P.CLAMP_SCREW_L - lug)
-    skin = P.DECK_T - 1.2
-    out.append(Result("screws:M2 screws form enough thread in the print", ok and through >= 0.2 and skin >= 1.0, "; ".join(rows) + f". Needed: {P.M2_ENGAGE} mm (research/06 section 4.2). The clamp screws end {through:.1f} mm inside the front face of the baffle; above the pivot screw's hole {skin:.1f} mm of the ring deck stay closed. Head room everywhere: Ø{P.M2_HEAD_D} x {P.M2_HEAD_H} mm, which takes a cap head (ISO 4762) or a pan head (ISO 7045)", {"rows": rows}))
+    skin = min(P.DECK_T - 1.2, P.Z_DECK - K.ring_pilot_end())
+    out.append(Result("screws:M2 screws form enough thread in the print", ok and through >= 0.2 and skin >= 1.0, "; ".join(rows) + f". Needed: {P.M2_ENGAGE} mm (research/06 section 4.2). The clamp screws end {through:.1f} mm inside the front face of the baffle; above the holes of the two pivot screws at least {skin:.1f} mm of the ring deck stay closed. Head room everywhere: Ø{P.M2_HEAD_D} x {P.M2_HEAD_H} mm, which takes a cap head (ISO 4762) or a pan head (ISO 7045)", {"rows": rows}))
     lip = (P.PAWL_CAP_D - P.PAWL_BORE) / 2 - (P.M2_CLEAR - 2.0) / 2
     standard = (5.0 - P.PAWL_BORE) / 2
     it = A.by_key(A.build())
     d_pawl = g.min_distance(it["pawl_cap"].shape(), it["pawl"].shape())
     d_horn = min(g.min_distance(A.by_key(A.build(horn_deg=h))["pawl_cap"].shape(), A.by_key(A.build(horn_deg=h))["horn"].shape()) for h in (P.HORN_REST_DEG, P.HORN_RELEASE_DEG))
     out.append(Result("screws:printed washer keeps the pawl on its pivot", lip >= 0.5 and 0.1 <= d_pawl <= 0.6 and d_horn >= 0.3, f"the flange of the printed pivot washer (Ø{P.PAWL_CAP_D}) overlaps the pawl's bore (Ø{P.PAWL_BORE}) by {lip:.2f} mm all round, however the washer sits on its screw; a standard M2 washer (Ø5.0, ISO 7089) would be {-standard:.2f} mm smaller than the bore. The pawl keeps {d_pawl:.2f} mm of play above the washer, and the servo arm passes {d_horn:.2f} mm from it at rest and at release", {"lip": lip, "pawl": d_pawl, "horn": d_horn}))
+    # the ring pawl has the pivot of the latch pawl, and steel washers under an M2 x 6 screw
+    same = abs((K.DECK_BOTTOM - K.RPAWL_Z0) - P.RPAWL_T - P.RPAWL_PLAY) < 1e-9 and abs(P.RPAWL_PLAY - P.PAWL_PLAY) < 1e-9     # same boss, bore and play
+    m2_only = (K.ring_pilot_end() - K.RPAWL_Z0) - (P.RPAWL_SCREW_L - P.M2_WASHER_T)        # hole deeper than the screw under the M2 washer alone
+    over3, over2 = (P.M3_WASHER_D - P.PAWL_BORE) / 2, (P.M2_WASHER_D - P.PAWL_BORE) / 2
+    covers = (P.M2_WASHER_D - 3.2) / 2 - (2.2 - 2.0) / 2                                    # the M2 washer over the hole of the M3 washer
+    rit = A.by_key(A.build())
+    d_w = g.min_distance(rit["ring_pawl_washers"].shape(), rit["ring_pawl"].shape())
+    head = g.cyl_z(2.2, -8.0, K.RPAWL_Z0 - P.M2_WASHER_T - P.M3_WASHER_T - P.M2_HEAD_H, *P.RPAWL_PIVOT)   # a tool below the head of the screw
+    v_tool = g.common_volume(head, rit["stage"].shape())
+    out.append(Result("screws:washers keep the ring pawl on its pivot", same and m2_only >= 0.2 and over3 >= 0.5 and covers >= 0.5 and d_w <= 1e-6 and v_tool <= TOL_VOLUME, f"the ring pawl turns on a boss of Ø{P.PAWL_BOSS_D} in a bore of Ø{P.PAWL_BORE} with {P.RPAWL_PLAY} mm of play along it, like the latch pawl. A standard M2 washer (Ø{P.M2_WASHER_D}) is {-over2:.2f} mm narrower than that bore all round and no wider than the boss: by the drawn sizes it cannot hold a pawl. Between it and the pawl lies an M3 washer (Ø{P.M3_WASHER_D}, hole 3.2), {over3:.2f} mm wider than the bore all round, so that the pawl cannot pass it however it sits on the screw; the M2 washer covers its hole by at least {covers:.1f} mm. The pawl lies on that washer ({d_w:.2f} mm). The hole in the boss is also deep enough for the screw under the M2 washer alone, by {m2_only:.1f} mm. A tool of Ø4.4 reaches the head of the screw from below without meeting the stage ({v_tool:.2f} mm3)", {"over_m3": over3, "over_m2": over2}))
     # the two speaker clamp screws lie deep in the core: only a hex key reaches them
     key_long, key_short = 45.0, 15.0                         # arms of an ordinary 1.5 mm hex key
     x_head = P.SPK_X_FRONT - lug - P.M2_HEAD_H
@@ -828,7 +932,7 @@ def _tool_directions(ya: float, yb: float, width: float, lid_shape: cq.Shape, st
 
 
 def check_pins() -> list[Result]:
-    """The two hinge pins, the pin under the spring leg and the pin of the ring lock: do they hold, and can they be put in?"""
+    """The two hinge pins and the pin under the spring leg: do they hold, and can they be put in?"""
     out = []
     hx, hz = P.HINGE_X, P.HINGE_Z
     y_in, y_out = K.hinge_pin_span()
@@ -936,7 +1040,7 @@ def check_pins() -> list[Result]:
     # the pin goes in from the side: when its tip enters the near foot, all of it still stands beside that foot
     path = g.cyl_y(P.YOKE_PIN_D / 2 + 0.3, -half_pin, K.TOWER_Y1 + P.YOKE_PIN_L, x_p, K.YOKE_PIN_Z)
     stage_open = stage.cut(g.cyl_y(P.YOKE_PIN_D / 2 + 0.35, -K.TOWER_Y1 - 1.0, K.TOWER_Y1 + 1.0, x_p, K.YOKE_PIN_Z))    # the holes themselves are a press fit
-    in_way = [(k, round(g.common_volume(path, stage_open if k == "stage" else opened[k].shape()), 3)) for k in ("stage", "lid", "pawl", "pawl_cap", "pawl_screw", "cradle", "lock_pin", "slider", "hinge_pin", "sleeve")]
+    in_way = [(k, round(g.common_volume(path, stage_open if k == "stage" else opened[k].shape()), 3)) for k in ("stage", "lid", "pawl", "pawl_cap", "pawl_screw", "ring_pawl", "ring_pawl_washers", "ring_pawl_screw", "hinge_pin", "sleeve")]
     in_way = [(k, v) for k, v in in_way if v > TOL_VOLUME]
     lifted = g.min_distance(leg(lift), K.yoke_pin())
     in_foot = min(half_pin, K.TOWER_Y1) - K.TOWER_Y0
@@ -1015,15 +1119,6 @@ def check_pins() -> list[Result]:
     wall_back, wall_front = P.YOKE_X - P.YOKE_FOOT_X[0] - rb, P.YOKE_FOOT_X[1] - P.YOKE_X - rb
     out.append(Result("pins:feet hold the pin under the spring leg", min(web_back, web_front) >= 3.5 and web_t >= 2.9 and ring >= 1.2 and lid_gap >= 0.5 and lid_fat >= 0.3 and P.YOKE_FREE - P.YOKE_PIN_D >= 0.25, f"each foot is {P.YOKE_FOOT_X[1] - P.YOKE_FOOT_X[0]:.1f} mm wide and {foot_t:.1f} mm thick, {P.YOKE_FOOT_PAD} mm thicker than its tower, towards the middle of the hinge. The stage is printed in level layers and the holes lie level, so a pin that is pressed in tears at a foot in the plane through the axis of its hole: there each foot has {web_front:.1f} mm2 of plastic before the hole and {web_back:.1f} mm2 behind it, over its whole thickness of {web_t:.1f} mm (measured on the solid), and round the Ø{P.YOKE_HOLE} hole the stage is solid over at least {ring:.1f} mm at every angle ({wall_front:.1f} mm before it, {wall_back:.1f} mm behind it, {under:.1f} mm under it). The pin is held in {in_foot:.1f} of these {foot_t:.1f} mm, as before; in the added {P.YOKE_FOOT_PAD} mm the hole is Ø{P.YOKE_FREE}, so that this part is not pressed on and only holds, and leads the tip of the pin in. Behind the feet the stop tabs of the lid pass. As drawn the lid keeps {lid_drawn:.2f} mm from the feet over its whole travel. With all the room its hinge gives it at once, turned ±{skew:.2f}° about the vertical or about the fore-aft axis or slid along its pins, and moved {across:.3f} mm across them towards the feet, and grown by {P.PRINT_TOL} mm, it keeps {lid_gap:.2f} mm; when the feet are {P.PRINT_TOL} mm fat as well, {lid_fat:.2f} mm (nearest {lid_at:.0f}° open; whole travel tried every 5°, every degree round that angle). The corner of the tab that comes nearest lies in the first layers of the lid's print", {"web_front": web_front, "web_back": web_back, "thickness": web_t, "ring": ring, "lid_gap": lid_gap, "lid_fat": lid_fat, "lid_drawn": lid_drawn, "lid_at": lid_at}))
 
-    # ring lock
-    stem = P.LOCK_STEM_X[1] - max(P.LOCK_STEM_X[0], P.LOCK_TIP_X - P.LOCK_PIN_L)
-    behind = P.LOCK_STEM_X[0] - (P.LOCK_TIP_X - P.LOCK_PIN_L)
-    guide_x = P.LOCK_STEM_X[0] - P.LOCK_TRAVEL - 1.5
-    proud = guide_x - (P.LOCK_TIP_X - P.LOCK_TRAVEL - P.LOCK_PIN_L)
-    it = A.by_key(A.build())
-    path = g.cyl_x(P.LOCK_PIN_D / 2, -80.0, P.LOCK_TIP_X, 0, P.LOCK_Z)
-    v_stage, v_cradle = g.common_volume(path, it["stage"].shape()), g.common_volume(path, it["cradle"].shape())
-    out.append(Result("pins:lock pin goes in from behind", stem >= 5.0 - 1e-9 and 0.0 <= behind <= 3.0 and v_stage <= TOL_VOLUME and v_cradle <= TOL_VOLUME and 0.0 <= proud <= 2.0, f"lock pin Ø{P.LOCK_PIN_D:.0f} x {P.LOCK_PIN_L:.0f}: {stem:.1f} mm in the stem of the slider, {behind:.1f} mm standing out behind it; its straight path from behind the stage to the locked position is free (stage {v_stage:.2f}, cradle {v_cradle:.2f} mm3). With the slider drawn back it stands {proud:.1f} mm out of the back of its guide", {"stem": stem, "path": v_stage + v_cradle}))
     return out
 
 
@@ -1191,11 +1286,11 @@ def check_play() -> list[Result]:
     fat = grown_lid(tol2)
     closed = A.by_key(A.build())
     rest = {"stage": stage, "bezel": bezel, "pawl": K.pawl_at(0.0), "pawl on its washer": K.pawl_at(0.0, down=True)}
-    rest.update({k: closed[k].shape() for k in ("chassis", "speaker", "cradle", "slider", "ring", "lens")})
+    rest.update({k: closed[k].shape() for k in ("chassis", "speaker", "ring_pawl", "ring", "lens")})
     wedged = [(k, round(g.common_volume(fat, shape), 3)) for k, shape in rest.items()]
     wedged = [w for w in wedged if w[1] > TOUCH]
     pivot_r, pivot_z = (P.PAWL_BORE - P.PAWL_BOSS_D) / 2, P.PAWL_PLAY
-    out.append(Result("play:gaps round the closed lid", min(d_stage, d_bezel) >= tol2 + 0.1 - 1e-6 and d_pawl >= tol2 and not wedged and d_pocket >= 0.3 and pivot_r >= P.CL - 1e-9 and pivot_z >= P.CL, f"shut, the lid keeps {d_stage:.2f} mm from the stage (collar {P.COLLAR_GAP}, ribs beside the towers {P.TOWER_GAP}, stem of the hook in its slot {P.HOOK_SLOT_STEM}), {d_bezel:.2f} mm from the bezel, and its tooth {d_pawl:.2f} mm from the nose of a pawl that lies on its washer. A lid grown by {tol2} mm, as if both surfaces of every gap had come out {P.PRINT_TOL} mm fat, still lies down without being wedged: of stage, bezel, pawl, chassis, speaker, cradle, slider, ring and lens it meets {wedged or 'nothing'}. The rim at the back runs in the pocket of the band with {d_pocket:.2f} mm: band and lid are printed, so this gap stays as it is, and it is the one to look at when the lid is first hinged (manual, step 11). The pawl has {pivot_r:.2f} mm of room round its pivot and {pivot_z} mm along it", {"stage": d_stage, "bezel": d_bezel, "pawl": d_pawl, "pocket": d_pocket, "collisions": wedged}))
+    out.append(Result("play:gaps round the closed lid", min(d_stage, d_bezel) >= tol2 + 0.1 - 1e-6 and d_pawl >= tol2 and not wedged and d_pocket >= 0.3 and pivot_r >= P.CL - 1e-9 and pivot_z >= P.CL, f"shut, the lid keeps {d_stage:.2f} mm from the stage (collar {P.COLLAR_GAP}, ribs beside the towers {P.TOWER_GAP}, stem of the hook in its slot {P.HOOK_SLOT_STEM}), {d_bezel:.2f} mm from the bezel, and its tooth {d_pawl:.2f} mm from the nose of a pawl that lies on its washer. A lid grown by {tol2} mm, as if both surfaces of every gap had come out {P.PRINT_TOL} mm fat, still lies down without being wedged: of stage, bezel, pawl, chassis, speaker, ring pawl, ring and lens it meets {wedged or 'nothing'}. The rim at the back runs in the pocket of the band with {d_pocket:.2f} mm: band and lid are printed, so this gap stays as it is, and it is the one to look at when the lid is first hinged (manual, step 11). The pawl has {pivot_r:.2f} mm of room round its pivot and {pivot_z} mm along it", {"stage": d_stage, "bezel": d_bezel, "pawl": d_pawl, "pocket": d_pocket, "collisions": wedged}))
 
     # 3. the first degrees: the lid is guided.  Whatever is free at one angle has to stay free at every larger one
     grown = grown_lid()

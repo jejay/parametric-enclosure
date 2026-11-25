@@ -95,7 +95,7 @@ def render_overview(img: Path) -> list[Path]:
     keep = g.box(-200, 200, 0.0, 200, -200, 200)
     nums = numbers(items)
     sc, anchors = scene(items, keep=keep)
-    for k in ("mcu", "amp", "charger", "boost", "contacts", "inserts", "stack_screws", "servo_screws", "clamp_screws", "pawl_spring", "pawl_screw", "sleeve", "hinge_pin", "yoke_pin", "turf_screws"):
+    for k in ("mcu", "amp", "charger", "boost", "contacts", "inserts", "stack_screws", "servo_screws", "clamp_screws", "pawl_spring", "pawl_screw", "ring_pawl_washers", "ring_pawl_screw", "ring_pawl_spring", "sleeve", "hinge_pin", "yoke_pin", "turf_screws"):
         anchors.pop(k, None)
     for k in list(anchors):
         x, y, z = anchors[k]
@@ -137,7 +137,9 @@ def render_steps(img: Path) -> list[Path]:
     # the lid as it is slid onto the hinge: partly open, the two hinge pins waiting in their towers, the
     # forward leg of the spring not yet on its wire
     hinging = A.build(lid_deg=P.HINGE_MOUNT_DEG, pawl_deg=P.PAWL_RELEASE_DEG, horn_deg=P.HORN_RELEASE_DEG, hinge_parked=True, spring_seated=False)
-    pools = {"closed": items, "open": opened, "unlocked": unlocked, "hinging": hinging}
+    # the ring pawl as it is brought up onto its boss: turned so far that its finger stands behind the wall of the slot
+    mounting = A.build(ring_pawl_deg=P.RPAWL_MOUNT_DEG, with_ring=False)
+    pools = {"closed": items, "open": opened, "unlocked": unlocked, "hinging": hinging, "ring_mount": mounting}
     for st in STEPS:
         for view in st["views"]:
             out.append(render_step_view(img, pools[view.get("pose", "closed")], view, nums))
@@ -193,17 +195,31 @@ def render_details(img: Path) -> list[Path]:
     p = img / "emergency.png"
     _zoomed(sc, p, -90, 0, 1.0)
     out.append(p)
-    # --- ring lock, locked and released --------------------------------------
+    # --- the ring in its slot and the ring pawl, locked and released, seen from behind ---
     for name, locked in (("ring_locked.png", True), ("ring_released.png", False)):
         items = A.build(lid_deg=P.LID_OPEN_DEG, pawl_deg=P.PAWL_RELEASE_DEG, locked=locked)
         it = A.by_key(items)
-        keep = g.box(-34, 12, 0.0, 30, 12, 60)
+        keep = g.box(-34, 16, -30, 36, 10, 60)
         sc = R.Scene()
-        for key in ("stage", "cradle", "ring", "lock_pin", "slider"):
-            sc.add(R.clip(it[key].bodies, keep))
+        for key in ("stage", "ring", "ring_pawl"):
+            sc.add(R.clip(it[key].bodies, keep), colour="chassis" if key == "stage" else None)
         p = img / name
-        _zoomed(sc, p, -90, 12, 1.0)
+        _zoomed(sc, p, 180, 58, 1.0)
         out.append(p)
+    # --- the same from below: pawl, spring, washers and screw under the deck, and a section along the finger ---
+    it = A.by_key(A.build())
+    sc = R.Scene()
+    for key in ("stage", "ring", "ring_pawl", "ring_pawl_washers", "ring_pawl_screw", "ring_pawl_spring"):
+        sc.add(R.clip(it[key].bodies, g.box(-34, 16, -30, 40, 10, 60)), colour="chassis" if key == "stage" else None)
+    p = img / "ring_below.png"
+    _zoomed(sc, p, 180, -70, 1.0)
+    out.append(p)
+    sc = R.Scene()
+    for key in ("stage", "ring", "ring_pawl"):
+        sc.add(R.clip(it[key].bodies, g.box(-34, 16, -60, 0.3, 10, 60)), colour="chassis" if key == "stage" else None)
+    p = img / "ring_section.png"
+    _zoomed(sc, p, 90, 5, 1.0)
+    out.append(p)
     # --- hinge, closed and open ---------------------------------------------------
     for name, deg in (("hinge_closed.png", 0.0), ("hinge_open.png", P.LID_OPEN_DEG)):
         items = A.build(lid_deg=deg, pawl_deg=P.PAWL_RELEASE_DEG if deg else 0.0)
@@ -224,7 +240,7 @@ def render_details(img: Path) -> list[Path]:
     keep = g.box(-60, 140, 0.0, 200, -60, 8.0)
     sc = R.Scene()
     for item in items:
-        if item.key in ("lid", "stage", "cradle", "ring", "slider", "lock_pin", "pawl", "pawl_screw", "pawl_spring", "stack_screws", "spring", "sleeve", "hinge_pin", "yoke_pin"):
+        if item.key in ("lid", "stage", "ring", "ring_pawl", "ring_pawl_washers", "ring_pawl_screw", "ring_pawl_spring", "pawl", "pawl_screw", "pawl_spring", "stack_screws", "spring", "sleeve", "hinge_pin", "yoke_pin"):
             continue
         sc.add(R.clip(item.bodies, keep))
     p = img / "grass_section.png"
@@ -235,10 +251,10 @@ def render_details(img: Path) -> list[Path]:
 
 def render_print_plate(img: Path) -> list[Path]:
     """All printed parts in print orientation, laid out on a virtual bed."""
-    colours = {"bowl": "white", "band": "black", "lid": "red", "bezel": "black", "lens": "clear", "cone": "white", "stage": "stage", "chassis": "chassis", "pawl": "pawl", "pawl_cap": "pawl", "cradle": "cradle", "slider": "slider", "sleeve": "sleeve", "spk_clamp": "clamp", "grass_base": "grass", "grass_top": "grass"}
+    colours = {"bowl": "white", "band": "black", "lid": "red", "bezel": "black", "lens": "clear", "cone": "white", "stage": "stage", "chassis": "chassis", "pawl": "pawl", "pawl_cap": "pawl", "ring_pawl": "slider", "sleeve": "sleeve", "spk_clamp": "clamp", "grass_base": "grass", "grass_top": "grass"}
     layout = {
-        "bowl": (-110, 60), "lid": (0, 60), "stage": (110, 60), "chassis": (-110, -55), "band": (0, -55), "cradle": (95, -30),
-        "spk_clamp": (95, -75), "bezel": (150, -35), "lens": (150, -75), "cone": (150, -105), "pawl": (95, -110), "pawl_cap": (77, -112), "slider": (120, -110), "sleeve": (60, -110),
+        "bowl": (-110, 60), "lid": (0, 60), "stage": (110, 60), "chassis": (-110, -55), "band": (0, -55), "ring_pawl": (93, -27),
+        "spk_clamp": (95, -75), "bezel": (150, -35), "lens": (150, -75), "cone": (150, -105), "pawl": (95, -110), "pawl_cap": (77, -112), "sleeve": (60, -110),
         "grass_base": (-85, -185), "grass_top": (90, -185),
     }
     sc = R.Scene()

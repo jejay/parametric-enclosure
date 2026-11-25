@@ -25,7 +25,7 @@ GRASS_IN = ["reader", "hall", "harness"]
 TURF = ["grass_top"]
 GRASS = ["grass_base"] + GRASS_IN + TURF + ["turf_screws"]
 FOOT = BOWL + GRASS + ["base_screws"]          # everything below the core
-STAGE = ["stage", "pawl", "pawl_cap", "pawl_screw", "pawl_spring", "cradle", "lock_pin", "slider"]
+STAGE = ["stage", "pawl", "pawl_cap", "pawl_screw", "pawl_spring", "ring_pawl", "ring_pawl_washers", "ring_pawl_screw", "ring_pawl_spring"]
 LID = ["lid", "hinge_pin", "sleeve", "spring", "yoke_pin"]
 
 ANTENNA_MM = P.Z_TURF - P.Z_PCB_BOT            # antenna copper below the standing surface, at most
@@ -161,18 +161,20 @@ STEPS = [
     },
     {
         "n": 9,
-        "title": "Assemble the stage: latch and ring lock",
+        "title": "Assemble the stage: latch and ring pawl",
         "parts": STAGE,
         "text": [
             f"Turn the stage upside down. Put the pawl on the pivot boss (post pointing away from the deck) and turn it: it must swing without any friction and have a little play, {(P.PAWL_BORE - P.PAWL_BOSS_D) / 2:.2f} mm all round. A hole often comes out of the printer smaller than drawn; if the pawl is tight on the boss, scrape its bore with a knife or a drill of {P.PAWL_BORE:.1f} mm held in the fingers. Then put on the printed pivot washer, flange towards the pawl, and the M2 x 6 screw. The screw forms its own thread in the boss: turn it in until the washer sits on the end of the boss, and no further. The pawl must still swing freely and be able to move {P.PAWL_PLAY} mm up and down between deck and washer; the washer only keeps it from slipping off.",
             f"Cut {P.PAWL_SPRING_L:.0f} mm off the ball-pen spring. Push one end into the cup that stands on the underside of the deck beside the pawl and set the other end over the nub on the pawl's tail. It pushes the tail against the stop pin.",
             f"Try the latch now, while you can see it. Push the nose of the pawl aside with a finger as far as it goes, about {P.PAWL_FREE_DEG:.0f}°, and let go, from several positions: each time it must snap back against its stop pin by itself. If it creeps or stops on the way, find out where it rubs before you go on; this is the part that has to let the lid go.",
-            "Turn the stage over. Line the ring slot of the cradle with self-adhesive felt on both sides until the ring slides in with light friction, then drop the cradle into its pocket in the deck.",
-            f"Put the slider into its slot behind the cradle. Push the 3 x 25 mm dowel pin in from behind, through the hole in the rear wall of the stage and into the guide under the deck. It slides in the guide and in the cradle (bores of {P.LOCK_BORE} mm; if the pin does not slide in them under the push of a finger, open them with a drill of 3.2 to 3.5 mm) and is a press fit in the stem of the slider, which it takes along to the front end of the slot. Press it in against the edge of the table until it is flush with the rear wall, then push it on with the 2.5 mm hex key until its tip has crossed the ring slot and stops in the hole of the far wall. Do not force it further. Now move the slider: in the rear position the pin clears the ring slot and stands about 1 mm out of the back of its guide, in the front position it crosses the slot; in both positions it keeps the cradle captive.",
+            f"The ring pawl goes onto the second boss, beside the slot of the ring, in the same way, with its knob towards the deck. Under the windows the walls of the slot are closed, so its finger cannot come down into its window: hold the pawl turned about {P.RPAWL_MOUNT_DEG:.0f}° away from the slot, so that the end of the finger stands behind the wall, lower it onto the boss with the knob entering the far end of the curved slit, and let it turn back. The finger slides through the window and across the slot. The pawl must swing without friction and have a little play, like the latch pawl.",
+            f"Slip an M2 washer and then an M3 washer onto an M2 x 6 screw and turn it into the boss until the washers sit on its end, and no further. The wide washer is what keeps the pawl on its boss: a standard M2 washer is {P.M2_WASHER_D:.0f} mm across, the bore of the pawl {P.PAWL_BORE} mm. Pull at the pawl: it must not come off over the washers, and it must still swing freely and move {P.RPAWL_PLAY} mm up and down between deck and washer.",
+            f"Take a compression spring of 4 x {P.RPAWL_SPRING_L:.0f} mm as it comes. Push one end into the cup that stands on the underside of the deck beyond the tail of the ring pawl and set the other end over the nub on the tail. It pushes the tail against its post, and the finger then lies across the slot.",
+            f"Turn the stage over and try the lock. Pull the knob back, away from the slot, as far as it goes, and let go, from several positions: each time it must snap back by itself and the finger must cross the slot again. With the knob pulled back {math.radians(P.RPAWL_RELEASE_DEG) * P.RPAWL_KNOB_R:.0f} mm the slot is free. Windows and slit are {P.RPAWL_CL:.0f} mm wider than finger and knob on each side; if the finger catches on the edge of a window, look for a blob or a thread of plastic there.",
         ],
         "views": [
             {"file": "step_09a.png", "show": ["stage"], "new": ["pawl", "pawl_cap", "pawl_screw", "pawl_spring"], "lift": {"pawl": (0, 0, -16), "pawl_cap": (0, 0, -24), "pawl_screw": (0, 0, -32), "pawl_spring": (0, 0, -16)}, "az": 25, "el": -42},
-            {"file": "step_09b.png", "show": ["stage", "pawl", "pawl_cap", "pawl_screw", "pawl_spring"], "new": ["cradle", "lock_pin", "slider"], "lift": {"cradle": (0, 0, 18), "slider": (0, 0, 26), "lock_pin": (-34, 0, 0)}, "az": 150, "el": 40},
+            {"file": "step_09b.png", "pose": "ring_mount", "show": ["stage", "pawl", "pawl_cap", "pawl_screw", "pawl_spring"], "new": ["ring_pawl", "ring_pawl_washers", "ring_pawl_screw", "ring_pawl_spring"], "lift": {"ring_pawl": (0, 0, -14), "ring_pawl_washers": (0, 0, -22), "ring_pawl_screw": (0, 0, -30), "ring_pawl_spring": (0, 0, -14)}, "keep": (-36, 22, -34, 40, -40, 30), "az": 160, "el": -48},
         ],
     },
     {
@@ -217,7 +219,8 @@ STEPS = [
         "title": "Seat and lock the ring, close the lid",
         "parts": ["ring"],
         "text": [
-            "Pull the slider back, push the ring into the felt-lined slot until it sits on the bottom, and push the slider forwards until it clicks. The pin now passes through the ring below the deck: the ring cannot come out, however the ball is shaken or dropped.",
+            f"Wrap the lower half of the ring in a strip of soft cloth or paper. Pull the knob behind the slot back and hold it, push the ring with its wrapping into the slot until it sits on the bottom, and let the knob go: the finger of the ring pawl now passes through the ring below the deck. Fill what is left of the slot on both sides of the ring with more cloth or paper until the ring stands firm; keep it away from the middle, where the finger passes. The slot is {P.RING_SLOT_W} mm wide and {P.RING_SLOT_D:.0f} mm across, and under the finger it has {P.RING_UNDER_TIP} mm for the band of the ring.",
+            "Pull at the ring: it must not come out, however the ball is shaken or dropped. Then pull the knob back once more and see that the ring lifts out and goes in again easily.",
             f"Before the lid is closed for the first time, lower it by hand and look at the gap round the black ring of the button and at the seam above the band: the lid must come down onto the band all round without being pressed, and a strip of paper must pass between the lid and the ring (the gap is {P.BEZEL_LID_GAP} mm). A lid that has to be pressed into its seat would stay there when the latch lets go.",
             f"Check that the servo is in its rest position, then press the lid down until the latch clicks. Latched, the lid can be pressed down by a little less than a millimetre at the front and comes up again: the latch needs that room ({P.LATCH_GAP} mm), so that it also closes over a tooth that the printer has made a little too high.",
         ],
@@ -251,11 +254,13 @@ BOM_NOTES = {
     "servo_screws": ("Supplied with the servo.", "research/05 §8.1"),
     "clamp_screws": ("M2 x 8 machine screws with a cylindrical head and hex socket, ISO 4762 / DIN 912. It has to be a hex socket here: the two screws lie deep in the core, where only a hex key reaches them.", "research/06 §4.2, §4.3"),
     "pawl_screw": ("M2 x 6 machine screw, the same as for the grass top. The washer under it is printed.", "research/06 §4.2, §4.3"),
+    "ring_pawl_screw": ("M2 x 6 machine screw, the same as for the latch pawl.", "research/06 §4.2, §3"),
+    "ring_pawl_washers": (f"One standard M2 washer (Ø{P.M2_WASHER_D:.0f} x {P.M2_WASHER_T} mm) under the head of the screw and one standard M3 washer (Ø{P.M3_WASHER_D:.0f} x {P.M3_WASHER_T} mm) between it and the pawl. The M3 washer keeps the pawl on its boss; the M2 washer alone is narrower than the pawl's bore.", "research/06 §3"),
+    "ring_pawl_spring": (f"Compression spring of 4 mm outside diameter and {P.RPAWL_SPRING_L:.0f} mm length, not cut: of the same kind as the one that is cut to {P.PAWL_SPRING_L:.0f} mm for the latch pawl.", "research/06 §3"),
     "pawl_spring": (f"Soft compression spring of 3.5 to 4.5 mm outside diameter, {P.PAWL_SPRING_L:.0f} mm long: {P.PAWL_SPRING_L:.0f} mm cut off the spring of a ball-pen.", "research/06 §2.2"),
     "hinge_pin": ("Two steel dowel pins (parallel pins) Ø2 x 8 mm, ISO 2338 / DIN 7 or hardened ISO 8734 / DIN 6325. Two pieces of a 2 mm bicycle spoke, 8 mm long with rounded ends, do as well. They slide in the towers of the stage and are pressed into the spring sleeve; try them in the test piece first (section 3).", "research/06 §3"),
     "yoke_pin": (f"Steel dowel pin (parallel pin) Ø{P.YOKE_PIN_D:.0f} x {P.YOKE_PIN_L:.0f} mm, of the same kind as the hinge pins. The forward leg of the lid spring rests on it; it goes in last (step 10).", "research/06 §3"),
-    "lock_pin": ("Steel dowel pin (parallel pin) Ø3 x 25 mm. A 24 mm pin of the ISO 2338 series fits as well; a 20 mm pin is too short: only half as much of it would sit in the slider.", "research/06 §3"),
-    "ring": ("The engagement ring. Measure it and adjust the RING_* values in `params.py`, then reprint the cradle.", "research/06 §1"),
+    "ring": (f"The engagement ring. Its slot in the stage is {P.RING_SLOT_W} mm wide and {P.RING_SLOT_D:.0f} mm across, with {P.RING_UNDER_TIP} mm under the lock for the band (`RING_SLOT_W`, `RING_SLOT_D`, `RING_UNDER_TIP` in `params.py`); what the ring leaves free is filled with paper or cloth.", "research/06 §1, §3"),
 }
 
 SMALL_PARTS = [
@@ -265,7 +270,8 @@ SMALL_PARTS = [
     ("Resistor 1 MOhm, capacitor 100 nF", "1 each, only with the AH3661UA hall switch", "pull-up from the wake pad to 3.3 V at the controller; capacitor across the supply legs of the switch"),
     ("Diode 1N4148", "1", "in series with the LED's 5 V supply, so that 3.3 V data is in spec"),
     ("Silicone wire 26-28 AWG, heat-shrink tube", "", "all point-to-point wiring"),
-    ("Self-adhesive felt or velour, 0.5-1 mm", "", "ring slot lining; optional curtain behind the band pocket; optional dots under the ball's flat and the tongue"),
+    ("Soft cloth or paper", "", "wrapped round the ring and stuffed into its slot"),
+    ("Self-adhesive felt or velour, 0.5-1 mm", "", "optional curtain behind the band pocket; optional dots under the ball's flat and the tongue"),
     ("Hot glue or epoxy; cyanoacrylate", "", "boards, bezel, hall switch, reader"),
     ("Flexible ferrite sheet 0.1-0.2 mm, about 45 x 42 mm (Würth WE-FSFS 364004 or 364005)", "1, only if needed", "on the floor of the pocket under the antenna, if the bench test fails on a metal surface"),
     ("Schottky diodes BAT43 or 1N5817", "2, only if needed", "supply of the reader in sleep, if the ball is woken by card detection instead of the hall switch"),
@@ -275,7 +281,7 @@ TOOLS = [
     "FDM printer with a 0.4 mm nozzle; PETG in red, white, black, natural (clear) and a light green, and any colour for the inner parts",
     "Soldering iron with a fine tip (also used to set the heat-set inserts)",
     "Hex keys 1.5, 2 and 2.5 mm, long-nose pliers, small cross-head screwdriver, small flat screwdriver (blade 2 to 2.5 mm wide), side cutters, tweezers, a toothpick",
-    "Drill bits of 1.7 or 1.8 mm, of 2.0 mm and of 3.2 to 3.5 mm, only if a pilot hole for an M2 screw or a bore for one of the pins prints too tight",
+    "Drill bits of 1.7 or 1.8 mm and of 2.0 mm, only if a pilot hole for an M2 screw or a bore for one of the pins prints too tight",
     "Multimeter; a USB-C cable and charger",
     "Calipers, to measure the ring, the reader board and the other delivered boards",
 ]
@@ -300,7 +306,7 @@ def manual_markdown(items, nums, printed) -> str:
     a("")
     a(f"A {P.D:.0f} mm Poké Ball with a tongue of tall grass in front of it. The tongue is a block screwed under the lower front of the ball: {2 * P.TONGUE_W:.0f} mm wide at the ball, {2 * P.R_SIDE:.0f} mm beside a figure, {P.BASE_T:.0f} mm high without the blades, and it reaches {P.X_TIP - P.R:.1f} mm beyond the ball, just past the reader board inside it. Tongue and grass are one light green. Nothing of the tongue lies beside or behind the ball, and its underside lies in the plane of the ball's flat foot, so ball and tongue stand on the table together. A Tonie is stood at the front end of the tongue, in front of the ball. That wakes the ball, which reads the figure's RFID tag and plays that figure's recorded message from its own flash memory. Because the figure stands on the grass, the ball always stays upright.")
     a("")
-    a("The ball's black front ring carries the sound slits and its button is a lens lit by an RGB LED. The red half is a spring-loaded lid on a concealed hinge. A servo releases its latch on command from the phone, and the lid jumps open to present the ring, which is locked into its seat by a steel pin.")
+    a("The ball's black front ring carries the sound slits and its button is a lens lit by an RGB LED. The red half is a spring-loaded lid on a concealed hinge. A servo releases its latch on command from the phone, and the lid jumps open to present the ring, which stands in a slot of the deck and is locked there by a pawl that passes through it.")
     a("")
     a("![section](img/section.png)")
     a("")
@@ -378,7 +384,7 @@ def manual_markdown(items, nums, printed) -> str:
     a("*All printed parts in their print orientation. The STL files in `export/stl/` are already turned this way.*")
     a("")
     a("- Material: PETG for every part. The hinge, the latch and the spring seats stay under load for weeks, and PLA creeps and softens at 55-60 °C.")
-    a("- 0.2 mm layers, 5 perimeters for the shells (they print solid), 4 perimeters and 30 % infill for the inner parts, 100 % for pawl, slider, sleeve and lens.")
+    a("- 0.2 mm layers, 5 perimeters for the shells (they print solid), 4 perimeters and 30 % infill for the inner parts, 100 % for the two pawls, sleeve and lens.")
     a("- Bowl, lid: rim on the bed, tree supports inside only. Put the layer seam at the back. A variable layer height (0.1 mm near the pole) hides the stair-stepping on the cap.")
     a("- Band, stage: upside down. Their 45° surfaces are designed to print without support in this orientation.")
     a("- Lens: natural (uncoloured) PETG. Print one first and check the glow with the LED; 1.6 mm front thickness is `LENS_T` in `params.py`.")
@@ -399,7 +405,7 @@ def manual_markdown(items, nums, printed) -> str:
     a("| Band | optional, under the shallow pocket at the back (2 mm high) | - |")
     a("| All other parts | none | supports off |")
     a("")
-    a("- Print pawl, pivot washer, slider, sleeve and cradle first. They are small and show whether your printer's clearances suit: the slider must move in the stage with light friction and the pawl must turn freely on its boss.")
+    a("- Print the two pawls, the pivot washer and the sleeve first. They are small and show whether your printer's clearances suit: each pawl must turn freely on its boss of the stage.")
     a(f"- Play and tolerances. A printed surface may lie a few tenths of a millimetre beside where the model has it, and a printed hinge has play. The parts are laid out for both: every gap between the lid and what it passes is {min(P.TOWER_GAP, P.COLLAR_GAP, P.BEZEL_LID_GAP, P.HOOK_SLOT_STEM)} mm or more (collar of the stage {P.COLLAR_GAP}, ring of the button {P.BEZEL_LID_GAP}, ribs beside the hinge towers {P.TOWER_GAP}, hook in its slot {P.HOOK_SLOT_STEM} mm), so that two surfaces which both come out {P.PRINT_TOL} mm fat still do not touch, and the lid may stand {P.HINGE_SKEW_DEG:.1f}° askew in its hinge without meeting anything but its guides [`docs/verification.md`, section Play and tolerances]. What the model cannot know is your first layer. The lid stands on its rim while it is printed: if that rim comes out with a bulge (an elephant foot), scrape the inside of the rim clean with a knife, because the collar of the stage sits just inside it.")
     a(f"- M2 pilot holes. The seven M2 screws form their own thread in printed holes: {P.M2_PILOT_FLAT} mm where the mouth of the hole lies parallel to the print bed (grass top, stage) and {P.M2_PILOT_SIDE} mm where it lies in an upright wall (chassis) [research/06 §4.2]. How such small holes come out depends on printer and filament, so print `export/stl/m2_test_coupon.stl` first, flat as it comes, in the PETG you will use. It has three holes from the top ({P.M2_PILOT_FLAT - 0.1:.2f}, {P.M2_PILOT_FLAT:.2f}, {P.M2_PILOT_FLAT + 0.1:.2f} mm) and three through its side ({P.M2_PILOT_SIDE - 0.1:.2f}, {P.M2_PILOT_SIDE:.2f}, {P.M2_PILOT_SIDE + 0.1:.2f} mm), the smallest of each three next to the cut-off corner. An M2 screw should turn into the middle one with light, even resistance and then hold firmly. If a neighbour fits better, change `M2_PILOT_FLAT` or `M2_PILOT_SIDE` in `params.py` and export again. A hole that is only a little tight can be opened with a 1.7 or 1.8 mm drill.")
     press = ", ".join(f"{P.HINGE_PRESS + d:.2f}" for d in K_PRESS[:-1]) + f" and {P.HINGE_PRESS + K_PRESS[-1]:.2f}"
@@ -490,7 +496,15 @@ def manual_markdown(items, nums, printed) -> str:
     a("| --- | --- |")
     a("| ![locked](img/ring_locked.png) | ![released](img/ring_released.png) |")
     a("")
-    a(f"Pull the slider behind the ring back by {P.LOCK_TRAVEL:.0f} mm. The pin leaves the ring and the ring lifts out.")
+    a(f"*The ring in its slot, seen from behind and above. The knob of the ring pawl stands in its curved slit behind the ring; the finger of the pawl is seen inside the ring.*")
+    a("")
+    a(f"Pull the knob behind the ring back by {math.radians(P.RPAWL_RELEASE_DEG) * P.RPAWL_KNOB_R:.0f} mm, away from the ring, and hold it. The finger leaves the ring and the ring lifts out with its wrapping. Let the knob go: a spring takes it back. Nothing but a hand moves this lock.")
+    a("")
+    a("| From below | Section along the finger |")
+    a("| --- | --- |")
+    a("| ![below](img/ring_below.png) | ![section](img/ring_section.png) |")
+    a("")
+    a(f"*Left: the ring pawl under the deck with its pivot screw, its spring in the cup and the post on which its tail rests. Right: the finger passes through the ring {P.RING_UNDER_TIP} mm above the bottom of the slot and lies under the deck on both sides of it, so a pull at the ring presses it against the deck.*")
     a("")
     a("### The hinge")
     a("")

@@ -1,7 +1,7 @@
 """The complete device: every printed part and purchased component in place.
 
 ``build()`` returns a list of :class:`Item`.  The pose of the moving parts
-(lid, latch pawl, servo horn, ring lock) is a parameter, so the same function
+(lid, latch pawl, servo horn, ring pawl) is a parameter, so the same function
 serves the static fit check, the motion simulation and every rendering.
 """
 
@@ -28,7 +28,7 @@ class Item:
     label: str               # name used in manual and BOM
     kind: str                # 'printed' | 'purchased' | 'hardware'
     bodies: Bodies
-    group: str = "fixed"     # motion group: fixed | lid | pawl | horn | slider
+    group: str = "fixed"     # motion group: fixed | lid | pawl | horn | ring_pawl
     step: int = 0            # assembly step in the building manual
     explode: tuple[float, float, float] = (0.0, 0.0, 0.0)
     qty: int = 1             # quantity represented by this item (for the BOM)
@@ -70,7 +70,8 @@ def screw_positions() -> list[tuple[float, float]]:
 
 
 def ring_centre_z() -> float:
-    return P.Z_DECK - P.RING_SINK + P.RING_ID / 2 + P.RING_THICK
+    """The ring is drawn standing on the bottom of its slot, without the paper or cloth round it."""
+    return K.RING_SLOT_Z + P.RING_ID / 2 + P.RING_THICK
 
 
 def build(
@@ -78,6 +79,8 @@ def build(
     pawl_deg: float = 0.0,
     horn_deg: float | None = None,
     locked: bool = True,
+    ring_pawl_deg: float | None = None,
+    ring_pawl_up: bool = False,
     with_ring: bool = True,
     with_tonie: bool = False,
     hinge_parked: bool = False,
@@ -87,7 +90,10 @@ def build(
     """``hinge_parked``: the two hinge pins wait in their towers, as while the lid is put on.
     ``spring_seated``: False shows the spring before its forward leg has been lifted onto the yoke pin: the
     leg then lies on the inner edge of the lid's rim, and the pin is not in yet.
-    ``pawl_down``: the pawl lies on its washer instead of being pushed up against the deck."""
+    ``pawl_down``: the pawl lies on its washer instead of being pushed up against the deck.
+    ``locked``: the finger of the ring pawl passes through the ring; False turns the pawl to its released
+    angle, ``ring_pawl_deg`` to any angle.  ``ring_pawl_up``: the ring pawl is pushed up against the deck, as
+    when someone pulls at the locked ring, instead of lying on its washer."""
     horn = P.HORN_REST_DEG if horn_deg is None else horn_deg
     items: list[Item] = []
     add = items.append
@@ -175,10 +181,20 @@ def build(
     y_a, y_b = pawl_spring_span(pawl_deg)
     sp = _place(C.compression_spring(3.5, max(y_b - y_a, 1.0)), ("rot", "z", 90.0), ("move", K.PAWL_SPRING_X, y_a, K.PAWL_SPRING_Z))
     add(Item("pawl_spring", f"Compression spring about 4 x {P.PAWL_SPRING_L:.0f} (pawl return)", "hardware", sp, step=9, explode=(0, 10, 62), check=False))
-    add(Item("cradle", "Ring cradle", "printed", _col(K.cradle(), "cradle"), step=9, explode=(0, 0, 112), material="PETG red or black"))
-    span = K.lock_pin_span(locked)
-    add(Item("lock_pin", "Dowel pin 3 x 25 (ring lock)", "hardware", _place(C.pin_x(P.LOCK_PIN_D, P.LOCK_PIN_L), ("move", span[0], 0, P.LOCK_Z)), group="slider", step=9, explode=(-30, 0, 112)))
-    add(Item("slider", "Ring lock slider", "printed", _col(K.slider_at(locked), "slider"), group="slider", step=9, explode=(-6, 0, 124), material="PETG any colour"))
+    # the ring pawl: the lock of the ring, moved by hand
+    rdeg = (0.0 if locked else P.RPAWL_RELEASE_DEG) if ring_pawl_deg is None else ring_pawl_deg
+    rpx, rpy = P.RPAWL_PIVOT
+    add(Item("ring_pawl", "Ring pawl (lock of the ring)", "printed", _col(K.ring_pawl_at(rdeg, up=ring_pawl_up), "slider"), group="ring_pawl", step=9, explode=(0, 0, 62), material="PETG any colour"))
+    z_m3 = K.RPAWL_Z0 - P.M3_WASHER_T
+    z_m2 = z_m3 - P.M2_WASHER_T
+    rw = _place(C.washer(3.2, P.M3_WASHER_D, P.M3_WASHER_T), ("move", rpx, rpy, z_m3)) + _place(C.washer(2.2, P.M2_WASHER_D, P.M2_WASHER_T), ("move", rpx, rpy, z_m2))
+    add(Item("ring_pawl_washers", "Washer M3 and washer M2 (ring pawl pivot)", "hardware", rw, step=9, explode=(0, 0, 56), qty=2))
+    rs = _place(C.screw_up(2.0, P.RPAWL_SCREW_L, P.M2_HEAD_D, P.M2_HEAD_H), ("move", rpx, rpy, z_m2))
+    add(Item("ring_pawl_screw", "Screw M2 x 6 (ring pawl pivot)", "hardware", rs, step=9, explode=(0, 0, 50)))
+    x_a, x_b = K.ring_spring_span(rdeg)
+    _, y_s, z_s = K.ring_spring_seat()
+    rsp = _place(C.compression_spring(3.5, max(x_b - x_a, 1.0)), ("move", x_a, y_s, z_s))
+    add(Item("ring_pawl_spring", f"Compression spring 4 x {P.RPAWL_SPRING_L:.0f} (ring pawl return)", "hardware", rsp, step=9, explode=(10, 0, 62), check=False))
 
     # --------------------------------------------------------------- step 10
     lid_shape = S.open_lid(S.lid(), lid_deg)
@@ -240,7 +256,7 @@ def pawl_spring_span(pawl_deg: float = 0.0) -> tuple[float, float]:
 PRINT_ORIENT: dict[str, tuple[str, float] | None] = {
     "bowl": ("x", 180.0), "band": ("x", 180.0), "lid": None, "bezel": ("y", 90.0), "lens": ("y", -90.0),
     "cone": ("y", 90.0), "stage": ("x", 180.0), "chassis": None, "pawl": ("x", 180.0),
-    "cradle": None, "slider": ("x", 180.0), "sleeve": ("x", 90.0), "spk_clamp": ("y", 90.0), "pawl_cap": ("x", 180.0),
+    "ring_pawl": None, "sleeve": ("x", 90.0), "spk_clamp": ("y", 90.0), "pawl_cap": ("x", 180.0),
     "grass_base": None, "grass_top": None,
 }
 # tessellation (linear, angular tolerance) for parts whose default mesh would be needlessly heavy
@@ -281,8 +297,7 @@ def printed_parts() -> dict[str, tuple[cq.Shape, str, str]]:
         "chassis": (K.chassis(), "PETG any colour", "plate on the bed, supports under the baffle disc and shelf"),
         "pawl": (K.pawl(), "PETG any colour", "upside down: top face on the bed"),
         "pawl_cap": (K.pawl_cap(), "PETG any colour", "flange on the bed, hub up; 100 % infill"),
-        "cradle": (K.cradle(), "PETG red or black", "as assembled, no supports"),
-        "slider": (K.slider(), "PETG any colour", "cap on the bed (upside down)"),
+        "ring_pawl": (K.ring_pawl(), "PETG any colour", "as it lies, knob up, no supports; 100 % infill"),
         "sleeve": (K.sleeve(), "PETG any colour", "standing on one end; 100 % infill"),
         "spk_clamp": (K.spk_clamp(), "PETG any colour", "flat on the bed"),
         "grass_base": (B.grass_base(), "PETG light green", "sole on the bed, no supports"),

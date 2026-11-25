@@ -305,23 +305,45 @@ RING_THICK = 1.8              # radial band thickness (typ. 1.2-2.0)          ME
 RING_HEAD_H = 6.5             # setting height above the band outside (typ.)   MEASURE
 RING_STONE_D = 5.2            # 0.5 ct round brilliant ~5.0-5.2 mm             MEASURE
 RING_X = -3.0                 # the ring plane (y-z) sits slightly behind centre
-RING_SLOT_W = RING_BAND + 1.2 # slot width incl. 2 x 0.5 mm felt + clearance
-CRADLE_X0, CRADLE_X1 = RING_X - 6.0, RING_X + 6.0
-CRADLE_Y = 13.0               # cradle half length (y)
-CRADLE_DEPTH = 12.0           # cradle body below the deck top
-LOCK_PIN_D = 3.0              # steel dowel pin through the ring
-LOCK_BORE = 3.4               # its bore through stage and cradle.  The bore lies level in the print
-LOCK_STEM_CL = 0.3            # room of the slider's stem in its slot, on each side
-LOCK_PIN_DEPTH = 5.0          # pin axis below the deck top
-# The ring is sunk so far that the lock pin passes 0.3 mm above the inside of
-# the band: locked, the ring cannot be lifted more than that.
-RING_SINK = LOCK_PIN_DEPTH + LOCK_PIN_D / 2 + 0.3 + RING_THICK
-LOCK_TRAVEL = 7.0             # slider travel between locked and released
-LOCK_PIN_L = 25.0             # Ø3 x 25 dowel pin (ISO 2338) pressed into the slider; 25 is a stock length, 24 is not.
-                              # The extra millimetre lies at the rear end; the tip positions are unchanged
-LOCK_TIP_X = RING_X + 4.0     # pin tip when locked (inside the cradle front wall)
-LOCK_STEM_X = (-21.5, -16.5)  # slider stem when locked
-LOCK_Z = Z_DECK - LOCK_PIN_DEPTH
+# The slot of the ring is cut into the stage itself.  Its three sizes are the owner's (2026-11-25): what the
+# ring leaves free in it is filled with paper or cloth, which holds the ring and keeps it from being scratched.
+RING_SLOT_W = 3.1             # width of the slot
+RING_SLOT_D = 25.0            # diameter of its round bottom
+RING_UNDER_TIP = 4.2          # room under the tip of the ring pawl, for the profile height of the ring
+RING_SLOT_WALL = 2.0          # below the deck the slot has walls of this thickness, before and behind it ...
+RING_SLOT_FLOOR = 1.6         # ... and a floor of this thickness under it
+
+# The ring pawl locks the ring.  It is a second pawl under the deck, like the one of the latch and on the same
+# kind of pivot, but it is moved by hand only: its knob stands up through a curved slit in the deck.  Its finger
+# passes through the ring, from behind, RING_UNDER_TIP above the bottom of the slot, as the steel pin of
+# revisions 1 to 9 did.  A compression spring holds it there.
+M2_WASHER_D, M2_WASHER_T = 5.0, 0.3   # standard M2 washer (ISO 7089 / DIN 125 A)
+M3_WASHER_D, M3_WASHER_T = 7.0, 0.5   # standard M3 washer, hole 3.2.  It lies between the M2 washer and the pawl: the
+                                      # M2 washer is no wider than the pivot boss and narrower than the bore of the pawl
+RPAWL_PIVOT = (-10.5, 19.0)   # vertical pivot of the ring pawl: beyond the end of the slot's walls, so that the finger
+                              # crosses the slot almost square (it is 20 mm long from here)
+RPAWL_T = 4.3                 # thickness of the ring pawl.  0.7 mm more than the latch pawl: under a washer of
+                              # M2_WASHER_T an M2 x 6 screw reaches 5.7 mm into the boss, and with this thickness its hole
+                              # can be 6.0 mm deep and still leave 1.0 mm of deck over it
+RPAWL_PLAY = PAWL_PLAY        # play of the ring pawl along its pivot, between the deck and its washer
+RPAWL_SCREW_L = PAWL_SCREW_L  # M2 x 6, as on the latch pawl
+RPAWL_ARM_W = 5.0             # width of the arm from the pivot to the finger, and of the tail beyond the pivot
+RPAWL_FINGER_W = 4.4          # width of the finger that passes through the ring
+RPAWL_FINGER_BEYOND = 1.65    # locked, the finger ends this far beyond the slot, in the window of the front wall
+RPAWL_FINGER_CHAMFER = 1.9    # slope on the two lower edges of the finger: the inside of a ring is round, and a band
+                              # as high as RING_UNDER_TIP has to stand under it
+RPAWL_CL = 1.0                # room round the finger in its two windows and round the knob in its slit, on each side:
+                              # more than the play of the pivot and two printed surfaces can take up (0.25 + 0.2 + 0.2)
+RPAWL_KNOB_D = 5.0            # the knob, a post on top of the arm ...
+RPAWL_KNOB_H = 4.5            # ... that stands this far above the deck ...
+RPAWL_KNOB_R = 19.0           # ... this far from the pivot: just behind the middle of the ring
+RPAWL_TAIL = 10.0             # the return spring pushes on the tail this far beyond the pivot
+RPAWL_RELEASE_DEG = 18.0      # turned this far the finger has left the slot by RPAWL_CL (checked)
+RPAWL_MOUNT_DEG = 25.0        # the slit lets the knob go this far.  Here the finger stands behind the wall of the slot:
+                              # only so can the pawl be brought up onto its boss when the stage is put together
+RPAWL_SPRING_L = 15.0         # owner: a compression spring of 4 x 15 mm, not cut
+RPAWL_SPRING_REST = 12.5      # its length with the pawl locked
+RPAWL_SPRING_SOLID = 5.0      # assumed length at which it is solid (the 12 mm piece of the latch: about 4)   MEASURE
 
 # ==========================================================================
 # 6. Front module: bezel, lens, light cone, LED, speaker (research/04 §3, §4)

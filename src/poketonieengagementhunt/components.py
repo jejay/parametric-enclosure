@@ -253,6 +253,11 @@ def pin_x(d: float, length: float) -> Bodies:
     return [(g.cyl_x(d / 2, 0, length), "metal")]
 
 
+def washer(d_in: float, d_out: float, t: float) -> Bodies:
+    """Flat washer lying in the X-Y plane, from z = 0 to z = t."""
+    return [(g.cyl_z(d_out / 2, 0.0, t).cut(g.cyl_z(d_in / 2, -1.0, t + 1.0)), "metal")]
+
+
 def screw_down(d: float, length: float, head_d: float, head_h: float) -> Bodies:
     """Cap screw pointing down (-Z).  Underside of the head at z = 0."""
     shank = g.cyl_z(d / 2, -length, 0.0)

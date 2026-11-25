@@ -93,6 +93,27 @@ Design directions that give a form lock [INF]:
 
 Slot numbers for a 2.5 mm band [INF]: bare printed slot **2.8 mm** wide (0.15 mm clearance per side); if lined with self-adhesive velour (≈ 0.5 mm per side) open the printed slot to ≈ 3.5 mm so the lining is lightly compressed; or a **TPU 95A liner with a 2.3 mm slot** (0.1 mm interference per side). Slot depth 10–12 mm. All to be re-set from caliper measurements.
 
+### 1.6 The lock became a pawl (owner, 2026-11-25)
+
+The owner's report after building revision eight: the latch pawl works really well, held by an M2 x 6 screw and a standard M2 steel washer in place of the printed one, with a 4 x 15 mm compression spring cut to 12 mm. The ring lock was "a horrible fail": the printed slider could not be fixed on the 3 mm pin, also not with glue. The owner's new system: no cradle, the slot directly in the stage with large tolerances that are filled with paper or cloth; a modified copy of the latch pawl whose tip dives into the slot over the ring as the pin did; the same screw and washer; a little larger, so that the 4 x 15 mm spring works uncut; a knob that looks up through a round slit in the stage; by hand only. The slot: 3.1 mm wide, 25 mm in diameter (first written as a radius, then confirmed), 4.2 mm under the tip for the profile of the ring.
+
+This is direction 1 of section 1.5, a keeper through the bore that is carried on both sides. How it was laid out [INF, measured in the CAD model; `checks.py`, section "Ring lock"]:
+
+| Question | Answer |
+| --- | --- |
+| Where does the pawl lie? | Behind the slot, as the pin did: in front of it the servo stands close. A straight bar parallel to the slot, its pivot 19 mm to the side, beyond the end of the slot's walls. |
+| How does the tip cross the slot? | As a piece of a ring of 20.4 mm radius about the pivot, 4.4 mm wide, 21° off square. A pivot straight behind the ring would have crossed at about 40° and needed wider windows. |
+| What carries a pull at the ring? | The finger lies directly under the deck and bears on its underside on both sides of the slot, on 9 and 7 mm². Arm and pivot carry nothing. For the 60 N of section 1.5: about 4 MPa of bearing, 2 MPa of shear and 10 MPa of bending in a finger of 15 mm² that is printed lying flat [hand estimate]. |
+| How deep is the slot? | 11.2 mm: 2.4 mm of deck, 0.3 mm of play, 4.3 mm of finger, 4.2 mm under it. The ring of the drawing stands 2.6 mm lower than under the pin. A finger thinner than the pawl would have saved a millimetre, but its underside would not lie on the print bed. |
+| Does a round ring fit under a flat finger? | With the lower edges of the finger sloped by 1.9 mm, a ring of size 49 with a band up to 4.2 mm high stands under it; with 1.4 mm it was 4.1 mm. |
+| How much room? | 1.0 mm on each side of the finger in its two windows and of the knob in its slit. The play of the pivot (0.25 mm) and two printed surfaces (0.2 mm each) take 0.65 mm of it; moved that far in eight directions the pawl touches nothing between locked and the end of the slit. |
+| How is it put together? | Under the windows the walls of the slot are closed, so the pawl cannot come up onto its boss with its finger in a window. It rises with the finger behind the rear wall, which needs 21°; the slit therefore reaches 25°, more than the 18° that free the ring. In use the finger leaves the rear window over the last degrees and finds it again by a tapered end. |
+| The spring | Uncut, 15 mm: 12.5 mm long when locked, 9.5 mm when the ring is free, 8.5 mm at the end of the slit, on a tail 10 mm beyond the pivot. Its solid length is taken as 5 mm and its strength is not known. |
+| The pivot | That of the latch pawl: boss 5.0 mm, bore 5.5 mm, play 0.3 mm. Thickness 4.3 mm instead of 3.6 mm: under a washer of 0.3 mm an M2 x 6 reaches 5.7 mm into the boss, and the hole can then be 6.0 mm deep with 1.0 mm of deck over it. In the latch pawl's boss the hole is 5.1 mm deep, 0.6 mm less than that screw reaches under a thin washer; the owner reports no trouble with it. |
+| The washer | A standard M2 washer is 5.0 mm across [MEM, ISO 7089], the bore of a pawl 5.5 mm: by the drawn sizes it cannot hold a pawl, which is why revision six made the latch pawl's washer a printed one of 7 mm. On the latch pawl of the build the hook of the lid and the spring can carry the pawl as well; nothing of that kind lies under the ring pawl. An M3 washer (7 mm) between the M2 washer and the ring pawl holds it whatever the M2 washer measures. |
+
+What a blow does to the pawl [INF, hand estimate]. The pawl weighs 1.3 g and its centre of mass lies 9.1 mm from the pivot, on the side of the arm: finger and knob are there, and the tail has no room to be as long. A blow square to the arm turns the pawl when it exceeds the preload of the spring times 10 mm, divided by 1.3 g times 9.1 mm: 44 g for 0.5 N, 87 g for 1 N, 174 g for 2 N. Section 1.5 expects 500 to 2000 g in a drop onto a hard floor. So a ball that lands on its back can throw the pawl open for some milliseconds; landing on its front presses the tail onto its post instead. For the ring to be lost it has to be thrown 11 mm upwards out of the slot in the same instant, against the paper or cloth round it, which a blow from behind does not do. A counterweight on the tail would take the turning away: a steel dowel pin of 4 x 8 mm (0.8 g), 10 mm beyond the pivot, balances a good half of it. Not laid out; the owner has such pins.
+
 ---
 
 ## 2. Springs
