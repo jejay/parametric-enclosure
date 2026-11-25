@@ -11,4 +11,4 @@ sources:
 
 checks.py implements the checks in 13 sections and writes docs/verification.md and docs/verification.json. Overlaps that are intended, threads and press fits, are declared in one table with their largest allowed volume; anything else above 0.05 mm³ fails.
 
-State on 2026-11-25, after the ring pawl got its knob, its spring and a counterweight on its tail: 117 of 117 checks pass.
+State on 2026-11-25, after the ring pawl was slimmed: 117 of 117 checks pass.

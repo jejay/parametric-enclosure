@@ -93,7 +93,7 @@ Before you start: read `research/README.md` for why each part was chosen, `docs/
 | 28 | Stage (inner dome with ring deck) | `export/stl/stage.stl` | PETG black | 32 g | upside down: deck on the bed, supports under the stop beam of the hinge and the screw pads only |
 | 29 | Latch pawl | `export/stl/pawl.stl` | PETG any colour | 0.5 g | upside down: top face on the bed |
 | 30 | Pivot washer for the pawl | `export/stl/pawl_cap.stl` | PETG any colour | 0.0 g | flange on the bed, hub up; 100 % infill |
-| 33 | Ring pawl (lock of the ring) | `export/stl/ring_pawl.stl` | PETG any colour | 2.2 g | as it lies, knob up, no supports; 100 % infill |
+| 33 | Ring pawl (lock of the ring) | `export/stl/ring_pawl.stl` | PETG any colour | 1.9 g | as it lies, knob up, no supports; 100 % infill |
 | 38 | Lid (red upper half) | `export/stl/lid.stl` | PETG red | 35 g | rim on the bed (dome up), supports inside only (hook, pole) |
 | 40 | Spring sleeve | `export/stl/sleeve.stl` | PETG any colour | 0.1 g | standing on one end; 100 % infill |
 

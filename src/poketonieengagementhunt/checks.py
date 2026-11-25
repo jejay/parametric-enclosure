@@ -429,7 +429,7 @@ def check_ring_lock() -> list[Result]:
     bad = []
     for a in sorted(set(angles)):
         for up in (False, True):
-            base = K.ring_pawl_at(a, up=up).fuse(K.ring_pawl_pin(a, up=up))
+            base = K.ring_pawl_at(a, up=up).fuse(K.ring_pawl_pin(a, up=up)) if P.RPAWL_PIN else K.ring_pawl_at(a, up=up)
             for dx, dy in (shifts if not up else shifts[:1]):
                 vol = g.common_volume(g.move(base, dx, dy, 0.0), free_stage)
                 if vol > TOUCH:
@@ -475,7 +475,7 @@ def check_ring_lock() -> list[Result]:
 
     # 7. putting it together: the pawl comes up onto its boss from below, the knob through the slit
     def rises(a: float) -> bool:
-        whole = K.ring_pawl_at(a).fuse(K.ring_pawl_pin(a))
+        whole = K.ring_pawl_at(a).fuse(K.ring_pawl_pin(a)) if P.RPAWL_PIN else K.ring_pawl_at(a)
         return all(g.common_volume(g.move(whole, dz=-dz), stage) <= TOL_VOLUME for dz in (0.6, 1.5, 3.0, 4.5, 6.0, 8.0, 12.0))
 
     can = _bisect(0.0, P.RPAWL_MOUNT_DEG, rises, 10)

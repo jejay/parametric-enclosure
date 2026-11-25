@@ -128,6 +128,16 @@ What a blow does to the pawl [INF, hand estimate]. The pawl weighs 1.3 g and its
 
 Not changed: the pivot with its washers, the 1 mm of room, the slit that reaches 25° for mounting (the finger is behind the wall from 19.9° on), and what is not known: the strength of the spring and its solid length. At the end of the slit the spring would be 0.9 mm longer than the 5 mm it is taken to be solid at; the pawl goes onto its boss before the spring goes in.
 
+**Slimmed (owner, the same day).** The owner found the pawl of the second round bulky and asked whether the pin was still needed. It was bulky because the tail had been drawn as one plate over hub, knob and pin; the arm with its bend round the end of the slot comes from the square crossing and stays. Three versions, measured in the CAD model [INF; the blows are hand estimates for a spring that holds with 1 N]:
+
+| Version | Printed pawl | Centre of mass from the pivot | Blow that turns it |
+| --- | --- | --- | --- |
+| Plate over hub, knob and pin, arm 5 mm, with the pin (second round) | 2.24 g | 0.0 mm | about 1700 g with 0.3 mm left over |
+| Tail a bar of 6 mm, arm 4 mm, pin in a round of its own beside the hub (taken) | 1.87 g | 0.0 mm | about 1900 g with 0.3 mm left over |
+| The same without pin and round | 1.68 g | 4.1 mm | about 220 g |
+
+The plate had been part of the balance: without a pin it left 2.5 mm, the slim bar leaves 4.1 mm. Balancing with plastic in place of steel takes about six times the volume and brings the bulk back. The pin stays; `RPAWL_PIN` leaves it out.
+
 ---
 
 ## 2. Springs

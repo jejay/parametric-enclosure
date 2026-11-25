@@ -191,7 +191,8 @@ def build(
     add(Item("ring_pawl_washers", "Washer M3 and washer M2 (ring pawl pivot)", "hardware", rw, step=9, explode=(0, 0, 56), qty=2))
     rs = _place(C.screw_up(2.0, P.RPAWL_SCREW_L, P.M2_HEAD_D, P.M2_HEAD_H), ("move", rpx, rpy, z_m2))
     add(Item("ring_pawl_screw", "Screw M2 x 6 (ring pawl pivot)", "hardware", rs, step=9, explode=(0, 0, 50)))
-    add(Item("ring_pawl_pin", f"Dowel pin {P.RPAWL_PIN_D:.0f} x {P.RPAWL_PIN_L:.0f} (counterweight of the ring pawl)", "hardware", _col(K.ring_pawl_pin(rdeg, up=ring_pawl_up), "metal"), group="ring_pawl", step=9, explode=(0, 0, 68)))
+    if P.RPAWL_PIN:
+        add(Item("ring_pawl_pin", f"Dowel pin {P.RPAWL_PIN_D:.0f} x {P.RPAWL_PIN_L:.0f} (counterweight of the ring pawl)", "hardware", _col(K.ring_pawl_pin(rdeg, up=ring_pawl_up), "metal"), group="ring_pawl", step=9, explode=(0, 0, 68)))
     (fx, fy), (gx, gy, z_s) = K.ring_spring_nub(rdeg), K.ring_spring_seat()
     rsp = _place(C.compression_spring(3.5, max(math.hypot(gx - fx, gy - fy), 1.0)), ("rot", "z", math.degrees(math.atan2(gy - fy, gx - fx))), ("move", fx, fy, z_s))
     add(Item("ring_pawl_spring", f"Compression spring 4 x {P.RPAWL_SPRING_L:.0f} (ring pawl return)", "hardware", rsp, step=9, explode=(10, 0, 62), check=False))

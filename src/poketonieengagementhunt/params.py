@@ -329,7 +329,8 @@ RPAWL_T = 4.3                 # thickness of the ring pawl.  0.7 mm more than th
                               # can be 6.0 mm deep and still leave 1.0 mm of deck over it
 RPAWL_PLAY = PAWL_PLAY        # play of the ring pawl along its pivot, between the deck and its washer
 RPAWL_SCREW_L = PAWL_SCREW_L  # M2 x 6, as on the latch pawl
-RPAWL_ARM_W = 5.0             # width of the arm that leads from the pivot round the end of the slot to the finger
+RPAWL_ARM_W = 4.0             # width of the arm that leads from the pivot round the end of the slot to the finger.  It
+                              # only moves the finger: a pull at the ring goes from the finger into the deck
 RPAWL_ARM_X = -10.5           # middle line of the arm where it runs behind the rear wall of the slot
 RPAWL_FINGER_W = 4.4          # width of the finger that passes through the ring
 RPAWL_FINGER_BEYOND = 1.65    # locked, the finger ends this far beyond the slot, in the window of the front wall
@@ -340,18 +341,21 @@ RPAWL_CL = 1.0                # room round the finger in its two windows and rou
 # round).  The finger then needs no knob behind the ring, where the ring itself stands in the way of a hand.
 RPAWL_TAIL_DEG = 20.0         # direction of the tail, seen from the pivot (degrees from +X): to the front left, where the
                               # lid stands high above the deck and the cup of the spring finds room beside the servo
-RPAWL_KNOB_R = 14.8           # the knob stands this far from the pivot, at the end of the tail.  The spring bears on the
+RPAWL_KNOB_R = 14.9           # the knob stands this far from the pivot, at the end of the tail.  The spring bears on the
                               # tail beside it, 15.2 mm from the pivot: it is then pressed from 12.5 to 8.0 mm
 RPAWL_KNOB_D = 5.0            # the knob, a post on top of the tail ...
 RPAWL_KNOB_H = 4.5            # ... that stands this far above the deck
-RPAWL_TAIL_END_R = 3.6        # the tail ends in a round of this radius about the knob
-RPAWL_PIN_D, RPAWL_PIN_L = 4.0, 8.0   # counterweight: a steel dowel pin of 4 x 8, pressed upright into the tail, its top
-                              # flush with the top of the pawl; the rest of it hangs down
+RPAWL_TAIL_END_R = 3.0        # the tail is a bar from the hub to the knob, twice this wide, and ends in a round of this
+                              # radius about the knob
+RPAWL_PIN = True              # whether the pawl has a counterweight pin.  Without it the pawl is the same but for the round
+                              # beside its hub that holds the pin
+RPAWL_PIN_D, RPAWL_PIN_L = 4.0, 8.0   # counterweight: a steel dowel pin of 4 x 8, pressed upright into a round beside the hub,
+                              # its top flush with the top of the pawl; the rest of it hangs down
 RPAWL_PIN_HOLE = 3.95         # its hole: a press fit.  The hole stands upright in the print, the layers lie round the pin
-RPAWL_PIN_AT = (-4.56, 5.33)  # where the pin sits, from the pivot: where it brings the centre of mass of the pawl onto
+RPAWL_PIN_AT = (-3.86, 5.84)  # where the pin sits, from the pivot: where it brings the centre of mass of the pawl onto
                               # the pivot (checked).  The tail with its knob already outweighs the arm to the front;
                               # what is missing lies to the side of the hub that faces away from the finger
-RPAWL_PIN_BOSS_R = 3.9        # the tail is this wide round the pin
+RPAWL_PIN_BOSS_R = 3.9        # radius of the round that holds the pin
 RPAWL_RELEASE_DEG = 17.0      # turned this far the finger has left the slot by RPAWL_CL (checked)
 RPAWL_MOUNT_DEG = 25.0        # the slit lets the knob go this far.  Here the finger stands behind the wall of the slot:
                               # only so can the pawl be brought up onto its boss when the stage is put together

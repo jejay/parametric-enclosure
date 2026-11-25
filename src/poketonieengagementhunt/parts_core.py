@@ -699,17 +699,22 @@ def _hull(points: list[tuple[float, float]]) -> list[tuple[float, float]]:
     return half(pts) + half(reversed(pts))
 
 
+def _round(cx: float, cy: float, r: float) -> list[tuple[float, float]]:
+    return [(cx + r * math.cos(math.radians(a)), cy + r * math.sin(math.radians(a))) for a in range(0, 360, 6)]
+
+
 def _ring_tail_outline() -> list[tuple[float, float]]:
-    """The tail of the ring pawl in plan: what spans the hub, the round about the knob and the round about the
-    counterweight pin, with a flat for the end of the spring."""
-    kx, ky = ring_knob_at()
-    nx, ny = ring_pin_at()
+    """The tail of the ring pawl in plan: a bar from the hub to the round about the knob, with a flat for the
+    end of the spring."""
     fx, fy = ring_spring_nub()
     ux, uy = ring_spring_axis()
-    pts = [(fx - uy * s, fy + ux * s) for s in (-2.4, 2.4)]                  # the flat, square to the spring
-    for cx, cy, r in ((RPX, RPY, P.PAWL_BOSS_D / 2 + 2.0), (kx, ky, P.RPAWL_TAIL_END_R), (nx, ny, P.RPAWL_PIN_BOSS_R)):
-        pts += [(cx + r * math.cos(math.radians(a)), cy + r * math.sin(math.radians(a))) for a in range(0, 360, 6)]
-    return _hull(pts)
+    flat = [(fx - uy * s, fy + ux * s) for s in (-2.4, 2.4)]                 # square to the spring
+    return _hull(flat + _round(RPX, RPY, P.PAWL_BOSS_D / 2 + 2.0) + _round(*ring_knob_at(), P.RPAWL_TAIL_END_R))
+
+
+def _ring_pin_outline() -> list[tuple[float, float]]:
+    """The round beside the hub that holds the counterweight pin, in plan."""
+    return _hull(_round(RPX, RPY, P.PAWL_BOSS_D / 2 + 2.0) + _round(*ring_pin_at(), P.RPAWL_PIN_BOSS_R))
 
 
 @lru_cache(maxsize=None)
@@ -723,9 +728,9 @@ def ring_pawl() -> cq.Shape:
     the front wall.  Its lower edges are sloped, because the inside of a ring is round, and its end is
     tapered, so that it finds a window again that it has left.
 
-    The tail lies on the other side of the pivot.  It carries the knob, a post that stands up through the slit
-    in the deck, the flat and the nub on which the return spring bears, and the hole of the counterweight pin,
-    which is placed so that the whole pawl balances about its pivot.
+    The tail lies on the other side of the pivot: a bar that carries the knob, a post that stands up through
+    the slit in the deck, and the flat and the nub on which the return spring bears.  A round beside the hub
+    holds the counterweight pin, which is placed so that the whole pawl balances about its pivot.
 
     Everything on its underside lies in one plane: it is printed as it lies, knob up."""
     z0, z1 = RPAWL_Z0, RPAWL_Z1
@@ -742,6 +747,8 @@ def ring_pawl() -> cq.Shape:
     finger = _rp_sector([(r0, z0 + c), (r0 + c, z0), (r1 - c, z0), (r1, z0 + c), (r1, z1), (r0, z1)], rp_az(xb - hw + 0.5), az_end)
     tail = g.prism_xy(_ring_tail_outline(), z0, z1)
     body = hub.fuse(neck).fuse(bar).fuse(finger).fuse(tail)
+    if P.RPAWL_PIN:
+        body = body.fuse(g.prism_xy(_ring_pin_outline(), z0, z1))
     # taper of the finger's end, in plan: over its last 2 mm it narrows to 2 mm
     back = math.degrees(2.0 / RPAWL_R)
     side = (P.RPAWL_FINGER_W - 2.0) / 2
@@ -758,9 +765,9 @@ def ring_pawl() -> cq.Shape:
     nub = g.rot(g.cyl_x(1.1, -0.3, 1.6, 0.0, RPAWL_SPRING_Z), "z", math.degrees(math.atan2(uy, ux)))
     body = body.fuse(g.move(nub, fx, fy, 0.0))
     body = body.cut(g.cyl_z(P.PAWL_BORE / 2, z0 - 1, z1 + 1, RPX, RPY))
-    # the hole of the counterweight pin
-    nx, ny = ring_pin_at()
-    body = body.cut(g.cyl_z(P.RPAWL_PIN_HOLE / 2, z0 - 1, z1 + 1, nx, ny))
+    if P.RPAWL_PIN:                                   # the hole of the counterweight pin
+        nx, ny = ring_pin_at()
+        body = body.cut(g.cyl_z(P.RPAWL_PIN_HOLE / 2, z0 - 1, z1 + 1, nx, ny))
     return g.clean(body)
 
 

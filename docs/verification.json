@@ -98,10 +98,10 @@
  {
   "name": "watertight:stage",
   "ok": true,
-  "detail": "solids=1 valid=True watertight=True winding=True V_cad=24942 V_mesh=24937 mm3 tris=20034",
+  "detail": "solids=1 valid=True watertight=True winding=True V_cad=24952 V_mesh=24946 mm3 tris=20034",
   "data": {
-   "volume_mm3": 24942.216122276386,
-   "mass_g_petg": 31.67661447529101,
+   "volume_mm3": 24951.68206051953,
+   "mass_g_petg": 31.688636216859805,
    "bbox": [
     90.09215033341319,
     93.92507041542305,
@@ -162,16 +162,16 @@
  {
   "name": "watertight:ring_pawl",
   "ok": true,
-  "detail": "solids=1 valid=True watertight=True winding=True V_cad=1765 V_mesh=1765 mm3 tris=3344",
+  "detail": "solids=1 valid=True watertight=True winding=True V_cad=1470 V_mesh=1470 mm3 tris=3406",
   "data": {
-   "volume_mm3": 1764.752884011643,
-   "mass_g_petg": 2.2412361626947868,
+   "volume_mm3": 1469.7543062890873,
+   "mass_g_petg": 1.866587968987141,
    "bbox": [
-    28.084116289080306,
-    31.44704925260135,
-    11.524275079567758
+    27.419246945940504,
+    31.956587562972285,
+    11.526810514380497
    ],
-   "triangles": 3344,
+   "triangles": 3406,
    "section": "Watertight printable solids"
   }
  },
@@ -297,7 +297,7 @@
     [
      "ring_pawl",
      "ring_pawl_pin",
-     1.3424418107870597,
+     1.3424418107870864,
      "\u00d84 pin pressed into the \u00d83.95 hole of the tail"
     ],
     [
@@ -570,15 +570,15 @@
  {
   "name": "ring:locked pawl keeps the ring",
   "ok": true,
-  "detail": "the pivot of the pawl lies in the plane of the ring, so the finger crosses the slot square: where it crosses, its middle lies 0.03 mm beside the middle of the ring, and the two windows in the walls of the slot reach from -3.20 to +3.60 mm. Locked, the finger passes through the ring and ends 1.65 mm beyond the slot. The bare ring of the drawing keeps 3.75 mm from it and can be lifted 4.54 mm before its band meets the finger (overlap 8.8 mm3 when it is lifted 6.0 mm); what fills the slot under the ring takes from that. A pull at the ring presses the finger up against the underside of the deck, on 9 mm2 behind the slot and 6 mm2 before it: the load does not pass through the arm or the pivot. The ring comes free only when the pawl is turned 17\u00b0 against its spring",
+  "detail": "the pivot of the pawl lies in the plane of the ring, so the finger crosses the slot square: where it crosses, its middle lies 0.03 mm beside the middle of the ring, and the two windows in the walls of the slot reach from -3.20 to +3.60 mm. Locked, the finger passes through the ring and ends 1.65 mm beyond the slot. The bare ring of the drawing keeps 4.19 mm from it and can be lifted 4.54 mm before its band meets the finger (overlap 8.8 mm3 when it is lifted 6.0 mm); what fills the slot under the ring takes from that. A pull at the ring presses the finger up against the underside of the deck, on 9 mm2 behind the slot and 6 mm2 before it: the load does not pass through the arm or the pivot. The ring comes free only when the pawl is turned 17\u00b0 against its spring",
   "data": {
    "lift": 4.5364990234375,
-   "overlap": 8.827248040167031,
+   "overlap": 8.827248040167015,
    "held": [
-    8.877331166865964,
-    5.649695816537622
+    8.877331166865963,
+    5.649695816537627
    ],
-   "off_middle": 0.03380718684733708,
+   "off_middle": 0.033807186847333526,
    "section": "Ring lock"
   }
  },
@@ -589,7 +589,7 @@
   "data": {
    "collisions": [],
    "out_from": 13.80615234375,
-   "behind": 0.9939691005233016,
+   "behind": 0.9939691005232998,
    "section": "Ring lock"
   }
  },
@@ -605,26 +605,26 @@
  {
   "name": "ring:knob stands up through the deck",
   "ok": true,
-  "detail": "the knob (\u00d85.0) stands on the tail of the pawl, 4.5 mm above the deck, 29 mm from the middle of the ring, to the front left of it (+13.9 mm forwards, +25.1 mm sideways): the ring does not stand in the way of a hand. To free the ring it is pulled 4.4 mm towards the middle line of the deck; let go, the spring takes it back. Its slit in the deck is 7.0 mm wide and 13.5 mm long along its curve. The shut lid keeps 4.3 mm from the knob, and 3.3 mm when it is grown by 0.2 mm and stands as askew as its hinge lets it (shut and 3, 8 and 20\u00b0 open); the lid's way over it is part of the lid opening sweep",
+  "detail": "the knob (\u00d85.0) stands on the tail of the pawl, 4.5 mm above the deck, 29 mm from the middle of the ring, to the front left of it (+14.0 mm forwards, +25.1 mm sideways): the ring does not stand in the way of a hand. To free the ring it is pulled 4.4 mm towards the middle line of the deck; let go, the spring takes it back. Its slit in the deck is 7.0 mm wide and 13.5 mm long along its curve. The shut lid keeps 4.2 mm from the knob, and 3.2 mm when it is grown by 0.2 mm and stands as askew as its hinge lets it (shut and 3, 8 and 20\u00b0 open); the lid's way over it is part of the lid opening sweep",
   "data": {
    "knob": 4.5056780486577495,
-   "lid": 4.287357505608169,
-   "lid_play": 3.2514614269104105,
-   "travel": 4.375158569436475,
+   "lid": 4.241213308003338,
+   "lid_play": 3.2051723141747717,
+   "travel": 4.404720451662397,
    "section": "Ring lock"
   }
  },
  {
   "name": "ring:return spring works uncut",
   "ok": true,
-  "detail": "a compression spring of 4 x 15 mm, as it comes, bears on a flat of the tail beside the knob, 15.2 mm from the pivot, and sits in a cup under the deck that takes 3 mm of it (room for \u00d84.0: 0.00 mm3 in the way). The cup is turned so that it opens along the way this point of the tail goes: the end of the spring then leaves the axis of the cup by 0.17 mm at most. The spring is 12.5 mm long when the pawl is locked (2.5 mm of preload), 8.0 mm when the ring is free and 5.9 mm at the end of the slit. Its solid length is taken to be 5 mm, from the 4 mm of the 12 mm piece on the latch; it has not been measured, and neither has its strength",
+  "detail": "a compression spring of 4 x 15 mm, as it comes, bears on a flat of the tail beside the knob, 15.2 mm from the pivot, and sits in a cup under the deck that takes 3 mm of it (room for \u00d84.0: 0.00 mm3 in the way). The cup is turned so that it opens along the way this point of the tail goes: the end of the spring then leaves the axis of the cup by 0.17 mm at most. The spring is 12.5 mm long when the pawl is locked (2.5 mm of preload), 8.0 mm when the ring is free and 6.0 mm at the end of the slit. Its solid length is taken to be 5 mm, from the 4 mm of the 12 mm piece on the latch; it has not been measured, and neither has its strength",
   "data": {
    "lengths": {
     "0.0": 12.5,
-    "17.0": 7.997268247702118,
-    "25.0": 5.940472937303127
+    "17.0": 8.006885640231447,
+    "25.0": 5.954403658950314
    },
-   "drift": 0.1667254141912226,
+   "drift": 0.16636930509099035,
    "section": "Ring lock"
   }
  },
@@ -634,19 +634,19 @@
   "detail": "under the windows the walls of the slot are closed, so the pawl cannot come up with its finger in a window. Turned 19.9\u00b0 or more, its finger stands behind the rear wall and the pawl, with the counterweight pin already in it, rises straight onto its boss, the knob entering the slit from below (tried 12 mm of the way in seven steps); the slit lets it turn 25\u00b0, where the finger keeps 2.07 mm from that wall. Spring, washers and screw follow from below. In use the finger leaves the rear window in the last degrees of the slit and finds it again: its end is tapered to 2 mm, in a window with 1.0 mm of room on each side",
   "data": {
    "from_deg": 19.921875,
-   "wall": 2.074159325122986,
+   "wall": 2.0741593251229844,
    "section": "Ring lock"
   }
  },
  {
   "name": "ring:pawl is balanced about its pivot",
   "ok": true,
-  "detail": "the printed pawl weighs 2.24 g and its centre of mass lies 2.48 mm beside the pivot. A steel dowel pin of 4 x 8 mm (0.79 g), pressed upright into the tail 7.0 mm from the pivot, brings the centre of mass of both to 0.00 mm from the pivot. A blow from any side then finds almost no lever to turn the pawl: if the centre of mass ended up 0.3 mm off, it would take about 1705 g against a spring that holds with 1 N (hand estimate; the strength of the spring is not known). The pin's top is flush with the top of the pawl, 0.3 mm under the deck, so it cannot leave upwards; it hangs 3.7 mm below the pawl and is held from falling by its press fit (hole \u00d83.95, upright in the print, 1.9 mm of plastic round it, 2.3 mm to the bore of the pivot) and, if that is loose, by a drop of glue",
+  "detail": "the printed pawl weighs 1.87 g and its centre of mass lies 2.98 mm beside the pivot. A steel dowel pin of 4 x 8 mm (0.79 g), pressed upright into the tail 7.0 mm from the pivot, brings the centre of mass of both to 0.00 mm from the pivot. A blow from any side then finds almost no lever to turn the pawl: if the centre of mass ended up 0.3 mm off, it would take about 1941 g against a spring that holds with 1 N (hand estimate; the strength of the spring is not known). The pin's top is flush with the top of the pawl, 0.3 mm under the deck, so it cannot leave upwards; it hangs 3.7 mm below the pawl and is held from falling by its press fit (hole \u00d83.95, upright in the print, 1.9 mm of plastic round it, 2.3 mm to the bore of the pivot) and, if that is loose, by a drop of glue",
   "data": {
-   "bare": 2.4842563892993845,
-   "balanced": 0.0010191930122233931,
+   "bare": 2.9773645452462474,
+   "balanced": 0.0008076397258270086,
    "mass": [
-    2.2412361626947868,
+    1.866587968987141,
     0.7941946228274998
    ],
    "section": "Ring lock"
@@ -1273,13 +1273,13 @@
  {
   "name": "physics:ball alone, mass and centre of gravity",
   "ok": true,
-  "detail": "mass 268 g, CoG x=1.5 y=0.1 z=-3.9 mm (below the ball centre: self-righting)",
+  "detail": "mass 268 g, CoG x=1.5 y=0.0 z=-4.0 mm (below the ball centre: self-righting)",
   "data": {
-   "mass": 268.38872496495605,
+   "mass": 268.0260985128172,
    "cg": [
-    1.5243950299643556,
-    0.05661916775931771,
-    -3.9357586641491653
+    1.5306505635365555,
+    0.030613606406106122,
+    -3.972408964275017
    ],
    "section": "Physics and function"
   }
@@ -1287,14 +1287,14 @@
  {
   "name": "physics:ball alone stands on its flat with the lid open",
   "ok": true,
-  "detail": "CoG with open lid x=-6.6 y=0.1; flat radius 17.1 mm -> tipping margin 10.4 mm",
+  "detail": "CoG with open lid x=-6.6 y=0.0; flat radius 17.1 mm -> tipping margin 10.4 mm",
   "data": {
    "cg_open": [
-    -6.640915347992669,
-    0.06232556186647409,
-    -0.6489054473086684
+    -6.6457070876128945,
+    0.03632772099071253,
+    -0.6811087927262379
    ],
-   "margin": 10.417514302299075,
+   "margin": 10.412915732451157,
    "section": "Physics and function"
   }
  },
@@ -1303,21 +1303,21 @@
   "ok": true,
   "detail": "mass 377 g; CoG closed x=18.8, open x=13.0, with a 50 g figure x=26.8 mm; distance of the CoG from the edge of the standing area (flat of the ball and underside of the tongue together): closed 28 mm, lid open 24 mm, closed with a figure on the spot 32 mm",
   "data": {
-   "mass": 377.4201885837248,
+   "mass": 377.05756213158594,
    "cg": [
-    18.77769307575733,
-    0.01644791103818374,
-    -14.182207258604603
+    18.798732697587653,
+    -0.00207641259546401,
+    -14.218113898896732
    ],
    "cg_open": [
-    12.971227741969642,
-    0.02050580694543327,
-    -11.844880399315269
+    12.98668312909703,
+    0.001985385899994269,
+    -11.878539169171697
    ],
    "margins": {
-    "closed": 27.739870351158128,
-    "lid open": 24.42909448338287,
-    "closed with a figure on the spot": 32.28736974337017
+    "closed": 27.763666919867838,
+    "lid open": 24.45312024932925,
+    "closed with a figure on the spot": 32.31224161240456
    },
    "section": "Physics and function"
   }
@@ -1495,14 +1495,14 @@
  {
   "name": "print:ring_pawl",
   "ok": true,
-  "detail": "28 x 31 x 12 mm, PETG any colour; overhang area needing support ~1 mm2; as it lies, knob up, no supports; 100 % infill",
+  "detail": "27 x 32 x 12 mm, PETG any colour; overhang area needing support ~1 mm2; as it lies, knob up, no supports; 100 % infill",
   "data": {
    "extents": [
-    28.081999999999994,
-    31.422735128868208,
+    27.417476000000004,
+    31.92768459535406,
     11.5
    ],
-   "support_area": 0.9960873068365106,
+   "support_area": 0.9890753157765908,
    "section": "Printability"
   }
  },
