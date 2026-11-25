@@ -305,6 +305,10 @@ def printed_parts() -> dict[str, tuple[cq.Shape, str, str]]:
     }
 
 
+TIGHT_PRESS = P.HINGE_PRESS + K.PIN_COUPON_PRESS[0]       # the press fit of the hinge pins, one step of the test piece tighter
+TIGHT_SLEEVE = "sleeve_" + f"{TIGHT_PRESS:.2f}".replace(".", "_")
+
+
 def extra_prints() -> dict[str, tuple[cq.Shape, str, str]]:
     """Printable files that are not parts of the device."""
     return {
@@ -312,4 +316,5 @@ def extra_prints() -> dict[str, tuple[cq.Shape, str, str]]:
         "insert_test_boss": (K.insert_test(), "the PETG of the bowl", "as it comes, plate on the bed"),
         "pin_test_coupon": (K.pin_coupon(), "the PETG of stage and sleeve", "as it comes, plate on the bed"),
         "sleeve_4_5": (g.rot(K.sleeve(4.5), "x", 90.0, (P.HINGE_X, 0.0, P.HINGE_Z)), "PETG any colour", "standing on one end; for springs with an inner diameter of 5.3 to 5.6 mm"),
+        TIGHT_SLEEVE: (g.rot(K.sleeve(press=TIGHT_PRESS), "x", 90.0, (P.HINGE_X, 0.0, P.HINGE_Z)), "PETG any colour", f"standing on one end; the sleeve with blind holes of {TIGHT_PRESS:.2f} mm, one step tighter than the model's {P.HINGE_PRESS:.2f} mm, like the first post of the test piece for the pins"),
     }

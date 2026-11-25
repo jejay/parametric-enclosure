@@ -779,11 +779,11 @@ def ring_spring_span(deg: float = 0.0) -> float:
 
 
 @lru_cache(maxsize=None)
-def sleeve(od: float = P.SLEEVE_OD) -> cq.Shape:
+def sleeve(od: float = P.SLEEVE_OD, press: float = P.HINGE_PRESS) -> cq.Shape:
     """Mandrel of the torsion spring, and what keeps the two hinge pins: each pin is pressed into a blind hole
     at one end and stands on its floor.  The sleeve is as long as the gap between the ribs of the lid lets it
     be, so it cannot leave that gap and the pins cannot leave the hinge.  A funnel leads each pin in."""
-    half, r = SLEEVE_HALF, P.HINGE_PRESS / 2
+    half, r = SLEEVE_HALF, press / 2                  # ``press``: another diameter for the two blind holes than the model's
     body = g.cyl_y(od / 2, -half, half, HX, HZ)
     body = body.cut(g.cyl_y(r, half - P.SLEEVE_BLIND, half + 1.0, HX, HZ)).cut(g.cyl_y(r, -half - 1.0, -half + P.SLEEVE_BLIND, HX, HZ))
     body = body.cut(g.cone_y(r + P.SLEEVE_LEAD_R, r, -half - 0.001, -half + P.SLEEVE_LEAD, HX, HZ))
