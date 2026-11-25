@@ -860,8 +860,16 @@ def m2_coupon() -> cq.Shape:
 
 PIN_COUPON_PRESS = (-0.05, 0.0, 0.05, 0.10)       # the upright test holes, as differences from HINGE_PRESS
 PIN_COUPON_SLIDE = (-0.10, 0.0, 0.10)             # the level test holes, as differences from HINGE_SLIDE
-SLEEVE_ALSO_PRESS = (1.85, 1.90, 2.00, 2.05)      # the sleeve is also exported with blind holes of these diameters.  On the
-                                                  # owner's printer no pin entered 1.95, 1.90 or 1.85 mm (2026-11-25)
+SLEEVE_HOLES = (1.85, 1.90, 1.95, 2.00, 2.05)     # the sleeve is exported once for each of these blind holes.  Which of them
+                                                  # holds a pin depends on the printer and is found by trying (owner,
+                                                  # 2026-11-25); on the owner's printer no pin entered 1.90 or 1.85 mm
+SLEEVE_THICK_OD = 4.5                             # a thicker sleeve, for springs with an inner diameter of 5.3 to 5.6 mm
+
+
+def sleeve_file(od: float, press: float) -> str:
+    """Name of a sleeve's export files.  It carries both sizes: sleeve_4_0_hole_1_95 is 4.0 mm outside with
+    blind holes of 1.95 mm."""
+    return f"sleeve_{od:.1f}_hole_{press:.2f}".replace(".", "_")
 
 
 @lru_cache(maxsize=None)

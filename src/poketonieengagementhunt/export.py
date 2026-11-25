@@ -1,6 +1,8 @@
 """Write the printable and exchangeable CAD files.
 
 export/stl/<part>.stl        printed parts, already turned into print orientation
+export/stl/sleeve_4_0_hole_1_95.stl  the sleeve: its files carry outside diameter and hole in their names, and it is
+                             written once for each hole size that is to be tried (assembly.export_name, extra_prints)
 export/step/<part>.step      printed parts in assembly coordinates
 export/stl/m2_test_coupon.stl  test piece for the M2 pilot holes (not a part of the device)
 export/step/components/      dummy models of the purchased components
@@ -29,10 +31,10 @@ def export_all(root: Path) -> list[Path]:
 
     for key, (shape, _filament, _note) in A.printed_parts().items():
         mesh = to_mesh(A.print_oriented(key), *A.MESH.get(key, (0.01, 0.1)))
-        p = stl_dir / f"{key}.stl"
+        p = stl_dir / f"{A.export_name(key)}.stl"
         mesh.export(p)
         written.append(p)
-        p = step_dir / f"{key}.step"
+        p = step_dir / f"{A.export_name(key)}.step"
         cq.exporters.export(cq.Workplane(obj=shape), str(p))
         written.append(p)
 

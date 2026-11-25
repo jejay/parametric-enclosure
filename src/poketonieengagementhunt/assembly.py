@@ -306,9 +306,9 @@ def printed_parts() -> dict[str, tuple[cq.Shape, str, str]]:
     }
 
 
-def sleeve_variant_name(press: float) -> str:
-    """File name of the sleeve with other blind holes than the model's: sleeve_2_05 for 2.05 mm."""
-    return "sleeve_" + f"{press:.2f}".replace(".", "_")
+def export_name(key: str) -> str:
+    """Name of a printed part's export files.  The sleeve's carries its sizes, like those of the other sleeves."""
+    return K.sleeve_file(P.SLEEVE_OD, P.HINGE_PRESS) if key == "sleeve" else key
 
 
 def _on_the_bed(shape: cq.Shape) -> cq.Shape:
@@ -324,6 +324,7 @@ def extra_prints() -> dict[str, tuple[cq.Shape, str, str]]:
         "m2_test_coupon": (K.m2_coupon(), "the PETG of the part to be tested", "as it comes, flat on the bed"),
         "insert_test_boss": (K.insert_test(), "the PETG of the bowl", "as it comes, plate on the bed"),
         "pin_test_coupon": (K.pin_coupon(), "the PETG of stage and sleeve", "as it comes, plate on the bed"),
-        "sleeve_4_5": (_on_the_bed(g.rot(K.sleeve(4.5), "x", 90.0, (P.HINGE_X, 0.0, P.HINGE_Z))), "PETG any colour", "standing on one end; for springs with an inner diameter of 5.3 to 5.6 mm"),
-        **{sleeve_variant_name(press): (_on_the_bed(g.rot(K.sleeve(press=press), "x", 90.0, (P.HINGE_X, 0.0, P.HINGE_Z))), "PETG any colour", f"standing on one end; the sleeve with blind holes of {press:.2f} mm instead of the model's {P.HINGE_PRESS:.2f} mm") for press in K.SLEEVE_ALSO_PRESS},
+        K.sleeve_file(K.SLEEVE_THICK_OD, P.HINGE_PRESS): (_on_the_bed(g.rot(K.sleeve(K.SLEEVE_THICK_OD), "x", 90.0, (P.HINGE_X, 0.0, P.HINGE_Z))), "PETG any colour", "standing on one end; for springs with an inner diameter of 5.3 to 5.6 mm"),
+        # the sleeve of the model is a printed part; these are the same sleeve with the other holes of SLEEVE_HOLES
+        **{K.sleeve_file(P.SLEEVE_OD, press): (_on_the_bed(g.rot(K.sleeve(press=press), "x", 90.0, (P.HINGE_X, 0.0, P.HINGE_Z))), "PETG any colour", f"standing on one end; the sleeve with blind holes of {press:.2f} mm") for press in K.SLEEVE_HOLES if abs(press - P.HINGE_PRESS) > 1e-6},
     }
