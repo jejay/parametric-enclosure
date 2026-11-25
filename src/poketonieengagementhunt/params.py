@@ -188,8 +188,18 @@ YOKE_PIN_L = 18.0
 YOKE_HOLE = 2.05              # its holes in the two feet: a light press fit; they lie level in the print
 YOKE_X = 12.5                 # the pin lies this far in front of the hinge axis: as far as the 14 mm leg allows, because
                               # the pin goes in from the side and the dome of the stage is wider further forward
-YOKE_FOOT_X = (10.4, 14.7)    # each tower's foot, in front of the hinge axis; its front is flush with the tower
+YOKE_FOOT_X = (10.2, 15.0)    # each tower's foot, in front of the hinge axis; its front is flush with the tower.  Before the
+                              # hole it has 1.5 mm, behind it 1.3 mm: further back the stop tabs of the lid pass, and the
+                              # owner chose 0.2 mm more room for them over 0.2 mm more wall
 YOKE_FOOT_Z = 3.9             # underside of the feet
+# The stage is printed in level layers and these holes lie level in it, so a pin that is pressed in pushes the
+# two halves of its hole apart across the layers.  The first foot that was printed (4.3 x 2.0 mm, 1.1 mm beside
+# the hole) split there, in the plane through the axis of the hole.  Each foot is therefore wider, and thicker
+# than its tower; the hole is wider in the added thickness, so that this part is not pressed on and only holds.
+YOKE_FOOT_PAD = 1.0           # each foot is this much thicker than its tower, towards the middle of the hinge
+YOKE_FOOT_PAD_Z = 8.5         # the added thickness ends at this height; a slope of 45 degrees above it carries it in the
+                              # print, which stands upside down
+YOKE_FREE = 2.3               # the hole in the added thickness: the pin passes it freely, and it leads the tip of the pin in
 
 # Hinge axis x: as far back as possible.  Two limits apply inside the locally
 # thinned lid wall: the knuckles at the pin ends and the spring coil at the

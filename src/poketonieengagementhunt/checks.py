@@ -942,7 +942,78 @@ def check_pins() -> list[Result]:
     in_foot = min(half_pin, K.TOWER_Y1) - K.TOWER_Y0
     foot_wall = min(P.YOKE_X - P.YOKE_FOOT_X[0], P.YOKE_FOOT_X[1] - P.YOKE_X) - P.YOKE_HOLE / 2
     over = P.SPRING_LEG - P.YOKE_X
-    out.append(Result("pins:spring leg is lifted onto a pin", not blocked and below > TOL_VOLUME and not in_way and lifted >= 0.3 and foot_wall >= 0.9 and in_foot >= 1.5 and over >= 1.2, f"with the hinge pins in and the lid at its stop the forward leg lies on the inner edge of the rim of the lid, {-rest:.1f}° below its seat. From there up to {lift:.0f}° above the seat its way is free ({len(blocked)} collisions with stage or lid). A leg lifted that far leaves {lifted:.2f} mm for the pin to pass under it. The pin, Ø{P.YOKE_PIN_D:.0f} x {P.YOKE_PIN_L:.0f}, goes in from the side through holes of Ø{P.YOKE_HOLE} in the two tower feet and sits {in_foot:.1f} mm in each ({foot_wall:.1f} mm of foot before and behind the hole); with 0.3 mm of room round it, its whole length has a free way beside the foot (in the way: {in_way or 'nothing'}). The leg reaches {over:.1f} mm beyond the pin", {"rest": rest, "collisions": blocked, "blockers": in_way, "lifted": lifted}))
+    out.append(Result("pins:spring leg is lifted onto a pin", not blocked and below > TOL_VOLUME and not in_way and lifted >= 0.3 and foot_wall >= 1.2 and in_foot >= 1.5 and over >= 1.2, f"with the hinge pins in and the lid at its stop the forward leg lies on the inner edge of the rim of the lid, {-rest:.1f}° below its seat. From there up to {lift:.0f}° above the seat its way is free ({len(blocked)} collisions with stage or lid). A leg lifted that far leaves {lifted:.2f} mm for the pin to pass under it. The pin, Ø{P.YOKE_PIN_D:.0f} x {P.YOKE_PIN_L:.0f}, goes in from the side through holes of Ø{P.YOKE_HOLE} in the two tower feet and sits {in_foot:.1f} mm in each (at least {foot_wall:.1f} mm of foot before and behind the hole); with 0.3 mm of room round it, its whole length has a free way beside the foot (in the way: {in_way or 'nothing'}). The leg reaches {over:.1f} mm beyond the pin", {"rest": rest, "collisions": blocked, "blockers": in_way, "lifted": lifted}))
+
+    # The feet that hold this pin.  The stage is printed in level layers and the holes lie level in it, so a pin
+    # that is pressed in pushes the two halves of its hole apart across the layers: it tears at the foot in the
+    # plane through the axis of the hole.  How much plastic does each foot have there, measured on the solid?
+    fx0, fx1 = hx + P.YOKE_FOOT_X[0], hx + P.YOKE_FOOT_X[1]
+    foot_t = K.TOWER_Y1 - K.FOOT_Y0
+    webs = []
+    for sgn in (1, -1):
+        ya, yb = sorted((sgn * (K.FOOT_Y0 - 0.5), sgn * (K.TOWER_Y1 + 0.5)))
+        cut = g.inter(stage, g.box(fx0 - 0.5, fx1 + 0.5, ya, yb, K.YOKE_PIN_Z - 0.01, K.YOKE_PIN_Z + 0.01))
+        webs += [(g.volume(s) / 0.02, s.BoundingBox().ylen, s.BoundingBox().xmax < x_p) for s in cut.Solids()]
+    web_t = min(t for _, t, _ in webs) if len(webs) == 4 else 0.0
+    web_back = min((a for a, _, behind in webs if behind), default=0.0) if len(webs) == 4 else 0.0       # behind the hole: towards the hinge
+    web_front = min((a for a, _, behind in webs if not behind), default=0.0) if len(webs) == 4 else 0.0
+    # ... and is the hole closed all round, where the pin presses?
+    rb = P.YOKE_HOLE / 2
+    ring = 0.0
+    for w in (0.6, 0.8, 1.0, 1.2, 1.4, 1.6):
+        shell = None
+        for sgn in (1, -1):
+            ya, yb = sorted((sgn * (K.TOWER_Y0 + 0.01), sgn * (min(half_pin, K.TOWER_Y1) - 0.01)))
+            one = g.cyl_y(rb + w, ya, yb, x_p, K.YOKE_PIN_Z).cut(g.cyl_y(rb + 0.001, ya - 1.0, yb + 1.0, x_p, K.YOKE_PIN_Z))
+            shell = one if shell is None else shell.fuse(one)
+        if g.common_volume(shell, stage) / g.volume(shell) < 0.9995:
+            break
+        ring = w
+    # The feet reach further back and further towards the middle than the towers, where the stop tabs of the
+    # lid pass: what does the lid keep from them, grown and standing as askew as its hinge lets it?
+    # (the feet here: what hangs below the towers, and the added thickness beside them.  The inner faces of the
+    # towers themselves are not meant: the ribs of the lid run beside those, at TOWER_GAP)
+    feet = None
+    for sgn in (1, -1):
+        ya, yb = sorted((sgn * (K.FOOT_Y0 - 0.1), sgn * (K.TOWER_Y1 + 0.1)))
+        below = g.box(fx0 - 0.1, fx1 + 0.1, ya, yb, P.YOKE_FOOT_Z - 0.1, hz - P.TOWER_KNUCKLE_R - 0.01)
+        ya, yb = sorted((sgn * (K.FOOT_Y0 - 0.1), sgn * (K.TOWER_Y0 - 0.01)))
+        beside = g.box(fx0 - 0.1, fx1 + 0.1, ya, yb, P.YOKE_FOOT_Z - 0.1, hz)
+        one = g.inter(stage, below.fuse(beside))
+        feet = one if feet is None else feet.fuse(one)
+    near_hinge = g.box(-60.0, hx + 30.0, -25.0, 25.0, 0.0, 45.0)                    # nothing else of the lid can come near
+    skew = P.HINGE_SKEW_DEG
+    across = (P.HINGE_BORE - P.HINGE_PIN_D) / 2 + (P.HINGE_SLIDE - P.HINGE_PIN_D) / 2      # how far its bores let the whole lid move across the pins
+
+    def poses(grow: float) -> list[dict]:
+        slide = max(P.TOWER_GAP - grow - 0.05, 0.0)       # as far as the grown ribs can go before they lie against a tower
+        return [dict(), dict(yaw=skew), dict(yaw=-skew), dict(roll=skew), dict(roll=-skew), dict(dy=slide), dict(dy=-slide)]
+
+    def lid_to_feet(shape: cq.Shape, degs, pose_list: list[dict], shift: float = 0.0) -> tuple[float, float, int]:
+        """Least distance between the feet and a lid-fixed shape, where (opening angle) and in which pose.  With
+        ``shift`` the lid is also moved that far across its pins, towards the feet, in six directions."""
+        best = (1e9, 0.0, 0)
+        for deg in degs:
+            for i, pose in enumerate(pose_list):
+                moved = skewed(shape, float(deg), **pose)
+                for ang in ((30.0, 15.0, 0.0, -15.0, -30.0, -45.0) if shift else (None,)):
+                    there = moved if ang is None else g.move(moved, dx=shift * math.cos(math.radians(ang)), dz=shift * math.sin(math.radians(ang)))
+                    best = min(best, (g.min_distance(feet, there), float(deg), i))
+        return best
+
+    # the whole travel in steps of 5 degrees; then every degree round the angle at which the lid comes nearest,
+    # also with the lid moved across its pins, and at last with the feet grown as well as the lid
+    fat1, fat2 = g.inter(grown_lid(), near_hinge), g.inter(grown_lid(tol2 := 2 * P.PRINT_TOL), near_hinge)
+    _, at0, _ = lid_to_feet(fat1, range(0, int(P.LID_OPEN_DEG) + 1, 5), poses(P.PRINT_TOL))
+    close = [d for d in range(int(at0) - 4, int(at0) + 5) if 0 <= d <= P.LID_OPEN_DEG]
+    lid_drawn, _, _ = lid_to_feet(g.inter(lid, near_hinge), close, [dict()])
+    _, at1, worst = lid_to_feet(fat1, close, poses(P.PRINT_TOL))
+    closer = [d for d in range(int(at1) - 2, int(at1) + 3) if 0 <= d <= P.LID_OPEN_DEG]
+    lid_gap, lid_at, _ = lid_to_feet(fat1, closer, [poses(P.PRINT_TOL)[worst]], shift=across)
+    lid_fat, _, _ = lid_to_feet(fat2, closer, [poses(tol2)[worst]], shift=across)
+    under = K.YOKE_PIN_Z - rb - P.YOKE_FOOT_Z
+    wall_back, wall_front = P.YOKE_X - P.YOKE_FOOT_X[0] - rb, P.YOKE_FOOT_X[1] - P.YOKE_X - rb
+    out.append(Result("pins:feet hold the pin under the spring leg", min(web_back, web_front) >= 3.5 and web_t >= 2.9 and ring >= 1.2 and lid_gap >= 0.5 and lid_fat >= 0.3 and P.YOKE_FREE - P.YOKE_PIN_D >= 0.25, f"each foot is {P.YOKE_FOOT_X[1] - P.YOKE_FOOT_X[0]:.1f} mm wide and {foot_t:.1f} mm thick, {P.YOKE_FOOT_PAD} mm thicker than its tower, towards the middle of the hinge. The stage is printed in level layers and the holes lie level, so a pin that is pressed in tears at a foot in the plane through the axis of its hole: there each foot has {web_front:.1f} mm2 of plastic before the hole and {web_back:.1f} mm2 behind it, over its whole thickness of {web_t:.1f} mm (measured on the solid), and round the Ø{P.YOKE_HOLE} hole the stage is solid over at least {ring:.1f} mm at every angle ({wall_front:.1f} mm before it, {wall_back:.1f} mm behind it, {under:.1f} mm under it). The pin is held in {in_foot:.1f} of these {foot_t:.1f} mm, as before; in the added {P.YOKE_FOOT_PAD} mm the hole is Ø{P.YOKE_FREE}, so that this part is not pressed on and only holds, and leads the tip of the pin in. Behind the feet the stop tabs of the lid pass. As drawn the lid keeps {lid_drawn:.2f} mm from the feet over its whole travel. With all the room its hinge gives it at once, turned ±{skew:.2f}° about the vertical or about the fore-aft axis or slid along its pins, and moved {across:.3f} mm across them towards the feet, and grown by {P.PRINT_TOL} mm, it keeps {lid_gap:.2f} mm; when the feet are {P.PRINT_TOL} mm fat as well, {lid_fat:.2f} mm (nearest {lid_at:.0f}° open; whole travel tried every 5°, every degree round that angle). The corner of the tab that comes nearest lies in the first layers of the lid's print", {"web_front": web_front, "web_back": web_back, "thickness": web_t, "ring": ring, "lid_gap": lid_gap, "lid_fat": lid_fat, "lid_drawn": lid_drawn, "lid_at": lid_at}))
 
     # ring lock
     stem = P.LOCK_STEM_X[1] - max(P.LOCK_STEM_X[0], P.LOCK_TIP_X - P.LOCK_PIN_L)

@@ -25,6 +25,7 @@ from . import parts_shell as S
 HX, HZ = P.HINGE_X, P.HINGE_Z
 TOWER_Y0 = P.SPRING_SLOT / 2 + P.LID_RIB_T + P.TOWER_GAP   # inner face of a hinge tower
 TOWER_Y1 = TOWER_Y0 + P.TOWER_T                        # outer face of a hinge tower
+FOOT_Y0 = TOWER_Y0 - P.YOKE_FOOT_PAD                   # inner face of a tower's foot, which is thicker than the tower
 SLEEVE_HALF = P.SPRING_SLOT / 2 - P.SLEEVE_PLAY        # half the length of the spring sleeve
 YOKE_SEAT_Z = HZ - (P.SPRING_OD - P.SPRING_WIRE) / 2 - P.SPRING_WIRE / 2   # the spring's forward leg lies on this height
 YOKE_PIN_Z = YOKE_SEAT_Z - P.YOKE_PIN_D / 2                                # axis of the pin under that leg
@@ -180,6 +181,10 @@ def _hinge_towers() -> cq.Shape:
         arm = g.box(HX, HX + fx1, y0, y1, HZ - P.TOWER_KNUCKLE_R, P.Z_DECK)      # the foot is flush with its front
         # the pin on which the spring's forward leg rests passes through a foot under each tower
         foot = g.box(HX + fx0, HX + fx1, y0, y1, P.YOKE_FOOT_Z, HZ)
+        # round the hole the foot is thicker than the tower, towards the middle of the hinge.  The stage is
+        # printed upside down: the slope at the upper end of the added thickness carries it there
+        ya, yb = sy * (TOWER_Y0 + 0.01), sy * FOOT_Y0
+        foot = foot.fuse(g.prism_yz([(ya, P.YOKE_FOOT_Z), (yb, P.YOKE_FOOT_Z), (yb, P.YOKE_FOOT_PAD_Z), (ya, P.YOKE_FOOT_PAD_Z + P.YOKE_FOOT_PAD + 0.01)], HX + fx0, HX + fx1))
         # a buttress on the outside ties the thin tower to the deck.  It begins in front of the hinge axis, so
         # that the room beside the knuckle, where the pins wait and the tools come in, stays free
         brace = g.prism_yz([(sy * TOWER_Y1, HZ + 1.0), (sy * (TOWER_Y1 + P.TOWER_BRACE_W), P.Z_DECK), (sy * TOWER_Y1, P.Z_DECK)], HX + P.TOWER_BRACE_X, HX + fx1)
@@ -242,6 +247,8 @@ def stage() -> cq.Shape:
     body = body.cut(g.cyl_y(P.HINGE_SLIDE / 2, -30, 30, HX, HZ))    # the two hinge pins slide in the towers
     y_w = TOWER_Y1 + 1.0
     body = body.cut(g.cyl_y(P.YOKE_HOLE / 2, -y_w, y_w, HX + P.YOKE_X, YOKE_PIN_Z))    # the pin under the spring's leg
+    # ... which the feet hold in the thickness of the towers only: in what the feet are thicker, the hole is wider
+    body = body.cut(g.cyl_y(P.YOKE_FREE / 2, -TOWER_Y0, TOWER_Y0, HX + P.YOKE_X, YOKE_PIN_Z))
 
     # ring cradle pocket and the guide of the lock pin behind it
     guide = g.box(P.LOCK_STEM_X[0] - P.LOCK_TRAVEL - 1.5, P.CRADLE_X0 - 0.2, -4.0, 4.0, P.LOCK_Z - 3.2, DECK_BOTTOM + 0.01)
