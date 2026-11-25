@@ -39,8 +39,8 @@ Before you start: read `research/README.md` for why each part was chosen, `docs/
 | 19 | 1 | Speaker Visaton K 40 (8 ohm) | Visaton K 40, 8 ohm, art. no. 2840 (Ø40 x 4.3 mm, 83 dB). | research/04 §3 |
 | 22 | 1 | RGB LED WS2812B on 10 mm PCB | One WS2812B or SK6812 on a round Ø10 mm mini PCB. | research/04 §4 |
 | 26 | 1 | 18650 Li-ion cell (unprotected flat top) | Unprotected flat-top 18650, e.g. Samsung INR18650-35E or Molicel M35A. | research/05 §2 |
-| 41 | 1 | Torsion spring T028-180-140 (0.71 x 6.32 mm, 6 turns, 180°) | Stainless torsion spring T028-180-140, L or R: 0.71 mm wire, 6.32 mm outside, 6 turns, legs in one line (180°) and 25.4 mm long. Sodemann sells it to private customers as T028-180-140L / T028-180-140R, Febrotec lists the same spring as 0T028-180-140L / 0T028-180-140. Either winding direction fits; order a few. Its legs are cut to 14 mm (step 10). The sleeve (`sleeve.stl`, 4.0 mm) is printed for this spring. Two springs of the same family as second guesses, both on the thicker sleeve `sleeve_4_5.stl`: 0T023-180-156 (0.58 mm wire, 6.58 mm outside, 4 turns) if the lid opens too hard, about 26 N mm instead of about 40, and 0T030-180-172 (0.76 mm wire, 6.91 mm outside, 6 turns) if it opens too weakly, about 50 N mm. Any other spring of 0.7 mm wire with 6 or 7 turns and 6.3 to 7.0 mm outside fits the lid and the stage as well, but wants a sleeve about 0.6 mm thinner than its inner diameter with the lid closed (`SLEEVE_OD` in `params.py`). | research/06 §2.1 |
-| 44 | 1 | Engagement ring (EU 49) | The engagement ring. Its slot in the stage is 3.1 mm wide, 25 mm across and 13 mm deep (`RING_SLOT_W`, `RING_SLOT_D`, `RING_SLOT_DEPTH` in `params.py`); what the ring leaves free is filled with paper or cloth. | research/06 §1, §1.6 |
+| 40 | 1 | Torsion spring T028-180-140 (0.71 x 6.32 mm, 6 turns, 180°) | Stainless torsion spring T028-180-140, L or R: 0.71 mm wire, 6.32 mm outside, 6 turns, legs in one line (180°) and 25.4 mm long. Sodemann sells it to private customers as T028-180-140L / T028-180-140R, Febrotec lists the same spring as 0T028-180-140L / 0T028-180-140. Either winding direction fits; order a few. Its legs are cut to 14 mm (step 10). The sleeve (`sleeve.stl`, 4.0 mm) is printed for this spring. Two springs of the same family as second guesses, both on the thicker sleeve `sleeve_4_5.stl`: 0T023-180-156 (0.58 mm wire, 6.58 mm outside, 4 turns) if the lid opens too hard, about 26 N mm instead of about 40, and 0T030-180-172 (0.76 mm wire, 6.91 mm outside, 6 turns) if it opens too weakly, about 50 N mm. Any other spring of 0.7 mm wire with 6 or 7 turns and 6.3 to 7.0 mm outside fits the lid and the stage as well, but wants a sleeve about 0.6 mm thinner than its inner diameter with the lid closed (`SLEEVE_OD` in `params.py`). | research/06 §2.1 |
+| 43 | 1 | Engagement ring (EU 49) | The engagement ring. Its slot in the stage is 3.1 mm wide, 25 mm across and 13 mm deep (`RING_SLOT_W`, `RING_SLOT_D`, `RING_SLOT_DEPTH` in `params.py`); what the ring leaves free is filled with paper or cloth. | research/06 §1, §1.6 |
 
 ### Hardware
 
@@ -55,11 +55,10 @@ Before you start: read `research/README.md` for why each part was chosen, `docs/
 | 32 | 1 | Compression spring about 4 x 12 (pawl return) | Soft compression spring of 3.5 to 4.5 mm outside diameter, 12 mm long: 12 mm cut off the spring of a ball-pen. | research/06 §2.2 |
 | 34 | 2 | Washer M3 and washer M2 (ring pawl pivot) | One standard M2 washer (Ø5 x 0.3 mm) under the head of the screw and one standard M3 washer (Ø7 x 0.5 mm) between it and the pawl. The M3 washer keeps the pawl on its boss; the M2 washer alone is narrower than the pawl's bore. | research/06 §3 |
 | 35 | 1 | Screw M2 x 6 (ring pawl pivot) | M2 x 6 machine screw, the same as for the latch pawl. | research/06 §4.2, §3 |
-| 36 | 1 | Dowel pin 4 x 8 (counterweight of the ring pawl) | Steel dowel pin (parallel pin) Ø4 x 8 mm. It is the counterweight of the ring pawl: pressed into its tail, it brings the centre of mass of the pawl onto the pivot, so that a blow does not turn the pawl. | research/06 §1.6 |
-| 37 | 1 | Compression spring 4 x 15 (ring pawl return) | Compression spring of 4 mm outside diameter and 15 mm length, not cut: of the same kind as the one that is cut to 12 mm for the latch pawl. | research/06 §3 |
-| 39 | 2 | Dowel pin 2 x 8 (hinge) | Two steel dowel pins (parallel pins) Ø2 x 8 mm, ISO 2338 / DIN 7 or hardened ISO 8734 / DIN 6325. Two pieces of a 2 mm bicycle spoke, 8 mm long with rounded ends, do as well. They slide in the towers of the stage and are pressed into the spring sleeve; try them in the test piece first (section 3). | research/06 §3 |
-| 42 | 1 | Dowel pin 2 x 18 (seat of the spring leg) | Steel dowel pin (parallel pin) Ø2 x 18 mm, of the same kind as the hinge pins. The forward leg of the lid spring rests on it; it goes in last (step 10). | research/06 §3 |
-| 43 | 4 | Screw M3 x 16 ISO 4762 (stack) | M3 x 16 socket head cap screws, ISO 4762. | research/06 §4.3 |
+| 36 | 1 | Compression spring 4 x 15 (ring pawl return) | Compression spring of 4 mm outside diameter and 15 mm length, not cut: of the same kind as the one that is cut to 12 mm for the latch pawl. | research/06 §3 |
+| 38 | 2 | Dowel pin 2 x 8 (hinge) | Two steel dowel pins (parallel pins) Ø2 x 8 mm, ISO 2338 / DIN 7 or hardened ISO 8734 / DIN 6325. Two pieces of a 2 mm bicycle spoke, 8 mm long with rounded ends, do as well. They slide in the towers of the stage and are pressed into the spring sleeve; try them in the test piece first (section 3). | research/06 §3 |
+| 41 | 1 | Dowel pin 2 x 18 (seat of the spring leg) | Steel dowel pin (parallel pin) Ø2 x 18 mm, of the same kind as the hinge pins. The forward leg of the lid spring rests on it; it goes in last (step 10). | research/06 §3 |
+| 42 | 4 | Screw M3 x 16 ISO 4762 (stack) | M3 x 16 socket head cap screws, ISO 4762. | research/06 §4.3 |
 
 ### Small parts without a position number
 
@@ -93,9 +92,9 @@ Before you start: read `research/README.md` for why each part was chosen, `docs/
 | 28 | Stage (inner dome with ring deck) | `export/stl/stage.stl` | PETG black | 32 g | upside down: deck on the bed, supports under the stop beam of the hinge and the screw pads only |
 | 29 | Latch pawl | `export/stl/pawl.stl` | PETG any colour | 0.5 g | upside down: top face on the bed |
 | 30 | Pivot washer for the pawl | `export/stl/pawl_cap.stl` | PETG any colour | 0.0 g | flange on the bed, hub up; 100 % infill |
-| 33 | Ring pawl (lock of the ring) | `export/stl/ring_pawl.stl` | PETG any colour | 1.9 g | as it lies, knob up, no supports; 100 % infill |
-| 38 | Lid (red upper half) | `export/stl/lid.stl` | PETG red | 35 g | rim on the bed (dome up), supports inside only (hook, pole) |
-| 40 | Spring sleeve | `export/stl/sleeve.stl` | PETG any colour | 0.1 g | standing on one end; 100 % infill |
+| 33 | Ring pawl (lock of the ring) | `export/stl/ring_pawl.stl` | PETG any colour | 1.7 g | as it lies, knob up, no supports; 100 % infill |
+| 37 | Lid (red upper half) | `export/stl/lid.stl` | PETG red | 35 g | rim on the bed (dome up), supports inside only (hook, pole) |
+| 39 | Spring sleeve | `export/stl/sleeve.stl` | PETG any colour | 0.1 g | standing on one end; 100 % infill |
 
 ### Tools
 
@@ -251,7 +250,7 @@ Parts: **27** Band (black equator ring)
 
 ### Step 9: Assemble the stage: latch and ring pawl
 
-Parts: **28** Stage (inner dome with ring deck), **29** Latch pawl, **30** Pivot washer for the pawl, **31** Screw M2 x 6 (pawl pivot), **32** Compression spring about 4 x 12 (pawl return), **33** Ring pawl (lock of the ring), **36** Dowel pin 4 x 8 (counterweight of the ring pawl), **34** Washer M3 and washer M2 (ring pawl pivot), **35** Screw M2 x 6 (ring pawl pivot), **37** Compression spring 4 x 15 (ring pawl return)
+Parts: **28** Stage (inner dome with ring deck), **29** Latch pawl, **30** Pivot washer for the pawl, **31** Screw M2 x 6 (pawl pivot), **32** Compression spring about 4 x 12 (pawl return), **33** Ring pawl (lock of the ring), **34** Washer M3 and washer M2 (ring pawl pivot), **35** Screw M2 x 6 (ring pawl pivot), **36** Compression spring 4 x 15 (ring pawl return)
 
 ![step 9](img/step_09a.png)
 
@@ -260,15 +259,14 @@ Parts: **28** Stage (inner dome with ring deck), **29** Latch pawl, **30** Pivot
 1. Turn the stage upside down. Put the pawl on the pivot boss (post pointing away from the deck) and turn it: it must swing without any friction and have a little play, 0.25 mm all round. A hole often comes out of the printer smaller than drawn; if the pawl is tight on the boss, scrape its bore with a knife or a drill of 5.5 mm held in the fingers. Then put on the printed pivot washer, flange towards the pawl, and the M2 x 6 screw. The screw forms its own thread in the boss: turn it in until the washer sits on the end of the boss, and no further. The pawl must still swing freely and be able to move 0.3 mm up and down between deck and washer; the washer only keeps it from slipping off.
 2. Cut 12 mm off the ball-pen spring. Push one end into the cup that stands on the underside of the deck beside the pawl and set the other end over the nub on the pawl's tail. It pushes the tail against the stop pin.
 3. Try the latch now, while you can see it. Push the nose of the pawl aside with a finger as far as it goes, about 54°, and let go, from several positions: each time it must snap back against its stop pin by itself. If it creeps or stops on the way, find out where it rubs before you go on; this is the part that has to let the lid go.
-4. Now the ring pawl. First its counterweight: press the 4 x 8 mm dowel pin into the hole beside the hub of the pawl, from the side of the knob, until its top is flush with the top face of the pawl; the rest of the pin stands out of the underside. It must not stand above the top face, where the deck is. If it does not hold by itself, fix it with a drop of glue: a pin that came out would fall among the electronics.
-5. The ring pawl goes onto the second boss, at the end of the slot of the ring, in the same way as the latch pawl, with its knob towards the deck. Under the windows the walls of the slot are closed, so its finger cannot come down into its window: hold the pawl turned about 25° away, so that the end of the finger stands behind the wall of the slot, lower it onto the boss with the knob entering the far end of the curved slit, and let it turn back. The finger slides through the window and across the slot. The pawl must swing without friction and have a little play, like the latch pawl.
-6. Slip an M2 washer and then an M3 washer onto an M2 x 6 screw and turn it into the boss until the washers sit on its end, and no further. The wide washer is what keeps the pawl on its boss: a standard M2 washer is 5 mm across, the bore of the pawl 5.5 mm. Pull at the pawl: it must not come off over the washers, and it must still swing freely and move 0.3 mm up and down between deck and washer.
-7. Take a compression spring of 4 x 15 mm as it comes. Push one end into the cup that stands on the underside of the deck in front of the tail of the ring pawl and set the other end over the nub beside the knob. It turns the pawl until its arm lies against the pad on the wall of the slot, and the finger then lies across the slot.
-8. Turn the stage over and try the lock. Pull the knob towards the middle line of the deck as far as it goes, and let go, from several positions: each time it must snap back by itself and the finger must cross the slot again. With the knob pulled 4 mm the slot is free. That takes a firm pull: the spring is pressed a good deal further than the one of the latch pawl. Windows and slit are 1 mm wider than finger and knob on each side; if the finger catches on the edge of a window, look for a blob or a thread of plastic there.
+4. The ring pawl goes onto the second boss, at the end of the slot of the ring, in the same way as the latch pawl, with its knob towards the deck. Under the windows the walls of the slot are closed, so its finger cannot come down into its window: hold the pawl turned about 25° away, so that the end of the finger stands behind the wall of the slot, lower it onto the boss with the knob entering the far end of the curved slit, and let it turn back. The finger slides through the window and across the slot. The pawl must swing without friction and have a little play, like the latch pawl.
+5. Slip an M2 washer and then an M3 washer onto an M2 x 6 screw and turn it into the boss until the washers sit on its end, and no further. The wide washer is what keeps the pawl on its boss: a standard M2 washer is 5 mm across, the bore of the pawl 5.5 mm. Pull at the pawl: it must not come off over the washers, and it must still swing freely and move 0.3 mm up and down between deck and washer.
+6. Take a compression spring of 4 x 15 mm as it comes. Push one end into the cup that stands on the underside of the deck in front of the tail of the ring pawl and set the other end over the nub beside the knob. It turns the pawl until its arm lies against the pad on the wall of the slot, and the finger then lies across the slot.
+7. Turn the stage over and try the lock. Pull the knob towards the middle line of the deck as far as it goes, and let go, from several positions: each time it must snap back by itself and the finger must cross the slot again. With the knob pulled 4 mm the slot is free. That takes a firm pull: the spring is pressed a good deal further than the one of the latch pawl. Windows and slit are 1 mm wider than finger and knob on each side; if the finger catches on the edge of a window, look for a blob or a thread of plastic there.
 
 ### Step 10: Hinge the lid to the stage
 
-Parts: **38** Lid (red upper half), **39** Dowel pin 2 x 8 (hinge), **40** Spring sleeve, **41** Torsion spring T028-180-140 (0.71 x 6.32 mm, 6 turns, 180°), **42** Dowel pin 2 x 18 (seat of the spring leg)
+Parts: **37** Lid (red upper half), **38** Dowel pin 2 x 8 (hinge), **39** Spring sleeve, **40** Torsion spring T028-180-140 (0.71 x 6.32 mm, 6 turns, 180°), **41** Dowel pin 2 x 18 (seat of the spring leg)
 
 ![step 10](img/step_10a.png)
 
@@ -291,7 +289,7 @@ Parts: **38** Lid (red upper half), **39** Dowel pin 2 x 8 (hinge), **40** Sprin
 
 ### Step 11: Screw the stage onto the core
 
-Parts: **43** Screw M3 x 16 ISO 4762 (stack)
+Parts: **42** Screw M3 x 16 ISO 4762 (stack)
 
 ![step 11](img/step_11.png)
 
@@ -301,7 +299,7 @@ Parts: **43** Screw M3 x 16 ISO 4762 (stack)
 
 ### Step 12: Seat and lock the ring, close the lid
 
-Parts: **44** Engagement ring (EU 49)
+Parts: **43** Engagement ring (EU 49)
 
 ![step 12](img/step_12.png)
 
@@ -371,7 +369,7 @@ Pull the knob towards the middle line of the deck by 4 mm and hold it. The finge
 | --- | --- |
 | ![below](img/ring_below.png) | ![section](img/ring_section.png) |
 
-*Left: the ring pawl under the deck with its pivot screw, the counterweight pin beside it, the spring in its cup and the pad on the wall of the slot on which the arm rests. Right: the finger passes through the ring 6.0 mm above the bottom of the slot and lies under the deck on both sides of it, so a pull at the ring presses it against the deck.*
+*Left: the ring pawl under the deck with its pivot screw, the spring in its cup and the pad on the wall of the slot on which the arm rests. Right: the finger passes through the ring 6.0 mm above the bottom of the slot and lies under the deck on both sides of it, so a pull at the ring presses it against the deck.*
 
 ### The hinge
 
@@ -439,13 +437,12 @@ To take out the whole core, also lift off the band and separate the two 6-pin pl
 | 33 | Ring pawl (lock of the ring) | 1 | printed |
 | 34 | Washer M3 and washer M2 (ring pawl pivot) | 2 | hardware |
 | 35 | Screw M2 x 6 (ring pawl pivot) | 1 | hardware |
-| 36 | Dowel pin 4 x 8 (counterweight of the ring pawl) | 1 | hardware |
-| 37 | Compression spring 4 x 15 (ring pawl return) | 1 | hardware |
-| 38 | Lid (red upper half) | 1 | printed |
-| 39 | Dowel pin 2 x 8 (hinge) | 2 | hardware |
-| 40 | Spring sleeve | 1 | printed |
-| 41 | Torsion spring T028-180-140 (0.71 x 6.32 mm, 6 turns, 180°) | 1 | purchased |
-| 42 | Dowel pin 2 x 18 (seat of the spring leg) | 1 | hardware |
-| 43 | Screw M3 x 16 ISO 4762 (stack) | 4 | hardware |
-| 44 | Engagement ring (EU 49) | 1 | purchased |
+| 36 | Compression spring 4 x 15 (ring pawl return) | 1 | hardware |
+| 37 | Lid (red upper half) | 1 | printed |
+| 38 | Dowel pin 2 x 8 (hinge) | 2 | hardware |
+| 39 | Spring sleeve | 1 | printed |
+| 40 | Torsion spring T028-180-140 (0.71 x 6.32 mm, 6 turns, 180°) | 1 | purchased |
+| 41 | Dowel pin 2 x 18 (seat of the spring leg) | 1 | hardware |
+| 42 | Screw M3 x 16 ISO 4762 (stack) | 4 | hardware |
+| 43 | Engagement ring (EU 49) | 1 | purchased |
 

@@ -511,7 +511,7 @@ def manual_markdown(items, nums, printed) -> str:
     a("| --- | --- |")
     a("| ![below](img/ring_below.png) | ![section](img/ring_section.png) |")
     a("")
-    a(f"*Left: the ring pawl under the deck with its pivot screw, {"the counterweight pin beside it, " if P.RPAWL_PIN else ""}the spring in its cup and the pad on the wall of the slot on which the arm rests. Right: the finger passes through the ring {RING_UNDER_MM:.1f} mm above the bottom of the slot and lies under the deck on both sides of it, so a pull at the ring presses it against the deck.*")
+    a(f"*Left: the ring pawl under the deck with its pivot screw, {'the counterweight pin beside it, ' if P.RPAWL_PIN else ''}the spring in its cup and the pad on the wall of the slot on which the arm rests. Right: the finger passes through the ring {RING_UNDER_MM:.1f} mm above the bottom of the slot and lies under the deck on both sides of it, so a pull at the ring presses it against the deck.*")
     a("")
     a("### The hinge")
     a("")
