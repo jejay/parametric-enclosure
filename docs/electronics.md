@@ -26,14 +26,51 @@ flowchart LR
   TONIE -.->|magnet| HALL
 ```
 
+## Schematic
+
+[![Electronics schematic](img/schematic.png)](img/schematic.svg)
+
+The schematic shows every pad of every board, the ones that stay empty included. Click it for the drawing itself, `img/schematic.svg`, which can be enlarged without losing sharpness. It is drawn by `uv run poketonieengagementhunt schematic`; pads, pins and values are those of the tables in this document.
+
+Parts that are not on one of the boards:
+
+| Part | Value | Where | What for |
+| --- | --- | --- | --- |
+| R1, R2 | 2 MOhm, 1 MOhm | from VBAT to pad `D1`, from `D1` to ground | battery voltage divider |
+| C1 | 100 nF | from pad `D1` to ground | quiet reading at the ADC pin |
+| R3 | 100 kOhm | from pad `D4` to ground | reader in hard power-down while the controller sleeps |
+| R4 | 4.7 kOhm | from pad `D18` (boost `En`) to ground | 5 V rail off while the controller does not drive the pin |
+| R5 | 4.7 kOhm | from pad `D17` (amplifier `SD`) to ground | amplifier shut down while the controller does not drive the pin |
+| C2 | 220-470 µF, 10 V | across `Vin` and `GND` of the boost converter | bulk capacitor on the battery rail |
+| C3 | 470-1000 µF, 10 V | across the red and the brown wire of the servo | start-up current of the servo |
+| D1 | 1N4148 | in the LED's `5V` wire | lowers the LED supply so that 3.3 V data is in spec |
+| R6, C4 | 1 MOhm, 100 nF | from `D0` to `3V3`; across the supply legs of the hall switch | only with the AH3661UA hall switch |
+| D2, D3 | BAT43 or 1N5817 | from the 5 V rail and from `3V3` to wire A1 | only if card detection has to wake the ball |
+
+Pads that stay empty, and why:
+
+| Board | Pad | Why it is not used |
+| --- | --- | --- |
+| XIAO | `5V` | carries USB voltage, and only while the XIAO's own USB-C is plugged in; the ball is fed through `BAT+ / BAT-` |
+| XIAO | `D2` (GPIO3) | strapping pin of the chip |
+| XIAO | `D6`, `D7` (GPIO43, 44) | debug port; the chip prints its boot text on `D6` at every wake |
+| Charger | `IN+`, `IN-` | parallel to the USB-C socket, which feeds the charger |
+| Amplifier | `GAIN` | open means 9 dB |
+| LED | `DOUT` and the `5V` and `GND` pads beside it | output for a further LED |
+| Reader | `GPIO` | an output of the chip for switching an external transmitter supply; the controller switches the boost converter itself |
+| Reader | `AUX` | test signal of the chip |
+| Reader | `REQ` | asks the chip for a download of its own firmware; the chip pulls the pin low by itself during reset [PN5180 data sheet, §11.2.1.2] |
+
+Legs of the hall switch, both types: marked face towards you, legs down, from the left supply, ground, output.
+
 ## Power
 
 | Rail | Source | Loads | Notes |
 | --- | --- | --- | --- |
 | Cell | one unprotected flat-top 18650 | TP4056 module `B+ / B-` | Never connect loads to `B+`; use `OUT+ / OUT-`, which sit behind the protection [05 §4.1] |
-| VBAT, 3.0-4.2 V | TP4056 `OUT+ / OUT-` | XIAO `BAT+ / BAT-` pads, amplifier `Vin`, boost `Vin`, battery divider | 220-470 µF bulk capacitor close to the boost input [05 §5] |
+| VBAT, 3.0-4.2 V | TP4056 `OUT+ / OUT-` | XIAO `BAT+ / BAT-` pads, amplifier `Vin`, boost `Vin`, battery divider | 220-470 µF bulk capacitor (C2) close to the boost input [05 §5] |
 | 3.3 V | regulator on the XIAO | PN5180 logic supply (`+3.3V` pad), hall switch, pull-ups | reader and hall switch are fed through the harness |
-| 5 V switched | Adafruit MiniBoost (TPS61023), enable from GPIO12 with a 100 kOhm pull-down | servo, PN5180 `+5V` pad (transmitter), LED | 470-1000 µF at the servo. Off in deep sleep, which removes servo, LED and transmitter idle current [05 §5] |
+| 5 V switched | Adafruit MiniBoost (TPS61023), enable from GPIO12 with a 4.7 kOhm pull-down (R4) | servo, PN5180 `+5V` pad (transmitter), LED | 470-1000 µF (C3) at the servo. Off in deep sleep, which removes servo, LED and transmitter idle current [05 §5] |
 
 - **Charging.** USB-C into the TP4056 module. Replace its 1.2 kOhm programming resistor by 2.0-2.4 kOhm: about 0.5 A, 0.7 W of heat instead of 1.4 W inside a closed plastic ball, roughly 7 hours for a full charge [05 §4.1].
 - **No power path.** The TP4056 cannot tell load current from charge current. Charge with the ball asleep [05 §4.1].
@@ -41,11 +78,25 @@ flowchart LR
 - **Cut-off.** The DW01A protection trips at 2.4 V, which is too deep for regular use. The firmware has to stop at about 3.3 V resting voltage and go to sleep [05 §4.1].
 - **Protection trip.** The worst-case over-current trip is about 1.7 A; a stalled servo draws 1.3-1.5 A from the cell. The firmware must never drive the servo into a hard stop and must not run servo, reader field and audio together [05 §4.1, §5].
 
+### What keeps the 5 V rail and the amplifier off
+
+The pins of the controller drive nothing while it is in reset, while it is being flashed, and in deep sleep unless the firmware holds them. In those states resistors alone decide whether the boost converter and the amplifier are on. Both boards carry a pull-up to the battery, so a pull-down forms a divider with it and has to be much smaller than the pull-up [05 §4.3, 04 §2.2]:
+
+| Input | On the board | Off below | 100 kOhm to ground gives | 4.7 kOhm to ground gives |
+| --- | --- | --- | --- | --- |
+| Boost `En` | 100 kOhm to `Vin` | 0.35 V; on above 1.2 V | 1.5-2.1 V: on | 0.13-0.19 V: off |
+| Amplifier `SD` | 1 MOhm to `Vin`, and 100 kOhm to ground inside the chip | 0.16 V typically | 0.14-0.20 V: on or off, by chance | 13-19 mV: off |
+
+- Hence R4 and R5 are 4.7 kOhm. A pin that is high feeds 0.7 mA into its resistor, which does not matter while the rail or the amplifier is in use.
+- A board from another maker can carry another pull-up. Measure it, unpowered, between `En` and `Vin` and between `SD` and `Vin`: the pull-down must be at most a twentieth of the pull-up on the boost board and at most a hundredth of the one on the amplifier board.
+- While the rail is off, 29-40 µA flow from the cell through the pull-up of the boost board and 3-4 µA through that of the amplifier. Removing the pull-up from the boost board saves the larger part: it is the one of its two 100 kOhm resistors that connects the pads `En` and `Vin`. R4 then holds the pin alone.
+- An amplifier that is not shut down draws 340 µA without clocks; a boost converter that is not switched off keeps servo, LED and the reader's transmitter supplied.
+
 ### Budget on a 3350 mAh cell [05 §5.1, §5.2]
 
 | State | Current from the cell | Runtime |
 | --- | --- | --- |
-| Deep sleep, 5 V rail off | 30-90 µA (estimate from datasheets) | more than a year; self-discharge dominates |
+| Deep sleep, 5 V rail off | 70-130 µA (estimate from datasheets); 30-90 µA without the pull-up on the boost board | more than a year; self-discharge dominates |
 | Awake, BLE connected | 35-60 mA | about 63 h |
 | Reader field on continuously | about 0.35 A | about 8 h |
 | Speech at moderate volume | 130-180 mA | 16-22 h |
@@ -60,17 +111,17 @@ Pad names of the XIAO ESP32-S3 Plus: D0-D10 are the large pads on the two long e
 | Wake | 1 | D0 | hall switch `OUT` (in the grass tongue) | low while a magnet is over it. DRV5032FB: push-pull output, no pull-up. AH3661UA: open-drain output, 1 MOhm from this pad to `3V3` |
 | Second wake (optional) | 11 | D19 | PN5180 `IRQ` | only for low-power card detection, see "Wake" below [07 §11.3] |
 | Spare | 10 | D16 | sixth wire of plug B | free for a second hall switch; Seeed labels the pad `ADC_BAT`, check that it is not tied to the battery [07 §11.3] |
-| Battery sense | 2 | D1 | divider 2 MOhm (to VBAT) / 1 MOhm (to GND), 100 nF to GND | ADC1, 6 dB attenuation, about 1.4 µA drain [07 §10] |
+| Battery sense | 2 | D1 | divider R1 2 MOhm (to VBAT) / R2 1 MOhm (to GND), C1 100 nF to GND | ADC1, 6 dB attenuation, about 1.4 µA drain [07 §10] |
 | (unused) | 3 | D2 | | strapping pin, leave open |
 | Reader BUSY | 4 | D3 | PN5180 `BUSY` | mandatory flow control line |
-| Reader RST | 5 | D4 | PN5180 `RST` | 100 kOhm pull-down: hard power-down in sleep |
+| Reader RST | 5 | D4 | PN5180 `RST` | R3, 100 kOhm pull-down: hard power-down in sleep. The reader board has no pull-up on this line |
 | Reader NSS | 6 | D5 | PN5180 `NSS` | |
 | Reader SCK | 7 | D8 | PN5180 `SCK` | |
 | Reader MISO | 8 | D9 | PN5180 `MISO` | |
 | Reader MOSI | 9 | D10 | PN5180 `MOSI` | |
 | Debug TX / RX | 43 / 44 | D6 / D7 | | ROM boot text appears on TX at every wake |
-| 5 V enable | 12 | D18 | boost `EN` | 100 kOhm pull-down |
-| Amplifier shutdown | 13 | D17 | MAX98357A `SD` | 100 kOhm pull-down; an amplifier left enabled without clocks draws 340 µA |
+| 5 V enable | 12 | D18 | boost `En` | R4, 4.7 kOhm pull-down, see "What keeps the 5 V rail and the amplifier off" |
+| Amplifier shutdown | 13 | D17 | MAX98357A `SD` | R5, 4.7 kOhm pull-down; an amplifier left enabled without clocks draws 340 µA |
 | I2S data | 38 | D11 | MAX98357A `DIN` | |
 | I2S bit clock | 39 | D12 | MAX98357A `BCLK` | |
 | I2S word clock | 40 | D13 | MAX98357A `LRC` | |
@@ -84,7 +135,7 @@ Remaining connections:
 | TP4056 `B+` / `B-` | cell contact plates (plus at +Y, minus at -Y) |
 | TP4056 `OUT+` / `OUT-` | XIAO `BAT+` / `BAT-`, amplifier `Vin` / `GND`, boost `Vin` / `GND`, divider top |
 | XIAO `3V3` | PN5180 `+3.3V`, hall switch `VCC` |
-| Boost `5V` | servo red, PN5180 `+5V`, anode of a 1N4148 whose cathode feeds the LED `5V` |
+| Boost `5V` | servo red, PN5180 `+5V`, anode of a 1N4148 (D1) whose cathode feeds the LED `5V` |
 | Amplifier `+` / `-` | speaker |
 | Amplifier `GAIN` | leave open (9 dB) or tie as needed |
 | All grounds | common, star point at the TP4056 `OUT-` |
@@ -114,6 +165,8 @@ Reader and hall switch sit in the grass tongue; the controller sits in the ball.
 
 - Plugs: 6-pin wire-to-wire pairs with 1.25 mm pitch (Molex PicoBlade 51021 / 51047 or the clones sold as "Micro JST 1.25"), pre-wired with 28 AWG. A mated pair is 9.25 x 3.2 mm across; the window lets 15.5 x 6.5 mm pass. JST PH has no wire-to-wire part, and its in-line clones are too thick to pass the window mated [10 C1].
 - Keep the harness to about 12 cm on the tongue side and 8 cm on the core side.
+- Both supplies run through plug A and the only ground through plug B. Join and part the plugs with the cell taken out. Where that is not possible, join B first and part it last, so that the reader never has a supply without its ground.
+- The wire colours of the two halves of a bought pair need not agree. Mate each pair and follow every wire across it before soldering.
 - The reader library runs the SPI bus at 7 MHz by default (`PN5180.cpp` of `tueddy/PN5180-Library`). Over 20 cm of loose wire and a connector, set it to 1-2 MHz with `setSPISettingsFrecuency()`; a tag read does not get noticeably slower [02 §2.1].
 - The 5 V wire carries the transmitter current, typically 180 mA and at most 250 mA while the field is on [02 §1C]. Each PicoBlade contact is rated 1 A, and 40 cm of 28 AWG there and back drops about 20 mV.
 
@@ -149,8 +202,9 @@ Reader and hall switch sit in the grass tongue; the controller sits in the ball.
 ## Checks before closing the ball
 
 1. Charger: with a cell in, `OUT+` shows the cell voltage. If not, plug in USB-C once to release the protection.
-2. Sleep current at the cell: below 0.1 mA. If it is higher, look for a floating enable pin.
-3. 5 V rail: 5.0 V when enabled, 0 V when disabled.
-4. Servo sweep between the two stored positions while a clip plays: no reset.
-5. All four figures read on the spot, with the core in the bowl and the cell fitted, once with the device standing on wood and once on metal.
-6. With a figure left on the spot the ball goes to sleep and stays asleep; lifting the figure and putting it back plays the message again.
+2. Off states, measured while the reset button of the XIAO is held down: boost `En` below 0.3 V and its `5V` pad at 0 V, amplifier `SD` below 0.05 V. If one of them is higher, the board carries a stronger pull-up than assumed: see "What keeps the 5 V rail and the amplifier off".
+3. Sleep current at the cell: below 0.15 mA, and below 0.1 mA if the pull-up has been taken off the boost board. If it is higher, look for an enable pin that the firmware does not hold.
+4. 5 V rail: 5.0 V when enabled, 0 V when disabled.
+5. Servo sweep between the two stored positions while a clip plays: no reset.
+6. All four figures read on the spot, with the core in the bowl and the cell fitted, once with the device standing on wood and once on metal.
+7. With a figure left on the spot the ball goes to sleep and stays asleep; lifting the figure and putting it back plays the message again.

@@ -11,7 +11,7 @@ This repository holds the hardware design: research, a parametric CAD model, a g
 | Path | Content |
 | --- | --- |
 | `docs/building_manual.md` | bill of materials, print settings, twelve assembly steps with renderings, exploded view, commissioning, emergency opening |
-| `docs/electronics.md` | block diagram, power rails, net list, pin map, harness to the grass tongue, behaviour the firmware must respect |
+| `docs/electronics.md` | block diagram, schematic with every pad of every board, power rails, net list, pin map, harness to the grass tongue, behaviour the firmware must respect |
 | `docs/verification.md` | result of every geometry check (watertightness, fit, clearances, motion, grass tongue, physics) |
 | `research/` | ten research notes with sources, including the candidates that were rejected; start with `research/README.md` |
 | `export/stl/` | the 16 printed parts, already in print orientation, and test pieces for the M2 pilot holes, the heat-set inserts and the two fits of the hinge pins |
@@ -26,6 +26,7 @@ uv run poketonieengagementhunt check     # verification -> docs/verification.md
 uv run poketonieengagementhunt export    # STL and STEP  -> export/
 uv run poketonieengagementhunt manual    # renderings and manual -> docs/
 uv run poketonieengagementhunt all
+uv run poketonieengagementhunt schematic # electronics schematic -> docs/img/schematic.svg and .png (the .png needs resvg)
 ```
 
 Change a value in `src/poketonieengagementhunt/params.py` (for example the ring dimensions, or the values marked `MEASURE` once the parts have arrived) and run `all`. The checks fail loudly if the change makes parts collide.
@@ -132,6 +133,7 @@ Change a value in `src/poketonieengagementhunt/params.py` (for example the ring 
 - `RPAWL_PIN` in `params.py` puts the pin back.
 - On the list of parts the dowel pin of 4 x 8 mm is gone again. To print: the ring pawl; the stage is as in revision 12.
 - Besides: which hole of the spring sleeve holds the hinge pins has to be found by trying. The sleeve is exported with blind holes of 1.85, 1.90, 1.95, 2.00 and 2.05 mm, and every sleeve file carries its sizes in its name: `sleeve_4_0_hole_1_95.stl` is 4.0 mm outside with holes of 1.95 mm. That file was `sleeve.stl` before, `sleeve_4_0_hole_2_05.stl` was `sleeve_2_05.stl`, and `sleeve_4_5_hole_1_95.stl` was `sleeve_4_5.stl`. Section 3 of the building manual says how the size is found. Printed, the sleeves of 1.90 and 1.85 mm took no pin, and the older sleeve with a through hole of 2.30 mm let the pins slide. Sleeves are printed several at once, because a single one stays too hot.
+- Besides: `docs/electronics.md` has a schematic that shows every pad of every board, drawn by `uv run poketonieengagementhunt schematic`. Drawing it showed two resistors that did not do their work: the boost converter and the amplifier board each carry a pull-up of their own, so the pull-downs on the 5 V enable and on the amplifier shutdown have to be 4.7 kOhm, not 100 kOhm. With 100 kOhm the 5 V rail would have been on whenever the controller did not drive the pin. On the list of small parts: two resistors of 4.7 kOhm in place of two of the three of 100 kOhm, and the capacitor of 220-470 µF at the input of the boost converter, which the list had left out.
 
 ## State of the design
 

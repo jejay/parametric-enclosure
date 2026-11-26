@@ -241,7 +241,7 @@ Assessment:
 
 | Module | Size (mm) | Input | Output capability at Li-ion voltages | Quiescent | Enable / disconnect | Source | Label |
 |---|---|---|---|---|---|---|---|
-| **Adafruit MiniBoost 5V (TPS61023), #4654** | **17.8 × 11.3 × 5.6**, 1.0 g | 2–5 V (IC 0.5–5.5 V) | **800 mA @ 3.0 V in, 1100 mA @ 3.5 V, 1400 mA @ 4.0 V**; 1 A out needs 1.8 A in at 3.7 V (78 %); 0.5 A out needs 0.8 A in (88 %) | IC: 20 µA typ from VOUT, 0.9 µA from VIN (TI datasheet SLVSF14) | EN low = **true disconnect**, 0.1 µA typ shutdown. Whether the board has an EN pull-up (and its value) was not found | https://www.adafruit.com/product/4654 ; https://www.ti.com/product/TPS61023 | V2 |
+| **Adafruit MiniBoost 5V (TPS61023), #4654** | **17.8 × 11.3 × 5.6**, 1.0 g | 2–5 V (IC 0.5–5.5 V) | **800 mA @ 3.0 V in, 1100 mA @ 3.5 V, 1400 mA @ 4.0 V**; 1 A out needs 1.8 A in at 3.7 V (78 %); 0.5 A out needs 0.8 A in (88 %) | IC: 20 µA typ from VOUT, 0.9 µA from VIN (TI datasheet SLVSF14) | EN low = **true disconnect**, 0.1 µA typ shutdown. The board pulls EN up to VIN with **100 kΩ** (R1 in Adafruit's schematic, section 11 item 10): left alone the converter is on | https://www.adafruit.com/product/4654 ; https://www.ti.com/product/TPS61023 ; https://github.com/adafruit/Adafruit-TPS61023-PCB | V2 |
 | Pololu U3V16F5 (#4941) | 13.1 × 8.1 × 3, 0.4 g | 1.3–16 V (start ≥ 2.7 V) | input current 1.6 A typ max (2 A switch) → ≈ 0.85 A @ 3.0 V, ≈ 1.0 A @ 3.7 V, ≈ 1.2 A @ 4.2 V **[INF, 88 % assumed]** | "< 1 mA" no-load | **no enable pin, no load disconnect** (output follows input through inductor + diode) | https://www.pololu.com/product/4941 | S1 (manufacturer) |
 | Pololu U1V11F5 (#2562) | 12 × 15 × 3 | 0.5–5.5 V | 1.2 A switch → ≈ 0.6 A @ 3.0 V, ≈ 0.75 A @ 3.7 V **[INF]** | "< 1 mA"; with SHDN low "< 100 µA" (100 kΩ SHDN pull-up to VIN: ≈ 37 µA at 3.7 V **[INF]**) | SHDN, true shutdown | https://www.pololu.com/product/2562 | S1 (manufacturer) |
 | Pololu S7V8F5 (#2123) buck-boost | 11 × 17 × 3 | 2.7–11.8 V | 0.5–1 A depending on ratio; lower end when boosting from 3 V | < 0.2 mA | SHDN (100 kΩ pull-up: 10 µA per volt of VIN when held low) | https://www.pololu.com/product/2123 | S1 (manufacturer) |
@@ -293,7 +293,7 @@ Open point: a WS2812-type LED on a 5 V rail wants ≥ 3.5 V data-high (0.7 × VD
 
 | State | Contributors | Battery current | Label |
 |---|---|---|---|
-| **Deep sleep, 5 V rail off** | ESP32-S3 chip 7–8 µA (Espressif datasheet; 8 µA measured on a stripped DevKitM, lucidar.me); LDO 1–55 µA (board dependent); TP4056 < 2 µA; DW01A 3 µA typ; TPS61023 0.1 µA; PN5180 hard power-down ≈ 10 µA (NXP datasheet); divider ≈ 2 µA; amp shutdown µA-class [UNV] | **≈ 30–90 µA** | INF from datasheets |
+| **Deep sleep, 5 V rail off** | ESP32-S3 chip 7–8 µA (Espressif datasheet; 8 µA measured on a stripped DevKitM, lucidar.me); LDO 1–55 µA (board dependent); TP4056 < 2 µA; DW01A 3 µA typ; TPS61023 0.1 µA; PN5180 hard power-down ≈ 10 µA (NXP datasheet); divider ≈ 2 µA; amp shutdown µA-class [UNV]. Added on 2026-11-26: 29–40 µA through the EN pull-up of the MiniBoost (section 11 item 10) and 3–4 µA through the SD pull-up of the amplifier board (note 04) | **≈ 30–90 µA** without the two pull-ups, **≈ 70–130 µA** with them | INF from datasheets |
 | Deep sleep on an unsuitable dev board (AMS1117, power LED, USB-UART always on) | – | **≈ 5–15 mA** | UNV, typical |
 | Awake, BLE advertising/connected, no power management | ESP32-S3 CPU + radio duty | ≈ 35–60 mA | UNV – Espressif table values not retrieved |
 | Awake with automatic light sleep | – | ≈ 1–5 mA | UNV estimate |
@@ -311,7 +311,7 @@ Usable capacity ≈ 2850 mAh assumed (≈ 85 %, firmware cut-off ≈ 3.3–3.4 V
 
 | Use | Estimate |
 |---|---|
-| Deep sleep at 80 µA | ≈ 4 years arithmetically; the cell's self-discharge (≈ 1–2 % per month) dominates → **more than a year of standby in practice** |
+| Deep sleep at 80 µA (at 130 µA: ≈ 2.5 years) | ≈ 4 years arithmetically; the cell's self-discharge (≈ 1–2 % per month) dominates → **more than a year of standby in practice** |
 | Deep sleep on an unsuitable dev board at 10 mA | ≈ 12 days |
 | LPCD wake-on-tag at ≈ 0.35 mA | ≈ 11 months |
 | Awake BLE idle at 45 mA | ≈ 63 h |
@@ -498,7 +498,7 @@ Community CAD models of clones are no substitute for measuring the purchased ser
 7. **Keystone 1042/1043 height** – 18.0 mm (manufacturer catalogue drawing) vs 14.86 / 15.11 mm (distributors).
 8. **Generic holder dimensions** – clone spread of several millimetres; contact resistance unmeasured.
 9. **TP4056 module** – board-level standby current is a vendor claim (< 6 µA); pad order, CC resistors and the "needs USB once after cell insertion" behaviour must be checked on the delivered board.
-10. **MiniBoost EN pull-up** – presence and value not found; a 100 kΩ pull-up would add ≈ 37 µA whenever EN is held low.
+10. **MiniBoost EN pull-up** – found on 2026-11-26 in Adafruit's Eagle files (`research/downloads/power_servo/adafruit_tps61023.sch`, from https://github.com/adafruit/Adafruit-TPS61023-PCB): R1 = 100 kΩ between the nets EN and VIN; the pads are printed `En`, `5V`, `GND`, `Vin`; the feedback divider is 732 kΩ / 100 kΩ. **[S1, manufacturer's design file]** Consequences **[INF]**: (a) 29–40 µA flow through R1 for as long as EN is held low at 3.0–4.2 V, which the sleep budget of section 5.1 did not contain; (b) a pull-down forms a divider with R1. TI gives "above 1.2 V" for on and "below 0.4 V" for shutdown, with 0.35 V as the minimum of the low threshold (SLVSF14B, sections 6.5 and 7.3.2). A pull-down of 100 kΩ leaves VIN / 2 = 1.5–2.1 V at EN: the converter stays **on** whenever the controller does not drive the pin. 10 kΩ leaves 0.27–0.38 V, which is not safely below 0.35 V. **4.7 kΩ leaves 0.13–0.19 V.** Removing R1 from the board makes any pull-down work and saves the current of (a).
 11. **MCU board regulator** – decides standby life (30–90 µA vs 5–15 mA) and the usable fraction of the cell. Not part of this note.
 12. **ESP32-S3 awake/BLE currents, MAX98357A shutdown current, WS2812 idle current** – not retrieved from datasheets here; the budget rows marked UNV depend on them.
 13. **USB-C overmold width limit (12.35 mm)** – from memory of the USB-IF specification, not re-verified; 6.5 mm thickness is confirmed by the GCT drawing.

@@ -268,17 +268,19 @@ BOM_NOTES = {
 }
 
 SMALL_PARTS = [
-    ("Electrolytic capacitor 470-1000 µF / 10 V", "1", "across the 5 V output of the boost converter, close to the servo"),
-    ("Resistors 2 MOhm and 1 MOhm, capacitor 100 nF", "1 each", "battery voltage divider at the ADC pin"),
-    ("Resistors 100 kOhm", "3", "pull-downs on boost enable, amplifier SD and reader RST"),
-    ("Resistor 1 MOhm, capacitor 100 nF", "1 each, only with the AH3661UA hall switch", "pull-up from the wake pad to 3.3 V at the controller; capacitor across the supply legs of the switch"),
-    ("Diode 1N4148", "1", "in series with the LED's 5 V supply, so that 3.3 V data is in spec"),
+    ("Electrolytic capacitor 470-1000 µF / 10 V", "1", "C3: across the 5 V output of the boost converter, close to the servo"),
+    ("Electrolytic capacitor 220-470 µF / 10 V", "1", "C2: across the battery input of the boost converter"),
+    ("Resistors 2 MOhm and 1 MOhm, capacitor 100 nF", "1 each", "R1, R2, C1: battery voltage divider at the ADC pin"),
+    ("Resistors 4.7 kOhm", "2", "R4, R5: pull-downs on boost enable and amplifier SD; this small because both boards carry a pull-up (`docs/electronics.md`)"),
+    ("Resistor 100 kOhm", "1", "R3: pull-down on reader RST"),
+    ("Resistor 1 MOhm, capacitor 100 nF", "1 each, only with the AH3661UA hall switch", "R6, C4: pull-up from the wake pad to 3.3 V at the controller; capacitor across the supply legs of the switch"),
+    ("Diode 1N4148", "1", "D1: in series with the LED's 5 V supply, so that 3.3 V data is in spec"),
     ("Silicone wire 26-28 AWG, heat-shrink tube", "", "all point-to-point wiring"),
     ("Soft cloth or paper", "", "wrapped round the ring and stuffed into its slot"),
     ("Self-adhesive felt or velour, 0.5-1 mm", "", "optional curtain behind the band pocket; optional dots under the ball's flat and the tongue"),
     ("Hot glue or epoxy; cyanoacrylate", "", "boards, bezel, hall switch, reader"),
     ("Flexible ferrite sheet 0.1-0.2 mm, about 45 x 42 mm (Würth WE-FSFS 364004 or 364005)", "1, only if needed", "on the floor of the pocket under the antenna, if the bench test fails on a metal surface"),
-    ("Schottky diodes BAT43 or 1N5817", "2, only if needed", "supply of the reader in sleep, if the ball is woken by card detection instead of the hall switch"),
+    ("Schottky diodes BAT43 or 1N5817", "2, only if needed", "D2, D3: supply of the reader in sleep, if the ball is woken by card detection instead of the hall switch"),
 ]
 
 TOOLS = [
@@ -440,7 +442,7 @@ def manual_markdown(items, nums, printed) -> str:
     # --------------------------------------------------------------- wiring
     a("## 4. Wire the electronics")
     a("")
-    a("Wire and test everything on the bench, outside the ball, following the net list and the pin map in `docs/electronics.md`. Keep every lead just long enough to reach its place in the chassis plus 3 cm, and lead no wire across the top of the cell, which must lift out. Twelve wires connect the core to the reader and the hall switch in the grass tongue. They run through two 6-pin plugs, so that core and tongue can be separated.")
+    a("Wire and test everything on the bench, outside the ball, following the schematic, the net list and the pin map in `docs/electronics.md`. Keep every lead just long enough to reach its place in the chassis plus 3 cm, and lead no wire across the top of the cell, which must lift out. Twelve wires connect the core to the reader and the hall switch in the grass tongue. They run through two 6-pin plugs, so that core and tongue can be separated.")
     a("")
 
     # ---------------------------------------------------------------- steps

@@ -5,6 +5,7 @@ engagement-hunt device.
     uv run poketonieengagementhunt export    STL / STEP files       -> export/
     uv run poketonieengagementhunt manual    renderings + manual    -> docs/
     uv run poketonieengagementhunt all       everything above
+    uv run poketonieengagementhunt schematic electronics schematic  -> docs/img/schematic.svg, .png
 
 All dimensions live in ``params.py``.
 """
@@ -20,6 +21,12 @@ ROOT = Path(__file__).resolve().parents[2]
 
 def main() -> None:
     cmd = sys.argv[1] if len(sys.argv) > 1 else "help"
+    if cmd == "schematic":
+        from . import schematic
+
+        files = schematic.write(ROOT)
+        print("wrote " + ", ".join(f.relative_to(ROOT).as_posix() for f in files))
+        raise SystemExit(0)
     if cmd not in {"check", "export", "manual", "all"}:
         print(__doc__)
         raise SystemExit(0 if cmd in {"help", "-h", "--help"} else 2)

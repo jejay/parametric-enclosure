@@ -14,6 +14,6 @@ sources:
 ---
 # The CAD package
 
-geom.py wraps the CadQuery operations used everywhere, parts_shell.py, parts_core.py and parts_base.py build the printed parts of ball, core and grass tongue, components.py holds the dummy models of the purchased parts, assembly.py the placement, export.py writes STL files in print orientation, STEP files of every part and component and one coloured assembly, render.py draws shaded pictures with true edges off-screen. The command poketonieengagementhunt runs checks, export and manual.
+geom.py wraps the CadQuery operations used everywhere, parts_shell.py, parts_core.py and parts_base.py build the printed parts of ball, core and grass tongue, components.py holds the dummy models of the purchased parts, assembly.py the placement, export.py writes STL files in print orientation, STEP files of every part and component and one coloured assembly, render.py draws shaded pictures with true edges off-screen. The command poketonieengagementhunt runs checks, export and manual, and draws the electronics schematic.
 
 Bounds: the dummy components are envelopes with a few recognisable features, not detailed models.
